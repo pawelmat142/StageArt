@@ -1,0 +1,22 @@
+@import 'color';
+@import 'variables';
+
+* {
+    /* Style for WebKit browsers (Chrome, Safari) */
+  ::-webkit-scrollbar {
+    width: 10px; /* Width of the scrollbar */
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: transparent; /* Track color */
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: $light-dark; /* Scrollbar color */
+    border-radius: $radius;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: $light; /* Scrollbar color on hover */
+  }
+}

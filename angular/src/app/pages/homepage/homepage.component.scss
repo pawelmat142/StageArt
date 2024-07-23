@@ -1,0 +1,51 @@
+@import 'color';
+@import 'variables';
+@import 'font';
+
+.landing {
+    height: 100vh;
+    width: 100%;
+
+    display: flex;
+
+    &>* {
+        width: 50%;
+    }
+}
+
+.landing-left, .landing-right {
+    width: 50%;
+    height: 100%;
+}
+
+.landing-left {
+
+    border: 2px green solid;
+    
+    display: flex;
+    flex-direction: column;
+    gap: 2*$padding-standard;
+    height: 100%;
+    justify-content: center;
+
+    padding-left: $page-padding;
+    padding-right: $page-padding;
+
+    &>* {
+        max-width: 555px;
+    }
+
+}
+
+.landing-right {
+    padding-right: $page-padding;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.test {
+    background-color: $red;
+    height: 200px;
+}

@@ -1,0 +1,25 @@
+<div class="form-container">
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+
+        <app-input
+            formControlName="artist"
+            label="Artist name" 
+            placeholder="Search for an artist..."
+        ></app-input>
+        <app-input
+            formControlName="country"
+            label="Desired event location" 
+            placeholder="Select a country..."
+        ></app-input>
+        <app-input
+            formControlName="date"
+            label="Date" 
+            placeholder="Select date..."
+        ></app-input>
+
+        <app-button label="Submit" [active]="form.valid"></app-button>
+
+    </form>
+
+</div>

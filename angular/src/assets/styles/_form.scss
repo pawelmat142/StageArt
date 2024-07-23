@@ -1,0 +1,110 @@
+@import 'color';
+@import 'variables';
+
+
+$form-shadow: 0px 0px 20px rgb(0 0 0 / 20%);
+
+$form-radius: 10px;
+$input-radius: 12px;
+$input-border: 1px solid $border-color;
+$form-transition: all 0.12s ease-out;
+$input-active-shadow: 0px 0px 8px $yellow;
+
+input {
+    border: none;
+    background-color: initial;
+    outline: none;
+    margin: 0;
+}
+
+
+.form-container {
+    width: 25vw;
+
+    display: block;
+    background-color: $white;
+    padding: 2*$padding-standard 3/2*$padding-standard;
+    border-radius: $form-radius;
+    box-shadow: $form-shadow;
+}
+
+.form-input:hover {
+    border-color: $yellow;
+}
+
+.form-input {
+
+    cursor: text;
+    min-width: 255px;
+    border: $input-border;
+    border-radius: $input-radius;
+    background-color: $input-bg;
+    transition: $form-transition;
+
+    margin-bottom: 2*$padding-standard;
+
+    margin-bottom: 30px;
+    border-radius: 12px;
+    background-color: #f0edf2;
+    padding: 12px 15px;
+    padding-top: 14px;
+
+    box-shadow: 0 0 0 transparent;
+
+    &.active {
+        background-color: $yellow-transparent;
+        border-color: $yellow;
+        box-shadow: $input-active-shadow;
+    }
+
+    .form-input-label {
+        color: $label-color;
+        font-size: 12.8px;
+        font-weight: 400;
+        margin: 0;
+    }   
+
+    .form-input-control {
+        width: 100%;
+        padding: 0px;
+        font-weight: 600;
+        font-size: 16px;
+        color: $light-dark;
+    }
+
+
+
+}
+
+// BUTTON
+.form-button {
+
+    width: 100%;
+    padding: $padding-standard 0;
+    
+    border-radius: $input-radius;
+    border: $input-border;
+    
+    text-align: center;
+    transition: $form-transition;
+
+    background-color: $yellow-transparent;
+    cursor: not-allowed;
+
+    &.active {
+        cursor: pointer;
+        border-color: $yellow-dark;
+        background-color: $yellow;
+        box-shadow: $input-active-shadow;
+
+        .form-button-control {
+            cursor: pointer;
+        }
+
+    }
+
+    .form-button-control {
+        border: none;
+        background: transparent;
+    }
+}

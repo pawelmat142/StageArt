@@ -1,0 +1,20 @@
+@import 'color';
+
+$logo-size: 150px;
+
+$radius: 3px;
+
+$page-padding: 115px;
+$padding-standard: 16px;
+
+.padding-top {
+    padding-top: $padding-standard;
+}
+
+.padding-top-2 {
+    padding-top: 2*$padding-standard;
+}
+
+.padding-top-4 {
+    padding-top: 4*$padding-standard;
+}

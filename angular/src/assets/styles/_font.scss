@@ -1,0 +1,45 @@
+@font-face {
+    font-family: 'Baron'; /* Name you choose for the font */
+    src: url('../fonts/baron.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body, h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+
+    color: $font-color;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.6;
+
+    word-break: break-word;
+    overflow-wrap: break-word;
+
+}
+
+.baron {
+    font-family: 'Baron', sans-serif;
+    text-transform: lowercase;
+}
+
+.fs1 {
+    font-size: 22.5px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: 0.15em;
+}
+
+.fs2 {
+    font-size: 30px;
+    line-height: 1.3;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+}
+
+.fs3 {
+    letter-spacing: 0.15em;
+    font-weight: 500;
+}
+

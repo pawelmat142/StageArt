@@ -1,0 +1,16 @@
+
+<div #formInput class="form-input">
+
+    <p class="form-input-label">{{label}}</p>
+
+    <input
+        #inputControl 
+        class="form-input-control"
+        [placeholder]="placeholder"
+        [value]="value"
+        (input)="onInput($event)" 
+        [attr.disabled]="disabled ? true : null"
+        type="text"
+    />
+
+</div>

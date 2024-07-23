@@ -1,0 +1,41 @@
+
+$dark: #141919;
+$light-dark: #333333;
+$red: #d44127;
+$red-transparent: #d4412737;
+$light: #84b6b9;
+$grey: #577483;
+$white: #fff;
+$font-color: #7c7c7c;
+$input-bg: #f0edf2;
+
+$yellow: #f9d85d;
+$yellow-dark: #f0c418;
+$yellow-transparent: #f9d75d1f;
+$green: #5a9a5b;
+
+$label-color: #aaa8ac;
+$border-color: #d3d3d3;
+
+.dark {
+    color: $dark;
+}
+.light-dark {
+    color: $light-dark;
+}
+.red {
+    color: $red;
+}
+.light {
+    color: $light;
+}
+.grey {
+    color: $grey;
+}
+.white {
+    color: $white;
+}
+
+body {
+    background-color: $dark;
+}
