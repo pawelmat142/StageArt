@@ -4,10 +4,10 @@
 
 $form-shadow: 0px 0px 20px rgb(0 0 0 / 20%);
 
-$form-radius: 10px;
+$form-radius: $radius-standard;
 $input-radius: 12px;
 $input-border: 1px solid $border-color;
-$form-transition: all 0.12s ease-out;
+$form-transition: $transition-standard;
 $input-active-shadow: 0px 0px 8px $yellow;
 
 input {
@@ -43,12 +43,10 @@ input {
 
     margin-bottom: 2*$padding-standard;
 
+    background-color: $control-bg;
     margin-bottom: 30px;
-    border-radius: 12px;
-    background-color: #f0edf2;
     padding: 12px 15px;
-    padding-top: 14px;
-
+    
     box-shadow: 0 0 0 transparent;
 
     &.active {

@@ -6,6 +6,8 @@ $radius: 3px;
 
 $page-padding: 115px;
 $padding-standard: 16px;
+$radius-standard: 10px;
+$transition-standard: all 0.12s ease-out;
 
 .padding-top {
     padding-top: $padding-standard;
@@ -17,4 +19,11 @@ $padding-standard: 16px;
 
 .padding-top-4 {
     padding-top: 4*$padding-standard;
+}
+
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $padding-standard;
 }

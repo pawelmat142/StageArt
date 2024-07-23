@@ -1,0 +1,78 @@
+@import 'variables';
+@import 'color';
+@import 'font';
+
+.menu-button-container {
+    background-color: $red;
+    color: $dark;
+    overflow: hidden;
+    border-radius: $radius-standard;
+    
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    
+    transition: $transition-standard;
+    
+    width: unset;
+    height: 50px;
+
+    @extend .fs4;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.menu-button {
+    @extend .flex-center;
+    gap: $padding-standard*0.5;
+    border-radius: $radius-standard;
+    padding-left: $padding-standard;
+    padding-right: $padding-standard;
+
+    cursor: pointer;
+    transition: $transition-standard;
+    &:hover {
+        background-color: $active-red;
+    }
+}
+
+.menu-button-children {
+    display: flex;
+    align-items: center;
+    color: $red;
+    transition: none;
+    
+    .menu-button-child {
+        width: 0;
+        padding: 0;
+        transition: $transition-standard;
+
+        cursor: pointer;
+        background-color: $red;
+        border-radius: $radius-standard;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        overflow: hidden;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: normal;
+        
+        &:hover {
+            background-color: $active-red;
+        }
+    }
+}
+
+:host.menu-button-open {
+
+    .menu-button-children {
+        color: $dark;
+    }
+
+    .menu-button-child {
+        width: 130px;
+        height: 100%;
+    }
+}

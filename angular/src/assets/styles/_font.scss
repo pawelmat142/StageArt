@@ -43,3 +43,10 @@ body, h1, h2, h3, h4, h5, h6 {
     font-weight: 500;
 }
 
+.fs4 {
+    @extend .fs3;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.23em;
+}
+

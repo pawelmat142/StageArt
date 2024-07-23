@@ -1,0 +1,15 @@
+<div class="menu-button-container">
+    <div class="menu-button" #menuButton (click)="toggleButton()">
+        <mat-icon aria-hidden="false" aria-label="Menu" fontIcon="menu"></mat-icon>
+        <span>Menu</span>
+    </div>
+
+    <div class="menu-button-children">
+
+        <div *ngFor="let button of buttons"
+        class="menu-button-child"
+        (click)="button.onclick()"
+        >{{button.label}}</div>
+
+    </div>
+</div>
