@@ -1,0 +1,35 @@
+<app-header label="Add artist"></app-header>
+
+<div class="form-page">
+
+    <div class="form-container">
+    
+        <form [formGroup]="form" (ngSubmit)="submit()">
+    
+            <app-input
+                formControlName="name"
+                label="Artist name" 
+                placeholder="Artist stage name..."
+                [required]="true"
+            ></app-input>
+    
+            <div class="input-row">
+                <app-input
+                    formControlName="firstName"
+                    label="First name" 
+                    placeholder="Artist first name..."
+                ></app-input>
+                <app-input
+                    formControlName="lastName"
+                    label="Last name" 
+                    placeholder="Artist last name..."
+                ></app-input>
+            </div>
+    
+    
+            <app-button label="Submit" [active]="form.valid"></app-button>
+    
+        </form>
+    
+    </div>
+</div>

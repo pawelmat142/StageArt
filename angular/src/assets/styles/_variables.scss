@@ -1,13 +1,16 @@
 @import 'color';
 
-$logo-size: 150px;
+$padding-standard: 16px;
+$page-padding: 10vw;
+$page-padding-big: 14vw;
+
+
+$header-margin: 150px;
 
 $radius: 3px;
-
-$page-padding: 115px;
-$padding-standard: 16px;
 $radius-standard: 10px;
-$transition-standard: all 0.12s ease-out;
+
+$transition-standard: all 0.16s ease-in-out;
 
 .padding-top {
     padding-top: $padding-standard;
@@ -26,4 +29,14 @@ $transition-standard: all 0.12s ease-out;
     align-items: center;
     justify-content: center;
     gap: $padding-standard;
+}
+
+
+.hovergrow {
+    cursor: pointer;
+    transition: $transition-standard;
+
+    &:hover {
+        transform: scale(1.05);
+    }
 }

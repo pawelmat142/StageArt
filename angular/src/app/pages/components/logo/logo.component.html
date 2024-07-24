@@ -1,3 +1,13 @@
 <div class="logo">
-    <svg xmlns="http://www.w3.org/2000/svg" id="b4283a04-8834-49a4-82fe-3180ac61c28b" width="60" data-name="Layer 1" viewBox="0 0 96.22 110.21" class="custom-logo style-svg replaced-svg svg-replaced-0"><title>logo</title><path d="M691.57,360.47h0l-8.47-31.85-8.41,31.92h0a9.11,9.11,0,0,0-.46,2.82,8.89,8.89,0,1,0,17.3-2.89Z" transform="translate(-635.16 -328.62)" style="fill:#d34027"></path><path d="M683.27,415.49l28.12-15.83V374.78a12.75,12.75,0,0,1,6.41-11.08L731.38,356v55.7l-48.11,27.16Z" transform="translate(-635.16 -328.62)" style="fill:#577482"></path><path d="M683.27,415.49l-28.12-15.83V374.78a12.74,12.74,0,0,0-6.42-11.08L635.16,356v55.7l48.11,27.16Z" transform="translate(-635.16 -328.62)" style="fill:#83b6b9"></path></svg>
+    <svg [ngStyle]="{width:size+'px', height:size+'px'}" 
+    
+    xmlns="http://www.w3.org/2000/svg" 
+    id="b4283a04-8834-49a4-82fe-3180ac61c28b" 
+    data-name="Layer 1" 
+    viewBox="0 0 96.22 110.21" 
+    >
+    <path *ngIf="showDrop" #dropRef  class="{{dropColor}}" d="M691.57,360.47h0l-8.47-31.85-8.41,31.92h0a9.11,9.11,0,0,0-.46,2.82,8.89,8.89,0,1,0,17.3-2.89Z" transform="translate(-635.16 -328.62)" ></path>
+    <path style="fill:#577482" d="M683.27,415.49l28.12-15.83V374.78a12.75,12.75,0,0,1,6.41-11.08L731.38,356v55.7l-48.11,27.16Z" transform="translate(-635.16 -328.62)" ></path>
+    <path style="fill:#83b6b9" d="M683.27,415.49l-28.12-15.83V374.78a12.74,12.74,0,0,0-6.42-11.08L635.16,356v55.7l48.11,27.16Z" transform="translate(-635.16 -328.62)"></path>
+</svg>
 </div>

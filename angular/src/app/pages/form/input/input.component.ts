@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, forwardRef, Input, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, forwardRef, Input, Renderer2, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
@@ -16,7 +16,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@a
     }
   ]
 })
-export class InputComponent implements ControlValueAccessor, AfterViewInit {
+export class InputComponent implements ControlValueAccessor {
 
   constructor(
     private readonly renderer: Renderer2
@@ -51,12 +51,21 @@ export class InputComponent implements ControlValueAccessor, AfterViewInit {
     this.onChange(this.value);
   }
 
-  
   @Input() label!: string
+  _label: string = '';
+
+  @Input() required: boolean = false
   @Input() placeholder: string = '';
 
+  ngOnInit(): void {
+    this._label = this.required ? `*${this.label}` : this.label
+  }
+  
+  
   @ViewChild('formInput') formInput!: ElementRef<HTMLInputElement>;
   @ViewChild('inputControl') inputControl!: ElementRef<HTMLInputElement>;
+
+
 
   ngAfterViewInit(): void {
     this.inputControl.nativeElement.onfocus = () => {

@@ -1,12 +1,8 @@
-import { Component, HostBinding } from '@angular/core';
+import { Component, ElementRef, HostBinding, HostListener, ViewChild } from '@angular/core';
 import {MatIconModule} from '@angular/material/icon';
-import { NavService } from '../../../services/nav.service';
+import { MenuButtonItem, NavService } from '../../../services/nav.service';
 import { CommonModule } from '@angular/common';
 
-export interface MenuButtonItem {
-  label: string
-  onclick(): void
-}
 
 @Component({
   selector: 'app-menu-button',
@@ -24,26 +20,30 @@ export class MenuButtonComponent {
     private readonly nav: NavService
   ) {}
 
-  @HostBinding('class.menu-button-open') menuButtonOpen=false
+
+  @HostBinding('class.menu-button-open') menuButtonOpen = false
+
+  @ViewChild('menuButtonRef') menuButtonRef?: ElementRef
+
+  private menuButtonOverhiddenBefore = false
+  
+  @HostListener('window:scroll', ['$event'])
+  isMenuButtonOverhidden() {
+    const rect = this.menuButtonRef?.nativeElement.getBoundingClientRect()
+    const menuButtonOverhidden = rect.bottom < 0
+    if (this.menuButtonOverhiddenBefore !== menuButtonOverhidden) {
+      this.nav.menuButtonOverhidden = menuButtonOverhidden
+      this.menuButtonOverhiddenBefore = menuButtonOverhidden
+    }
+  }
+
+  buttons: MenuButtonItem[] = []
+
+  ngOnInit() {
+    this.buttons = this.nav.menuButtons
+  }
 
   toggleButton() {
     this.menuButtonOpen = !this.menuButtonOpen
   }
-
-  buttons: MenuButtonItem[] = [{
-    label: "Artists",
-    onclick: () => this.nav.to('test')
-  }, {
-    label: "Artists",
-    onclick: () => this.nav.to('test')
-  }, {
-    label: "Artists",
-    onclick: () => this.nav.to('test')
-  }, {
-    label: "Artists",
-    onclick: () => this.nav.to('test')
-  }]
-
-  
-
 }

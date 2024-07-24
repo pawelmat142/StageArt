@@ -5,18 +5,16 @@
     font-style: normal;
 }
 
-body, h1, h2, h3, h4, h5, h6 {
+body, h1, h2, h3, h4, h5, h6, p {
     margin: 0;
     font-family: 'Montserrat', sans-serif;
 
     color: $font-color;
     font-size: 15px;
-    font-weight: 500;
     line-height: 1.6;
 
     word-break: break-word;
     overflow-wrap: break-word;
-
 }
 
 .baron {
@@ -25,7 +23,7 @@ body, h1, h2, h3, h4, h5, h6 {
 }
 
 .fs1 {
-    font-size: 22.5px;
+    font-size: 37.5px;
     font-weight: 500;
     line-height: 1.2;
     letter-spacing: 0.15em;
@@ -39,6 +37,7 @@ body, h1, h2, h3, h4, h5, h6 {
 }
 
 .fs3 {
+    font-size: 20px;
     letter-spacing: 0.15em;
     font-weight: 500;
 }
@@ -46,6 +45,7 @@ body, h1, h2, h3, h4, h5, h6 {
 .fs4 {
     @extend .fs3;
     font-weight: 600;
+    font-size: 16px;
     text-transform: uppercase;
     letter-spacing: 0.23em;
 }

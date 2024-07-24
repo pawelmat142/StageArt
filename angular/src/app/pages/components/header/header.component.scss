@@ -1,0 +1,47 @@
+@import 'variables';
+@import 'color';
+@import 'form';
+@import 'font';
+
+:host {
+    &.show {
+        top: 0;
+    }
+    top: -120px;
+    position: fixed;
+    left: 0;
+    right: 0;
+
+    background-color: $dark;
+    transition: $transition-standard;
+}
+
+.header-container {
+    width: 100vw;
+
+    padding: 0.5*$padding-standard $page-padding;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    box-shadow: 0 3px 5px $red;
+
+    .header-section {
+        display: flex;
+        align-items: center;
+        gap: 2*$padding-standard;
+
+        h1 {
+            margin-bottom: 0.5*$padding-standard;
+        }
+    }
+
+    .header-logo {
+        display: block;
+
+        @extend .hovergrow;
+
+    }
+
+}

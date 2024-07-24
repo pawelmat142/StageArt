@@ -1,0 +1,13 @@
+@import 'variables';
+
+.form-page {
+    width: 100%;
+
+    padding-left: $page-padding-big;
+    padding-right: $page-padding;
+    padding-top: $header-margin;
+
+    .form-container {
+        width: 100%;
+    }
+}

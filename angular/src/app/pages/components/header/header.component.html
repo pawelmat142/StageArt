@@ -1,0 +1,20 @@
+<div class="header-container">
+
+        <div class="header-section">
+            <app-logo (click)="home()" class="header-logo" size="75" dropColor="red" [showDrop]="true"></app-logo>
+
+            <h1 *ngIf="label" class="fs2 baron light">{{label}}</h1>
+        </div>
+
+        <div class="header-section">
+
+            <div *ngFor="let btn of menuButtons" (click)="btn.onclick()"
+                class="header-button">
+                <h2 class="fs3 baron red hovergrow">
+                    {{btn.label}}
+                </h2>
+            </div>
+
+        </div>
+
+</div>
