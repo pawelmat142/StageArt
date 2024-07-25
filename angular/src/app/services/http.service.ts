@@ -14,6 +14,12 @@ export class HttpService {
     private readonly httpClient: HttpClient
   ) { }
 
+
+  public get<T>(uri: string) {
+    return this.httpClient.get<T>(uri)
+  }
+
+
   public test(): Observable<unknown> {
     return this.httpClient.get(`${this.apiUri}`)
   }

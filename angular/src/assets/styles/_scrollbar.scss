@@ -4,7 +4,7 @@
 * {
     /* Style for WebKit browsers (Chrome, Safari) */
   ::-webkit-scrollbar {
-    width: 10px; /* Width of the scrollbar */
+    width: $scroll-width; /* Width of the scrollbar */
   }
   
   ::-webkit-scrollbar-track {

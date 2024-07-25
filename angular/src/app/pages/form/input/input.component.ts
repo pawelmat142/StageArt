@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, forwardRef, Input, Renderer2, ViewChild } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import { Component, ElementRef, forwardRef, Injector, Input, Renderer2, ViewChild } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-input',
@@ -19,15 +19,22 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@a
 export class InputComponent implements ControlValueAccessor {
 
   constructor(
-    private readonly renderer: Renderer2
+    private readonly renderer: Renderer2,
+    private injector: Injector
   ) {}
 
   value: string = '';
   disabled: boolean = false;
 
-  onChange = (value: string) => {};
+  onChange = (value: string) => {}
 
   onTouched = () => {};
+  
+  onInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.value = input.value;
+    this.onChange(this.value);
+  }
 
   writeValue(value: string): void {
     this.value = value || '';
@@ -45,11 +52,6 @@ export class InputComponent implements ControlValueAccessor {
     this.disabled = isDisabled;
   }
 
-  onInput(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    this.value = input.value;
-    this.onChange(this.value);
-  }
 
   @Input() label!: string
   _label: string = '';
@@ -57,14 +59,17 @@ export class InputComponent implements ControlValueAccessor {
   @Input() required: boolean = false
   @Input() placeholder: string = '';
 
+  private ngControl?: NgControl
+
+
   ngOnInit(): void {
     this._label = this.required ? `*${this.label}` : this.label
+    this.ngControl = this.injector.get(NgControl);
   }
   
   
   @ViewChild('formInput') formInput!: ElementRef<HTMLInputElement>;
   @ViewChild('inputControl') inputControl!: ElementRef<HTMLInputElement>;
-
 
 
   ngAfterViewInit(): void {
@@ -77,7 +82,9 @@ export class InputComponent implements ControlValueAccessor {
     this.formInput.nativeElement.onclick = () => {
       this.renderer.selectRootElement(this.inputControl.nativeElement).focus()
     }
+    this.formInput.nativeElement.onblur = () => {
+      this.onTouched()
+    }
   }
-
 
 }

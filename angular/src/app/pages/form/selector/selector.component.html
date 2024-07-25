@@ -1,0 +1,41 @@
+
+<div #formSelector class="form-input">
+
+    <div class="form-input-wrapper">
+        <div>
+            <p class="form-input-label">{{_label}}</p>
+            <input
+                #selectorControl 
+                class="form-input-control"
+                [placeholder]="placeholder"
+                [value]="value.label || ''"
+                [attr.disabled]="disabled ? true : null"
+                (input)="onInput($event)"
+                type="text"
+                />
+        </div>
+
+        <app-control-img *ngIf="value.imgUrl" 
+            [url]="value.imgUrl"
+            [height]="40"
+        ></app-control-img>
+
+    </div>
+
+
+    <div class="selector-items">
+        <div *ngFor="let item of _items"
+            class="selector-item form-input-control"
+            (click)="_select(item, $event)"
+
+        ><span class="dark">{{item.label}}</span>
+
+        <app-control-img *ngIf="item.imgUrl" 
+            [url]="item.imgUrl"
+            [height]="20"
+        ></app-control-img>
+    
+    </div>
+    </div>
+
+</div>

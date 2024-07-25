@@ -5,14 +5,23 @@
     <div class="form-container">
     
         <form [formGroup]="form" (ngSubmit)="submit()">
-    
-            <app-input
-                formControlName="name"
-                label="Artist name" 
-                placeholder="Artist stage name..."
-                [required]="true"
-            ></app-input>
-    
+
+            <div class="input-row">
+                <app-input
+                    formControlName="name"
+                    label="Artist name" 
+                    placeholder="Artist stage name..."
+                    [required]="true"
+                ></app-input>
+                <app-selector
+                    [items]="_countryItems"
+                    [required]="true"
+                    formControlName="country"
+                    label="Artist country"
+                    placeholder="Select artist country..."
+                ></app-selector>
+            </div>
+
             <div class="input-row">
                 <app-input
                     formControlName="firstName"
@@ -25,7 +34,6 @@
                     placeholder="Artist last name..."
                 ></app-input>
             </div>
-    
     
             <app-button label="Submit" [active]="form.valid"></app-button>
     
