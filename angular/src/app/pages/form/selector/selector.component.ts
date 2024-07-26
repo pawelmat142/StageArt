@@ -2,12 +2,15 @@ import { CommonModule } from '@angular/common';
 import { Component, ElementRef, forwardRef, HostBinding, HostListener, Injector, Input, Renderer2, ViewChild } from '@angular/core';
 import { ControlValueAccessor, FormGroup, NG_VALUE_ACCESSOR, NgControl, ReactiveFormsModule } from '@angular/forms';
 import { ControlImgComponent } from '../control-img/control-img.component';
+import { ArtistMediaCode } from '../../../services/artist-medias/artist-medias.service';
+import { SvgIconComponent } from '../../components/svg-icon/svg-icon.component';
 
 
 export interface SelectorItem {
   code: string
   label: string
   imgUrl?: string
+  svg?: ArtistMediaCode
 }
 
 
@@ -18,6 +21,7 @@ export interface SelectorItem {
     CommonModule, 
     ReactiveFormsModule,
     ControlImgComponent,
+    SvgIconComponent,
   ],
   templateUrl: './selector.component.html',
   styleUrl: './selector.component.scss',
@@ -88,7 +92,7 @@ export class SelectorComponent implements ControlValueAccessor {
 
   ngOnInit(): void {
     this._label = this.required ? `*${this.label}` : this.label
-    this.ngControl = this.injector.get(NgControl);
+    this.ngControl = this.injector?.get(NgControl);
 
     this.value = this._EMPTY_VALUE
     this.filterItems()

@@ -45,16 +45,12 @@ input {
 .form-input {
 
     cursor: text;
-    min-width: 255px;
     border: $input-border;
     border-radius: $input-radius;
     background-color: $input-bg;
     transition: $form-transition;
 
-    margin-bottom: 2*$padding-standard;
-
     background-color: $control-bg;
-    margin-bottom: 30px;
     padding: 12px 15px;
     
     box-shadow: 0 0 0 transparent;
@@ -131,7 +127,7 @@ input {
     }
 }
 
-.ng-invalid.ng-dirty > .form-input {
+.ng-invalid.ng-dirty.ng-touched > .form-input {
     border-color: $red;
     box-shadow: $input-error-shadow;
 }

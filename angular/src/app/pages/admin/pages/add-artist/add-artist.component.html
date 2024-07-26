@@ -4,25 +4,25 @@
 
     <div class="form-container">
     
-        <form [formGroup]="form" (ngSubmit)="submit()">
+        <form [formGroup]="form" (ngSubmit)="_submit()">
 
-            <div class="input-row">
+            <div class="input-row margin-bottom-2">
                 <app-input
                     formControlName="name"
+                    [required]="true"
                     label="Artist name" 
                     placeholder="Artist stage name..."
-                    [required]="true"
                 ></app-input>
                 <app-selector
-                    [items]="_countryItems"
-                    [required]="true"
                     formControlName="country"
+                    [required]="true"
+                    [items]="_countryItems"
                     label="Artist country"
                     placeholder="Select artist country..."
                 ></app-selector>
             </div>
 
-            <div class="input-row">
+            <div class="input-row margin-bottom-2">
                 <app-input
                     formControlName="firstName"
                     label="First name" 
@@ -34,8 +34,65 @@
                     placeholder="Artist last name..."
                 ></app-input>
             </div>
-    
-            <app-button label="Submit" [active]="form.valid"></app-button>
+
+            <div class="input-row margin-bottom-2">
+                <app-input
+                    formControlName="email"
+                    [required]="true"
+                    label="Email" 
+                    placeholder="Artist contact email..."
+                ></app-input>
+                <app-input
+                    formControlName="phone"
+                    [required]="true"
+                    label="Phone number" 
+                    placeholder="Artist contact phone number..."
+                ></app-input>
+            </div>
+
+            <div class="artist-medias">
+
+                <div formArrayName="medias" class="artist-media-types">
+                    @for (media of _selectedMedias; track media.code; let last = $last, index = $index) {
+                        <div class="margin-bottom-2">
+                            <div class="buttons">
+                                @if (last && f.medias.length !== _mediaItems.length && f.medias.valid && f.mediaUrls.valid) {
+                                    <div class="f2 baron red hovergrow" (click)="_addMediaRow()">add</div>
+                                }
+                                <div class="f2 baron red hovergrow" (click)="_removeMediaRow(index)">remove</div>
+                            </div>
+                            <app-selector
+                                formControlName="{{index}}"
+                                [required]="true"
+                                [items]="this._mediaItemsNotSelected"
+                                label="Connect type" 
+                                placeholder="Select..."
+                            ></app-selector>
+                        </div>
+                    }
+                </div> 
+                <div formArrayName="mediaUrls">
+                    @for (media of _selectedMedias; track media.code; let index = $index) {
+                        <div class="url margin-bottom-2">
+                            <app-input
+                                formControlName="{{index}}"
+                                [required]="true"
+                                [hidden]="f.medias.at(index).invalid"
+                                label="Connect link" 
+                                placeholder="url..."
+                            ></app-input>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div *ngIf="!_selectedMedias.length"class="margin-bottom-2 center">
+                <span (click)="_addMediaRow()" class="f2 baron red hovergrow">
+                    add media connect url
+                </span>
+            </div>
+
+            <app-button label="Submit" [active]="form.valid" (submit)="_submit()"></app-button>
     
         </form>
     

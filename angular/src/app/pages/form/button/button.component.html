@@ -1,3 +1,3 @@
-<div #formButton class="form-button" [ngClass]="{'active': active}">
-    <button #buttonControl class="form-button-control">{{label}}</button>
+<div #formButton class="form-button" [ngClass]="{'active': active}" (click)="active && submit.emit()">
+    <button #buttonControl class="form-button-control" [type]="type || 'submit'" >{{label}}</button>
 </div>

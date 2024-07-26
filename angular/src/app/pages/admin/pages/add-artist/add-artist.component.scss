@@ -1,4 +1,6 @@
 @import 'variables';
+@import 'form';
+
 
 .form-page {
     width: 100%;
@@ -9,5 +11,35 @@
 
     .form-container {
         width: 100%;
+    }
+
+    .artist-medias {
+        .form-input {
+            margin-bottom: 0;
+        }
+
+        display: flex;
+        gap: $padding-standard;
+        & > * {
+            width: 50%;
+        }
+
+        .artist-media-types {
+            & > div {
+                gap: $padding-standard;
+                display: flex;
+                align-items: center;
+            }
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            .buttons {
+                display: flex;
+                height: fit-content;
+                gap: $padding-standard;
+                width: 50%;
+                justify-content: flex-end;
+            }
+        }
     }
 }

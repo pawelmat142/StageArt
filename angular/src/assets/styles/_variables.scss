@@ -26,11 +26,12 @@ $transition-standard: all 0.16s ease-in-out;
     padding-top: 4*$padding-standard;
 }
 
-.flex-center {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: $padding-standard;
+.margin-bottom {
+    margin-bottom: $padding-standard;
+}
+
+.margin-bottom-2 {
+    margin-bottom: 2*$padding-standard;
 }
 
 
@@ -41,4 +42,27 @@ $transition-standard: all 0.16s ease-in-out;
     &:hover {
         transform: scale(1.05);
     }
+}
+
+.no-margin {
+    margin: 0;
+}
+
+.no-padding {
+    padding: 0;
+}
+
+.center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $padding-standard;
 }

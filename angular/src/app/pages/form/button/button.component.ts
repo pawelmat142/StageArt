@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, HostBinding, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-button',
@@ -10,13 +10,16 @@ import { Component, ElementRef, HostBinding, Input, ViewChild } from '@angular/c
 })
 export class ButtonComponent {
 
-  @Input() label!: string
+  @Output() submit = new EventEmitter<void>()
   
   @ViewChild('formButton') formButton!: ElementRef<HTMLInputElement>;
   @ViewChild('buttonControl') buttonControl!: ElementRef<HTMLInputElement>;
+
+  @Input() label!: string
   
-  @Input()
-  active!: boolean
+  @Input() active!: boolean
+
+  @Input() type?: boolean
 
 
 }

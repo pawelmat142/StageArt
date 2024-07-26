@@ -78,12 +78,10 @@ export class InputComponent implements ControlValueAccessor {
     }
     this.inputControl.nativeElement.onblur = () => {
       this.renderer.removeClass(this.formInput.nativeElement, 'active')
+      this.onTouched()
     }
     this.formInput.nativeElement.onclick = () => {
       this.renderer.selectRootElement(this.inputControl.nativeElement).focus()
-    }
-    this.formInput.nativeElement.onblur = () => {
-      this.onTouched()
     }
   }
 

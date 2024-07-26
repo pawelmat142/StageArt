@@ -20,6 +20,11 @@
             [height]="40"
         ></app-control-img>
 
+        <app-svg-icon *ngIf="value.svg"
+            [icon]="value.svg"
+            [size]="30"
+        ></app-svg-icon>
+
     </div>
 
 
@@ -34,6 +39,11 @@
             [url]="item.imgUrl"
             [height]="20"
         ></app-control-img>
+
+        <app-svg-icon *ngIf="item.svg"
+            [icon]="item.svg"
+            [size]="30"
+        ></app-svg-icon>
     
     </div>
     </div>
