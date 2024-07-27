@@ -1,5 +1,6 @@
 @import 'color';
 @import 'variables';
+@import 'font';
 
 
 $form-shadow: 0px 0px 20px rgb(0 0 0 / 20%);
@@ -47,9 +48,7 @@ input {
     cursor: text;
     border: $input-border;
     border-radius: $input-radius;
-    background-color: $input-bg;
     transition: $form-transition;
-
     background-color: $control-bg;
     padding: 12px 15px;
     
@@ -62,9 +61,9 @@ input {
     }
 
     .form-input-label {
-        color: $light-dark;
+        color: $label-color;
         font-size: 12.8px;
-        font-weight: 500;
+        font-weight: 600;
         margin: 0;
     }   
     
@@ -73,17 +72,16 @@ input {
         padding: 0px;
         font-weight: 600;
         font-size: 16px;
+        letter-spacing: 0;
         color: $light-dark;
+        font-family: $family;
     }
 
     .form-input-wrapper {
         display: flex;
         justify-content: space-between;
         align-items: center;
-
-
     }
-
 
 }
 
@@ -130,4 +128,17 @@ input {
 .ng-invalid.ng-dirty.ng-touched > .form-input {
     border-color: $red;
     box-shadow: $input-error-shadow;
+}
+
+.pointer {
+    cursor: pointer;
+    input {
+        cursor: pointer;
+    }
+}
+
+*::placeholder,
+.placeholder {
+    @extend .form-input-control;
+    color: $placeholder-color!important;
 }

@@ -18,10 +18,6 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl, ReactiveFormsModule
 })
 export class InputComponent implements ControlValueAccessor {
 
-  constructor(
-    private readonly renderer: Renderer2,
-    private injector: Injector
-  ) {}
 
   value: string = '';
   disabled: boolean = false;
@@ -53,11 +49,20 @@ export class InputComponent implements ControlValueAccessor {
   }
 
 
+  constructor(
+    private readonly renderer: Renderer2,
+    private injector: Injector
+  ) {}
+
   @Input() label!: string
   _label: string = '';
 
   @Input() required: boolean = false
   @Input() placeholder: string = '';
+
+  @ViewChild('formInput') formInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('inputControl') inputControl!: ElementRef<HTMLInputElement>;
+
 
   private ngControl?: NgControl
 
@@ -67,11 +72,6 @@ export class InputComponent implements ControlValueAccessor {
     this.ngControl = this.injector.get(NgControl);
   }
   
-  
-  @ViewChild('formInput') formInput!: ElementRef<HTMLInputElement>;
-  @ViewChild('inputControl') inputControl!: ElementRef<HTMLInputElement>;
-
-
   ngAfterViewInit(): void {
     this.inputControl.nativeElement.onfocus = () => {
       this.renderer.addClass(this.formInput.nativeElement, 'active')

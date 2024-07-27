@@ -54,12 +54,9 @@
 
                 <div formArrayName="medias" class="artist-media-types">
                     @for (media of _selectedMedias; track media.code; let last = $last, index = $index) {
-                        <div class="margin-bottom-2">
+                        <div [ngClass]="{'margin-bottom-2': !last, 'margin-bottom': last}">
                             <div class="buttons">
-                                @if (last && f.medias.length !== _mediaItems.length && f.medias.valid && f.mediaUrls.valid) {
-                                    <div class="f2 baron red hovergrow" (click)="_addMediaRow()">add</div>
-                                }
-                                <div class="f2 baron red hovergrow" (click)="_removeMediaRow(index)">remove</div>
+                                <div class="fs5 baron red hovergrow" (click)="_removeMediaRow(index)">remove</div>
                             </div>
                             <app-selector
                                 formControlName="{{index}}"
@@ -72,8 +69,8 @@
                     }
                 </div> 
                 <div formArrayName="mediaUrls">
-                    @for (media of _selectedMedias; track media.code; let index = $index) {
-                        <div class="url margin-bottom-2">
+                    @for (media of _selectedMedias; track media.code; let index = $index, last = $last) {
+                        <div class="url" [ngClass]="{'margin-bottom-2': !last, 'margin-bottom': last}">
                             <app-input
                                 formControlName="{{index}}"
                                 [required]="true"
@@ -84,15 +81,48 @@
                         </div>
                     }
                 </div>
+
+            </div>
+            
+            @if (f.medias.length !== _mediaItems.length && f.medias.valid && f.mediaUrls.valid) {
+                <div class="margin-bottom-2 center">
+                    <span (click)="_addMediaRow()" class="f2 baron red hovergrow">
+                        add media connect url
+                    </span>
+                </div>
+            } @else {
+                <div class="margin-bottom-2"></div>
+            }
+
+            <div class="images-grid margin-bottom" formArrayName="images">
+                <app-file-loader
+                    formControlName="avatar"
+                    [required]="true"
+                    label="Image 1 (avatar)"
+                    placeholder="Drop file or click for select... (.png, .jpg)"
+                    [circle]="true"
+                    >
+                </app-file-loader>
+
+                @for (i of f.images.controls; track $index) {
+                    <app-file-loader
+                        [formControlName]="$index"
+                        [required]="$index === 0"
+                        [label]="'Image ' + ($index+2) +' (background)'"
+                        placeholder="Drop file or click for select... (.png, .jpg)"
+                        (removeControl)="_removeImage($index)"
+                        >
+                    </app-file-loader>
+                }
             </div>
 
-            <div *ngIf="!_selectedMedias.length"class="margin-bottom-2 center">
-                <span (click)="_addMediaRow()" class="f2 baron red hovergrow">
-                    add media connect url
+            <!-- <div class="margin-bottom-2 center">
+                <span (click)="_addImage()" class="f2 baron red hovergrow">
+                    Add next image
                 </span>
-            </div>
+            </div> -->
 
-            <app-button label="Submit" [active]="form.valid" (submit)="_submit()"></app-button>
+            <app-button class="margin-top-2 d-flex" label="Submit" [active]="form.valid" (submit)="_submit()"></app-button>
     
         </form>
     

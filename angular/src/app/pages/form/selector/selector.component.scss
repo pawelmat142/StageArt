@@ -7,10 +7,8 @@
 .form-input {
     position: relative;
     z-index: 3;
-    cursor: pointer;
-    input {
-        cursor: pointer;
-    }
+
+    @extend .pointer;
 
     .selector-items {
 

@@ -10,6 +10,8 @@ import { CommonModule } from '@angular/common';
 import { ArtistMediasService, ArtistMediaCode, ArtistMedia } from '../../../../services/artist-medias/artist-medias.service';
 import { Util } from '../../../../utils/util';
 import { mediaValidator } from '../../../../services/artist-medias/media.validator';
+import { FileLoaderComponent } from '../../../form/file-loader/file-loader.component';
+import { FileViewComponent } from '../../../form/control-img/file-view/file-view.component';
 
 
 export interface Artist {
@@ -32,6 +34,8 @@ export interface Artist {
     ButtonComponent,
     HeaderComponent,
     SelectorComponent,
+    FileLoaderComponent,
+    FileViewComponent,
 ],
   templateUrl: './add-artist.component.html',
   styleUrl: './add-artist.component.scss'
@@ -54,7 +58,9 @@ export class AddArtistComponent {
     email: new FormControl('', [Validators.required, Validators.email]),
     phone: new FormControl('', [Validators.required, Validators.pattern(this.phoneNumberRegex)]),
     medias: this.fb.array<ArtistMedia>([]),
-    mediaUrls: this.fb.array<string>([])
+    mediaUrls: this.fb.array<string>([]),
+    avatar: new FormControl<File | null>(null, Validators.required),
+    images: this.fb.array<File>([]),
   })
 
   get f() { return this.form.controls }
@@ -86,6 +92,7 @@ export class AddArtistComponent {
 
     setTimeout(() => {
       this._addMediaRow()
+      this._addImage()
     }, 100)
 
   }
@@ -139,6 +146,19 @@ export class AddArtistComponent {
     const urlControls = this._selectedMedias.map(m => this.fb.control(m.url, Validators.required))
     this.form.controls.medias = this.fb.array(mediaControls)
     this.form.controls.mediaUrls = this.fb.array(urlControls)
+  }
+
+
+  _addImage() {
+    const control = this.form.controls.images.length 
+      ? this.fb.control<File | null>(null, Validators.required)
+      : this.fb.control<File | null>(null)
+    this.form.controls.images.push(control)
+  }
+
+  _removeImage(i: number) {
+    // todo
+    this.form.controls.images.removeAt(i)
   }
 
 

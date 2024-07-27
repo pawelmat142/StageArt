@@ -1,0 +1,14 @@
+@import 'variables';
+@import 'form';
+@import 'color';
+
+.form-input {
+
+    @extend .pointer;
+    transition: $transition-standard;
+
+    input[type="file"] {
+        display: none;
+    }
+
+}

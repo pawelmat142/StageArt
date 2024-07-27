@@ -1,0 +1,43 @@
+<div #formFileLoader class="form-input" [class.active]="_active" (click)="_openFileSelector()">
+    
+    <input #loaderControl type="file" (change)="onFileChange($event)" />
+
+    <div class="form-input-wrapper">
+
+        <div>
+            <p class="form-input-label">{{_label}}</p>
+        
+            @if (file) {
+                <span class="form-input-control">{{file.name}}</span>
+            } @else {
+                <span class="placeholder">{{placeholder}}</span>
+            }
+        </div>
+
+        <app-control-side-button
+            icon="delete_forever"
+            [size]="30"
+            [show]="!!file"
+            (click)="_removeFile()"
+        ></app-control-side-button>
+
+        @if (!required && !file) {
+            <app-control-side-button
+                icon="close"
+                color="gray"
+                [size]="30"
+                (click)="removeControl.emit()"
+            ></app-control-side-button>
+        }
+
+    </div>
+
+    @if (file) {
+        <app-file-view
+            [file]="file || undefined"
+            [circle]="circle"
+        ></app-file-view>
+    }
+
+</div>
+

@@ -5,13 +5,16 @@
     font-style: normal;
 }
 
+$family: 'Montserrat', sans-serif;
+
 body, h1, h2, h3, h4, h5, h6, p {
     margin: 0;
-    font-family: 'Montserrat', sans-serif;
+    font-family: $family;
 
     color: $font-color;
     font-size: 15px;
     line-height: 1.6;
+    letter-spacing: 0.9px;
 
     word-break: break-word;
     overflow-wrap: break-word;
@@ -49,4 +52,6 @@ body, h1, h2, h3, h4, h5, h6, p {
     text-transform: uppercase;
     letter-spacing: 0.23em;
 }
+
+
 

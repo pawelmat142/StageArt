@@ -1,0 +1,17 @@
+@import 'variables';
+
+.control-side-button {
+
+    cursor: not-allowed;
+    &.active {
+        @extend .hovergrow;
+        @extend .max;
+    }
+
+    display: flex;
+
+    .mat-icon {
+        width: unset;
+        height: unset;
+    }
+}

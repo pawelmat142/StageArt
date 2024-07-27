@@ -9,6 +9,7 @@
     }
     top: -120px;
     position: fixed;
+    z-index: 10;
     left: 0;
     right: 0;
 
@@ -39,9 +40,7 @@
 
     .header-logo {
         display: block;
-
         @extend .hovergrow;
-
     }
 
 }

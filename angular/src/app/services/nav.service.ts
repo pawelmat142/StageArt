@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import { DialogData, PopupComponent } from '../pages/components/popup/popup.component';
 
 export interface MenuButtonItem {
   label: string
@@ -14,6 +16,7 @@ export class NavService {
 
   constructor(
     private readonly router: Router,
+    private readonly dialog: MatDialog
   ) { }
 
 
@@ -44,6 +47,11 @@ export class NavService {
 
   public to(path: string) {
     this.router.navigateByUrl(path)
+  }
+
+
+  public async popup(data: DialogData) {
+    return this.dialog.open(PopupComponent, { data: data })
   }
 
 }

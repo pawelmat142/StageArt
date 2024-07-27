@@ -1,0 +1,22 @@
+<div class="popup-container">
+
+    @if (data.header) {
+        <div class="popup-header">
+            <p class="fs2 light">{{data.header}}</p>
+        </div>
+    }
+
+    @for (c of (data.content || []); track c) {
+        <div class="pupup-content">
+            <p class="white">{{c}}</p>
+        </div>
+    }
+
+    <div class="popup-buttons">
+        @if (_defaultButton) {
+            <div class="fs5 baron red btn center" (click)="_close()">OK</div>
+        }
+    </div>
+
+
+</div>

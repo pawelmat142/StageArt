@@ -1,0 +1,17 @@
+@import 'form';
+
+.img-wrapper {
+
+    position: relative;
+
+    border: $input-border;
+    img {
+        object-fit: cover;
+        display: flex;
+    }
+
+    &.circle {
+        border-radius: 50%;
+        overflow: hidden;
+    }
+}

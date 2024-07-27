@@ -1,0 +1,10 @@
+
+
+<div class="img-wrapper" [class.circle]="circle">
+    <img 
+    [style.width]="_width+'px'"
+    [style.height]="_width+'px'"
+    *ngIf="file" [src]="_imageSrc" 
+    [alt]="file.name || 'empty'" 
+    >
+</div>
