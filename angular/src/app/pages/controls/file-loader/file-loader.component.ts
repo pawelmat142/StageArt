@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, EventEmitter, forwardRef, HostListener, Injector, Input, Output, ViewChild } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl, ReactiveFormsModule } from '@angular/forms';
+import { NG_VALUE_ACCESSOR, NgControl, ReactiveFormsModule } from '@angular/forms';
 import { IconButtonComponent } from '../../components/icon-button/icon-button.component';
 import { DialogData } from '../../components/popup/popup.component';
 import { NavService } from '../../../services/nav.service';
 import { FileViewComponent } from './file-view/file-view.component';
+import { AbstractControlComponent } from '../abstract-control/abstract-control.component';
 
 @Component({
   selector: 'app-file-loader',
@@ -23,83 +24,49 @@ import { FileViewComponent } from './file-view/file-view.component';
     multi: true
   }]
 })
-export class FileLoaderComponent implements ControlValueAccessor {
+export class FileLoaderComponent extends AbstractControlComponent<File | null> {
 
-  file: File | null = null
-
-  private onChange: (file: File | null) => void = () => {};
-  private onTouched: () => void = () => {};
-
-  registerOnChange(fn: (file: File | null) => void): void {
-    this.onChange = fn;
+  constructor(
+    elementRef: ElementRef,
+    injector: Injector,
+    private nav: NavService,
+  ) {
+    super(elementRef, injector);
   }
 
-  registerOnTouched(fn: () => void): void {
-    this.onTouched = fn;
-  }
-
-  setDisabledState?(isDisabled: boolean): void {
-    // Implement this method if you want to handle disabled state
-  }
-
-  writeValue(file: File | null): void {
-    this.file = file;
-  }
-
-  
   onFileChange(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
-      this.file = input.files[0];
       this.setValue(input.files[0])
     }
   }
 
-  constructor(
-    private injector: Injector,
-    private nav: NavService,
-  ) {}
-
-  @ViewChild('formFileLoader') formFileLoader!: ElementRef<HTMLInputElement>;
-  @ViewChild('loaderControl') loaderControl!: ElementRef<HTMLInputElement>;
-
-  @Output() removeControl = new EventEmitter<void>()
-
-  @Input() label!: string
-  _label: string = '';
-
-  @Input() required: boolean = false
-  @Input() placeholder: string = ''
-  @Input() extensions: string[] = ['jpg', 'png']
-
-  @Input() circle = false
-
-  private ngControl?: NgControl
-
-  ngOnInit(): void {
-    this._label = this.required ? `*${this.label}` : this.label
-    this.ngControl = this.injector.get(NgControl);
+  override onclick = ($event: MouseEvent) => {
+    console.log('click')
   }
 
 
-  _active = false
+  @Output() removeControl = new EventEmitter<void>()
+
+  @Input() circle = false
+  @Input() extensions = ['jpg', 'png']
 
   @HostListener('dragover', ['$event']) onDragOver(event: DragEvent) {
     event.preventDefault();
     event.stopPropagation();
-    this._active = true;
+    this.active = true;
   }
   
   @HostListener('dragleave', ['$event']) onDragLeave(event: DragEvent) {
     event.preventDefault();
     event.stopPropagation();
-    this._active = false;
+    this.active = true;
   }
 
   @HostListener('drop', ['$event']) onDrop(event: DragEvent) {
     event.preventDefault();
     event.stopPropagation();
-    this._active = false;
+    this.active = false;
     if (event.dataTransfer && event.dataTransfer.files.length > 0) {
       const file = event.dataTransfer.files[0]
       this.setValue(file)
@@ -108,31 +75,23 @@ export class FileLoaderComponent implements ControlValueAccessor {
 
   private setValue(value: File | null) {
     if (!value) {
-      this._setValue(null)
+      super.updateValue(null)
     } else {
       if (this.validateExtension(value)) {
-        this._setValue(value)
+        super.updateValue(value)
       } else {
-        this.setValue(null)
+        super.updateValue(null)
       }
     }
   }
 
-  private _setValue(value: File | null) {
-    this.file = value
-    this.onChange(this.file)
-    this.onTouched()
-  }
 
   _openFileSelector() {
-    this.loaderControl.nativeElement.click()
+    this.input!.click()
   }
 
-
   _removeFile() {
-    this.setValue(null)
-    this.file = null
-    this.onChange(null);
+    super.updateValue(null)
   }
 
   private validateExtension(value: File): boolean {

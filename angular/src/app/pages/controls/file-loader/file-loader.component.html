@@ -1,14 +1,14 @@
-<div #formFileLoader class="form-input" [class.active]="_active" (click)="_openFileSelector()">
+<div class="form-input" [class.active]="active" (click)="_openFileSelector()">
     
-    <input #loaderControl type="file" (change)="onFileChange($event)" />
+    <input type="file" (change)="onFileChange($event)" />
 
     <div class="form-input-wrapper">
 
         <div>
             <p class="form-input-label">{{_label}}</p>
         
-            @if (file) {
-                <span class="form-input-control">{{file.name}}</span>
+            @if (value) {
+                <span class="form-input-control">{{value.name}}</span>
             } @else {
                 <span class="placeholder">{{placeholder}}</span>
             }
@@ -17,11 +17,11 @@
         <app-icon-button
             icon="delete_forever"
             [size]="30"
-            [show]="!!file"
+            [show]="!!value"
             (click)="_removeFile()"
         ></app-icon-button>
 
-        @if (!required && !file) {
+        @if (!required && !value) {
             <app-icon-button
                 icon="close"
                 color="gray"
@@ -32,9 +32,9 @@
 
     </div>
 
-    @if (file) {
+    @if (value) {
         <app-file-view
-            [file]="file || undefined"
+            [file]="value || undefined"
             [circle]="circle"
         ></app-file-view>
     }

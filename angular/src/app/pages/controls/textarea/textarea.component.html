@@ -1,0 +1,19 @@
+
+<div class="form-input">
+
+    <div class="form-input-wrapper">
+        <div>
+            <p class="form-input-label">{{_label}}</p>
+            <textarea
+                class="form-input-control"
+                [placeholder]="placeholder"
+                [value]="value"
+                [attr.disabled]="disabled ? true : null"
+                (input)="_onInput($event)"
+                type="text"
+            ></textarea>
+        </div>
+
+    </div>
+
+</div>

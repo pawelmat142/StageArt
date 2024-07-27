@@ -12,6 +12,7 @@ $form-transition: $transition-standard;
 $input-active-shadow: 0px 0px 8px $yellow;
 $input-error-shadow: 0px 0px 8px $red;
 
+textarea,
 input {
     border: none;
     background-color: initial;
@@ -41,6 +42,25 @@ input {
 
 .form-input:hover {
     border-color: $yellow;
+}
+
+.active {
+    .form-input {
+        background-color: $yellow-transparent;
+        border-color: $yellow;
+        box-shadow: $input-active-shadow;
+    }
+
+    .form-button {
+        cursor: pointer;
+        border-color: $yellow-dark;
+        background-color: $yellow;
+        box-shadow: $input-active-shadow;
+
+        .form-button-control {
+            cursor: pointer;
+        }
+    }
 }
 
 .form-input {

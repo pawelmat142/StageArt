@@ -94,7 +94,7 @@
                 <div class="margin-bottom-2"></div>
             }
 
-            <div class="images-grid margin-bottom" formArrayName="images">
+            <div class="images-grid margin-bottom" >
                 <app-file-loader
                     formControlName="avatar"
                     [required]="true"
@@ -105,14 +105,16 @@
                 </app-file-loader>
 
                 @for (i of f.images.controls; track $index) {
-                    <app-file-loader
-                        [formControlName]="$index"
-                        [required]="$index === 0"
-                        [label]="'Image ' + ($index+2) +' (background)'"
-                        placeholder="Drop file or click for select... (.png, .jpg)"
-                        (removeControl)="_removeImage($index)"
-                        >
-                    </app-file-loader>
+                    <ng-container formArrayName="images">
+                        <app-file-loader
+                            [formControlName]="$index"
+                            [required]="$index === 0"
+                            [label]="'Image ' + ($index+2) +' (background)'"
+                            placeholder="Drop file or click for select... (.png, .jpg)"
+                            (removeControl)="_removeImage($index)"
+                            >
+                        </app-file-loader>
+                    </ng-container>
                 }
             </div>
 
@@ -121,6 +123,14 @@
                     Add next image
                 </span>
             </div> -->
+
+            <app-textarea
+                class="margin-bottom-2"
+                formControlName="bio"
+                [required]="false"
+                label="Bio" 
+                placeholder="About artist..."
+            ></app-textarea>
 
             <app-button class="margin-top-2 d-flex" label="Submit" [active]="form.valid" (submit)="_submit()"></app-button>
     

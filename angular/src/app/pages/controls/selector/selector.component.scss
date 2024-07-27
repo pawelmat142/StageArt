@@ -1,0 +1,73 @@
+@import 'variables';
+@import 'color';
+@import 'form';
+
+:host {
+    position: relative;
+
+    &.active {
+        .form-input {
+            border-color: $yellow;
+        }
+        .selector-items {
+            opacity: 1;
+            transform: scaleY(1) translateY(0);
+            border-color: $yellow;
+        }
+    }
+
+    &:hover {
+        .form-input {
+            border-color: $yellow;
+        }
+    }
+}
+
+
+.form-input {
+    z-index: 3;
+    @extend .pointer;
+}
+
+.selector-items {
+
+    $selector-item-height: 45px;
+    max-height: 8*$selector-item-height;
+
+    overflow-y: auto;
+
+    position: absolute;
+    z-index: 4;
+    top: calc(100% - $padding-standard);
+    left: 0;
+    right: 0;
+
+    padding-top: $padding-standard;
+    background-color: $control-bg;
+    border-bottom-left-radius: $form-radius;
+    border-bottom-right-radius: $form-radius;
+    border: $input-border;
+    border-top: 0;
+
+    transition: $transition-standard;
+    transform: scaleY(0) translateY(-70%);
+    opacity: 0;
+
+    .selector-item {
+        padding: 0 $padding-standard;
+        height: $selector-item-height;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        
+        cursor: pointer;
+        transition: $transition-standard;
+        &:hover {
+            background-color: $yellow-transparent;
+        }
+
+    }
+}
+
+

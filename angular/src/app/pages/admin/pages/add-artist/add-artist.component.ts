@@ -1,17 +1,18 @@
-import { Component } from '@angular/core';
-import { InputComponent } from '../../../form/input/input.component';
-import { ButtonComponent } from '../../../form/button/button.component';
+import { Component, HostListener } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HeaderComponent } from '../../../components/header/header.component';
-import { SelectorComponent, SelectorItem } from '../../../form/selector/selector.component';
 import { CountriesService } from '../../../../services/countries/countries.service';
 import { countryValidator } from '../../../../services/countries/countries.validator';
 import { CommonModule } from '@angular/common';
 import { ArtistMediasService, ArtistMediaCode, ArtistMedia } from '../../../../services/artist-medias/artist-medias.service';
 import { Util } from '../../../../utils/util';
 import { mediaValidator } from '../../../../services/artist-medias/media.validator';
-import { FileLoaderComponent } from '../../../form/file-loader/file-loader.component';
-import { FileViewComponent } from '../../../form/file-loader/file-view/file-view.component';
+import { InputComponent } from '../../../controls/input/input.component';
+import { ButtonComponent } from '../../../controls/button/button.component';
+import { SelectorComponent, SelectorItem } from '../../../controls/selector/selector.component';
+import { FileLoaderComponent } from '../../../controls/file-loader/file-loader.component';
+import { FileViewComponent } from '../../../controls/file-loader/file-view/file-view.component';
+import { TextareaComponent } from '../../../controls/textarea/textarea.component';
 
 
 export interface Artist {
@@ -36,6 +37,7 @@ export interface Artist {
     SelectorComponent,
     FileLoaderComponent,
     FileViewComponent,
+    TextareaComponent,
 ],
   templateUrl: './add-artist.component.html',
   styleUrl: './add-artist.component.scss'
@@ -61,6 +63,7 @@ export class AddArtistComponent {
     mediaUrls: this.fb.array<string>([]),
     avatar: new FormControl<File | null>(null, Validators.required),
     images: this.fb.array<File>([]),
+    bio: new FormControl(''),
   })
 
   get f() { return this.form.controls }
@@ -161,6 +164,14 @@ export class AddArtistComponent {
     this.form.controls.images.removeAt(i)
   }
 
+
+  @HostListener('')
+  @HostListener('document:keydown', ['$event']) 
+  onspace(event: KeyboardEvent) {
+    if (event.code === 'Space') {
+      console.log(this.form)
+    }
+  }
 
   _submit() {
     this.updateSelectedMedias()

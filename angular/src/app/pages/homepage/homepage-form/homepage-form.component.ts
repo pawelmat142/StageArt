@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { InputComponent } from "../../form/input/input.component";
-import { ButtonComponent } from '../../form/button/button.component';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpService } from '../../../services/http.service';
+import { InputComponent } from '../../controls/input/input.component';
+import { ButtonComponent } from '../../controls/button/button.component';
 
 @Component({
   selector: 'app-homepage-form',

@@ -10,7 +10,7 @@
                 [placeholder]="placeholder"
                 [value]="value.label || ''"
                 [attr.disabled]="disabled ? true : null"
-                (input)="onInput($event)"
+                (input)="_onInput($event)"
                 type="text"
                 />
         </div>
@@ -33,30 +33,30 @@
 
     </div>
 
+</div>
 
-    <div class="selector-items">
-        <div *ngFor="let item of _items"
-            class="selector-item form-input-control"
-            (click)="_select(item, $event)"
+<div class="selector-items">
+    <div *ngFor="let item of _items"
+        class="selector-item form-input-control"
+        (click)="_select(item, $event)"
 
-        ><span class="dark">{{item.label}}</span>
+    ><span class="dark">{{item.label}}</span>
 
 
-        @if (item.imgUrl) {
-            <app-icon-button
-                [button]="false"
-                [src]="item.imgUrl"
-                [size]="20"
-                [border]="true"
-            ></app-icon-button>
-        } 
-        @else if (item.svg) {
-            <app-icon-button
-                [button]="false"
-                [mediaIcon]="item.svg"
-                [size]="20"
-            ></app-icon-button>
-        }
-    
-    </div>
+    @if (item.imgUrl) {
+        <app-icon-button
+            [button]="false"
+            [src]="item.imgUrl"
+            [size]="20"
+            [border]="true"
+        ></app-icon-button>
+    } 
+    @else if (item.svg) {
+        <app-icon-button
+            [button]="false"
+            [mediaIcon]="item.svg"
+            [size]="20"
+        ></app-icon-button>
+    }
+
 </div>
