@@ -1,9 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, forwardRef, HostBinding, HostListener, Injector, Input, Renderer2, ViewChild } from '@angular/core';
 import { ControlValueAccessor, FormGroup, NG_VALUE_ACCESSOR, NgControl, ReactiveFormsModule } from '@angular/forms';
-import { ControlImgComponent } from '../control-img/control-img.component';
 import { ArtistMediaCode } from '../../../services/artist-medias/artist-medias.service';
-import { SvgIconComponent } from '../../components/svg-icon/svg-icon.component';
+import { IconButtonComponent } from "../../components/icon-button/icon-button.component";
 
 
 export interface SelectorItem {
@@ -18,11 +17,10 @@ export interface SelectorItem {
   selector: 'app-selector',
   standalone: true,
   imports: [
-    CommonModule, 
+    CommonModule,
     ReactiveFormsModule,
-    ControlImgComponent,
-    SvgIconComponent,
-  ],
+    IconButtonComponent,
+],
   templateUrl: './selector.component.html',
   styleUrl: './selector.component.scss',
   providers: [

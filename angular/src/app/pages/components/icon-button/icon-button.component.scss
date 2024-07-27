@@ -1,0 +1,27 @@
+@import 'variables';
+@import 'form';
+
+.icon-button {
+
+    &.button {
+        cursor: not-allowed;
+        &.active {
+            @extend .hovergrow;
+            @extend .max;
+        }
+    }
+
+    &.border {
+        display: flex;
+        overflow: hidden;
+        border: $input-border;
+        border-radius: 3px;
+    }
+
+    display: flex;
+
+    .mat-icon {
+        width: unset;
+        height: unset;
+    }
+}

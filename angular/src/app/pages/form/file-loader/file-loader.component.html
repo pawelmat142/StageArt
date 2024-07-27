@@ -14,20 +14,20 @@
             }
         </div>
 
-        <app-control-side-button
+        <app-icon-button
             icon="delete_forever"
             [size]="30"
             [show]="!!file"
             (click)="_removeFile()"
-        ></app-control-side-button>
+        ></app-icon-button>
 
         @if (!required && !file) {
-            <app-control-side-button
+            <app-icon-button
                 icon="close"
                 color="gray"
                 [size]="30"
                 (click)="removeControl.emit()"
-            ></app-control-side-button>
+            ></app-icon-button>
         }
 
     </div>

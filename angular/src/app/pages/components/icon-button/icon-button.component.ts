@@ -1,24 +1,31 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {MatIconModule} from '@angular/material/icon';
+import { ArtistMediaCode } from '../../../services/artist-medias/artist-medias.service';
 
 @Component({
-  selector: 'app-control-side-button',
+  selector: 'app-icon-button',
   standalone: true,
   imports: [
     CommonModule,
     MatIconModule
   ],
-  templateUrl: './control-side-button.component.html',
-  styleUrl: './control-side-button.component.scss'
+  templateUrl: './icon-button.component.html',
+  styleUrl: './icon-button.component.scss'
 })
-export class ControlSideButtonComponent {
-
+export class IconButtonComponent {
+  
+  @Input() icon?: string
+  @Input() src?: string
+  @Input() mediaIcon?: ArtistMediaCode
+  
+  @Input() button: boolean = true
   @Input() active = true
   @Input() show = true
-  @Input() icon?: string
-  @Input() size = 40
+
+  @Input() size: number = 40
   @Input() color = 'red'
+  @Input() border = false
 
   @Output() click = new EventEmitter<void>()
 

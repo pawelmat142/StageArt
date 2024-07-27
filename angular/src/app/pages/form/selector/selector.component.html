@@ -15,15 +15,21 @@
                 />
         </div>
 
-        <app-control-img *ngIf="value.imgUrl" 
-            [url]="value.imgUrl"
-            [height]="40"
-        ></app-control-img>
-
-        <app-svg-icon *ngIf="value.svg"
-            [icon]="value.svg"
-            [size]="30"
-        ></app-svg-icon>
+        @if (value.imgUrl) {
+            <app-icon-button
+                [button]="false"
+                [src]="value.imgUrl"
+                [size]="40"
+                [border]="true"
+            ></app-icon-button>
+        } 
+        @else if (value.svg) {
+            <app-icon-button
+                [button]="false"
+                [mediaIcon]="value.svg"
+                [size]="30"
+            ></app-icon-button>
+        }
 
     </div>
 
@@ -35,17 +41,22 @@
 
         ><span class="dark">{{item.label}}</span>
 
-        <app-control-img *ngIf="item.imgUrl" 
-            [url]="item.imgUrl"
-            [height]="20"
-        ></app-control-img>
 
-        <app-svg-icon *ngIf="item.svg"
-            [icon]="item.svg"
-            [size]="30"
-        ></app-svg-icon>
+        @if (item.imgUrl) {
+            <app-icon-button
+                [button]="false"
+                [src]="item.imgUrl"
+                [size]="20"
+                [border]="true"
+            ></app-icon-button>
+        } 
+        @else if (item.svg) {
+            <app-icon-button
+                [button]="false"
+                [mediaIcon]="item.svg"
+                [size]="20"
+            ></app-icon-button>
+        }
     
     </div>
-    </div>
-
 </div>

@@ -11,7 +11,7 @@ import { ArtistMediasService, ArtistMediaCode, ArtistMedia } from '../../../../s
 import { Util } from '../../../../utils/util';
 import { mediaValidator } from '../../../../services/artist-medias/media.validator';
 import { FileLoaderComponent } from '../../../form/file-loader/file-loader.component';
-import { FileViewComponent } from '../../../form/control-img/file-view/file-view.component';
+import { FileViewComponent } from '../../../form/file-loader/file-view/file-view.component';
 
 
 export interface Artist {

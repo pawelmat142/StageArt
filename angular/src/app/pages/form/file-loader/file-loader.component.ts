@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, EventEmitter, forwardRef, HostListener, Injector, Input, Output, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl, ReactiveFormsModule } from '@angular/forms';
-import { ControlSideButtonComponent } from '../control-side-button/control-side-button.component';
+import { IconButtonComponent } from '../../components/icon-button/icon-button.component';
 import { DialogData } from '../../components/popup/popup.component';
 import { NavService } from '../../../services/nav.service';
-import { FileViewComponent } from '../control-img/file-view/file-view.component';
+import { FileViewComponent } from './file-view/file-view.component';
 
 @Component({
   selector: 'app-file-loader',
@@ -12,7 +12,7 @@ import { FileViewComponent } from '../control-img/file-view/file-view.component'
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    ControlSideButtonComponent,
+    IconButtonComponent,
     FileViewComponent,
   ],
   templateUrl: './file-loader.component.html',
