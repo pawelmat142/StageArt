@@ -16,7 +16,7 @@ export class HttpService {
 
 
   public get<T>(uri: string) {
-    return this.httpClient.get<T>(uri)
+    return this.httpClient.get<T>(`${this.apiUri}${uri}`)
   }
 
   public post<T>(uri: string, data: any) {

@@ -1,0 +1,122 @@
+@import 'color';
+@import 'variables';
+@import 'form';
+
+
+$view-padding: 4*$padding-standard;
+
+.image-bg {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    white-space: nowrap;
+    background-color: $dark;
+    opacity: 0.7;
+}
+
+.image-bg-container {
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+    background-color: $dark;
+    overflow-x: auto;
+}
+
+.image-bg-item {
+    vertical-align: top;
+    width: 100%;
+    max-height: 100vh;
+    top: 0px;
+    position: absolute;
+    object-fit: cover;
+    object-position: top;
+    
+    transform: scale(1.1);
+    // opacity: 0;
+    z-index: 1;
+    // transition: all 0.6s ease-out;
+    transition: $transition-standard;
+}
+
+.view-content {
+    position: relative;
+    min-height: 200vh;
+
+    .spacer {
+        height: 35vh;
+    }
+
+    .avatar-container {
+        padding-left: $view-padding;
+        padding-right: $view-padding;
+        display: flex;
+        align-items: center;
+        gap: 2*$padding-standard;
+        width: 100%;
+        h1 {
+            text-shadow: $text-shadow;
+            margin-bottom: 0.5*$padding-standard; 
+        }
+
+        .flexer {
+            flex-grow: 1;
+        }
+
+        .avatar {
+            width: 17vw;
+            height: 17vw;
+            border-radius: 50%;
+            border: 2px solid $light;
+            box-shadow: $text-shadow;
+            overflow: hidden;
+
+            img {
+                width: 100%;
+            }
+        }
+        
+        app-btn {
+            margin-top: auto;
+        }
+    }
+
+    .content {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2*$padding-standard;
+
+        .col66 {
+            width: calc(67% - 2*$padding-standard);
+        }
+        .col33 {
+            width: 33%;
+        }
+        // padding-right: 2*$padding-standard;
+        // padding-left: 2*$padding-standard;
+        padding-right: $view-padding;
+        padding-left: $view-padding;
+    }
+    
+}
+
+.menu-button {
+    padding-top: 0.5*$header-margin;
+    margin-right: $view-padding;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.tile {
+    overflow: hidden;
+    padding: 2*$padding-standard;
+    color: $white;
+    background-color: $dark-transparent;
+    border-radius: 15px;
+    width: 100%;
+    
+    &.big {
+        padding: 3*$padding-standard;
+        border-radius: 30px;
+    }
+}

@@ -1,16 +1,16 @@
 import { Component, ElementRef, HostBinding, HostListener, ViewChild } from '@angular/core';
-import {MatIconModule} from '@angular/material/icon';
 import { MenuButtonItem, NavService } from '../../../services/nav.service';
 import { CommonModule } from '@angular/common';
+import { BtnComponent } from '../../controls/btn/btn.component';
 
 
 @Component({
   selector: 'app-menu-button',
   standalone: true,
   imports: [
-    MatIconModule,
     CommonModule,
-  ],
+    BtnComponent,
+],
   templateUrl: './menu-button.component.html',
   styleUrl: './menu-button.component.scss'
 })

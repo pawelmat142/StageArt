@@ -20,7 +20,7 @@ export class FileViewComponent implements OnChanges {
 
   _imageSrc: string | ArrayBuffer | null = null
 
-  @Input() file?: Blob
+  @Input() file?: File
   @Input() circle = false
 
   _width!: number

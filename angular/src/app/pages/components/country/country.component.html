@@ -1,0 +1,14 @@
+<div class="country-container">
+    
+    @if (_country) {
+        <app-icon-button
+            [button]="false"
+            [src]="_country.imgUrl"
+            [size]="20"
+            [border]="true"
+        ></app-icon-button>
+
+        <p class="white text-shadow">{{_country.name}}</p>
+    }
+
+</div>

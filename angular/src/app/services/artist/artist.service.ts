@@ -3,6 +3,7 @@ import { HttpService } from "../http.service";
 import { ArtistForm, FireImg } from "./model/artist-form";
 import { deleteObject, getDownloadURL, ref, Storage, uploadBytes } from "@angular/fire/storage";
 import { concatMap, from, map, Observable } from "rxjs";
+import { ArtistViewDto } from "./model/artist-view.dto";
   
 @Injectable({
     providedIn: 'root'
@@ -16,6 +17,10 @@ export class ArtistService {
 
     public createArtist$(artist: ArtistForm) {
         return this.http.post<ArtistForm>('/artist', artist)
+    }
+
+    public fetchArtist$(artistName: string) {
+        return this.http.get<ArtistViewDto>(`/artist/${artistName}`)
     }
 
 

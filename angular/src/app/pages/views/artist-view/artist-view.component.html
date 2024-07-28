@@ -1,0 +1,73 @@
+
+<app-header [floating]="true" [label]="artistName"></app-header>
+
+
+@if (_artist$ | async) {
+
+    <div class="image-bg" #backgroundRef>
+        <div class="image-bg-container">
+            
+            @for(img of _artist?.images; track img.firePath) {
+                <img [src]="img.url" class="image-bg-item" #image/>
+            }
+            
+        </div>
+    </div>
+    
+    <div class="view-content">
+
+        <div class="menu-button">
+            <app-menu-button></app-menu-button>
+        </div>
+
+        <div class="spacer"></div>
+
+        <div class="avatar-container margin-bottom-2">
+            <div class="avatar">
+                <img [src]="_artist?.avatar?.url" alt="avatar">
+            </div>
+            <div>
+                <h1 class="fs1 light baron">{{_artist?.name}}</h1>
+                <app-country [countryCode]="_artist?.countryCode!"></app-country>
+            </div>
+
+            <div class="flexer"></div>
+
+            <app-btn
+                class="light"
+                [active]="true"
+                (click)="_onBookNow()"
+                label="Book now"
+                icon="list_alt"
+            ></app-btn>
+        </div>
+
+
+        <div class="content">
+
+            <div class="about-me tile big col66">
+                <p class="fs2 baron red margin-bottom-2">About me</p>
+                <app-textarea-element [value]="_artist?.bio ??''"></app-textarea-element>
+            </div>
+
+            <div class="col33">
+                <div class="tile">
+                    <p class="fs2 baron red margin-bottom">Connect</p>
+                    @for (media of _artist?.medias; track media.code) {
+
+                        <app-media-item [media]="media"
+                            class="margin-bottom"
+                        ></app-media-item>
+
+                    }
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+}
+
+
+

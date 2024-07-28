@@ -1,0 +1,56 @@
+@import 'color';
+@import 'variables';
+@import 'font';
+
+:host {
+
+    &.active {
+        .btn {
+            opacity: 1;
+            cursor: pointer;
+            &:hover {
+                transform: scale(1.05);
+            }
+        }
+    }
+
+    &.light {
+        .btn {
+            background-color: $light;
+        }
+
+    }
+
+}
+
+
+
+.btn {
+    overflow: hidden;
+    cursor: not-allowed;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $padding-standard*0.5;
+    padding-left: $padding-standard;
+    padding-right: $padding-standard;
+    padding: 8px $padding-standard;
+    height: 100%;
+    
+    border-radius: $radius-standard;
+
+    transition: $transition-standard;
+    opacity: 0.6;
+
+    background-color: $red;
+    color: $dark;
+
+    @extend .btn-font;
+    
+
+    button {
+        display: flex;
+    }
+    
+}

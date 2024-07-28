@@ -1,0 +1,16 @@
+@import 'variables';
+@import 'font';
+@import 'color';
+
+.media-item-container {
+    display: flex;
+
+    align-items: center;
+    gap: $padding-standard;
+
+    @extend .fs3;
+
+    width: fit-content;
+    padding: 0.7*$padding-standard $padding-standard;
+
+}

@@ -1,0 +1,6 @@
+<button class="btn" (click)="_click($event)" [type]="type">
+    @if (icon) {
+        <mat-icon aria-hidden="false" aria-label="icon" [fontIcon]="icon"></mat-icon>
+    }
+    <span class="label">{{label}}</span>
+</button>

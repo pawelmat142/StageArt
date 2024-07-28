@@ -1,5 +1,6 @@
 
 $dark: #141919;
+$dark-transparent: #141919f0;
 $light-dark: #333333;
 $red: #d44127;
 $active-red: #ff5733;
@@ -27,6 +28,7 @@ $placeholder-color: #757575;
 }
 .light-dark {
     color: $light-dark;
+    fill: $light-dark;
 }
 .red {
     color: $red;
@@ -34,12 +36,15 @@ $placeholder-color: #757575;
 }
 .light {
     color: $light;
+    fill: $light;
 }
 .grey {
     color: $grey;
+    fill: $grey;
 }
 .white {
     color: $white;
+    fill: $white;
 }
 
 body {

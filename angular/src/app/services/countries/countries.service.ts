@@ -3,6 +3,7 @@ import { HttpService } from "../http.service";
 import { map, tap } from "rxjs";
 import { LocalStorageService } from "../local-storage.service";
 import { SelectorItem } from "../../pages/controls/selector/selector.component";
+import { HttpClient } from "@angular/common/http";
 
 interface NativeName {
     official: string;
@@ -110,7 +111,7 @@ export function initCountries(myService: CountriesService): () => void {
 export class CountriesService {
 
     constructor (
-        private readonly http: HttpService,
+        private readonly httpClient: HttpClient,
         private readonly localStorageService: LocalStorageService,
     ) {
     }
@@ -127,9 +128,13 @@ export class CountriesService {
         return this.localStorageService.getCountries() || []
     }
 
+    public findByCode(countryCode: string): Country | undefined {
+        return this.getCountries().find(c => c.code === countryCode)
+    }
+
 
     private fetchCountries$() {
-        return this.http.get<CountryResponseItem[]>('https://restcountries.com/v3.1/all')
+        return this.httpClient.get<CountryResponseItem[]>('https://restcountries.com/v3.1/all')
             .pipe(map(data => this.convert(data)))
             .pipe(map(countries => this.sortByAlphabet(countries)))
             .pipe(tap(countries => this.localStorageService.setCountries(countries)))

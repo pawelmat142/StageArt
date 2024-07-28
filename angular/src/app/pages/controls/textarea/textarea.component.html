@@ -4,14 +4,16 @@
     <div class="form-input-wrapper">
         <div class="textarea-wrapper">
             <p class="form-input-label">{{_label}}</p>
-            <textarea
-                [rows]="_rows"
+
+            <app-textarea-element
                 class="form-input-control"
                 [placeholder]="placeholder"
                 [value]="value"
-                [attr.disabled]="disabled ? true : null"
-                (input)="_onInput($event)"
-                type="text"
+                [disabled]="disabled"
+                (onInput)="_onInput($event)"
+            ></app-textarea-element>
+            <textarea
+                [hidden]="true"
             ></textarea>
         </div>
 

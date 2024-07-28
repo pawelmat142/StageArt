@@ -12,11 +12,12 @@ import { ButtonComponent } from '../../../controls/button/button.component';
 import { SelectorComponent, SelectorItem } from '../../../controls/selector/selector.component';
 import { FileLoaderComponent } from '../../../controls/file-loader/file-loader.component';
 import { FileViewComponent } from '../../../controls/file-loader/file-view/file-view.component';
-import { TextareaComponent } from '../../../controls/textarea/textarea.component';
 import { ArtistForm, FireImg } from '../../../../services/artist/model/artist-form';
 import { ArtistService } from '../../../../services/artist/artist.service';
 import { catchError, concatMap, forkJoin, of } from 'rxjs';
 import { NavService } from '../../../../services/nav.service';
+import { TextareaElementComponent } from '../../../controls/textarea-element/textarea-element.component';
+import { TextareaComponent } from '../../../controls/textarea/textarea.component';
 
 
 @Component({
@@ -31,12 +32,15 @@ import { NavService } from '../../../../services/nav.service';
     SelectorComponent,
     FileLoaderComponent,
     FileViewComponent,
-    TextareaComponent,
+    TextareaElementComponent,
+    TextareaComponent
 ],
-  templateUrl: './add-artist.component.html',
-  styleUrl: './add-artist.component.scss'
+  templateUrl: './artist-form.component.html',
+  styleUrl: './artist-form.component.scss'
 })
-export class AddArtistComponent {
+export class ArtistFormComponent {
+
+  public static readonly path = 'artist-form'
 
   constructor(
     private readonly countriesService: CountriesService,

@@ -1,6 +1,7 @@
 @import 'variables';
 @import 'color';
 @import 'font';
+@import 'form';
 
 .menu-button-container {
     background-color: $red;
@@ -17,23 +18,6 @@
     width: unset;
     height: 50px;
 
-    @extend .fs4;
-    font-weight: 600;
-    text-transform: uppercase;
-}
-
-.menu-button {
-    @extend .flex-center;
-    gap: $padding-standard*0.5;
-    border-radius: $radius-standard;
-    padding-left: $padding-standard;
-    padding-right: $padding-standard;
-
-    cursor: pointer;
-    transition: $transition-standard;
-    &:hover {
-        background-color: $active-red;
-    }
 }
 
 .menu-button-children {
@@ -41,6 +25,7 @@
     align-items: center;
     color: $red;
     transition: none;
+    @extend .btn-font;
     
     .menu-button-child {
         width: 0;

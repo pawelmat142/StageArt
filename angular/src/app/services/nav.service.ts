@@ -3,6 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { DialogData, PopupComponent } from '../pages/components/popup/popup.component';
+import { ArtistFormComponent } from '../pages/admin/pages/artist-form/artist-form.component';
+import { NotFoundPageComponent } from '../pages/error/not-found-page/not-found-page.component';
 
 export interface MenuButtonItem {
   label: string
@@ -30,10 +32,13 @@ export class NavService {
 
   private readonly _menuButtons: MenuButtonItem[] = [{
     label: "ADD",
-    onclick: () => this.to('add-artist')
+    onclick: () => this.to(ArtistFormComponent.path)
   }, {
     label: "Artists",
     onclick: () => this.to('test')
+  }, {
+    label: "Test",
+    onclick: () => this.router.navigate(['artist', 'Ebebe'])
   }]
 
   public get menuButtons(): MenuButtonItem[] {
@@ -43,6 +48,10 @@ export class NavService {
   
   public home() {
     this.router.navigate([''], { replaceUrl: true })
+  }
+
+  public toNotFound() {
+    this.router.navigate([NotFoundPageComponent.path], { replaceUrl: true })
   }
 
   public to(path: string) {

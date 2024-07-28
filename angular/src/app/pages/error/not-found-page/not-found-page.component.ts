@@ -9,4 +9,6 @@ import { Component } from '@angular/core';
 })
 export class NotFoundPageComponent {
 
+  public static readonly path = 'not-found'
+
 }

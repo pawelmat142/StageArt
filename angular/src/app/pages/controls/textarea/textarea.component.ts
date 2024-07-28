@@ -2,12 +2,14 @@ import { Component, forwardRef } from '@angular/core';
 import { AbstractControlComponent } from '../abstract-control/abstract-control.component';
 import { CommonModule } from '@angular/common';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { TextareaElementComponent } from '../textarea-element/textarea-element.component';
 
 @Component({
   selector: 'app-textarea',
   standalone: true,
   imports: [
     CommonModule,
+    TextareaElementComponent,
   ],
   templateUrl: './textarea.component.html',
   styleUrl: './textarea.component.scss',
@@ -25,27 +27,7 @@ export class TextareaComponent extends AbstractControlComponent<string> {
 
   _onInput($event: Event) {
     const input = $event.target as HTMLInputElement;
-
     this.updateValue(input.value)
-    this.resize()
-  }
-
-  override ngOnInit(): void {
-    super.ngOnInit()
-    this.calculateRowsNumber()
-  }
-
-  _rows = 4
-
-  private resize() {
-    this.calculateRowsNumber()
-    }
-
-  private calculateRowsNumber() {
-    this._rows = this.value.split('\n').length
-    if (this._rows < 3) {
-      this._rows = 3
-    }
   }
 
 }

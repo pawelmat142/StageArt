@@ -1,0 +1,10 @@
+@import 'variables';
+@import 'font';
+
+.country-container {
+
+    display: flex;
+    align-items: center;
+    gap: 0.5*$padding-standard;
+
+}

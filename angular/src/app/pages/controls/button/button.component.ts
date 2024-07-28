@@ -20,6 +20,6 @@ export class ButtonComponent {
   @Input() active!: boolean
 
   @Input() type?: boolean
-
+  @Input() color = 'light'
 
 }
