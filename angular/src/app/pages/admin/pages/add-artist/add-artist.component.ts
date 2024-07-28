@@ -13,8 +13,10 @@ import { SelectorComponent, SelectorItem } from '../../../controls/selector/sele
 import { FileLoaderComponent } from '../../../controls/file-loader/file-loader.component';
 import { FileViewComponent } from '../../../controls/file-loader/file-view/file-view.component';
 import { TextareaComponent } from '../../../controls/textarea/textarea.component';
-import { ArtistForm } from '../../../../services/artist/model/artist-form';
+import { ArtistForm, FireImg } from '../../../../services/artist/model/artist-form';
 import { ArtistService } from '../../../../services/artist/artist.service';
+import { catchError, concatMap, forkJoin, of } from 'rxjs';
+import { NavService } from '../../../../services/nav.service';
 
 
 @Component({
@@ -40,7 +42,8 @@ export class AddArtistComponent {
     private readonly countriesService: CountriesService,
     private readonly artistMediasService: ArtistMediasService,
     private readonly artistService: ArtistService,
-    private fb: FormBuilder
+    private readonly fb: FormBuilder,
+    private readonly nav: NavService,
   ) {}
 
   private phoneNumberRegex = /^\+?(\d{1,4})?[-. ]?(\(?\d+\)?)?[-. ]?\d+[-. ]?\d+[-. ]?\d+$/;
@@ -84,7 +87,10 @@ export class AddArtistComponent {
       this._addMediaRow()
       this._addImage()
     }, 100)
+  }
 
+  ngOnDestroy(): void {
+    console.log('ondestroy')
   }
 
 
@@ -152,7 +158,6 @@ export class AddArtistComponent {
   }
 
 
-  @HostListener('')
   @HostListener('document:keydown', ['$event']) 
   onspace(event: KeyboardEvent) {
     if (event.code === 'Space') {
@@ -160,11 +165,43 @@ export class AddArtistComponent {
     }
   }
 
-  _submit() {
+  artist?: ArtistForm
+
+
+  async _submit() {
     this.updateSelectedMedias()
 
-    const artist: ArtistForm = {
-      signature: '',
+    const name = this.f.name.value!
+    const avatarFile = this.form.controls.avatar.value
+    if (!avatarFile) throw new Error('Missing avatar file')
+    const imageFiles = this.form.controls.images.value || []
+    if (!imageFiles.length) throw new Error('Missing background file')
+
+    const imageUlopads$ = imageFiles
+      .filter(file => !!file)
+      .map((file, i) => this.artistService.uploadImage$(file, `artist/${name}/img_${i}`))
+
+    imageUlopads$.unshift(this.artistService.uploadImage$(avatarFile, `artist/${name}/avatar`))
+
+    forkJoin(imageUlopads$).pipe(
+      catchError(error => this.handleUploadImagesError(error)),
+      concatMap(images => this.createArtist$(images)),
+      catchError(error => this.handleCreateArtistError(error)),
+    ).subscribe(artist => {
+      console.log(artist)
+      console.log('subscribe')
+    })
+  }
+
+  private createArtist$(images?: FireImg[]) {
+    if (!images) return of()
+    this.artist = this.prepareArtistForm(images)
+    return this.artistService.createArtist$(this.artist)
+  }
+
+  private prepareArtistForm(images: FireImg[]): ArtistForm  {
+    return {
+      signature: 'signature',
       name: this.f.name.value!,
       countryCode: this.f.country.value!.code,
       firstName: this.f.firstName.value ?? undefined,
@@ -172,14 +209,45 @@ export class AddArtistComponent {
       email: this.f.email.value!,
       phone: this.f.phone.value!,
       medias: this._selectedMedias.length ? this._selectedMedias : undefined,
-      avatarUrl: '',
-      imageUrls: [],
+      avatar: images[0],
+      images: images.slice(1),
       bio: this.f.bio.value!
     }
+  }
 
-    this.artistService.createArtist$(artist).subscribe(x => {
-      console.log(x)
-    })
+  private handleUploadImagesError = (error: any) => {
+    this.nav.errorPopup(`Error uploading images`)
+    console.error(error)
+    // TODO popup
+    return of(undefined)
+  }
+
+  private handleCreateArtistError = (error: any) => {
+    this.nav.errorPopup(`Error when create artist`)
+    console.error(error)
+    this.removeImagesFromStorage()
+    // TODO popup
+    return of(undefined)
+  }
+
+  private removeImagesFromStorage() {
+    const deletes$ = []
+    if (this.artist) {
+      if (this.artist.avatar) {
+        deletes$.push(this.artistService.deleteImage$(this.artist.avatar))
+      }
+      if (this.artist.images) {
+        for (let fireImg of this.artist.images) {
+          deletes$.push(this.artistService.deleteImage$(fireImg))
+        }
+      }
+    }
+
+    forkJoin(deletes$)
+      .subscribe(x => {
+        console.log('deleted')
+        console.log(x)
+      }, error => console.error(error))
   }
 
 }

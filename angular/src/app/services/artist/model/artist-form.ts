@@ -1,4 +1,9 @@
-    import { ArtistMedia } from "../artist-medias/artist-medias.service"
+import { ArtistMedia } from "../artist-medias/artist-medias.service"
+
+export interface FireImg {
+    firePath: string
+    url: string
+}
 
 export interface ArtistForm {
     signature: string
@@ -9,7 +14,7 @@ export interface ArtistForm {
     email: string
     phone: string
     medias?: ArtistMedia[]
-    avatarUrl: string
-    imageUrls: string[]
+    avatar: FireImg
+    images: FireImg[]
     bio: string
 }

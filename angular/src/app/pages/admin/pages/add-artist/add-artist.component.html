@@ -133,7 +133,11 @@
                 placeholder="About artist..."
             ></app-textarea>
 
-            <app-button class="margin-top-2 d-flex" label="Submit" [active]="form.valid" (submit)="_submit()"></app-button>
+            <app-button class="margin-top-2 d-flex" 
+                [active]="true || form.valid" 
+                label="Submit" 
+                (submit)="_submit()"
+            ></app-button>
     
         </form>
     

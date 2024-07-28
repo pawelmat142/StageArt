@@ -53,5 +53,14 @@ export class NavService {
   public async popup(data: DialogData) {
     return this.dialog.open(PopupComponent, { data: data })
   }
+  
+  public async errorPopup(msg: string, content: string[] = []) {
+    const data: DialogData = {
+      header: msg,
+      content: content,
+      isError: true
+    }
+    return this.dialog.open(PopupComponent, { data: data })
+  }
 
 }

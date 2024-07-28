@@ -1,8 +1,6 @@
 production
 logs
 
-src/firebase-config.js
-
 ### NEST
 services/.env
 services/node_modules

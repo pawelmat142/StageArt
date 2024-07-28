@@ -5,6 +5,7 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 export interface DialogData {
   header: string
   content: string[]
+  isError?: boolean
   error?: Error
 }
 
