@@ -27,7 +27,6 @@ export class HomepageFormComponent {
   get f() { return this.form.controls }
 
   submit() {
-    console.log(this.form)
     this.http.test().subscribe(a => {
       console.log(a)
     })

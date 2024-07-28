@@ -4,26 +4,18 @@ import { HeaderComponent } from '../../../components/header/header.component';
 import { CountriesService } from '../../../../services/countries/countries.service';
 import { countryValidator } from '../../../../services/countries/countries.validator';
 import { CommonModule } from '@angular/common';
-import { ArtistMediasService, ArtistMediaCode, ArtistMedia } from '../../../../services/artist-medias/artist-medias.service';
+import { ArtistMediasService, ArtistMediaCode, ArtistMedia } from '../../../../services/artist/artist-medias/artist-medias.service';
 import { Util } from '../../../../utils/util';
-import { mediaValidator } from '../../../../services/artist-medias/media.validator';
+import { mediaValidator } from '../../../../services/artist/artist-medias/media.validator';
 import { InputComponent } from '../../../controls/input/input.component';
 import { ButtonComponent } from '../../../controls/button/button.component';
 import { SelectorComponent, SelectorItem } from '../../../controls/selector/selector.component';
 import { FileLoaderComponent } from '../../../controls/file-loader/file-loader.component';
 import { FileViewComponent } from '../../../controls/file-loader/file-view/file-view.component';
 import { TextareaComponent } from '../../../controls/textarea/textarea.component';
+import { ArtistForm } from '../../../../services/artist/model/artist-form';
+import { ArtistService } from '../../../../services/artist/artist.service';
 
-
-export interface Artist {
-  name: string
-  country: string
-  firstName?: string
-  lastName?: string
-  email: string
-  phone: string
-  medias?: ArtistMedia[]
-}
 
 @Component({
   selector: 'app-add-artist',
@@ -47,6 +39,7 @@ export class AddArtistComponent {
   constructor(
     private readonly countriesService: CountriesService,
     private readonly artistMediasService: ArtistMediasService,
+    private readonly artistService: ArtistService,
     private fb: FormBuilder
   ) {}
 
@@ -56,7 +49,7 @@ export class AddArtistComponent {
     name: new FormControl('', Validators.required),
     firstName: new FormControl(''),
     lastName: new FormControl(''),
-    country: new FormControl('', [countryValidator(this.countriesService)]),
+    country: new FormControl<SelectorItem>(SelectorComponent.EMPTY_SELECTOR_ITEM, [countryValidator(this.countriesService)]),
     email: new FormControl('', [Validators.required, Validators.email]),
     phone: new FormControl('', [Validators.required, Validators.pattern(this.phoneNumberRegex)]),
     medias: this.fb.array<ArtistMedia>([]),
@@ -77,18 +70,12 @@ export class AddArtistComponent {
 
 
   ngOnInit() {
-    this._countryItems = this.countriesService.getCountries().map(c => {
-      return {
-        code: c.name,
-        label: c.name,
-        imgUrl: c.flagUrl
-      }
-    })
+    this._countryItems = this.countriesService.getCountries()
 
     this._mediaItems = this.artistMediasService.getMedias().filter(type => !!type).map(mediaType => {
       return {
         code: mediaType,
-        label: Util.capitalizeFirstLetter(mediaType),
+        name: Util.capitalizeFirstLetter(mediaType),
         svg: mediaType
       }
     })
@@ -176,17 +163,23 @@ export class AddArtistComponent {
   _submit() {
     this.updateSelectedMedias()
 
-    const artist: Artist = {
+    const artist: ArtistForm = {
+      signature: '',
       name: this.f.name.value!,
-      country: this.f.country.value!,
+      countryCode: this.f.country.value!.code,
       firstName: this.f.firstName.value ?? undefined,
       lastName: this.f.firstName.value ?? undefined,
       email: this.f.email.value!,
-      phone: this.f.email.value!,
-      medias: this._selectedMedias.length ? this._selectedMedias : undefined
+      phone: this.f.phone.value!,
+      medias: this._selectedMedias.length ? this._selectedMedias : undefined,
+      avatarUrl: '',
+      imageUrls: [],
+      bio: this.f.bio.value!
     }
 
-    console.log(artist)
+    this.artistService.createArtist$(artist).subscribe(x => {
+      console.log(x)
+    })
   }
 
 }

@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpService } from "../http.service";
 import { map, tap } from "rxjs";
 import { LocalStorageService } from "../local-storage.service";
+import { SelectorItem } from "../../pages/controls/selector/selector.component";
 
 interface NativeName {
     official: string;
@@ -95,9 +96,12 @@ interface CountryResponseItem {
     capitalInfo: CapitalInfo;
 }
 
-export interface Country {
-    name: string
-    flagUrl: string
+
+
+export interface Country extends SelectorItem {}
+
+export function initCountries(myService: CountriesService): () => void {
+    return () => myService.initCountries()
 }
 
 @Injectable({
@@ -105,26 +109,26 @@ export interface Country {
 })
 export class CountriesService {
 
-    constructor(
+    constructor (
         private readonly http: HttpService,
         private readonly localStorageService: LocalStorageService,
     ) {
-        this.initCountries()
+    }
+
+    // APP_INITIALIZER
+    public initCountries() {
+        let countries = this.localStorageService.getCountries()
+        if (!countries?.length) {
+            this.fetchCountries$().subscribe()
+        }
     }
 
     public getCountries(): Country[] {
         return this.localStorageService.getCountries() || []
     }
 
-    private initCountries() {
-        let countries = this.localStorageService.getCountries()
-        if (!countries?.length) {
-            this.fetchCountries()
-        }
-    }
 
-
-    private fetchCountries() {
+    private fetchCountries$() {
         return this.http.get<CountryResponseItem[]>('https://restcountries.com/v3.1/all')
             .pipe(map(data => this.convert(data)))
             .pipe(map(countries => this.sortByAlphabet(countries)))
@@ -135,8 +139,9 @@ export class CountriesService {
     private convert(data: CountryResponseItem[]): Country[] {
         return this.filterMostCommonByPopulation(data).map(dataItem => {
             return {
+                code: dataItem.cca2,
                 name: dataItem.name.common,
-                flagUrl: dataItem.flags.svg
+                imgUrl: dataItem.flags.svg
             }
         })
     }
@@ -147,7 +152,7 @@ export class CountriesService {
     }
 
     private sortByAlphabet(countries: Country[]): Country[] {
-        countries.sort((a, b) => a.name.localeCompare(b.name))
+        countries.sort((a, b) => a.code.localeCompare(b.code))
         return countries
     }
 

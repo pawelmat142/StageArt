@@ -42,7 +42,6 @@ export class FileLoaderComponent extends AbstractControlComponent<File | null> {
   }
 
   override onclick = ($event: MouseEvent) => {
-    console.log('click')
   }
 
 

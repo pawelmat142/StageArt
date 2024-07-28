@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {MatIconModule} from '@angular/material/icon';
-import { ArtistMediaCode } from '../../../services/artist-medias/artist-medias.service';
+import { ArtistMediaCode } from '../../../services/artist/artist-medias/artist-medias.service';
 
 @Component({
   selector: 'app-icon-button',

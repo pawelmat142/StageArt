@@ -59,17 +59,14 @@ export abstract class AbstractControlComponent<T> implements ControlValueAccesso
   }
 
   protected onclick = ($event: MouseEvent) => {
-    console.log('onclick, active:' + this.active)
     this.input!.focus()
   }
 
   protected onfocus = ($event: FocusEvent) => {
-    console.log('onfocus, active:' + this.active)
     this.active = true
   }
 
   protected onblur = ($event: FocusEvent) => {
-    console.log('onblur, active:' + this.active)
     this.active = false
   }
 

@@ -1,12 +1,18 @@
 production
 logs
 
+src/firebase-config.js
+
 ### NEST
 services/.env
 services/node_modules
+services/logs
+services/dist
 
 ### ANGULAR
 # See http://help.github.com/ignore-files/ for more about ignoring files.
+
+angular/src/environments
 
 # Compiled output
 angular/dist

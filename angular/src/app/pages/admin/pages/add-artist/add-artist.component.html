@@ -59,6 +59,7 @@
                                 <div class="fs5 baron red hovergrow" (click)="_removeMediaRow(index)">remove</div>
                             </div>
                             <app-selector
+                                class="w50"
                                 formControlName="{{index}}"
                                 [required]="true"
                                 [items]="this._mediaItemsNotSelected"

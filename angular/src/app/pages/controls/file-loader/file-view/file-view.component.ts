@@ -28,7 +28,6 @@ export class FileViewComponent implements OnChanges {
   @HostListener('window:resize', ['$event.target'])
   getWidth() {
     this._width = this.elementRef.nativeElement.offsetWidth
-    console.log(this._width)
   }
 
 

@@ -20,6 +20,16 @@ input {
     margin: 0;
 }
 
+textarea {
+    resize: none;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.textarea-wrapper {
+    width: 100%;
+}
+
 
 .form-container {
     width: 25vw;

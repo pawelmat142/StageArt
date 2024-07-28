@@ -19,6 +19,10 @@ export class HttpService {
     return this.httpClient.get<T>(uri)
   }
 
+  public post<T>(uri: string, data: any) {
+    return this.httpClient.post<T>(`${this.apiUri}${uri}`, data)
+  }
+
 
   public test(): Observable<unknown> {
     return this.httpClient.get(`${this.apiUri}`)

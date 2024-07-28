@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, forwardRef, HostListener, Input } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
-import { ArtistMediaCode } from '../../../services/artist-medias/artist-medias.service';
+import { ArtistMediaCode } from '../../../services/artist/artist-medias/artist-medias.service';
 import { IconButtonComponent } from "../../components/icon-button/icon-button.component";
 import { AbstractControlComponent } from '../abstract-control/abstract-control.component';
 
 
 export interface SelectorItem {
   code: string
-  label: string
+  name: string
   imgUrl?: string
   svg?: ArtistMediaCode
 }
@@ -33,8 +33,8 @@ export interface SelectorItem {
 })
 export class SelectorComponent extends AbstractControlComponent<SelectorItem> {
 
-  override get _EMPTY_VALUE() { return { code: '', label: '' } as SelectorItem }
-  
+  public static get EMPTY_SELECTOR_ITEM() { return { code: '', name: '' } as SelectorItem }
+
   override ngOnInit(): void {
     super.ngOnInit()
     this.filterItems()
@@ -42,10 +42,10 @@ export class SelectorComponent extends AbstractControlComponent<SelectorItem> {
 
   _onInput($event: Event) {
       const input = $event.target as HTMLInputElement;
-      this.value = { label: input.value, code: '' }
+      this.value = { name: input.value, code: '' }
       this.filterItems(input.value)
 
-    this.value = { label: input.value, code: '' }
+    this.value = { name: input.value, code: '' }
     this.filterItems(input.value)
   }
 
@@ -63,7 +63,7 @@ export class SelectorComponent extends AbstractControlComponent<SelectorItem> {
 
   private filterItems(inputString?: string) {
     if (inputString) {
-      this._items = this.items.filter(i => i.label.toLocaleLowerCase().startsWith(inputString.toLocaleLowerCase()))
+      this._items = this.items.filter(i => i.name.toLocaleLowerCase().startsWith(inputString.toLocaleLowerCase()))
     } else {
       this._items = this.items
     }
