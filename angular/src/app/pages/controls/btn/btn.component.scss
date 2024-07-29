@@ -2,27 +2,23 @@
 @import 'variables';
 @import 'font';
 
-:host {
 
-    &.active {
-        .btn {
-            opacity: 1;
-            cursor: pointer;
-            &:hover {
-                transform: scale(1.05);
-            }
+.active {
+    .btn {
+        opacity: 1;
+        cursor: pointer;
+        &:hover {
+            transform: scale(1.05);
+            background-color: $active-red;
         }
     }
-
-    &.light {
-        .btn {
-            background-color: $light;
-        }
-
-    }
-
 }
 
+.light {
+    .btn {
+        background-color: $light;
+    }
+}
 
 
 .btn {

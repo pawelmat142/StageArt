@@ -1,0 +1,60 @@
+@import 'variables';
+@import 'color';
+
+
+$card-width: 24vw;
+
+:host {
+    width: 30%;
+}
+
+.artist-card {
+
+    transition: $transition-standard;
+
+    &:hover {
+        box-shadow: $card-shadow;
+        .img-wrapper { 
+            img {
+                filter: saturate(1)
+            }
+        }
+        
+    }
+    
+    @extend .card;
+    @extend .hovergrow;
+
+    .img-wrapper {
+        width: 100%;
+        height: 0.73*$card-width;
+        img {
+            transition: $transition-standard;
+            filter: saturate(0);
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    .description {
+        background-color: $white;
+        padding: 0.5*$padding-standard $padding-standard $padding-standard;
+
+        .description-row {
+            display: flex;
+            justify-content: space-between;
+
+            &.one {
+                margin-bottom: 0.5*$padding-standard;
+            }
+        }
+
+        .media-items {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: $padding-standard;
+        }
+
+    }
+}

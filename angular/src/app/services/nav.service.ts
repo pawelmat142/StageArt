@@ -58,6 +58,10 @@ export class NavService {
     this.router.navigateByUrl(path)
   }
 
+  public toArtist(artistName: string) {
+    return this.router.navigate(['artist', artistName])
+  }
+
 
   public async popup(data: DialogData) {
     return this.dialog.open(PopupComponent, { data: data })

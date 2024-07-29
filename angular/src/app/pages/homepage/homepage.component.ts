@@ -3,6 +3,7 @@ import { LogoComponent } from '../components/logo/logo.component';
 import { HomepageFormComponent } from './homepage-form/homepage-form.component';
 import { MenuButtonComponent } from '../components/menu-button/menu-button.component';
 import { HeaderComponent } from '../components/header/header.component';
+import { ArtistsSectionComponent } from './artists-section/artists-section.component';
 
 @Component({
   selector: 'app-homepage',
@@ -12,6 +13,7 @@ import { HeaderComponent } from '../components/header/header.component';
     HomepageFormComponent,
     MenuButtonComponent,
     HeaderComponent,
+    ArtistsSectionComponent,
   ],
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.scss'

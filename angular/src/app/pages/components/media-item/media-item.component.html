@@ -2,11 +2,13 @@
 
     <app-icon-button
         [button]="false"
-        [size]="30"
+        [size]="size"
         [mediaIcon]="media.code"
-        color="light"
+        [color]="color"
     ></app-icon-button>
 
-    <p class="light">{{_name}}</p>
+    @if (!hideName) {
+        <p class="light">{{_name}}</p>
+    }
 
 </a>

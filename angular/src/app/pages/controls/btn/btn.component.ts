@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
+import { Component, EventEmitter, HostBinding, Input, Output, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
@@ -10,7 +10,8 @@ import { MatIconModule } from '@angular/material/icon';
     CommonModule
   ],
   templateUrl: './btn.component.html',
-  styleUrl: './btn.component.scss'
+  styleUrl: './btn.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class BtnComponent {
 

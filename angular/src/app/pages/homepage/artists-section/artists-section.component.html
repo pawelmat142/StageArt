@@ -1,0 +1,5 @@
+@for (artist of (_artists$ | async); track artist.name) {
+
+    <app-artist-card [artist]="artist"></app-artist-card>
+
+}

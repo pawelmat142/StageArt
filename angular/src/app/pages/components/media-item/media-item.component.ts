@@ -17,6 +17,9 @@ import { Util } from '../../../utils/util';
 export class MediaItemComponent {
 
   @Input() media!: ArtistMedia
+  @Input() hideName = false
+  @Input() color = 'light'
+  @Input() size = 30
 
   _name = ''
 

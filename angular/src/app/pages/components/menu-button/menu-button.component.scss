@@ -3,6 +3,7 @@
 @import 'font';
 @import 'form';
 
+
 .menu-button-container {
     background-color: $red;
     color: $dark;
@@ -14,10 +15,26 @@
     justify-content: flex-end;
     
     transition: $transition-standard;
+
+    &:hover {
+        box-shadow: $card-shadow;
+    }
     
     width: unset;
     height: 50px;
 
+    .btn {
+
+        padding: 0.5*$padding-standard 1.5*$padding-standard;
+    }
+
+    .active {
+        .btn {
+            &:hover {
+                transform: none;
+            }
+        }
+    }
 }
 
 .menu-button-children {
@@ -50,7 +67,7 @@
     }
 }
 
-:host.menu-button-open {
+.menu-button-open {
 
     .menu-button-children {
         color: $dark;

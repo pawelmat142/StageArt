@@ -1,8 +1,17 @@
 @import 'variables';
 @import 'font';
 
-.country-container {
+:host.card-country {
 
+    .country-txt {
+        color: $light-dark;
+        text-shadow: none;
+        font-size: 14px;
+    }
+}
+
+
+.country-container {
     display: flex;
     align-items: center;
     gap: 0.5*$padding-standard;

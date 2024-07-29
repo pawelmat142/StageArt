@@ -2,6 +2,7 @@
 @import 'font';
 @import 'color';
 
+
 .media-item-container {
     display: flex;
 
@@ -13,4 +14,10 @@
     width: fit-content;
     padding: 0.7*$padding-standard $padding-standard;
 
+}
+
+:host.no-padding {
+    .media-item-container {
+        padding: 0;
+    }
 }

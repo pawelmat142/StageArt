@@ -107,16 +107,3 @@ $view-padding: 4*$padding-standard;
     justify-content: flex-end;
 }
 
-.tile {
-    overflow: hidden;
-    padding: 2*$padding-standard;
-    color: $white;
-    background-color: $dark-transparent;
-    border-radius: 15px;
-    width: 100%;
-    
-    &.big {
-        padding: 3*$padding-standard;
-        border-radius: 30px;
-    }
-}

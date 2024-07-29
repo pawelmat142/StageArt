@@ -14,6 +14,7 @@ $radius-standard: 10px;
 
 $transition-standard: all 0.16s ease-in-out;
 $text-shadow: 0px 2px 1px $dark;
+$card-shadow: 0 0 16px $red;
 
 .padding-top {
     padding-top: $padding-standard;
@@ -30,6 +31,9 @@ $text-shadow: 0px 2px 1px $dark;
 }
 .margin-top-2 {
     margin-top: 2*$padding-standard;
+}
+.margin-top-4 {
+    margin-top: 4*$padding-standard;
 }
 
 .margin-bottom {
@@ -72,4 +76,33 @@ $text-shadow: 0px 2px 1px $dark;
     align-items: center;
     justify-content: center;
     gap: $padding-standard;
+}
+
+.tile {
+    overflow: hidden;
+    padding: 2*$padding-standard;
+    color: $white;
+    background-color: $dark-transparent;
+    border-radius: 15px;
+    width: 100%;
+    
+    &.big {
+        padding: 3*$padding-standard;
+        border-radius: 30px;
+    }
+}
+
+.card {
+    @extend .tile;
+    padding: 0;
+    border: 1px solid $red;
+
+}
+
+
+
+.chip {
+    padding: 4px 11px;
+    background-color: $dark;
+    border-radius: 10px
 }

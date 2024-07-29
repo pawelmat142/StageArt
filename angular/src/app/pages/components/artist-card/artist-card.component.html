@@ -1,0 +1,38 @@
+<div class="artist-card" (click)="goToArtist()">
+
+    <div class="img-wrapper">
+        <img [src]="artist.avatar.url" [alt]="artist.name">
+    </div>
+
+    <div class="description">
+
+        <div class="description-row one">
+            <p class="fs3 dark baron">{{artist.name}}</p>
+            <div class="chip">chip</div>
+        </div>
+
+        <div class="description-row">
+            <app-country
+                [countryCode]="artist.countryCode" 
+                class="card-country"
+            ></app-country>
+        </div>
+
+        <div class="description-row">
+            <div></div>
+            <div class="media-items">
+                @for (media of artist.medias; track media.code) {
+                    <app-media-item 
+                        class="no-padding"
+                        [media]="media" 
+                        [hideName]="true" color="light-dark"
+                        [size]="20"
+                    ></app-media-item>
+                }
+            </div>
+        </div>
+        
+
+    </div>
+
+</div>

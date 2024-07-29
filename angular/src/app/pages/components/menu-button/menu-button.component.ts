@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostBinding, HostListener, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostBinding, HostListener, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MenuButtonItem, NavService } from '../../../services/nav.service';
 import { CommonModule } from '@angular/common';
 import { BtnComponent } from '../../controls/btn/btn.component';
@@ -12,7 +12,8 @@ import { BtnComponent } from '../../controls/btn/btn.component';
     BtnComponent,
 ],
   templateUrl: './menu-button.component.html',
-  styleUrl: './menu-button.component.scss'
+  styleUrl: './menu-button.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class MenuButtonComponent {
 

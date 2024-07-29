@@ -1,0 +1,19 @@
+@import 'variables';
+
+:host {
+    padding-top: 2*$padding-standard;
+    padding-bottom: 200px;
+    margin-top: 6*$padding-standard;
+    
+    margin-left: calc($page-padding - 2*$padding-standard);
+    padding-left: 2*$padding-standard;
+    
+    margin-right: calc($page-padding - 2*$padding-standard);
+    padding-right: 2*$padding-standard;
+
+    width: 100vw;
+    overflow: hidden;
+
+    display: flex;
+    gap: 2*$padding-standard;
+}

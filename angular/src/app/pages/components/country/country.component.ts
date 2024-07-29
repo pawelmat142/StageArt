@@ -17,6 +17,7 @@ export class CountryComponent {
   ) {}
 
   @Input() countryCode!: string
+  @Input() size = 20
 
   _country?: Country
 

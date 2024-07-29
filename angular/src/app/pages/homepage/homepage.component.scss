@@ -3,27 +3,22 @@
 @import 'font';
 
 .landing {
-    height: 100vh;
+    min-height: 100vh;
     width: 100%;
     margin-top: 0.5*$header-margin;
 
     display: flex;
-
-    &>* {
-        width: 50%;
-    }
+    flex-wrap: wrap;
 }
 
 .landing-left, .landing-right {
     width: 50%;
-    height: 100%;
 }
 
 .landing-left {
     display: flex;
     flex-direction: column;
     gap: 2*$padding-standard;
-    height: 100%;
 
     padding-left: $page-padding;
 
