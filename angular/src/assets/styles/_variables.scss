@@ -3,17 +3,26 @@
 $scroll-width: 10px;
 
 $padding-standard: 16px;
-$page-padding: 10vw;
+
+$view-margin: 3*$padding-standard;
+$view-padding: 7vw;
+$section-margin: calc($view-margin + $view-padding);
+
+.section-margin {
+    margin-left: $section-margin;
+    margin-right: $section-margin;
+}
+
 $page-padding-big: 14vw;
 
-
-$header-margin: 150px;
+$header-margin: 170px;
 
 $radius: 3px;
 $radius-standard: 10px;
 
 $transition-standard: all 0.16s ease-in-out;
 $text-shadow: 0px 2px 1px $dark;
+$text-shadow-red: 0px 2px 1px $red;
 $card-shadow: 0 0 16px $red;
 
 .padding-top {
@@ -41,6 +50,13 @@ $card-shadow: 0 0 16px $red;
 }
 .margin-bottom-2 {
     margin-bottom: 2*$padding-standard;
+}
+.margin-bottom-4 {
+    margin-bottom: 4*$padding-standard;
+}
+
+.header-margin {
+    margin-top: $header-margin;
 }
 
 
@@ -97,6 +113,25 @@ $card-shadow: 0 0 16px $red;
     padding: 0;
     border: 1px solid $red;
 
+}
+
+.section {
+    background-color: $light;
+    padding: $view-margin;
+
+    .section-container {
+        background-color: $dark;
+        padding: $view-padding;
+        border-radius: 30px;
+    }
+
+
+}
+
+.section-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
 }
 
 

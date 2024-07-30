@@ -18,9 +18,7 @@
 }
 
 .header-container {
-    width: 100vw;
-
-    padding: 0.5*$padding-standard $page-padding;
+    padding: 0.2*$padding-standard $section-margin;
 
     display: flex;
     justify-content: space-between;
@@ -43,4 +41,14 @@
         @extend .hovergrow;
     }
 
+}
+
+.menu-item {
+    transition: $transition-standard;
+    padding: 0 8px 4px;
+    border-radius: $radius;
+    &:hover {
+        text-shadow: $text-shadow-red;
+        background-color: $red-transparent;
+    }
 }

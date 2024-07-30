@@ -5,6 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 import { DialogData, PopupComponent } from '../pages/components/popup/popup.component';
 import { ArtistFormComponent } from '../pages/admin/pages/artist-form/artist-form.component';
 import { NotFoundPageComponent } from '../pages/error/not-found-page/not-found-page.component';
+import { ArtistsViewComponent } from '../pages/views/artists-view/artists-view.component';
 
 export interface MenuButtonItem {
   label: string
@@ -35,10 +36,10 @@ export class NavService {
     onclick: () => this.to(ArtistFormComponent.path)
   }, {
     label: "Artists",
-    onclick: () => this.to('test')
+    onclick: () => this.to(ArtistsViewComponent.path)
   }, {
     label: "Test",
-    onclick: () => this.router.navigate(['artist', 'Ebebe'])
+    onclick: () => this.router.navigate([ArtistFormComponent.path, 'Ebebe'])
   }]
 
   public get menuButtons(): MenuButtonItem[] {

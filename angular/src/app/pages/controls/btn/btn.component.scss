@@ -12,6 +12,14 @@
             background-color: $active-red;
         }
     }
+
+    &.light {
+        .btn {
+            &:hover {
+                background-color: $light;
+            }
+        }
+    }
 }
 
 .light {
@@ -29,8 +37,6 @@
     align-items: center;
     justify-content: center;
     gap: $padding-standard*0.5;
-    padding-left: $padding-standard;
-    padding-right: $padding-standard;
     padding: 8px $padding-standard;
     height: 100%;
     
@@ -44,9 +50,18 @@
 
     @extend .btn-font;
     
-
     button {
         display: flex;
     }
     
+}
+
+.big {
+    .btn {
+
+        padding: $padding-standard 3*$padding-standard;
+        @extend .fs3;
+        text-transform: uppercase;
+        font-weight: 600;
+    }
 }

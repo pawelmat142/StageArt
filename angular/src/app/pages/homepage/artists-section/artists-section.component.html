@@ -1,5 +1,33 @@
-@for (artist of (_artists$ | async); track artist.name) {
+<div class="section artists-section">
 
-    <app-artist-card [artist]="artist"></app-artist-card>
+    <div class="section-container">
 
-}
+        <div class="section-top">
+            <div>
+                <h2 class="fs1 baron red uppercase margin-bottom">Our Artists</h2>
+                <h2 class="fs3 baron light margin-bottom-4">Check them all!</h2>
+            </div>
+
+            <app-btn class="big" label="View all" (click)="navToArtists()"></app-btn>
+
+        </div>
+
+
+        @if (_artists$ | async) {
+    
+            <p-carousel class="p-carousel"
+                [value]="(_artists$ | async) || []" 
+                [numVisible]="4" 
+                [circular]="true" 
+                >
+                <!-- [responsiveOptions]="responsiveOptions" -->
+                <ng-template let-artist pTemplate="item">
+                    <div class="card-shadow-wrapper">
+                        <app-artist-card [artist]="artist"></app-artist-card>
+                    </div>
+                </ng-template>
+    
+            </p-carousel>
+        }
+    </div>
+</div>

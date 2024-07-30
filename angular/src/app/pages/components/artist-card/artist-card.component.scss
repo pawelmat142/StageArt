@@ -4,13 +4,10 @@
 
 $card-width: 24vw;
 
-:host {
-    width: 30%;
-}
-
 .artist-card {
 
     transition: $transition-standard;
+    cursor: pointer;
 
     &:hover {
         box-shadow: $card-shadow;
@@ -23,7 +20,6 @@ $card-width: 24vw;
     }
     
     @extend .card;
-    @extend .hovergrow;
 
     .img-wrapper {
         width: 100%;

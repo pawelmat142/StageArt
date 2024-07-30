@@ -1,0 +1,24 @@
+<app-header label="Artists"></app-header>
+
+<div class="section-margin margin-top-4 header-margin">
+
+    <div class="section-top">
+        <div>
+            <h2 class="fs1 baron red uppercase margin-bottom">Our Artists</h2>
+            <h2 class="fs3 baron light margin-bottom-4">Check them all!</h2>
+        </div>
+    
+        <app-btn class="big" label="View all"></app-btn>
+    
+    </div>
+
+    <div class="grid margin-top-4">
+
+        @for (artist of (_artists$ | async) || []; track artist.name) {
+            <app-artist-card [artist]="artist" class="grid-item"></app-artist-card>
+        }
+
+    </div>
+
+
+</div>

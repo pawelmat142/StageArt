@@ -1,28 +1,28 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
+import { ArtistCardComponent } from '../../components/artist-card/artist-card.component';
+import { HeaderComponent } from '../../components/header/header.component';
 import { ArtistService } from '../../../services/artist/artist.service';
+import { NavService } from '../../../services/nav.service';
 import { map, Observable, of } from 'rxjs';
 import { ArtistViewDto } from '../../../services/artist/model/artist-view.dto';
-import { ArtistCardComponent } from '../../components/artist-card/artist-card.component';
-import { CarouselModule } from 'primeng/carousel';
 import { BtnComponent } from '../../controls/btn/btn.component';
-import { NavService } from '../../../services/nav.service';
-import { ArtistsViewComponent } from '../../views/artists-view/artists-view.component';
 
 @Component({
-  selector: 'app-artists-section',
+  selector: 'app-artists-view',
   standalone: true,
   imports: [
     CommonModule,
     ArtistCardComponent,
-    CarouselModule,
+    HeaderComponent,
     BtnComponent,
   ],
-  templateUrl: './artists-section.component.html',
-  styleUrl: './artists-section.component.scss',
-  encapsulation: ViewEncapsulation.None
+  templateUrl: './artists-view.component.html',
+  styleUrl: './artists-view.component.scss'
 })
-export class ArtistsSectionComponent {
+export class ArtistsViewComponent {
+
+  public static readonly path = `artists`
 
   constructor(
     private readonly artistService: ArtistService,
@@ -39,10 +39,6 @@ export class ArtistsSectionComponent {
     this._artists$ = this.artistService.fetchArtists$()
       // TODO mock
       .pipe(map(artists => [...artists, ...artists, ...artists, ...artists,...artists, ...artists]))
-  }
-
-  navToArtists() {
-    return this.nav.to(ArtistsViewComponent.path)
   }
 
 }

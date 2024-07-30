@@ -1,19 +1,59 @@
 @import 'variables';
 
 :host {
-    padding-top: 2*$padding-standard;
     padding-bottom: 200px;
-    margin-top: 6*$padding-standard;
     
-    margin-left: calc($page-padding - 2*$padding-standard);
-    padding-left: 2*$padding-standard;
-    
-    margin-right: calc($page-padding - 2*$padding-standard);
-    padding-right: 2*$padding-standard;
 
     width: 100vw;
     overflow: hidden;
 
     display: flex;
     gap: 2*$padding-standard;
+}
+
+
+.section-container {
+
+    .p-carousel {
+        margin-left: -0.25*$padding-standard;
+        margin-right: -0.25*$padding-standard;
+    }
+    .card-shadow-wrapper {
+        padding: 0.5*$padding-standard;
+    }
+
+    .p-ripple.p-link {
+        display: none;;
+    }
+
+    .p-carousel-indicators {
+        margin-top: 3*$padding-standard;
+        gap: $padding-standard;
+        list-style-type: none;
+        padding: 0;
+
+        li {
+            button {
+                background-color: $red;
+                @extend .hovergrow;
+                // cursor: pointer;
+                &:hover {
+                    background-color: $active-red;
+                }
+                border: 0;
+                height: 10px;
+                border-radius: 5px;
+                width: 30px;
+
+            }
+            &.p-highlight {
+                button {
+                    background-color: $active-red;
+                    box-shadow: $card-shadow;
+                }
+            }
+        }
+
+    }
+
 }
