@@ -4,26 +4,35 @@
 
 $card-width: 24vw;
 
+.desktop {
+    .artist-card {
+
+        &:hover {
+            box-shadow: $card-shadow;
+            .img-wrapper { 
+                img {
+                    filter: saturate(1)
+                }
+            }
+            
+        }
+        .img-wrapper {
+            height: 0.73*$card-width;
+        }
+    }
+
+}
+
 .artist-card {
 
     transition: $transition-standard;
     cursor: pointer;
 
-    &:hover {
-        box-shadow: $card-shadow;
-        .img-wrapper { 
-            img {
-                filter: saturate(1)
-            }
-        }
-        
-    }
-    
     @extend .card;
 
     .img-wrapper {
         width: 100%;
-        height: 0.73*$card-width;
+        height: 1.4*$card-width;
         img {
             transition: $transition-standard;
             filter: saturate(0);

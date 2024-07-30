@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, ViewChildren } from '@angular/core';
+import { Component, ElementRef, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ArtistService } from '../../../services/artist/artist.service';
 import { NavService } from '../../../services/nav.service';
@@ -14,6 +14,7 @@ import { MediaItemComponent } from '../../components/media-item/media-item.compo
 import { ButtonComponent } from '../../controls/button/button.component';
 import { IconButtonComponent } from "../../components/icon-button/icon-button.component";
 import { BtnComponent } from '../../controls/btn/btn.component';
+import { DESKTOP } from '../../../services/device';
 
 @Component({
   selector: 'app-artist-view',
@@ -31,9 +32,12 @@ import { BtnComponent } from '../../controls/btn/btn.component';
     BtnComponent,
 ],
   templateUrl: './artist-view.component.html',
-  styleUrl: './artist-view.component.scss'
+  styleUrl: './artist-view.component.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class ArtistViewComponent {
+
+  DESKTOP = DESKTOP
 
   public static readonly path = `artist/:name`
 

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-textarea-element',
@@ -19,10 +19,12 @@ export class TextareaElementComponent {
   @Input() disabled? = false
   @Input() placeholder? = ''
 
+  @ViewChild('textareaRef') textareaRef!: ElementRef
+
   _rows = 4
 
-  ngOnInit(): void {
-    this.calculateRowsNumber()
+  ngAfterViewInit(): void {
+    this.resize()
   }
 
   _onInput($event: Event) {
@@ -31,14 +33,10 @@ export class TextareaElementComponent {
   }
 
   private resize() {
-    this.calculateRowsNumber()
-    }
-
-  private calculateRowsNumber() {
-    this._rows = this.value.split('\n').length
-    if (this._rows < 3) {
-      this._rows = 3
-    }
+    const textarea = this.textareaRef.nativeElement
+    textarea.style.height = 'auto'
+    const height = textarea.scrollHeight
+    textarea.style.height = `${height}px`
   }
 
 }

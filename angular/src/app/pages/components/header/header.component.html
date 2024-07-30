@@ -8,12 +8,18 @@
 
         <div class="header-section">
 
-            <div *ngFor="let btn of menuButtons" (click)="btn.onclick()"
+            @if (DESKTOP) {
+                <div *ngFor="let btn of menuButtons" (click)="btn.onclick()"
                 class="header-button">
-                <h2 class="fs3 baron red hovergrow menu-item">
-                    {{btn.label}}
-                </h2>
-            </div>
+                    <h2 class="fs3 baron red hovergrow menu-item">
+                        {{btn.label}}
+                    </h2>
+                </div>
+                
+            } @else {
+                <app-mobile-btn></app-mobile-btn>
+    
+            }
 
         </div>
 

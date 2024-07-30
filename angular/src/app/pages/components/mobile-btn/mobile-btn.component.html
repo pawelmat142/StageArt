@@ -1,0 +1,11 @@
+<div class="mobile-menu-container">
+    <app-btn label="menu" icon="menu" (click)="_toggle()"></app-btn>
+    
+    <div class="mobile-menu-items" #mobileMenuItems>
+        @for (btn of buttons; track btn.label) {
+            <div class="menu-item" (click)="btn.onclick()">{{btn.label}}</div>
+        }
+    
+    </div>
+
+</div>

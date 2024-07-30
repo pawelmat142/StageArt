@@ -3,7 +3,6 @@ import { MenuButtonItem, NavService } from '../../../services/nav.service';
 import { CommonModule } from '@angular/common';
 import { BtnComponent } from '../../controls/btn/btn.component';
 
-
 @Component({
   selector: 'app-menu-button',
   standalone: true,

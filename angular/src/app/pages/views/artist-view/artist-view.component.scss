@@ -1,22 +1,70 @@
 @import 'color';
 @import 'variables';
+@import 'desktop-variables';
 @import 'form';
 
 
 $view-padding: 4*$padding-standard;
 
+.desktop {
+    .image-bg {
+        max-height: 100vh;
+    }
+
+    .image-bg-item {
+
+        max-height: 100vh;
+    }
+
+    .view-content {
+        .avatar-container {
+            padding-left: $view-padding;
+            padding-right: $view-padding;
+            gap: 2*$padding-standard;
+            align-items: center;
+
+            app-btn {
+                margin-top: auto;
+                margin-left: 0;
+            }
+
+            .avatar {
+                width: 17vw;
+                height: 17vw;
+            }
+        }
+
+        .content {
+            padding-right: $view-padding;
+            padding-left: $view-padding;
+            gap: 2*$padding-standard;
+            .col66 {
+                width: calc(67% - 2*$padding-standard);
+            }
+            .col33 {
+                width: 33%;
+            }
+
+            .about-me {
+                order: 1;
+            }
+
+        }
+
+    }
+
+}
+
 .image-bg {
     position: fixed;
     width: 100vw;
-    height: 100vh;
-    overflow: hidden;
+    max-height: 60vw;
     white-space: nowrap;
     background-color: $dark;
     opacity: 0.7;
 }
 
 .image-bg-container {
-    overflow: hidden;
     white-space: nowrap;
     width: 100%;
     background-color: $dark;
@@ -26,16 +74,14 @@ $view-padding: 4*$padding-standard;
 .image-bg-item {
     vertical-align: top;
     width: 100%;
-    max-height: 100vh;
+    max-height: 80vw;
     top: 0px;
     position: absolute;
     object-fit: cover;
     object-position: top;
     
     transform: scale(1.1);
-    // opacity: 0;
     z-index: 1;
-    // transition: all 0.6s ease-out;
     transition: $transition-standard;
 }
 
@@ -48,12 +94,13 @@ $view-padding: 4*$padding-standard;
     }
 
     .avatar-container {
-        padding-left: $view-padding;
-        padding-right: $view-padding;
+        padding-left: $view-margin-1-desc;
+        padding-right: $view-margin-1-desc;
+        gap: $padding-standard;
         display: flex;
-        align-items: center;
-        gap: 2*$padding-standard;
+        align-items: flex-start;
         width: 100%;
+        flex-wrap: wrap;
         h1 {
             text-shadow: $text-shadow;
             margin-bottom: 0.5*$padding-standard; 
@@ -64,8 +111,8 @@ $view-padding: 4*$padding-standard;
         }
 
         .avatar {
-            width: 17vw;
-            height: 17vw;
+            width: 30vw;
+            height: 30vw;
             border-radius: 50%;
             border: 2px solid $light;
             box-shadow: $text-shadow;
@@ -75,25 +122,36 @@ $view-padding: 4*$padding-standard;
                 width: 100%;
             }
         }
-        
+
         app-btn {
-            margin-top: auto;
+            margin-left: auto;
         }
+        
+      
     }
 
     .content {
         display: flex;
         flex-wrap: wrap;
-        gap: 2*$padding-standard;
+        gap: $padding-standard;
+
+        padding-right: $view-margin-1;
+        padding-left: $view-margin-1;
 
         .col66 {
-            width: calc(67% - 2*$padding-standard);
+            width: 100%;
         }
         .col33 {
-            width: 33%;
+            width: 100%;
         }
-        padding-right: $view-padding;
-        padding-left: $view-padding;
+
+        & > div {
+            order: 5;
+        }
+
+        .about-me {
+            order: 6;
+        }
     }
     
 }

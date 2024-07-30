@@ -1,12 +1,28 @@
 @import 'variables';
+@import 'desktop-variables';
 @import 'color';
 @import 'form';
 @import 'font';
+@import 'device';
 
-:host {
-    &.show {
+.show {
+    .header-container {
         top: 0;
     }
+}
+
+.desktop {
+    .header-container {
+        padding: 0.2*$padding-standard $view-margin-3-desc;
+
+       .header-section {
+            gap: 2*$padding-standard;
+       }
+    }
+
+}
+
+.header-container {
     top: -120px;
     position: fixed;
     z-index: 10;
@@ -15,10 +31,8 @@
 
     background-color: $dark;
     transition: $transition-standard;
-}
 
-.header-container {
-    padding: 0.2*$padding-standard $section-margin;
+    padding: 0.2*$padding-standard $view-margin-3;
 
     display: flex;
     justify-content: space-between;
@@ -29,7 +43,7 @@
     .header-section {
         display: flex;
         align-items: center;
-        gap: 2*$padding-standard;
+        gap: 0.5*$padding-standard;
 
         h1 {
             margin-bottom: 0.5*$padding-standard;

@@ -8,6 +8,7 @@ import { CarouselModule } from 'primeng/carousel';
 import { BtnComponent } from '../../controls/btn/btn.component';
 import { NavService } from '../../../services/nav.service';
 import { ArtistsViewComponent } from '../../views/artists-view/artists-view.component';
+import { DESKTOP } from '../../../services/device';
 
 @Component({
   selector: 'app-artists-section',
@@ -23,6 +24,8 @@ import { ArtistsViewComponent } from '../../views/artists-view/artists-view.comp
   encapsulation: ViewEncapsulation.None
 })
 export class ArtistsSectionComponent {
+
+  DESKTOP = DESKTOP
 
   constructor(
     private readonly artistService: ArtistService,

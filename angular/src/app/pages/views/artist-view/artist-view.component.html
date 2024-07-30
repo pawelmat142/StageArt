@@ -16,9 +16,11 @@
     
     <div class="view-content">
 
-        <div class="menu-button">
-            <app-menu-button></app-menu-button>
-        </div>
+        @if (DESKTOP) {
+            <div class="menu-button">
+                <app-menu-button></app-menu-button>
+            </div>
+        }
 
         <div class="spacer"></div>
 
@@ -30,8 +32,10 @@
                 <h1 class="fs1 light baron">{{_artist?.name}}</h1>
                 <app-country [countryCode]="_artist?.countryCode!"></app-country>
             </div>
+            @if (DESKTOP) {
+                <div class="flexer"></div>
+            }
 
-            <div class="flexer"></div>
 
             <app-btn
                 class="light"

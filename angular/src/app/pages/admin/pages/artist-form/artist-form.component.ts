@@ -161,7 +161,7 @@ export class ArtistFormComponent {
     this.form.controls.images.removeAt(i)
   }
 
-
+  // TODO remove
   @HostListener('document:keydown', ['$event']) 
   onspace(event: KeyboardEvent) {
     if (event.code === 'Space') {

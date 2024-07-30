@@ -33,22 +33,34 @@ textarea {
     text-transform: lowercase;
 }
 
+.desktop {
+    .fs1 {
+        font-size: 37.5px;
+    }
+    .fs2 {
+        font-size: 30px;
+    }
+    .fs3 {
+        font-size: 20px;
+    }
+}
+
 .fs1 {
-    font-size: 37.5px;
+    font-size: 28px;
     font-weight: 500;
     line-height: 1.2;
     letter-spacing: 0.15em;
 }
 
 .fs2 {
-    font-size: 30px;
+    font-size: 20px;
     line-height: 1.3;
     font-weight: 600;
     letter-spacing: 0.1em;
 }
 
 .fs3 {
-    font-size: 20px;
+    font-size: 16px;
     letter-spacing: 0.15em;
     font-weight: 500;
 }

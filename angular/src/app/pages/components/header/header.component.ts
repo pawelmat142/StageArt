@@ -1,8 +1,11 @@
-import { Component, HostBinding, Input } from '@angular/core';
+import { Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
 import { LogoComponent } from '../logo/logo.component';
 import { MenuButtonItem, NavService } from '../../../services/nav.service';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
+import { MenuButtonComponent } from '../menu-button/menu-button.component';
+import { DESKTOP, MOBILE } from '../../../services/device';
+import { MobileBtnComponent } from '../mobile-btn/mobile-btn.component';
 
 @Component({
   selector: 'app-header',
@@ -10,17 +13,20 @@ import { Subscription } from 'rxjs';
   imports: [
     LogoComponent,
     CommonModule,
+    MobileBtnComponent,
   ],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.scss'
+  styleUrl: './header.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class HeaderComponent {
 
+  DESKTOP = DESKTOP
+
   constructor(
-    private readonly nav: NavService
+    private readonly nav: NavService,
   ) {}
 
-  
   @Input() label?: string
   @Input() floating = false
 
@@ -31,11 +37,15 @@ export class HeaderComponent {
   menuButtons: MenuButtonItem[] = []
 
   ngOnInit() {
-    this.menuButtons = this.nav.menuButtons
-    if (this.floating) {
-      this.menuButtonOverhiddenSubsciption = this.nav.menuButtonOverhidden$.subscribe(menuButtonOverhidden => {
-        this.show = menuButtonOverhidden
-      })
+    if (this.DESKTOP) {
+      this.menuButtons = this.nav.menuButtons
+      if (this.floating) {
+        this.menuButtonOverhiddenSubsciption = this.nav.menuButtonOverhidden$.subscribe(menuButtonOverhidden => {
+          this.show = menuButtonOverhidden
+        })
+      } else {
+        this.show = true
+      }
     } else {
       this.show = true
     }
@@ -49,7 +59,5 @@ export class HeaderComponent {
   home() {
     this.nav.home()
   }
-
-
 
 }

@@ -2,29 +2,53 @@
 @import 'variables';
 @import 'font';
 
+.desktop {
+    .active {
+        .btn {
+            &:hover {
+                transform: scale(1.05);
+                background-color: $active-red;
+            }
+        }
+        &.light {
+            .btn {
+                &:hover {
+                    background-color: $light;
+                }
+            }
+        }
+    }
+}
+
 
 .active {
     .btn {
         opacity: 1;
         cursor: pointer;
-        &:hover {
-            transform: scale(1.05);
-            background-color: $active-red;
-        }
-    }
-
-    &.light {
-        .btn {
-            &:hover {
-                background-color: $light;
-            }
-        }
     }
 }
 
 .light {
     .btn {
         background-color: $light;
+    }
+}
+
+
+.desktop {
+    .big {
+        .btn {
+            padding: $padding-standard 3*$padding-standard;
+        }
+    }
+}
+
+.big {
+    .btn {
+        padding: 0.8*$padding-standard 1.2*$padding-standard;
+        @extend .fs3;
+        text-transform: uppercase;
+        font-weight: 600;
     }
 }
 
@@ -56,12 +80,3 @@
     
 }
 
-.big {
-    .btn {
-
-        padding: $padding-standard 3*$padding-standard;
-        @extend .fs3;
-        text-transform: uppercase;
-        font-weight: 600;
-    }
-}

@@ -17,7 +17,7 @@
     
             <p-carousel class="p-carousel"
                 [value]="(_artists$ | async) || []" 
-                [numVisible]="4" 
+                [numVisible]="this.DESKTOP ? 4 : 2" 
                 [circular]="true" 
                 >
                 <!-- [responsiveOptions]="responsiveOptions" -->

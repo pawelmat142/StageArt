@@ -12,6 +12,12 @@ $form-transition: $transition-standard;
 $input-active-shadow: 0px 0px 8px $yellow;
 $input-error-shadow: 0px 0px 8px $red;
 
+.desktop {
+    .form-container {
+        width: 25vw;
+    }
+}
+
 textarea,
 input {
     border: none;
@@ -31,12 +37,16 @@ textarea {
     width: 100%;
 }
 
-.form-container {
-    width: 25vw;
+.desktop {
+    .form-container {
+        padding: 2*$padding-standard 3/2*$padding-standard;
+    }
+}
 
+.form-container {
     display: block;
     background-color: $white;
-    padding: 2*$padding-standard 3/2*$padding-standard;
+    padding: 2*$padding-standard $view-margin-1;
     border-radius: $form-radius;
     box-shadow: $form-shadow;
 
@@ -148,7 +158,6 @@ textarea {
 .btn,
 .form-button-control {
     border: none;
-    background: transparent;
 }
 
 .ng-invalid.ng-dirty.ng-touched > .form-input {

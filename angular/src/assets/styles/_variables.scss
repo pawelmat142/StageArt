@@ -1,22 +1,21 @@
 @import 'color';
 
-$scroll-width: 10px;
+$scroll-width: 6px;
 
 $padding-standard: 16px;
 
-$view-margin: 3*$padding-standard;
-$view-padding: 7vw;
-$section-margin: calc($view-margin + $view-padding);
+$view-margin-1: 16px;
+$view-margin-2: 16px;
+$view-margin-3: calc($view-margin-1 + $view-margin-2);
+
+$header-margin: 200px;
 
 .section-margin {
-    margin-left: $section-margin;
-    margin-right: $section-margin;
+    margin-left: $view-margin-1;
+    margin-right: $view-margin-1;
 }
 
 $page-padding-big: 14vw;
-
-$header-margin: 170px;
-
 $radius: 3px;
 $radius-standard: 10px;
 
@@ -99,12 +98,12 @@ $card-shadow: 0 0 16px $red;
     padding: 2*$padding-standard;
     color: $white;
     background-color: $dark-transparent;
-    border-radius: 15px;
     width: 100%;
+
+    border-radius: 15px;
     
     &.big {
-        padding: 3*$padding-standard;
-        border-radius: 30px;
+        padding: 2*$padding-standard $view-margin-3 $padding-standard;
     }
 }
 
@@ -115,29 +114,20 @@ $card-shadow: 0 0 16px $red;
 
 }
 
+.chip {
+    padding: 4px 11px;
+    background-color: $dark;
+    border-radius: 10px
+}
+
+
 .section {
-    background-color: $light;
-    padding: $view-margin;
-
-    .section-container {
-        background-color: $dark;
-        padding: $view-padding;
-        border-radius: 30px;
-    }
-
-
+    background-color: $dark;
+    padding: $view-margin-1;
 }
 
 .section-top {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-}
-
-
-
-.chip {
-    padding: 4px 11px;
-    background-color: $dark;
-    border-radius: 10px
 }

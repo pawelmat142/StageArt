@@ -1,16 +1,25 @@
 @import 'variables';
 
-:host {
-    padding-bottom: 200px;
-    
+.desktop {
+    .section-container {
+        .p-carousel-indicators {
+            margin-top: 3*$padding-standard;
+            li {
+                width: 30px;
+                button {
+                    @extend .hovergrow;
+                    &:hover {
+                        background-color: $active-red;
+                    }
+                    height: 10px;
+                    border-radius: 5px;
+                    width: 10px;
+                }
+            } 
+        }
 
-    width: 100vw;
-    overflow: hidden;
-
-    display: flex;
-    gap: 2*$padding-standard;
+    }
 }
-
 
 .section-container {
 
@@ -27,7 +36,7 @@
     }
 
     .p-carousel-indicators {
-        margin-top: 3*$padding-standard;
+        margin-top: $padding-standard;
         gap: $padding-standard;
         list-style-type: none;
         padding: 0;
@@ -35,16 +44,11 @@
         li {
             button {
                 background-color: $red;
-                @extend .hovergrow;
-                // cursor: pointer;
-                &:hover {
-                    background-color: $active-red;
-                }
                 border: 0;
-                height: 10px;
-                border-radius: 5px;
-                width: 30px;
-
+                height: 8px;
+                width: 8px;
+                border-radius: 4px;
+                padding: 0;
             }
             &.p-highlight {
                 button {
