@@ -30,7 +30,4 @@ export class LocalStorageService {
         return item ? (JSON.parse(item) as T) : null;
     }
 
-
-    // public 
-
 }

@@ -12,7 +12,7 @@
     
     @else if (src) {
         @if (chachedImg) {
-            <app-img-cached [src]="src" alt="cached image"></app-img-cached>
+            <app-img-cached [src]="src" alt="cached image" [resizeTo]="100"></app-img-cached>
         } @else {
             <img [src]="src!" alt="icon button img">
         }
