@@ -16,7 +16,6 @@
 
         <app-icon-button
             icon="delete_forever"
-            [size]="30"
             [show]="!!value"
             (click)="_removeFile()"
         ></app-icon-button>
@@ -25,7 +24,6 @@
             <app-icon-button
                 icon="close"
                 color="gray"
-                [size]="30"
                 (click)="removeControl.emit()"
             ></app-icon-button>
         }

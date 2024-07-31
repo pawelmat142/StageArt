@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { CountriesService, Country } from '../../../services/countries/countries.service';
 import { IconButtonComponent } from '../icon-button/icon-button.component';
 
@@ -8,7 +8,8 @@ import { IconButtonComponent } from '../icon-button/icon-button.component';
   standalone: true,
   imports: [CommonModule, IconButtonComponent],
   templateUrl: './country.component.html',
-  styleUrl: './country.component.scss'
+  styleUrl: './country.component.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class CountryComponent {
 

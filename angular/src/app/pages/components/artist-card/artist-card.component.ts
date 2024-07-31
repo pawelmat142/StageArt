@@ -6,7 +6,6 @@ import { CountryComponent } from '../country/country.component';
 import { MediaItemComponent } from '../media-item/media-item.component';
 import { NavService } from '../../../services/nav.service';
 
-
 @Component({
   selector: 'app-artist-card',
   standalone: true,

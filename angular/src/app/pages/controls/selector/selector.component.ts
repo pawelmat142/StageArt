@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, forwardRef, HostListener, Input } from '@angular/core';
+import { Component, forwardRef, HostListener, Input, ViewEncapsulation } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { ArtistMediaCode } from '../../../services/artist/artist-medias/artist-medias.service';
 import { IconButtonComponent } from "../../components/icon-button/icon-button.component";
@@ -23,6 +23,7 @@ export interface SelectorItem {
 ],
   templateUrl: './selector.component.html',
   styleUrl: './selector.component.scss',
+  encapsulation: ViewEncapsulation.None,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -52,6 +53,7 @@ export class SelectorComponent extends AbstractControlComponent<SelectorItem> {
   @Input() items!: SelectorItem[]
   _items: SelectorItem[] = []
   @Input() itemsLength = 10
+  @Input() chachedImg = false
     
 
   _select(item: SelectorItem, event: MouseEvent) {
