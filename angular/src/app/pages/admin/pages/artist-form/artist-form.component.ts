@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HeaderComponent } from '../../../components/header/header.component';
 import { CountriesService } from '../../../../services/countries/countries.service';
@@ -36,7 +36,8 @@ import { TextareaComponent } from '../../../controls/textarea/textarea.component
     TextareaComponent
 ],
   templateUrl: './artist-form.component.html',
-  styleUrl: './artist-form.component.scss'
+  styleUrl: './artist-form.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class ArtistFormComponent {
 
@@ -59,8 +60,8 @@ export class ArtistFormComponent {
     country: new FormControl<SelectorItem>(SelectorComponent.EMPTY_SELECTOR_ITEM, [countryValidator(this.countriesService)]),
     email: new FormControl('', [Validators.required, Validators.email]),
     phone: new FormControl('', [Validators.required, Validators.pattern(this.phoneNumberRegex)]),
-    medias: this.fb.array<ArtistMedia>([]),
-    mediaUrls: this.fb.array<string>([]),
+    medias: this.fb.array<FormGroup>([]),
+
     avatar: new FormControl<File | null>(null, Validators.required),
     images: this.fb.array<File>([]),
     bio: new FormControl(''),
@@ -105,31 +106,44 @@ export class ArtistFormComponent {
   _selectedMedias: ArtistMedia[] = []
 
   get showAddButton(): boolean {
-    return this.form.controls.medias.valid && this.form.controls.mediaUrls.valid
+    return this.form.controls.medias.valid && this.form.controls.medias.valid
   }
 
   _addMediaRow() {
     this.updateSelectedMedias()
     this._selectedMedias.push(this.EMPTY_MEDIA)
 
-    const control = this.fb.control<ArtistMedia>(this.EMPTY_MEDIA, mediaValidator())
-    this.form.controls.medias.push(control)
-    
-    const urlControl = this.fb.control('', Validators.required)
-    this.form.controls.mediaUrls.push(urlControl)
+    const group = this.fb.group({
+      type: this.fb.control('', mediaValidator()),
+      url: this.fb.control('', Validators.required)
+    })
+
+    this.form.controls.medias.push(group)
   }
 
-  _removeMediaRow(i: number) {
-    this.updateSelectedMedias()
-    this._selectedMedias.splice(i, 1)
-    this.rebuildMediasRows()
+  _removeMediaRow(index: number) {
+    const formArray = this.form.controls.medias.controls.filter((m, i) => {
+      return i !== index
+    }).map(m => {
+      return this.fb.group({
+        type: this.fb.control(m.controls['type'].value, mediaValidator()),
+        url: this.fb.control(m.controls['url'].value, Validators.required)
+      })
+    })
+    this.form.controls.medias = this.fb.array(formArray)
+  }
+
+  _controlMediaTypeValid(index: number) {
+    return this.f.medias.controls.at(index)?.controls['type'].valid
   }
 
   private updateSelectedMedias() {
-    this._selectedMedias.forEach((m, i) => { 
-      m.code = this.f.medias.at(i).value?.code!
-      m.url = this.f.mediaUrls.at(i).value as string
-    })
+
+
+    // this._selectedMedias.forEach((m, i) => { 
+    //   m.code = this.f.medias.at(i).value?.code!
+    //   m.url = this.f.mediaUrls.at(i).value as string
+    // })
     this._everyMediaTypeSelected = this._selectedMedias.length === this._mediaItems.length
   
     this.updateAvailableMediaTypes()
@@ -141,11 +155,11 @@ export class ArtistFormComponent {
     this._mediaItemsNotSelected = availableMediaItems
   }
 
-  private rebuildMediasRows() {
-    const mediaControls = this._selectedMedias.map(m => this.fb.control(m, mediaValidator()))
-    const urlControls = this._selectedMedias.map(m => this.fb.control(m.url, Validators.required))
-    this.form.controls.medias = this.fb.array(mediaControls)
-    this.form.controls.mediaUrls = this.fb.array(urlControls)
+  private rebuildMediasGroups() {
+    // const mediaControls = this._selectedMedias.map(m => this.fb.control(m, mediaValidator()))
+    // const urlControls = this._selectedMedias.map(m => this.fb.control(m.url, Validators.required))
+    // this.form.controls.medias = this.fb.array(mediaControls)
+    // this.form.controls.mediaUrls = this.fb.array(urlControls)
   }
 
 

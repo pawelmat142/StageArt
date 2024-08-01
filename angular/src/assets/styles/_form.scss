@@ -14,7 +14,20 @@ $input-error-shadow: 0px 0px 8px $red;
 
 .desktop {
     .form-container {
-        width: 25vw;
+        padding: 2*$padding-standard 3/2*$padding-standard;
+        
+        &.small {
+            width: 25vw;
+        }
+
+        .input-row {
+            & > * {
+                width: calc(50% - 0.5*$padding-standard);
+            }
+        }
+    }
+    .control-margin {
+        margin-bottom: 2*$padding-standard;
     }
 }
 
@@ -32,16 +45,14 @@ textarea {
     width: 100%;
     box-sizing: border-box;
 }
-
 .textarea-wrapper {
     width: 100%;
 }
 
-.desktop {
-    .form-container {
-        padding: 2*$padding-standard 3/2*$padding-standard;
-    }
+.control-margin {
+    margin-bottom: $padding-standard;
 }
+
 
 .form-container {
     display: block;
@@ -53,6 +64,7 @@ textarea {
     .input-row {
         display: flex;
         justify-content: space-between;
+        flex-wrap: wrap;
         gap: $padding-standard;
         & > * {
             width: 100%;

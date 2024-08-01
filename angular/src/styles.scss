@@ -9,6 +9,12 @@
     box-sizing: border-box;
 }
 
+.desktop {
+    .w50-desktop {
+        width: 50%;
+    }
+}
+
 .d-flex {
     display: flex;
 }

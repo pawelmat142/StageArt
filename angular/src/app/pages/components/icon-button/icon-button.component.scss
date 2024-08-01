@@ -25,6 +25,10 @@
         height: unset;
         font-size: 30px;
     }
+
+    img {
+        max-height: 50px;
+    }
 }
 
 .side-img {
@@ -40,6 +44,3 @@
 
 }
 
-img {
-    max-height: 50px;
-}

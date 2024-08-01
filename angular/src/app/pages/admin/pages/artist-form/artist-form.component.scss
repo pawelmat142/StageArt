@@ -1,47 +1,81 @@
 @import 'variables';
+@import 'variables-desc';
 @import 'form';
+
+.desktop {
+
+    $control-width: calc(50% - 0.5*$padding-standard);
+    .form-page {
+        padding-top: $header-margin-desc;
+        padding-left: $page-padding-big;
+        padding-right: $page-padding-big;
+
+        .artist-medias {
+            .media-group {
+
+                display: flex;
+                gap: $padding-standard;
+                margin-bottom: 0.5*$padding-standard;
+    
+                .media-row,
+                .url {
+                    display: block;
+                    width: $control-width;
+                }
+
+                .media-row {
+                    display: flex;
+                    .baron, .type {
+                        display: block;
+                        width: 50%;
+                    }
+                    
+                    .baron {
+                        text-align: end;
+                    }
+                }
+            }
+        }
+
+        .images-grid {
+            app-file-loader {
+                width: $control-width;
+            }
+
+        }
+    }
+}
 
 
 .form-page {
     width: 100%;
-
-    padding-left: $page-padding-big;
-    padding-right: $page-padding-big;
-    padding-top: $header-margin;
-
+    
+    padding-left: $view-margin-1;
+    padding-right: $view-margin-1;
+    padding-top: 0.7*$header-margin;
+    
     .form-container {
         width: 100%;
     }
 
     .artist-medias {
-        .form-input {
-            margin-bottom: 0;
-        }
+        .media-group {
 
-        display: flex;
-        gap: $padding-standard;
-        & > * {
-            width: 50%;
-        }
 
-        .artist-media-types {
-            & > div {
-                gap: $padding-standard;
+            .media-row {
                 display: flex;
-                align-items: center;
-                width: 100%;
-            }
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            .buttons {
-                display: flex;
-                height: fit-content;
-                gap: $padding-standard;
-                width: 50%;
+                gap: 0.5*$padding-standard;
                 justify-content: flex-end;
+                align-items: center;
+                .baron {
+                    text-wrap: nowrap;
+                }
+                .type {
+                    margin-bottom: 0.5*$padding-standard;
+                }
             }
         }
+
     }
 
     .avatar-img-row {
@@ -59,9 +93,12 @@
     }
 
     .images-grid {
-        display: grid;
-        grid-template-columns: calc(50% - 0.5*$padding-standard) calc(50% - 0.5*$padding-standard);
+        display: flex;
+        flex-wrap: wrap;
         gap: $padding-standard;
-        row-gap: 2*$padding-standard;
+
+        app-file-loader {
+            width: 100%;
+        }
     }
 }

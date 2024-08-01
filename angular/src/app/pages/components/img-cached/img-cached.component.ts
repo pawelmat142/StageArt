@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Input, SimpleChange, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { Component, Input, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { catchError, of } from 'rxjs';
 
 @Component({

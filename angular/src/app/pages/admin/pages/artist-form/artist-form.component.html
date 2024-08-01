@@ -6,7 +6,7 @@
     
         <form [formGroup]="form" (ngSubmit)="_submit()">
 
-            <div class="input-row margin-bottom-2">
+            <div class="input-row control-margin">
                 <app-input
                     formControlName="name"
                     [required]="true"
@@ -23,7 +23,7 @@
                 ></app-selector>
             </div>
 
-            <div class="input-row margin-bottom-2">
+            <div class="input-row control-margin">
                 <app-input
                     formControlName="firstName"
                     label="First name" 
@@ -36,7 +36,7 @@
                 ></app-input>
             </div>
 
-            <div class="input-row margin-bottom-2">
+            <div class="input-row control-margin">
                 <app-input
                     formControlName="email"
                     [required]="true"
@@ -51,50 +51,46 @@
                 ></app-input>
             </div>
 
-            <div class="artist-medias">
+            <div class="artist-medias" formArrayName="medias">
+                @for (m of f.medias.controls; let index = $index; track index; let last = $last) {
+                    <div class="media-group control-margin" [formGroupName]="index">
 
-                <div formArrayName="medias" class="artist-media-types">
-                    @for (media of _selectedMedias; track media.code; let last = $last, index = $index) {
-                        <div [ngClass]="{'margin-bottom-2': !last, 'margin-bottom': last}">
-                            <div class="buttons">
-                                <div class="fs5 baron red hovergrow" (click)="_removeMediaRow(index)">remove</div>
-                            </div>
+                        <div class="media-row">
+                            <div [hidden]="!last" 
+                                class="fs5 baron red hovergrow" (click)="_removeMediaRow(index)">remove</div>
                             <app-selector
-                                class="w50"
-                                formControlName="{{index}}"
+                                class="type"
+                                formControlName="type"
                                 [required]="true"
                                 [items]="this._mediaItemsNotSelected"
                                 label="Connect type" 
                                 placeholder="Select..."
                             ></app-selector>
                         </div>
-                    }
-                </div> 
-                <div formArrayName="mediaUrls">
-                    @for (media of _selectedMedias; track media.code; let index = $index, last = $last) {
-                        <div class="url" [ngClass]="{'margin-bottom-2': !last, 'margin-bottom': last}">
-                            <app-input
-                                formControlName="{{index}}"
-                                [required]="true"
-                                [hidden]="f.medias.at(index).invalid"
-                                label="Connect link" 
-                                placeholder="url..."
-                            ></app-input>
-                        </div>
-                    }
-                </div>
 
+                        <app-input
+                            class="url"
+                            formControlName="url"
+                            [required]="true"
+                            [hidden]="!_controlMediaTypeValid(index)"
+                            label="Connect link" 
+                            placeholder="url..."
+                        ></app-input>
+
+                    </div>
+                }
             </div>
-            
-            @if (f.medias.length !== _mediaItems.length && f.medias.valid && f.mediaUrls.valid) {
-                <div class="margin-bottom-2 center">
+
+            @if (f.medias.length !== _mediaItems.length && f.medias.valid && f.medias.valid) {
+                <div class="control-margin center">
                     <span (click)="_addMediaRow()" class="f2 baron red hovergrow">
                         add media connect url
                     </span>
                 </div>
             } @else {
-                <div class="margin-bottom-2"></div>
+                <div class="control-margin"></div>
             }
+
 
             <div class="images-grid margin-bottom" >
                 <app-file-loader

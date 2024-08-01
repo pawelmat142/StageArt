@@ -13,7 +13,7 @@ npm run build
 echo "backend built"
 
 # go to angular directory
-cd ../book-agency
+cd ../angular
 # build angular app 
 ng build
 echo "front built"
