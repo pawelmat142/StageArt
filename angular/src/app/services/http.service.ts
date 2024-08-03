@@ -35,9 +35,4 @@ export class HttpService {
   }
 
 
-  public test(): Observable<unknown> {
-    return this.httpClient.get(`${this.apiUri}`)
-  }
-
-  
 }

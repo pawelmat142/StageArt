@@ -1,0 +1,39 @@
+
+<ng-container [formGroup]="form">
+    <h1 class="dark margin-bottom-2 baron">Event details</h1>
+    
+    <div class="control-margin">
+        <app-dates 
+            formControlName="eventDate"
+            label="Event date period"
+            placeholder="Select date period..."
+            [required]="true"
+        ></app-dates>
+    </div>
+        
+    <div class="control-margin">
+        <app-input
+            formControlName="eventName"
+            label="Event name"
+            placeholder="Provide event name..."
+            [required]="true"
+        ></app-input>
+    </div>
+    
+    <div class="control-margin">
+        <app-input
+            formControlName="eventUrl"
+            label="Event URL"
+            placeholder="Provide event url..."
+        ></app-input>
+    </div>
+        
+    <div class="control-margin">
+        <app-textarea
+            formArrayName="timetable"
+            label="Lineup / Timetable"
+            placeholder="Provide lineup or timetable..."
+        ></app-textarea>
+    </div>
+        
+</ng-container>

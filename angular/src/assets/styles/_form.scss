@@ -1,5 +1,6 @@
 @import 'color';
 @import 'variables';
+@import 'variables-desc';
 @import 'font';
 
 
@@ -12,7 +13,19 @@ $form-transition: $transition-standard;
 $input-active-shadow: 0px 0px 8px $yellow;
 $input-error-shadow: 0px 0px 8px $red;
 
+$control-padding-y: 12px;
+$control-padding-x: 15px;
+$control-padding: $control-padding-y $control-padding-x;
+
+
 .desktop {
+
+    .form-page {
+        padding-top: $header-margin-desc;
+        padding-left: $page-padding-big;
+        padding-right: $page-padding-big;
+    }
+
     .form-container {
         padding: 2*$padding-standard 3/2*$padding-standard;
         
@@ -29,6 +42,14 @@ $input-error-shadow: 0px 0px 8px $red;
     .control-margin {
         margin-bottom: 2*$padding-standard;
     }
+}
+
+.form-page {
+    width: 100%;
+
+    padding-left: $view-margin-1;
+    padding-right: $view-margin-1;
+    padding-top: 0.7*$header-margin;
 }
 
 textarea,
@@ -102,7 +123,7 @@ textarea {
     border-radius: $input-radius;
     transition: $form-transition;
     background-color: $control-bg;
-    padding: 12px 15px;
+    padding: $control-padding;
     
     box-shadow: 0 0 0 transparent;
 
@@ -119,24 +140,22 @@ textarea {
         margin: 0;
     }   
     
-    .form-input-control {
-        width: 100%;
-        padding: 0px;
-        font-weight: 600;
-        font-size: 16px;
-        letter-spacing: 0;
-        color: $light-dark;
-        font-family: $family;
-    }
-
     .form-input-wrapper {
         display: flex;
         justify-content: space-between;
         align-items: center;
     }
-
 }
 
+.form-input-control {
+    width: 100%;
+    padding: 0px;
+    font-weight: 600;
+    font-size: 16px;
+    letter-spacing: 0;
+    color: $light-dark;
+    font-family: $family;
+}
 
 
 // BUTTON

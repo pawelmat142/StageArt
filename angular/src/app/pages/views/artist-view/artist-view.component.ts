@@ -12,9 +12,9 @@ import { CountryComponent } from "../../components/country/country.component";
 import { TextareaElementComponent } from "../../controls/textarea-element/textarea-element.component";
 import { MediaItemComponent } from '../../components/media-item/media-item.component';
 import { ButtonComponent } from '../../controls/button/button.component';
-import { IconButtonComponent } from "../../components/icon-button/icon-button.component";
 import { BtnComponent } from '../../controls/btn/btn.component';
 import { DESKTOP } from '../../../services/device';
+import { BookingFormComponent } from '../booking-form/booking-form.component';
 
 @Component({
   selector: 'app-artist-view',
@@ -77,7 +77,7 @@ export class ArtistViewComponent {
   }
 
   _onBookNow() {
-    console.log('onbooknow')
+    this.nav.to(BookingFormComponent.path)
   }
 
 }

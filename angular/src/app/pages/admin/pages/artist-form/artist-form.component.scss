@@ -5,100 +5,82 @@
 .desktop {
 
     $control-width: calc(50% - 0.5*$padding-standard);
-    .form-page {
-        padding-top: $header-margin-desc;
-        padding-left: $page-padding-big;
-        padding-right: $page-padding-big;
-
-        .artist-medias {
-            .media-group {
-
-                display: flex;
-                gap: $padding-standard;
-                margin-bottom: 0.5*$padding-standard;
-    
-                .media-row,
-                .url {
-                    display: block;
-                    width: $control-width;
-                }
-
-                .media-row {
-                    display: flex;
-                    .baron, .type {
-                        display: block;
-                        width: 50%;
-                    }
-                    
-                    .baron {
-                        text-align: end;
-                    }
-                }
-            }
-        }
-
-        .images-grid {
-            app-file-loader {
-                width: $control-width;
-            }
-
-        }
-    }
-}
-
-
-.form-page {
-    width: 100%;
-    
-    padding-left: $view-margin-1;
-    padding-right: $view-margin-1;
-    padding-top: 0.7*$header-margin;
-    
-    .form-container {
-        width: 100%;
-    }
-
     .artist-medias {
         .media-group {
 
+            display: flex;
+            gap: $padding-standard;
+            margin-bottom: 0.5*$padding-standard;
+
+            .media-row,
+            .url {
+                display: block;
+                width: $control-width;
+            }
 
             .media-row {
                 display: flex;
-                gap: 0.5*$padding-standard;
-                justify-content: flex-end;
-                align-items: center;
-                .baron {
-                    text-wrap: nowrap;
+                .baron, .type {
+                    display: block;
+                    width: 50%;
                 }
-                .type {
-                    margin-bottom: 0.5*$padding-standard;
+                
+                .baron {
+                    text-align: end;
                 }
             }
-        }
-
-    }
-
-    .avatar-img-row {
-        display: flex;
-        gap: $padding-standard;
-        & > * {
-            width: 50%;
-        }
-
-        .avatar-img-wrapper {
-            display: flex;
-            justify-content: center;
-            overflow: hidden;
         }
     }
 
     .images-grid {
-        display: flex;
-        flex-wrap: wrap;
-        gap: $padding-standard;
-
         app-file-loader {
-            width: 100%;
+            width: $control-width;
         }
+
+    }
+}
+
+
+.artist-medias {
+    .media-group {
+
+
+        .media-row {
+            display: flex;
+            gap: 0.5*$padding-standard;
+            justify-content: flex-end;
+            align-items: center;
+            .baron {
+                text-wrap: nowrap;
+            }
+            .type {
+                margin-bottom: 0.5*$padding-standard;
+            }
+        }
+    }
+
+}
+
+.avatar-img-row {
+    display: flex;
+    gap: $padding-standard;
+    & > * {
+        width: 50%;
+    }
+
+    .avatar-img-wrapper {
+        display: flex;
+        justify-content: center;
+        overflow: hidden;
+    }
+}
+
+.images-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $padding-standard;
+
+    app-file-loader {
+        width: 100%;
     }
 }

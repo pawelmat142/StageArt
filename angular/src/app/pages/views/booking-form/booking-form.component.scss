@@ -1,0 +1,26 @@
+@import 'variables';
+
+.btns {
+    display: flex;
+    justify-content: space-between;
+}
+
+.steps {
+    display: flex;
+    justify-content: center;
+    gap: 0.5*$padding-standard;
+
+    .step {
+        flex-grow: 1;
+        max-width: 30px;
+        background-color: $red;
+        height: 8px;
+        border-radius: 4px;
+        background-color: $light;
+        transition: $transition-standard;
+
+        &.active {
+            background-color: $red;
+        }
+    }
+}

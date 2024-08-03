@@ -27,9 +27,7 @@ export class HomepageFormComponent {
   get f() { return this.form.controls }
 
   submit() {
-    this.http.test().subscribe(a => {
-      console.log(a)
-    })
+    console.log('TODO: submit homepage form')
   }
 
 }

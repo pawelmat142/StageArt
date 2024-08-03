@@ -4,6 +4,7 @@ import { NotFoundPageComponent } from './pages/error/not-found-page/not-found-pa
 import { ArtistFormComponent } from './pages/admin/pages/artist-form/artist-form.component';
 import { ArtistViewComponent } from './pages/views/artist-view/artist-view.component';
 import { ArtistsViewComponent } from './pages/views/artists-view/artists-view.component';
+import { BookingFormComponent } from './pages/views/booking-form/booking-form.component';
 
 export const routes: Routes = [
     {
@@ -15,6 +16,9 @@ export const routes: Routes = [
     }, {
         path: ArtistsViewComponent.path,
         component: ArtistsViewComponent
+    }, {
+        path: BookingFormComponent.path,
+        component: BookingFormComponent,
     }, {
         path: ArtistFormComponent.path,
         component: ArtistFormComponent,

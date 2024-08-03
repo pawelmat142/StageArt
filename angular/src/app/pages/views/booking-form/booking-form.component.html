@@ -1,0 +1,38 @@
+
+<app-header label="Booking"></app-header>
+
+<div class="form-page">
+
+    <div class="form-container">
+
+        @if (_stepIndex === 1) {
+            <app-booking-step-one [form]="_stepOne"></app-booking-step-one>
+        }
+        @if (_stepIndex === 2) {
+            <app-booking-step-two [formArr]="_stepTwo"></app-booking-step-two>
+        }
+        @if (_stepIndex === 3) {
+            <app-booking-step-three [form]="_stepThree"></app-booking-step-three>
+        }
+
+        <div class="steps margin-top-2">
+            <div class="step" [class.active]="_stepIndex===1"></div>
+            <div class="step" [class.active]="_stepIndex===2"></div>
+            <div class="step" [class.active]="_stepIndex===3"></div>
+        </div>
+
+        <div class="btns margin-top-2">
+            <app-btn label="back" [hidden]="_stepIndex === 1" (click)="_prev()"></app-btn>
+            <div></div>
+            @if (_stepIndex === 3) {
+                <app-btn label="next" (click)="_next()"></app-btn>
+            } 
+            @else {
+                <app-btn label="next" (click)="_submit()"></app-btn>
+            }
+        </div>
+
+    </div>
+    
+</div>
+

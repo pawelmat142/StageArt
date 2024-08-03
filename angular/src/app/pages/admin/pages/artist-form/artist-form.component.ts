@@ -14,7 +14,7 @@ import { FileLoaderComponent } from '../../../controls/file-loader/file-loader.c
 import { FileViewComponent } from '../../../controls/file-loader/file-view/file-view.component';
 import { ArtistForm, FireImg } from '../../../../services/artist/model/artist-form';
 import { ArtistService } from '../../../../services/artist/artist.service';
-import { catchError, concatMap, forkJoin, of } from 'rxjs';
+import { catchError, concatMap, forkJoin, noop, of } from 'rxjs';
 import { NavService } from '../../../../services/nav.service';
 import { TextareaElementComponent } from '../../../controls/textarea-element/textarea-element.component';
 import { TextareaComponent } from '../../../controls/textarea/textarea.component';
@@ -92,10 +92,6 @@ export class ArtistFormComponent {
       this._addMediaRow()
       this._addImage()
     }, 100)
-  }
-
-  ngOnDestroy(): void {
-    console.log('ondestroy')
   }
 
 
@@ -207,7 +203,7 @@ export class ArtistFormComponent {
       catchError(error => this.handleCreateArtistError(error)),
     ).subscribe(artist => {
       console.log(artist)
-      console.log('subscribe')
+      console.log('TODO: artist created')
     })
   }
 
@@ -262,10 +258,7 @@ export class ArtistFormComponent {
     }
 
     forkJoin(deletes$)
-      .subscribe(x => {
-        console.log('deleted')
-        console.log(x)
-      }, error => console.error(error))
+    .subscribe()
   }
 
 }
