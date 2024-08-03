@@ -5,6 +5,7 @@ import { MenuButtonComponent } from '../components/menu-button/menu-button.compo
 import { HeaderComponent } from '../components/header/header.component';
 import { ArtistsSectionComponent } from './artists-section/artists-section.component';
 import { DESKTOP } from '../../services/device';
+import { StoreModule } from '@ngrx/store';
 
 @Component({
   selector: 'app-homepage',

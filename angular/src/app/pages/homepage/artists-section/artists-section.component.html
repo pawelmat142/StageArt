@@ -13,13 +13,12 @@
         </div>
 
 
-        @if (_artists$ | async) {
-    
+        <ng-container *ngIf="artists$ | async as artists">
             <p-carousel class="p-carousel"
-                [value]="(_artists$ | async) || []" 
+                [value]="artists" 
                 [numVisible]="this.DESKTOP ? 4 : 2" 
                 [circular]="true" 
-                >
+            >
                 <!-- [responsiveOptions]="responsiveOptions" -->
                 <ng-template let-artist pTemplate="item">
                     <div class="card-shadow-wrapper">
@@ -28,6 +27,7 @@
                 </ng-template>
     
             </p-carousel>
-        }
+        </ng-container>
+    
     </div>
 </div>

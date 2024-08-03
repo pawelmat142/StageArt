@@ -29,7 +29,6 @@ export class BookingFormComponent {
   public static readonly path = `book-form`
 
   constructor(
-    private readonly artistService: ArtistService,
   ) {}
 
   forms = new FormArray([
@@ -57,12 +56,23 @@ export class BookingFormComponent {
   get _lastStep(): boolean {
     return this._stepIndex === this.forms.length
   }
+
+  get _stepForm() {
+    return this.forms.at(this._stepIndex-1)
+  }
+
+
   _stepIndex = 1;
   _next() {
     if (this._lastStep) {
       return
     }
-    this._stepIndex ++
+    if (this._stepForm.valid) {
+      this._stepIndex ++
+    } else {
+      this.markStepFormAsDirty()
+    }
+
   }
 
   _prev() {
@@ -74,6 +84,13 @@ export class BookingFormComponent {
   _submit() {
     console.log(this.forms)
     console.log('TODO: submit booking form')
+  }
+
+  private markStepFormAsDirty() {
+    Object.values(this._stepForm.controls).forEach(control => {
+      control.markAsDirty()
+      control.markAsTouched()
+    })
   }
 
   bookingProcess = {

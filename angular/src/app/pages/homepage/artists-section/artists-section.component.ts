@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, ViewEncapsulation } from '@angular/core';
-import { ArtistService } from '../../../services/artist/artist.service';
-import { map, Observable, of } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { ArtistViewDto } from '../../../services/artist/model/artist-view.dto';
 import { ArtistCardComponent } from '../../components/artist-card/artist-card.component';
 import { CarouselModule } from 'primeng/carousel';
@@ -9,6 +8,8 @@ import { BtnComponent } from '../../controls/btn/btn.component';
 import { NavService } from '../../../services/nav.service';
 import { ArtistsViewComponent } from '../../views/artists-view/artists-view.component';
 import { DESKTOP } from '../../../services/device';
+import { select, Store } from '@ngrx/store';
+import { ArtistsState, fetchArtists } from '../../../store/artist/artists.state';
 
 @Component({
   selector: 'app-artists-section',
@@ -27,21 +28,18 @@ export class ArtistsSectionComponent {
 
   DESKTOP = DESKTOP
 
+  artists$: Observable<ArtistViewDto[]>
+
   constructor(
-    private readonly artistService: ArtistService,
     private readonly nav: NavService,
-  ) {}
-
-  _artists$: Observable<ArtistViewDto[]> = of([])
-
-  ngOnInit(): void {
-    this.fetchArstis$()
+    private store: Store<{ artists: ArtistsState }>,
+  ) {
+    this.artists$ = this.store
+      .pipe(select(store => store.artists.artists))
   }
-
-  private fetchArstis$() {
-    this._artists$ = this.artistService.fetchArtists$()
-      // TODO mock
-      .pipe(map(artists => [...artists, ...artists, ...artists, ...artists,...artists, ...artists]))
+  
+  ngOnInit(): void {
+    this.store.dispatch(fetchArtists())
   }
 
   navToArtists() {
@@ -49,3 +47,4 @@ export class ArtistsSectionComponent {
   }
 
 }
+

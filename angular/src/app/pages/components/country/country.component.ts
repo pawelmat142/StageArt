@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, ViewEncapsulation } from '@angular/core';
-import { CountriesService, Country } from '../../../services/countries/countries.service';
+import { CountriesService } from '../../../services/countries/countries.service';
 import { IconButtonComponent } from '../icon-button/icon-button.component';
+import { Country } from '../../../services/countries/country.model';
 
 @Component({
   selector: 'app-country',
