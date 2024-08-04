@@ -73,6 +73,8 @@ export class ArtistViewComponent {
   }
 
   private initArtist = (artist: ArtistViewDto) => {
+    console.log('init artist')
+    console.log(artist)
     this._artist = artist
   }
 

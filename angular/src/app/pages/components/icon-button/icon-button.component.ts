@@ -28,10 +28,6 @@ export class IconButtonComponent {
   @Input() active = true
   @Input() show = true
 
-  @Input() color = 'red'
-  @Input() border = false
-  
-
   @Output() click = new EventEmitter<void>()
 
   _click(event: MouseEvent) {

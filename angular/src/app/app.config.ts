@@ -48,7 +48,7 @@ export const appConfig: ApplicationConfig = {
         multi: true
     },
 
-    provideStoreDevtools({ maxAge: 25, logOnly: environment.production, trace: true, traceLimit: 25 }),
+    provideStoreDevtools({ maxAge: 25, logOnly: environment.production,  }),
 
     ]
 }

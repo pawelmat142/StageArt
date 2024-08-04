@@ -1,1 +1,32 @@
-<p>booking-step-two works!</p>
+
+<ng-container [formGroup]="form!">
+
+    <div class="control-margin">
+        <app-selector
+            class="circle"
+            formControlName="artist"
+            [items]="(artistItems$ | async)|| []"
+            label="Artist"
+            placeholder="Select an artist..."  
+            [required]="true"
+        ></app-selector>
+    </div>
+
+    <div class="control-margin">
+        <app-input
+            formControlName="offerNotes"
+            label="Offer notes"
+            placeholder="Notes if you have some..."
+        ></app-input>
+    </div>
+    
+    <div class="margin-bottom-2">
+        <app-input
+            formControlName="stageTime"
+            label="Stage time"
+            placeholder="Info about stage time..."
+            [required]="true"
+        ></app-input>
+    </div>
+    
+</ng-container>

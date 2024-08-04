@@ -14,6 +14,7 @@
                     placeholder="Artist stage name..."
                 ></app-input>
                 <app-selector
+                    class="skip-aspect-ratio"
                     formControlName="country"
                     [required]="true"
                     [items]="_countryItems"
@@ -60,7 +61,7 @@
                                 class="fs5 baron red hovergrow" (click)="_removeMediaRow(index)">remove</div>
                             <app-selector
                                 class="type"
-                                formControlName="type"
+                                formControlName="code"
                                 [required]="true"
                                 [items]="this._mediaItemsNotSelected"
                                 label="Connect type" 
@@ -131,7 +132,7 @@
             ></app-textarea>
 
             <app-button class="margin-top-2 d-flex" 
-                [active]="true || form.valid" 
+                [active]="true"
                 label="Submit" 
                 (submit)="_submit()"
             ></app-button>

@@ -9,8 +9,20 @@
             <app-booking-step-one [form]="_stepOne"></app-booking-step-one>
         }
         @if (_stepIndex === 2) {
-            <app-booking-step-two [formArr]="_stepTwo"></app-booking-step-two>
+            <h1 class="dark margin-bottom-2 baron">Artist details</h1>
+                @for (group of _stepTwo.controls; track $index) {
+    
+                    <app-booking-step-two [form]="group"></app-booking-step-two>
+                }
+                <div class="btns margin-top-2">
+                    @if (_stepTwo.controls.length !== 1) {
+                        <app-btn label="remove" (click)="_removeArtist()"></app-btn>
+                    } 
+                    <div></div>
+                    <app-btn label="add artist" (click)="_addArtist()"></app-btn>
+                </div>
         }
+
         @if (_stepIndex === 3) {
             <app-booking-step-three [form]="_stepThree"></app-booking-step-three>
         }

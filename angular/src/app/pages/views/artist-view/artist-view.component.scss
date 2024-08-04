@@ -126,8 +126,6 @@ $view-padding: 4*$padding-standard;
         app-btn {
             margin-left: auto;
         }
-        
-      
     }
 
     .content {
@@ -151,6 +149,13 @@ $view-padding: 4*$padding-standard;
 
         .about-me {
             order: 6;
+        }
+
+        .icon-button .svg-wrapper {
+            min-height: 30px;
+            svg {
+                fill: $light;
+            }
         }
     }
     

@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { ArtistCardComponent } from '../../components/artist-card/artist-card.component';
 import { HeaderComponent } from '../../components/header/header.component';
-import { ArtistService } from '../../../services/artist/artist.service';
 import { NavService } from '../../../services/nav.service';
-import { map, Observable, of, tap } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { ArtistViewDto } from '../../../services/artist/model/artist-view.dto';
 import { BtnComponent } from '../../controls/btn/btn.component';
 import { select, Store } from '@ngrx/store';
-import { ArtistsState, fetchArtists } from '../../../store/artist/artists.state';
+import { ArtistsState, initArtists } from '../../../store/artist/artists.state';
+import { BookingFormComponent } from '../booking-form/booking-form.component';
 
 @Component({
   selector: 'app-artists-view',
@@ -20,7 +20,8 @@ import { ArtistsState, fetchArtists } from '../../../store/artist/artists.state'
     BtnComponent,
   ],
   templateUrl: './artists-view.component.html',
-  styleUrl: './artists-view.component.scss'
+  styleUrl: './artists-view.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class ArtistsViewComponent {
 
@@ -38,7 +39,11 @@ export class ArtistsViewComponent {
 
 
   ngOnInit(): void {
-    this.store.dispatch(fetchArtists())
+    this.store.dispatch(initArtists())
+  }
+
+  _bookNow() {
+    this.nav.to(BookingFormComponent.path)
   }
 
 }

@@ -102,9 +102,9 @@ export abstract class AbstractControlComponent<T> implements ControlValueAccesso
 
 
   ngOnInit(): void {
+    this.value = this._EMPTY_VALUE
     this._label = this.required ? `*${this.label}` : this.label
     // this.ngControl = this.injector?.get(NgControl);
-    this.value = this._EMPTY_VALUE
   }
 
   @Input() label!: string

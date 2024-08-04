@@ -59,7 +59,16 @@ $card-width: 24vw;
             align-items: center;
             justify-content: flex-end;
             gap: $padding-standard;
-        }
 
+            .icon-button .svg-wrapper {
+                min-height: 25px;
+            }
+        }
+    }
+
+    .icon-button {
+        img {
+            max-height: 30px;
+        }
     }
 }

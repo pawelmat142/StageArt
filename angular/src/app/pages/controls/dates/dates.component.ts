@@ -49,6 +49,7 @@ export class DatesComponent extends AbstractControlComponent<DatePeriod> {
 
   _onInput(selection: Date) {
     this.select(selection)
+    this.updateValue(this.value)
   }
 
   private select(selection: Date) {

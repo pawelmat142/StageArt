@@ -5,6 +5,8 @@ import { InputComponent } from '../../../controls/input/input.component';
 import { DatesComponent } from "../../../controls/dates/dates.component";
 import { TextareaComponent } from "../../../controls/textarea/textarea.component";
 import { TextareaElementComponent } from '../../../controls/textarea-element/textarea-element.component';
+import { CountriesService } from '../../../../services/countries/countries.service';
+import { SelectorComponent, SelectorItem } from '../../../controls/selector/selector.component';
 
 @Component({
   selector: 'app-booking-step-one',
@@ -15,17 +17,25 @@ import { TextareaElementComponent } from '../../../controls/textarea-element/tex
     InputComponent,
     DatesComponent,
     TextareaComponent,
-    TextareaElementComponent
+    TextareaElementComponent,
+    SelectorComponent,
 ],
   templateUrl: './booking-step-one.component.html',
   encapsulation: ViewEncapsulation.None
 })
 export class BookingStepOneComponent {
 
+  constructor(
+    private readonly countriesService: CountriesService,
+  ){}
+
+  _countryItems: SelectorItem[] = []
+
   @Input() form!: FormGroup
 
   ngOnInit(): void {
     console.log(this.form)
+    this._countryItems = this.countriesService.getCountries()
   }
 
 }

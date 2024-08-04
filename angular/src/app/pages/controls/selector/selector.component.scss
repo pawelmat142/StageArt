@@ -1,6 +1,8 @@
 @import 'variables';
+@import 'variables-desc';
 @import 'color';
 @import 'form';
+
 
 .active {
     .form-input.app-selector {
@@ -34,7 +36,6 @@
     padding-right: calc($padding-standard + $scroll-width);
     .selector-items {
     
-        $selector-item-height: 45px;
         max-height: 8*$selector-item-height;
     
         overflow-y: auto;

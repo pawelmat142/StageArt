@@ -6,6 +6,7 @@ import { DialogData, PopupComponent } from '../pages/components/popup/popup.comp
 import { ArtistFormComponent } from '../pages/admin/pages/artist-form/artist-form.component';
 import { NotFoundPageComponent } from '../pages/error/not-found-page/not-found-page.component';
 import { ArtistsViewComponent } from '../pages/views/artists-view/artists-view.component';
+import { BookingFormComponent } from '../pages/views/booking-form/booking-form.component';
 
 export interface MenuButtonItem {
   label: string
@@ -32,14 +33,17 @@ export class NavService {
   }
 
   private readonly _menuButtons: MenuButtonItem[] = [{
-    label: "ADD",
-    onclick: () => this.to(ArtistFormComponent.path)
-  }, {
+    label: 'Home',
+    onclick: () => this.home()
+  },{
     label: "Artists",
     onclick: () => this.to(ArtistsViewComponent.path)
   }, {
-    label: "Test",
-    onclick: () => this.router.navigate([ArtistFormComponent.path, 'Ebebe'])
+    label: "Book now",
+    onclick: () => this.to(BookingFormComponent.path)
+  }, {
+    label: "ADD",
+    onclick: () => this.to(ArtistFormComponent.path)
   }]
 
   public get menuButtons(): MenuButtonItem[] {

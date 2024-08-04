@@ -2,13 +2,13 @@
     
     @if (_country) {
         <app-icon-button
+            class="border skip-aspect-ratio"
             [button]="false"
             [src]="_country.imgUrl"
             [chachedImg]="true"
-            [border]="true"
         ></app-icon-button>
 
-        <p class="white text-shadow country-txt">{{_country.name}}</p>
+        <p class="country-txt">{{_country.name}}</p>
     }
 
 </div>

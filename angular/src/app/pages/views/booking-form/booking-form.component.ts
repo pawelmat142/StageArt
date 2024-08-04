@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { ArtistService } from '../../../services/artist/artist.service';
 import { HeaderComponent } from '../../components/header/header.component';
 import { BookingStepOneComponent } from './booking-step-one/booking-step-one.component';
 import { BookingStepTwoComponent } from './booking-step-two/booking-step-two.component';
 import { BookingStepFourComponent } from './booking-step-four/booking-step-four.component';
 import { BookingStepThreeComponent } from './booking-step-three/booking-step-three.component';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BtnComponent } from '../../controls/btn/btn.component';
+import { ArtistViewDto } from '../../../services/artist/model/artist-view.dto';
+import { Util } from '../../../utils/util';
 
 @Component({
   selector: 'app-booking-form',
@@ -27,38 +28,52 @@ import { BtnComponent } from '../../controls/btn/btn.component';
 export class BookingFormComponent {
 
   public static readonly path = `book-form`
-
+  
   constructor(
+    private readonly fb: FormBuilder,
   ) {}
 
-  forms = new FormArray([
-    new FormGroup({
+  forms = new FormGroup({
+    one: new FormGroup({
       eventDate: new FormControl<Date | null>(null, Validators.required),
       eventName: new FormControl('', Validators.required),
+      eventCountry: new FormControl('', Validators.required),
+      locationInfo: new FormControl(''),
       eventUrl: new FormControl(''),
       timetable: new FormControl(''),
     }),
-    // TODO type
-    new FormArray([], Validators.minLength(1)),
-    new FormGroup({
+
+    two: new FormArray([this.newArtistGroup()], Validators.minLength(1)),
+  
+    three: new FormGroup({
       firstName: new FormControl('', Validators.required),
       lastName: new FormControl(''),
       phoneNumber: new FormControl('', Validators.required),
       email: new FormControl('', Validators.required),
       telegram: new FormControl(''),
-    }),
-  ])
+    })
+  })
 
-  _stepOne = this.forms.at(0) as FormGroup
-  _stepTwo = this.forms.at(1) as unknown as FormArray
-  _stepThree = this.forms.at(2) as FormGroup
+
+  _stepOne = this.forms.controls.one
+  _stepTwo = this.forms.controls.two
+  _stepThree = this.forms.controls.three
 
   get _lastStep(): boolean {
-    return this._stepIndex === this.forms.length
+    return this._stepIndex === 3
   }
 
   get _stepForm() {
-    return this.forms.at(this._stepIndex-1)
+    if (this._stepIndex === 1) {
+      return this._stepOne
+    }
+    if (this._stepIndex === 2) {
+      return this._stepTwo
+    }
+    if (this._stepIndex === 3) {
+      return this._stepThree
+    }
+    throw new Error("Step error")
   }
 
 
@@ -72,7 +87,6 @@ export class BookingFormComponent {
     } else {
       this.markStepFormAsDirty()
     }
-
   }
 
   _prev() {
@@ -86,56 +100,34 @@ export class BookingFormComponent {
     console.log('TODO: submit booking form')
   }
 
-  private markStepFormAsDirty() {
-    Object.values(this._stepForm.controls).forEach(control => {
-      control.markAsDirty()
-      control.markAsTouched()
+  _addArtist() {
+    const artistsFormArr = this.forms.controls.two
+    artistsFormArr.push(this.newArtistGroup())
+  }
+
+  _removeArtist() {
+    const controls = this._stepTwo.controls
+    controls.length = controls.length-1
+    this._stepTwo.controls = controls
+  }
+
+  private newArtistGroup() {
+    return this.fb.group({
+      artist: new FormControl<ArtistViewDto | undefined>(undefined, Validators.required),
+      offerNotes: new FormControl(''),
+      stageTime: new FormControl('', Validators.required),
     })
   }
 
-  bookingProcess = {
-    label: 'Booking form',
-    stepIndex: 0,
-    steps: [{
-      label: 'Event details',
-      controls: [{
-        type: 'date',
-        label: 'Event date',
-        placeholder: 'Select event date/period...',
-        required: true
-      }, {
-        type: 'text',
-        label: 'Event name',
-        placeholder: 'Provide event name...',
-        required: true
-      }, {
-        type: 'text',
-        label: 'Event URL',
-        placeholder: 'Provide event url...',
-      }, {
-        type: 'textarea',
-        label: 'Lineup / Timetable',
-        placeholder: 'Provide lineup or timetable...',
-      }]
-    }, {
-      label: 'Artist details',
-      controls: [{
-        // TODO temp
-        type: 'text',
-        label: 'Artist',
-        placeholder: 'Select an artist',
-        required: true,
-      }, {
-        type: 'text',
-        label: 'Offer notes',
-        placeholder: 'Notes if you have some...',
-      }, {
-        type: 'text',
-        label: 'Stage time',
-        placeholder: 'Info about stage time...',
-        required: true
-      }]
-    }]
+  private markStepFormAsDirty() {
+    const controls = this._stepForm.controls
+    if (Array.isArray(controls)) {
+      controls.forEach(control => {
+        Util.markForm(control)
+      })
+    } else {
+      Util.markForm(this._stepForm)
+    }
   }
 
 }

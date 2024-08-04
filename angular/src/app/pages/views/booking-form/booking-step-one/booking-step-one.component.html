@@ -10,13 +10,33 @@
             [required]="true"
         ></app-dates>
     </div>
-        
+   
     <div class="control-margin">
         <app-input
             formControlName="eventName"
             label="Event name"
             placeholder="Provide event name..."
             [required]="true"
+        ></app-input>
+    </div>
+
+    <div class="control-margin">
+        <app-selector
+            class="skip-aspect-ratio"
+            formControlName="eventCountry"
+            [required]="true"
+            [items]="_countryItems"
+            label="Event country"
+            placeholder="Select event country..."
+            [chachedImg]="true"
+        ></app-selector>
+    </div>
+
+    <div class="control-margin">
+        <app-input
+            formControlName="locationInfo"
+            label="Location"
+            placeholder="Some extra info..."
         ></app-input>
     </div>
     

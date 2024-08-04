@@ -3,8 +3,7 @@ import { ArtistViewDto } from '../../services/artist/model/artist-view.dto';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ArtistService } from '../../services/artist/artist.service';
-import { catchError, concatMap, map, mergeMap, of, withLatestFrom } from 'rxjs';
-import { Action } from 'rxjs/internal/scheduler/Action';
+import { catchError, map, mergeMap, of, withLatestFrom } from 'rxjs';
 
 export interface ArtistsState {
     artists: ArtistViewDto[]
@@ -22,7 +21,7 @@ enum ArtistsAction {
     CLEAN_ARTISTS = "[] Clean artists"
 }
 
-export const initArtists = createAction(ArtistsAction.FETCH_ARTISTS)
+export const initArtists = createAction(ArtistsAction.INIT_ARTISTS)
 
 export const artistsInitialized = createAction(ArtistsAction.ARTISTS_INITIALIZED)
 
@@ -72,19 +71,23 @@ export class ArtistEffect {
         private store: Store<{ artists: ArtistsState }>, 
     ){}
 
-    fetchArtists$ = createEffect(() => this.actions$.pipe(
-        ofType(fetchArtists),
+    initArtists$ = createEffect(() => this.actions$.pipe(
+        ofType(initArtists),
         withLatestFrom(this.store.select(state => state.artists.initialized)),
         mergeMap(([action, initialized]) => {
             if (initialized) {
                 return of(artistsInitialized())
             }
-            return this.artistService.fetchArtists$().pipe(
-                map(artists => fetchArtistsSuccess({ artists })),
-                catchError(error => of(fetchArtistsFail(error)))
-            )
+            return of(fetchArtists())
         })
-            
+    ))
+
+    fetchArtists$ = createEffect(() => this.actions$.pipe(
+        ofType(fetchArtists),
+        mergeMap(() => this.artistService.fetchArtists$().pipe(
+            map(artists => fetchArtistsSuccess({ artists })),
+            catchError(error => of(fetchArtistsFail(error)))
+        ))
     ))
 
 }

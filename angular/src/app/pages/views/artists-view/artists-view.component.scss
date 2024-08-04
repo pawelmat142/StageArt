@@ -1,9 +1,18 @@
 @import 'variables';
-.grid {
-    display: grid;
-    grid-template-columns: 25% 25% 25% 25%;
 
-    .grid-item {
+.desktop {
+    .grid {
+        margin-top: 4*$padding-standard;
+        grid-template-columns: 25% 25% 25% 25%;
         margin: $padding-standard 0.3*$padding-standard;
     }
+}
+.grid {
+    display: grid;
+    grid-template-columns: 50% 50%;
+
+    .grid-item {
+        margin: $padding-standard 0.5*$padding-standard;
+    }
+
 }

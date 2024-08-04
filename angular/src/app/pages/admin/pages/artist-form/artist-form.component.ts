@@ -18,6 +18,10 @@ import { catchError, concatMap, forkJoin, noop, of } from 'rxjs';
 import { NavService } from '../../../../services/nav.service';
 import { TextareaElementComponent } from '../../../controls/textarea-element/textarea-element.component';
 import { TextareaComponent } from '../../../controls/textarea/textarea.component';
+import { Country } from '../../../../services/countries/country.model';
+import { ArtistsViewComponent } from '../../../views/artists-view/artists-view.component';
+import { Store } from '@ngrx/store';
+import { fetchArtists } from '../../../../store/artist/artists.state';
 
 
 @Component({
@@ -49,6 +53,7 @@ export class ArtistFormComponent {
     private readonly artistService: ArtistService,
     private readonly fb: FormBuilder,
     private readonly nav: NavService,
+    private readonly store: Store,
   ) {}
 
   private phoneNumberRegex = /^\+?(\d{1,4})?[-. ]?(\(?\d+\)?)?[-. ]?\d+[-. ]?\d+[-. ]?\d+$/;
@@ -57,7 +62,7 @@ export class ArtistFormComponent {
     name: new FormControl('', Validators.required),
     firstName: new FormControl(''),
     lastName: new FormControl(''),
-    country: new FormControl<SelectorItem>(SelectorComponent.EMPTY_SELECTOR_ITEM, [countryValidator(this.countriesService)]),
+    country: new FormControl<Country>(SelectorComponent.EMPTY_SELECTOR_ITEM, [countryValidator(this.countriesService)]),
     email: new FormControl('', [Validators.required, Validators.email]),
     phone: new FormControl('', [Validators.required, Validators.pattern(this.phoneNumberRegex)]),
     medias: this.fb.array<FormGroup>([]),
@@ -110,7 +115,7 @@ export class ArtistFormComponent {
     this._selectedMedias.push(this.EMPTY_MEDIA)
 
     const group = this.fb.group({
-      type: this.fb.control('', mediaValidator()),
+      code: this.fb.control('', mediaValidator()),
       url: this.fb.control('', Validators.required)
     })
 
@@ -122,7 +127,7 @@ export class ArtistFormComponent {
       return i !== index
     }).map(m => {
       return this.fb.group({
-        type: this.fb.control(m.controls['type'].value, mediaValidator()),
+        code: this.fb.control(m.controls['code'].value.code, mediaValidator()),
         url: this.fb.control(m.controls['url'].value, Validators.required)
       })
     })
@@ -130,32 +135,24 @@ export class ArtistFormComponent {
   }
 
   _controlMediaTypeValid(index: number) {
-    return this.f.medias.controls.at(index)?.controls['type'].valid
+    return this.f.medias.controls.at(index)?.controls['code'].valid
   }
 
   private updateSelectedMedias() {
-
-
-    // this._selectedMedias.forEach((m, i) => { 
-    //   m.code = this.f.medias.at(i).value?.code!
-    //   m.url = this.f.mediaUrls.at(i).value as string
-    // })
     this._everyMediaTypeSelected = this._selectedMedias.length === this._mediaItems.length
-  
     this.updateAvailableMediaTypes()
+    this._selectedMedias = this.form.controls.medias.controls.map(mediaFormGroup => {
+      return {
+        code: mediaFormGroup.controls['code'].value.code,
+        url: mediaFormGroup.controls['url'].value,
+      }
+    })
   }
   
   private updateAvailableMediaTypes() {
     const alreadySelectedMediaCodes = this._selectedMedias.map(item => item.code)
     const availableMediaItems = this._mediaItems.filter(m => !alreadySelectedMediaCodes.includes(m.code as ArtistMediaCode))
     this._mediaItemsNotSelected = availableMediaItems
-  }
-
-  private rebuildMediasGroups() {
-    // const mediaControls = this._selectedMedias.map(m => this.fb.control(m, mediaValidator()))
-    // const urlControls = this._selectedMedias.map(m => this.fb.control(m.url, Validators.required))
-    // this.form.controls.medias = this.fb.array(mediaControls)
-    // this.form.controls.mediaUrls = this.fb.array(urlControls)
   }
 
 
@@ -171,18 +168,13 @@ export class ArtistFormComponent {
     this.form.controls.images.removeAt(i)
   }
 
-  // TODO remove
-  @HostListener('document:keydown', ['$event']) 
-  onspace(event: KeyboardEvent) {
-    if (event.code === 'Space') {
-      console.log(this.form)
-    }
-  }
-
   artist?: ArtistForm
 
-
   async _submit() {
+    if (this.form.invalid) {
+      Util.markForm(this.form)
+      return
+    }
     this.updateSelectedMedias()
 
     const name = this.f.name.value!
@@ -202,8 +194,10 @@ export class ArtistFormComponent {
       concatMap(images => this.createArtist$(images)),
       catchError(error => this.handleCreateArtistError(error)),
     ).subscribe(artist => {
-      console.log(artist)
-      console.log('TODO: artist created')
+      if (artist) {
+        this.store.dispatch(fetchArtists())
+        this.nav.to(ArtistsViewComponent.path)
+      }
     })
   }
 

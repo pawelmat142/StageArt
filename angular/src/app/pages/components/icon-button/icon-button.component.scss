@@ -1,6 +1,10 @@
 @import 'variables';
 @import 'form';
 
+:host {
+    height: 100%;
+}
+
 .icon-button {
 
     &.button {
@@ -9,13 +13,6 @@
             @extend .hovergrow;
             @extend .max;
         }
-    }
-
-    &.border {
-        display: flex;
-        overflow: hidden;
-        border: $input-border;
-        border-radius: 3px;
     }
 
     display: flex;
@@ -27,20 +24,58 @@
     }
 
     img {
-        max-height: 50px;
-    }
-}
-
-.side-img {
-    img {
-        max-height: 30px;
+        max-height: 200px;
+        height: 100%;
+        aspect-ratio: 1/1;
     }
 
+    .svg-wrapper {
+        height: 100%;
+        aspect-ratio: 1/1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
     svg {
-        width: 30px;
-        height: 30px;
         fill: $dark;
+        max-height: 35px;
     }
 
 }
+
+.skip-aspect-ratio {
+    .icon-button {
+        .svg-wrapper, img {
+            aspect-ratio: unset;
+        }
+    }
+}
+
+.border {
+    .icon-button {
+        display: flex;
+        overflow: hidden;
+        border: $input-border;
+        border-radius: 3px;
+    }
+}
+
+.app-selector {
+    .icon-button {
+        height: $selector-img-height;
+    }
+    .selector-items {
+        .icon-button {
+            height: calc($selector-item-height - 6px);
+        }
+    }
+}
+
+.circle {
+    .icon-button {
+        border-radius: 50%;
+    }
+}
+
+
 

@@ -1,6 +1,6 @@
 <app-header label="Artists"></app-header>
 
-<div class="section-margin margin-top-4 header-margin">
+<div class="section-margin header-margin">
 
     <div class="section-top">
         <div>
@@ -8,11 +8,11 @@
             <h2 class="fs3 baron light margin-bottom-4">Check them all!</h2>
         </div>
     
-        <app-btn class="big" label="View all"></app-btn>
+        <app-btn class="big light" label="Book now" (click)="_bookNow()"></app-btn>
     
     </div>
 
-    <div class="grid margin-top-4">
+    <div class="grid">
 
         @for (artist of (artists$ | async) || []; track artist.name) {
             <app-artist-card [artist]="artist" class="grid-item"></app-artist-card>

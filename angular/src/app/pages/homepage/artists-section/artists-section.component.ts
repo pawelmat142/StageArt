@@ -9,7 +9,7 @@ import { NavService } from '../../../services/nav.service';
 import { ArtistsViewComponent } from '../../views/artists-view/artists-view.component';
 import { DESKTOP } from '../../../services/device';
 import { select, Store } from '@ngrx/store';
-import { ArtistsState, fetchArtists } from '../../../store/artist/artists.state';
+import { ArtistsState, initArtists } from '../../../store/artist/artists.state';
 
 @Component({
   selector: 'app-artists-section',
@@ -39,7 +39,7 @@ export class ArtistsSectionComponent {
   }
   
   ngOnInit(): void {
-    this.store.dispatch(fetchArtists())
+    this.store.dispatch(initArtists())
   }
 
   navToArtists() {

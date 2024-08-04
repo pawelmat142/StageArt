@@ -1,7 +1,7 @@
 import { HttpClient, HttpContext, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment'
-import { Observable } from 'rxjs';
+import { Observable, pipe } from 'rxjs';
 
 export interface HttpRequestOptions {
   headers?: HttpHeaders | { [header: string]: string | string[] };
@@ -27,7 +27,9 @@ export class HttpService {
 
 
   public get<T>(uri: string, options?: HttpRequestOptions) {
-    return this.httpClient.get<T>(`${this.apiUri}${uri}`)
+    const url = `${this.apiUri}${uri}`
+    console.log(url)
+    return this.httpClient.get<T>(url)
   }
 
   public post<T>(uri: string, data: any, options?: HttpRequestOptions) {
