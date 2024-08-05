@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 export interface DialogData {
@@ -16,7 +16,8 @@ export interface DialogData {
     CommonModule
   ],
   templateUrl: './popup.component.html',
-  styleUrl: './popup.component.scss'
+  styleUrl: './popup.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class PopupComponent {
 

@@ -7,8 +7,8 @@
     <div class="image-bg" #backgroundRef>
         <div class="image-bg-container">
             
-            @for(img of _artist?.images; track img.firePath) {
-                <img [src]="img.url" class="image-bg-item" #image/>
+            @for(imgSet of _artist?.images?.bg; track $index) {
+                <img [src]="imgSet.bg?.url" class="image-bg-item" #image/>
             }
             
         </div>
@@ -26,16 +26,16 @@
 
         <div class="avatar-container margin-bottom-2">
             <div class="avatar">
-                <img [src]="_artist?.avatar?.url" alt="avatar">
+                <img [src]="_artist?.images?.avatar?.avatar?.url" alt="avatar">
             </div>
             <div>
                 <h1 class="fs1 light baron">{{_artist?.name}}</h1>
                 <app-country [countryCode]="_artist?.countryCode!"></app-country>
             </div>
+            
             @if (DESKTOP) {
                 <div class="flexer"></div>
             }
-
 
             <app-btn
                 class="light"

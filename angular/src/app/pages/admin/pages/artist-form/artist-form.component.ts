@@ -12,9 +12,9 @@ import { ButtonComponent } from '../../../controls/button/button.component';
 import { SelectorComponent, SelectorItem } from '../../../controls/selector/selector.component';
 import { FileLoaderComponent } from '../../../controls/file-loader/file-loader.component';
 import { FileViewComponent } from '../../../controls/file-loader/file-view/file-view.component';
-import { ArtistForm, FireImg } from '../../../../services/artist/model/artist-form';
+import { ArtistForm, FireImg, Images } from '../../../../services/artist/model/artist-form';
 import { ArtistService } from '../../../../services/artist/artist.service';
-import { catchError, concatMap, forkJoin, noop, of } from 'rxjs';
+import { catchError, concatMap, filter, forkJoin, map, noop, of } from 'rxjs';
 import { NavService } from '../../../../services/nav.service';
 import { TextareaElementComponent } from '../../../controls/textarea-element/textarea-element.component';
 import { TextareaComponent } from '../../../controls/textarea/textarea.component';
@@ -22,6 +22,8 @@ import { Country } from '../../../../services/countries/country.model';
 import { ArtistsViewComponent } from '../../../views/artists-view/artists-view.component';
 import { Store } from '@ngrx/store';
 import { fetchArtists } from '../../../../store/artist/artists.state';
+import { FireImgStorageService } from '../../../../services/fire-img-storage.service';
+import { ImgSize, ImgUtil } from '../../../../utils/img.util';
 
 
 @Component({
@@ -51,6 +53,7 @@ export class ArtistFormComponent {
     private readonly countriesService: CountriesService,
     private readonly artistMediasService: ArtistMediasService,
     private readonly artistService: ArtistService,
+    private readonly fireImgStorageService: FireImgStorageService,
     private readonly fb: FormBuilder,
     private readonly nav: NavService,
     private readonly store: Store,
@@ -80,6 +83,14 @@ export class ArtistFormComponent {
   _everyMediaTypeSelected = false
 
   artistMedias: ArtistMediaCode[] = []
+
+  get _avatarFileName(): string {
+    return `${this.form.controls.name.value?.replace(' ', '_')}-avatar.jpg`
+  }
+
+  _imageFileName(index: number): string {
+    return `${this.form.controls.name.value?.replace(' ', '_')}-bg-${index}.jpg`
+  }
 
 
   ngOnInit() {
@@ -183,14 +194,21 @@ export class ArtistFormComponent {
     const imageFiles = this.form.controls.images.value || []
     if (!imageFiles.length) throw new Error('Missing background file')
 
+    
     const imageUlopads$ = imageFiles
       .filter(file => !!file)
-      .map((file, i) => this.artistService.uploadImage$(file, `artist/${name}/img_${i}`))
+      .map((file, i) => this.fireImgStorageService.createFireImgSet$(file, 
+        `artist/${name}/bg-${i}`, 
+        [ImgSize.bg, ImgSize.miniBg, ImgSize.avatar]))
 
-    imageUlopads$.unshift(this.artistService.uploadImage$(avatarFile, `artist/${name}/avatar`))
+    imageUlopads$.unshift(this.fireImgStorageService.createFireImgSet$(avatarFile, 
+      `artist/${name}/avatar`, 
+      [ImgSize.avatar, ImgSize.mini]))
 
     forkJoin(imageUlopads$).pipe(
       catchError(error => this.handleUploadImagesError(error)),
+      filter(fireImgs => !!fireImgs),
+      map(fireImgs => ImgUtil.prepareImages(fireImgs)),
       concatMap(images => this.createArtist$(images)),
       catchError(error => this.handleCreateArtistError(error)),
     ).subscribe(artist => {
@@ -201,13 +219,12 @@ export class ArtistFormComponent {
     })
   }
 
-  private createArtist$(images?: FireImg[]) {
-    if (!images) return of()
+  private createArtist$(images: Images) {
     this.artist = this.prepareArtistForm(images)
     return this.artistService.createArtist$(this.artist)
   }
 
-  private prepareArtistForm(images: FireImg[]): ArtistForm  {
+  private prepareArtistForm(images: Images): ArtistForm  {
     return {
       signature: 'signature',
       name: this.f.name.value!,
@@ -217,8 +234,7 @@ export class ArtistFormComponent {
       email: this.f.email.value!,
       phone: this.f.phone.value!,
       medias: this._selectedMedias.length ? this._selectedMedias : undefined,
-      avatar: images[0],
-      images: images.slice(1),
+      images: images,
       bio: this.f.bio.value!
     }
   }
@@ -241,12 +257,18 @@ export class ArtistFormComponent {
   private removeImagesFromStorage() {
     const deletes$ = []
     if (this.artist) {
-      if (this.artist.avatar) {
-        deletes$.push(this.artistService.deleteImage$(this.artist.avatar))
-      }
       if (this.artist.images) {
-        for (let fireImg of this.artist.images) {
-          deletes$.push(this.artistService.deleteImage$(fireImg))
+        
+        if (this.artist.images.avatar) {
+          // 
+          deletes$.push(this.fireImgStorageService.deleteImage$(this.artist.images.avatar.avatar!))
+        }
+        
+        for (let fireImgSet of this.artist.images.bg || []) {
+          // TODO
+          if (fireImgSet.bg) {
+            deletes$.push(this.fireImgStorageService.deleteImage$(fireImgSet.bg))
+          }
         }
       }
     }

@@ -20,6 +20,10 @@ $control-padding: $control-padding-y $control-padding-x;
 $selector-item-height: 50px;
 $selector-img-height: 50px;
 
+.btn {
+    cursor: pointer;
+}
+
 .desktop {
 
     .form-page {

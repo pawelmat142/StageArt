@@ -49,7 +49,7 @@ export class BookingFormComponent {
       firstName: new FormControl('', Validators.required),
       lastName: new FormControl(''),
       phoneNumber: new FormControl('', Validators.required),
-      email: new FormControl('', Validators.required),
+      email: new FormControl('', [Validators.required, Validators.email]),
       telegram: new FormControl(''),
     })
   })

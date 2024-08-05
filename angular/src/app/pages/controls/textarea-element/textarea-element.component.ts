@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-textarea-element',
@@ -8,7 +8,8 @@ import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@
     CommonModule
   ],
   templateUrl: './textarea-element.component.html',
-  styleUrl: './textarea-element.component.scss'
+  styleUrl: './textarea-element.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class TextareaElementComponent {
 

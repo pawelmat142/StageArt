@@ -1,11 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, EventEmitter, forwardRef, HostListener, Injector, Input, Output, ViewChild } from '@angular/core';
-import { NG_VALUE_ACCESSOR, NgControl, ReactiveFormsModule } from '@angular/forms';
+import { Component, ElementRef, EventEmitter, forwardRef, HostListener, Injector, Input, Output } from '@angular/core';
+import { NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { IconButtonComponent } from '../../components/icon-button/icon-button.component';
 import { DialogData } from '../../components/popup/popup.component';
 import { NavService } from '../../../services/nav.service';
 import { FileViewComponent } from './file-view/file-view.component';
 import { AbstractControlComponent } from '../abstract-control/abstract-control.component';
+import { ImgUtil } from '../../../utils/img.util';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-file-loader',
@@ -15,6 +18,7 @@ import { AbstractControlComponent } from '../abstract-control/abstract-control.c
     ReactiveFormsModule,
     IconButtonComponent,
     FileViewComponent,
+    MatProgressSpinnerModule
   ],
   templateUrl: './file-loader.component.html',
   styleUrl: './file-loader.component.scss',
@@ -34,21 +38,14 @@ export class FileLoaderComponent extends AbstractControlComponent<File | null> {
     super(elementRef, injector);
   }
 
-  onFileChange(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      this.setValue(input.files[0])
-    }
-  }
-
-  override onclick = ($event: MouseEvent) => {
-  }
-
 
   @Output() removeControl = new EventEmitter<void>()
 
   @Input() circle = false
   @Input() extensions = ['jpg', 'png']
+  @Input() resultFileName?: string
+
+  _loading = false
 
   @HostListener('dragover', ['$event']) onDragOver(event: DragEvent) {
     event.preventDefault();
@@ -69,6 +66,27 @@ export class FileLoaderComponent extends AbstractControlComponent<File | null> {
     if (event.dataTransfer && event.dataTransfer.files.length > 0) {
       const file = event.dataTransfer.files[0]
       this.setValue(file)
+    }
+  }
+
+
+  onFileChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0]
+      this.convertAndSetValue(file)
+    }
+  }
+
+  private async convertAndSetValue(value: File | null) {
+    this.setValue(null)
+    if (value) {
+      this._loading = true
+      ImgUtil.resizeImgFile$(value)
+        .pipe(tap(file => {
+          this.setValue(file)
+          this._loading = false
+        })).subscribe()
     }
   }
 

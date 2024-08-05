@@ -1,8 +1,15 @@
-<div class="img-wrapper" [class.circle]="circle">
-    <img 
-    [style.width]="_width+'px'"
-    [style.height]="_width+'px'"
-    *ngIf="file" [src]="_imageSrc" 
-    [alt]="file.name || 'empty'" 
-    >
-</div>
+@if (loading) {
+    <div class="spinner-wrapper">
+        <mat-spinner></mat-spinner>
+    </div>
+} 
+@else {
+    <div class="img-wrapper">
+        <img 
+        [style.width]="_width+'px'"
+        [style.height]="_width+'px'"
+        *ngIf="file" [src]="_imageSrc" 
+        [alt]="file.name || 'empty'" 
+        >
+    </div>
+}

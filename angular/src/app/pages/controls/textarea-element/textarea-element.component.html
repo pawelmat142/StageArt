@@ -1,9 +1,10 @@
 <textarea
+    class="textarea form-input-control"
     [value]="value"
     [attr.disabled]="disabled ? true : null"
     (input)="_onInput($event)"
     type="text"
     spellcheck="false"
-    class="textarea"
     #textareaRef
+    [placeholder]="placeholder"
 ></textarea>

@@ -1,8 +1,24 @@
 import { ArtistMedia } from "../artist-medias/artist-medias.service"
 
+
+
 export interface FireImg {
     firePath: string
     url: string
+}
+
+export interface FireImgSet {
+    name: string
+    bg?: FireImg
+    miniBg?: FireImg
+
+    avatar?: FireImg
+    mini?: FireImg
+}
+
+export interface Images {
+    avatar?: FireImgSet
+    bg?: FireImgSet[]
 }
 
 export interface ArtistForm {
@@ -14,7 +30,8 @@ export interface ArtistForm {
     email: string
     phone: string
     medias?: ArtistMedia[]
-    avatar: FireImg
-    images: FireImg[]
+
+    images: Images
+
     bio: string
 }

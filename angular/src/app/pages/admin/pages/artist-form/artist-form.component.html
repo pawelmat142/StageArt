@@ -95,12 +95,13 @@
 
             <div class="images-grid margin-bottom" >
                 <app-file-loader
+                    class="circle"
                     formControlName="avatar"
                     [required]="true"
                     label="Image 1 (avatar)"
                     placeholder="Drop file or click for select... (.png, .jpg)"
-                    [circle]="true"
-                    >
+                    [resultFileName]="_avatarFileName"
+                >
                 </app-file-loader>
 
                 @for (i of f.images.controls; track $index) {
@@ -111,6 +112,7 @@
                             [label]="'Image ' + ($index+2) +' (background)'"
                             placeholder="Drop file or click for select... (.png, .jpg)"
                             (removeControl)="_removeImage($index)"
+                            [resultFileName]="_imageFileName($index)"
                             >
                         </app-file-loader>
                     </ng-container>

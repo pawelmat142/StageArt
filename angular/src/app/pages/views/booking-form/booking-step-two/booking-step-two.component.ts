@@ -43,7 +43,7 @@ export class BookingStepTwoComponent {
     return {
       code: artist.name,
       name: artist.name,
-      imgUrl: artist.avatar.url
+      imgUrl: artist.images.avatar?.mini?.url
     }
   }
 

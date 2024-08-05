@@ -9,9 +9,20 @@
         object-fit: cover;
         display: flex;
     }
+}
 
-    &.circle {
+.circle {
+    .img-wrapper {
         border-radius: 50%;
         overflow: hidden;
+    }
+}
+
+.spinner-wrapper {
+    display: flex;
+    justify-content: center;
+
+    .mat-mdc-progress-spinner .mdc-circular-progress__determinate-circle, .mat-mdc-progress-spinner .mdc-circular-progress__indeterminate-circle-graphic {
+        stroke: $red;
     }
 }

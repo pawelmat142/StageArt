@@ -1,5 +1,5 @@
 import { ArtistMedia } from "../artist-medias/artist-medias.service"
-import { FireImg } from "./artist-form"
+import { Images } from "./artist-form"
 
 export interface ArtistViewDto {
 
@@ -11,9 +11,7 @@ export interface ArtistViewDto {
     
     medias?: ArtistMedia[]
     
-    avatar: FireImg
-    
-    images: FireImg[]
+    images: Images
     
     bio: string
 

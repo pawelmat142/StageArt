@@ -1,7 +1,7 @@
 <div class="artist-card" (click)="goToArtist()">
 
     <div class="img-wrapper">
-        <img [src]="artist.avatar.url" [alt]="artist.name">
+        <img [src]="artist.images.avatar?.avatar?.url" [alt]="artist.name">
     </div>
 
     <div class="description">

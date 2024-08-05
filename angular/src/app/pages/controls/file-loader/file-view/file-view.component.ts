@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, HostListener, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, OnChanges, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-file-view',
@@ -8,9 +9,11 @@ import { ReactiveFormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    MatProgressSpinnerModule,
   ],
   templateUrl: './file-view.component.html',
-  styleUrl: './file-view.component.scss'
+  styleUrl: './file-view.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class FileViewComponent implements OnChanges {
 
@@ -22,6 +25,7 @@ export class FileViewComponent implements OnChanges {
 
   @Input() file?: File
   @Input() circle = false
+  @Input() loading = false
 
   _width!: number
 
@@ -32,7 +36,7 @@ export class FileViewComponent implements OnChanges {
 
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['file'] && !changes['file'].isFirstChange()) {
+    if (changes['file']) {
       this.getWidth()
 
       if (this.file) {
@@ -40,20 +44,14 @@ export class FileViewComponent implements OnChanges {
         
         reader.onload = e => {
           this._imageSrc = reader.result
-        }
-    
-        if (this.file) {
-          reader.readAsDataURL(this.file)
           this.getWidth()
         }
-
+        reader.readAsDataURL(this.file)
+        
       } else {
         this._imageSrc = null
       }
     }
-
   }
-
-
 
 }
