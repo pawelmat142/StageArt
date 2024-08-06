@@ -9,7 +9,7 @@
 }
 .grid {
     display: grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 100%;
 
     .grid-item {
         margin: $padding-standard 0.5*$padding-standard;

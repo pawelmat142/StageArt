@@ -56,7 +56,7 @@ export class HeaderComponent {
   }
 
 
-  home() {
+  _home() {
     this.nav.home()
   }
 

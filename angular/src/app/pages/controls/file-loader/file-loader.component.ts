@@ -82,8 +82,7 @@ export class FileLoaderComponent extends AbstractControlComponent<File | null> {
     this.setValue(null)
     if (value) {
       this._loading = true
-      ImgUtil.resizeImgFile$(value)
-        .pipe(tap(file => {
+      ImgUtil.resizeImgFile$(value).pipe(tap(file => {
           this.setValue(file)
           this._loading = false
         })).subscribe()

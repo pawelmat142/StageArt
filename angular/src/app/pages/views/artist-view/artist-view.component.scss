@@ -6,11 +6,9 @@
 
 $view-padding: 4*$padding-standard;
 
-.desktop {
-    .image-bg {
-        max-height: 100vh;
-    }
 
+
+.desktop {
     .image-bg-item {
 
         max-height: 100vh;
@@ -20,7 +18,8 @@ $view-padding: 4*$padding-standard;
         .avatar-container {
             padding-left: $view-padding;
             padding-right: $view-padding;
-            gap: 2*$padding-standard;
+            column-gap: 3*$padding-standard;
+            row-gap: $padding-standard;
             align-items: center;
 
             app-btn {
@@ -31,6 +30,10 @@ $view-padding: 4*$padding-standard;
             .avatar {
                 width: 17vw;
                 height: 17vw;
+            }
+
+            h1 {
+                margin-bottom: $padding-standard;
             }
         }
 
@@ -53,12 +56,21 @@ $view-padding: 4*$padding-standard;
 
     }
 
+    .country-container {
+        .icon-button {
+            img {
+                max-height: 50px;
+            }
+        }
+    }
+
 }
 
 .image-bg {
+    height: 100%;
     position: fixed;
     width: 100vw;
-    max-height: 60vw;
+    max-height: 100vh;
     white-space: nowrap;
     background-color: $dark;
     opacity: 0.7;
@@ -94,9 +106,11 @@ $view-padding: 4*$padding-standard;
     }
 
     .avatar-container {
-        padding-left: $view-margin-1-desc;
-        padding-right: $view-margin-1-desc;
-        gap: $padding-standard;
+        padding-left: $view-margin-2-desc;
+        padding-right: $view-margin-2-desc;
+
+        column-gap: $padding-standard;
+        row-gap: 0;
         display: flex;
         align-items: flex-start;
         width: 100%;
@@ -159,6 +173,14 @@ $view-padding: 4*$padding-standard;
         }
     }
     
+}
+
+.country-container {
+    .icon-button {
+        img {
+            max-height: 30px;
+        }
+    }
 }
 
 .menu-button {
