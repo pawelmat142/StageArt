@@ -34,7 +34,6 @@ export class BookingStepOneComponent {
   @Input() form!: FormGroup
 
   ngOnInit(): void {
-    console.log(this.form)
     this._countryItems = this.countriesService.getCountries()
   }
 

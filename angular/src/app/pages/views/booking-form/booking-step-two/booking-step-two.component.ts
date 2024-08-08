@@ -32,7 +32,6 @@ export class BookingStepTwoComponent {
     this.artistItems$ = this.store
       .pipe(select(store => store.artists.artists))
       .pipe(map(artists => artists.map(a => this.artistToSelectorItem(a))))
-      .pipe(tap(console.log))
     }
 
   ngOnInit(): void {

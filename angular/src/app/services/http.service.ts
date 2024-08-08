@@ -36,5 +36,9 @@ export class HttpService {
     return this.httpClient.post<T>(`${this.apiUri}${uri}`, data)
   }
 
+  public put<T>(uri: string, data: any, options?: HttpRequestOptions) {
+    return this.httpClient.put<T>(`${this.apiUri}${uri}`, data)
+  }
+
 
 }

@@ -36,6 +36,7 @@
         <div class="btns margin-top-2">
             <app-btn label="back" [hidden]="_stepIndex === 1" (click)="_prev()"></app-btn>
             <div></div>
+
             @if (_stepIndex === 3) {
                 <app-btn label="submit" (click)="_submit()"></app-btn>
             } 

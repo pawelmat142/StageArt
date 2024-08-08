@@ -3,7 +3,7 @@ import { ArtistViewDto } from '../../services/artist/model/artist-view.dto';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ArtistService } from '../../services/artist/artist.service';
-import { catchError, map, mergeMap, of, withLatestFrom } from 'rxjs';
+import { catchError, map, of, switchMap, withLatestFrom } from 'rxjs';
 
 export interface ArtistsState {
     artists: ArtistViewDto[]
@@ -13,12 +13,12 @@ export interface ArtistsState {
 }
 
 enum ArtistsAction {
-    INIT_ARTISTS = "[] Init Artists",
-    ARTISTS_INITIALIZED = "[] Artists initialized",
-    FETCH_ARTISTS = "[] Fetch artists",
-    FETCH_ARTISTS_SUCCESS = "[] Fetch artists success",
-    FETCH_ARTISTS_FAILED = "[] Fetch artists failed",
-    CLEAN_ARTISTS = "[] Clean artists"
+    INIT_ARTISTS = "Init Artists",
+    ARTISTS_INITIALIZED = "Artists initialized",
+    FETCH_ARTISTS = "Fetch artists",
+    FETCH_ARTISTS_SUCCESS = "Fetch artists success",
+    FETCH_ARTISTS_FAILED = "Fetch artists failed",
+    CLEAN_ARTISTS = "Clean artists"
 }
 
 export const initArtists = createAction(ArtistsAction.INIT_ARTISTS)
@@ -65,6 +65,7 @@ export const artistsReducer = createReducer(
 
 @Injectable()
 export class ArtistEffect {
+
     constructor(
         private actions$: Actions,
         private artistService: ArtistService, 
@@ -74,7 +75,8 @@ export class ArtistEffect {
     initArtists$ = createEffect(() => this.actions$.pipe(
         ofType(initArtists),
         withLatestFrom(this.store.select(state => state.artists.initialized)),
-        mergeMap(([action, initialized]) => {
+        map(arr => arr[1]),
+        switchMap(initialized => {
             if (initialized) {
                 return of(artistsInitialized())
             }
@@ -84,11 +86,18 @@ export class ArtistEffect {
 
     fetchArtists$ = createEffect(() => this.actions$.pipe(
         ofType(fetchArtists),
-        mergeMap(() => this.artistService.fetchArtists$().pipe(
-            map(artists => fetchArtistsSuccess({ artists })),
-            catchError(error => of(fetchArtistsFail(error)))
-        ))
+        switchMap(() => this.artistService.fetchArtists$()),
+        map(artists => fetchArtistsSuccess({ artists })),
+        catchError(error => of(fetchArtistsFail(error)))
     ))
+
+    // fetchArtists$ = createEffect(() => this.actions$.pipe(
+    //     ofType(fetchArtists),
+    //     switchMap(() => this.artistService.fetchArtists$().pipe(
+    //         map(artists => fetchArtistsSuccess({ artists })),
+    //         catchError(error => of(fetchArtistsFail(error)))
+    //     ))
+    // ))
 
 }
 

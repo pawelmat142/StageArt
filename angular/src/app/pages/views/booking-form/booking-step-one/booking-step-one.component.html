@@ -4,7 +4,7 @@
     
     <div class="control-margin">
         <app-dates 
-            formControlName="eventDate"
+            formControlName="datePeriod"
             label="Event date period"
             placeholder="Select date period..."
             [required]="true"
@@ -13,7 +13,7 @@
    
     <div class="control-margin">
         <app-input
-            formControlName="eventName"
+            formControlName="name"
             label="Event name"
             placeholder="Provide event name..."
             [required]="true"
@@ -23,7 +23,7 @@
     <div class="control-margin">
         <app-selector
             class="skip-aspect-ratio"
-            formControlName="eventCountry"
+            formControlName="country"
             [required]="true"
             [items]="_countryItems"
             label="Event country"
@@ -50,7 +50,7 @@
         
     <div class="control-margin">
         <app-textarea
-            formArrayName="timetable"
+            formControlName="timetable"
             label="Lineup / Timetable"
             placeholder="Provide lineup or timetable..."
         ></app-textarea>

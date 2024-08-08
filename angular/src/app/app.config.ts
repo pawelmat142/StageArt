@@ -16,6 +16,7 @@ import { provideState, provideStore } from '@ngrx/store';
 import { ArtistEffect, artistsReducer } from './store/artist/artists.state';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideEffects } from '@ngrx/effects';
+import { BookingFormEffect, bookingFormReducer } from './store/booking-form/booking-form.state';
 
 registerLocaleData(localeEn);
 
@@ -27,7 +28,8 @@ export const appConfig: ApplicationConfig = {
 
     provideStore(),
     provideState({ name: 'artists', reducer: artistsReducer }),
-    provideEffects([ArtistEffect]),
+    provideState({ name: 'bookingForm', reducer: bookingFormReducer }),
+    provideEffects([ArtistEffect, BookingFormEffect]),
     
     provideHttpClient(withInterceptorsFromDi()),
     provideAnimations(),

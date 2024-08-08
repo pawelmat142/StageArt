@@ -9,6 +9,14 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { BtnComponent } from '../../controls/btn/btn.component';
 import { ArtistViewDto } from '../../../services/artist/model/artist-view.dto';
 import { Util } from '../../../utils/util';
+import { DatePeriod } from '../../controls/dates/dates.component';
+import { Country } from '../../../services/countries/country.model';
+import { BookingFormService } from '../../../store/booking-form/booking-form.service';
+import { Subscription, tap } from 'rxjs';
+import { BookingFormState, openForm, startForm, storeForm } from '../../../store/booking-form/booking-form.state';
+import { BookingForm } from '../../../store/booking-form/booking-form.model';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../store/app.state';
 
 @Component({
   selector: 'app-booking-form',
@@ -31,21 +39,29 @@ export class BookingFormComponent {
   
   constructor(
     private readonly fb: FormBuilder,
+    private readonly bookingFormService: BookingFormService,
+    private readonly store: Store<AppState>,
   ) {}
 
+  newArtistGroup = () => this.fb.group({
+    artist: new FormControl<ArtistViewDto | undefined>(undefined, Validators.required),
+    offerNotes: new FormControl(''),
+    stageTime: new FormControl('', Validators.required),
+  })
+
   forms = new FormGroup({
-    one: new FormGroup({
-      eventDate: new FormControl<Date | null>(null, Validators.required),
-      eventName: new FormControl('', Validators.required),
-      eventCountry: new FormControl('', Validators.required),
+    eventDetails: new FormGroup({
+      datePeriod: new FormControl<DatePeriod | null>(null, Validators.required),
+      name: new FormControl('', Validators.required),
+      country: new FormControl<Country | null>(null, Validators.required),
       locationInfo: new FormControl(''),
       eventUrl: new FormControl(''),
       timetable: new FormControl(''),
     }),
 
-    two: new FormArray([this.newArtistGroup()], Validators.minLength(1)),
+    artistsDetails: new FormArray([this.newArtistGroup()], Validators.minLength(1)),
   
-    three: new FormGroup({
+    contactDetails: new FormGroup({
       firstName: new FormControl('', Validators.required),
       lastName: new FormControl(''),
       phoneNumber: new FormControl('', Validators.required),
@@ -54,10 +70,77 @@ export class BookingFormComponent {
     })
   })
 
+  bookingFormSubscription?: Subscription
 
-  _stepOne = this.forms.controls.one
-  _stepTwo = this.forms.controls.two
-  _stepThree = this.forms.controls.three
+  bookingForm?: BookingFormState
+
+
+  onBookingForm(bookingForm: BookingFormState) {
+    this.bookingForm = bookingForm
+    if (!bookingForm.form.id) {
+      return
+    }
+    console.log('onBookingForm')
+    this.setFormValues(this.forms, bookingForm.form)
+  }
+
+  ngOnInit(): void {
+    this.bookingFormSubscription = this.store.select('bookingForm').subscribe(bookingForm => {
+      console.log(bookingForm)
+    })
+    this.store.dispatch(openForm())
+
+  }
+
+
+  setFormValues(formGroup: FormGroup, object: any) {
+    Object.keys(formGroup.controls).forEach(key => {
+      const control = formGroup.get(key)
+      const value = object[key]
+
+      if (control && value) {
+        if (control instanceof FormGroup) {
+          this.setFormValues(control, value)
+        }
+        else 
+        if (control instanceof FormArray) {
+          this.setFormArray(control, value)
+        }
+        else 
+        if (control instanceof FormControl) {
+          control.setValue(value)
+        }
+      }
+    })
+  }
+
+  setFormArray(formArray: FormArray, array: any) {
+    formArray.controls.forEach((control, index) => {
+      const value = array[index]
+      if (control instanceof FormGroup) {
+        this.setFormValues(control, value)
+      } 
+      else 
+      if (control instanceof FormArray) {
+        this.setFormArray(control, value)
+      }
+      else 
+      if (control instanceof FormControl) {
+        control.setValue(value)
+      }
+    })
+
+  }
+
+
+  ngOnDestroy() {
+    this.bookingFormSubscription?.unsubscribe()
+  }
+
+
+  _stepOne = this.forms.controls.eventDetails
+  _stepTwo = this.forms.controls.artistsDetails
+  _stepThree = this.forms.controls.contactDetails
 
   get _lastStep(): boolean {
     return this._stepIndex === 3
@@ -83,6 +166,18 @@ export class BookingFormComponent {
       return
     }
     if (this._stepForm.valid) {
+
+      const bookingForm = this.forms.value as BookingForm
+
+      this.bookingFormService.getId$().pipe(tap(id => {
+        if (id) {
+          bookingForm.id = id
+          this.store.dispatch(storeForm(bookingForm))
+        } else {
+          this.store.dispatch(startForm(bookingForm))
+        }
+      })).subscribe()
+      
       this._stepIndex ++
     } else {
       this.markStepFormAsDirty()
@@ -96,12 +191,11 @@ export class BookingFormComponent {
   }
 
   _submit() {
-    console.log(this.forms)
     console.log('TODO: submit booking form')
   }
 
   _addArtist() {
-    const artistsFormArr = this.forms.controls.two
+    const artistsFormArr = this.forms.controls.artistsDetails
     artistsFormArr.push(this.newArtistGroup())
   }
 
@@ -111,13 +205,7 @@ export class BookingFormComponent {
     this._stepTwo.controls = controls
   }
 
-  private newArtistGroup() {
-    return this.fb.group({
-      artist: new FormControl<ArtistViewDto | undefined>(undefined, Validators.required),
-      offerNotes: new FormControl(''),
-      stageTime: new FormControl('', Validators.required),
-    })
-  }
+
 
   private markStepFormAsDirty() {
     const controls = this._stepForm.controls

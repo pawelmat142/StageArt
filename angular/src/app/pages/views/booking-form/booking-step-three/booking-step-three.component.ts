@@ -19,7 +19,6 @@ export class BookingStepThreeComponent {
   @Input() form!: FormGroup
 
   ngOnInit(): void {
-    console.log(this.form)
   }
 
 }
