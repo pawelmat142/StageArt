@@ -14,7 +14,7 @@ import { MediaItemComponent } from '../../components/media-item/media-item.compo
 import { ButtonComponent } from '../../controls/button/button.component';
 import { BtnComponent } from '../../controls/btn/btn.component';
 import { DESKTOP } from '../../../services/device';
-import { BookingFormComponent } from '../booking-form/booking-form.component';
+import { BookFormComponent } from '../book-form/book-form.component';
 
 @Component({
   selector: 'app-artist-view',
@@ -79,7 +79,7 @@ export class ArtistViewComponent {
   }
 
   _onBookNow() {
-    this.nav.to(BookingFormComponent.path)
+    this.nav.to(BookFormComponent.path)
   }
 
 }

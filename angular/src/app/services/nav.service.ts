@@ -6,7 +6,7 @@ import { DialogData, PopupComponent } from '../pages/components/popup/popup.comp
 import { ArtistFormComponent } from '../pages/admin/pages/artist-form/artist-form.component';
 import { NotFoundPageComponent } from '../pages/error/not-found-page/not-found-page.component';
 import { ArtistsViewComponent } from '../pages/views/artists-view/artists-view.component';
-import { BookingFormComponent } from '../pages/views/booking-form/booking-form.component';
+import { BookFormComponent } from '../pages/views/book-form/book-form.component';
 
 export interface MenuButtonItem {
   label: string
@@ -40,7 +40,7 @@ export class NavService {
     onclick: () => this.to(ArtistsViewComponent.path)
   }, {
     label: "Book now",
-    onclick: () => this.to(BookingFormComponent.path)
+    onclick: () => this.to(BookFormComponent.path)
   }, {
     label: "ADD",
     onclick: () => this.to(ArtistFormComponent.path)

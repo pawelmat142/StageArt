@@ -1,5 +1,5 @@
-import { Component, ElementRef, forwardRef, HostBinding, HostListener, Injector, Input, QueryList, Renderer2, ViewChildren } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
+import { Component, ElementRef, HostBinding, HostListener, Injector, Input, QueryList, Renderer2, ViewChildren } from '@angular/core';
+import { ControlValueAccessor, NgControl } from '@angular/forms';
 
 @Component({
   template: '',
@@ -103,8 +103,7 @@ export abstract class AbstractControlComponent<T> implements ControlValueAccesso
 
   ngOnInit(): void {
     this.value = this._EMPTY_VALUE
-    this._label = this.required ? `*${this.label}` : this.label
-    // this.ngControl = this.injector?.get(NgControl);
+    this._label = this.required ? `${this.label} *` : this.label
   }
 
   @Input() label!: string

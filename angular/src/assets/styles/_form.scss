@@ -82,6 +82,7 @@ textarea {
 
 
 .form-container {
+    position: relative;
     display: block;
     background-color: $white;
     padding: 2*$padding-standard $view-margin-1;
@@ -97,7 +98,10 @@ textarea {
             width: 100%;
         }
     }
+
+
 }
+
 
 .form-input:hover {
     border-color: $yellow;
@@ -213,4 +217,17 @@ textarea {
 .placeholder {
     @extend .form-input-control;
     color: $placeholder-color!important;
+}
+
+.courtine {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: $dark-courtine;
+
+    align-items: center;
+    justify-content: center;
+    display: flex;
 }

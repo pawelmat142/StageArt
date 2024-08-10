@@ -1,0 +1,58 @@
+
+@if (formGroup) {
+    <div [formGroup]="formGroup" class="form-container">
+
+        @if (isLoading$ | async) {
+            <div class="courtine">
+                <p-progressSpinner 
+                    styleClass="w-4rem h-4rem" 
+                    strokeWidth="8" 
+                    animationDuration=".5s" />
+            </div>
+        }
+
+        @if (step) {
+            <div class="step">
+
+                <h1 class="dark margin-bottom-2 baron">{{step.name}}</h1>
+
+                @if (step.array) {
+
+                    <app-array [step]="step" [rebuildDetector]="rebuildDetector"></app-array>
+
+                    <div class="btns margin-top-2">
+                        <app-btn label="remove" (click)="_removeFromArray(step.name)" [active]="this._removeActive"></app-btn>
+                        <div></div>
+                        <app-btn label="add" (click)="_addToArray(step.name)"></app-btn>
+                    </div>
+                } 
+                @else {
+
+                    <app-group [step]="step" [rebuildDetector]="rebuildDetector"></app-group>
+
+                }
+
+            </div>
+        }
+
+        <div class="steps margin-top-2">
+            @for (step of form.steps; track step.name; let index = $index) {
+                <div class="step" [class.active]="index === stepIndex"></div>
+            }
+        </div>
+        
+        <div class="btns margin-top-2">
+            <app-btn label="test" (click)="test()"></app-btn>
+            <app-btn label="back" [active]="stepIndex > 0" (click)="_back()"></app-btn>
+            <div></div>
+            @if (stepIndex === form.steps.length-1) {
+                <app-btn label="submit" (click)="_submit()"></app-btn>
+            } @else {
+                <app-btn label="next" (click)="_next()"></app-btn>
+            }
+        </div>
+        
+
+    </div>
+}
+

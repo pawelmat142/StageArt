@@ -24,6 +24,7 @@ import { Store } from '@ngrx/store';
 import { fetchArtists } from '../../../../store/artist/artists.state';
 import { FireImgStorageService } from '../../../../services/fire-img-storage.service';
 import { ImgSize, ImgUtil } from '../../../../utils/img.util';
+import { FormUtil } from '../../../../utils/form.util';
 
 
 @Component({
@@ -183,7 +184,7 @@ export class ArtistFormComponent {
 
   async _submit() {
     if (this.form.invalid) {
-      Util.markForm(this.form)
+      FormUtil.markForm(this.form)
       return
     }
     this.updateSelectedMedias()

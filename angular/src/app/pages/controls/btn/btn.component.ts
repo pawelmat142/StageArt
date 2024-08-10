@@ -28,7 +28,9 @@ export class BtnComponent {
   _click($event: Event) {
     $event.preventDefault()
     $event.stopPropagation()
-    this.click.emit($event)
+    if (this.active) {
+      this.click.emit($event)
+    }
   }
 
 }

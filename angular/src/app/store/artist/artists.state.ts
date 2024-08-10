@@ -1,9 +1,10 @@
-import { createAction, createReducer, on, props, Store } from '@ngrx/store';
+import { createAction, createReducer, createSelector, on, props, Store } from '@ngrx/store';
 import { ArtistViewDto } from '../../services/artist/model/artist-view.dto';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ArtistService } from '../../services/artist/artist.service';
 import { catchError, map, of, switchMap, withLatestFrom } from 'rxjs';
+import { AppState } from '../app.state';
 
 export interface ArtistsState {
     artists: ArtistViewDto[]
@@ -32,6 +33,14 @@ export const fetchArtistsSuccess = createAction(ArtistsAction.FETCH_ARTISTS_SUCC
 export const fetchArtistsFail = createAction(ArtistsAction.FETCH_ARTISTS_FAILED, props<Error>())
 
 export const cleanArtists = createAction(ArtistsAction.CLEAN_ARTISTS)
+
+
+export const selectArtistsState = (state: AppState) => state.artists
+
+export const loadingChange = createSelector(
+    selectArtistsState,
+    (state: ArtistsState) => state.artists
+)
 
 const initialState: ArtistsState = {
     artists: [],
@@ -90,14 +99,6 @@ export class ArtistEffect {
         map(artists => fetchArtistsSuccess({ artists })),
         catchError(error => of(fetchArtistsFail(error)))
     ))
-
-    // fetchArtists$ = createEffect(() => this.actions$.pipe(
-    //     ofType(fetchArtists),
-    //     switchMap(() => this.artistService.fetchArtists$().pipe(
-    //         map(artists => fetchArtistsSuccess({ artists })),
-    //         catchError(error => of(fetchArtistsFail(error)))
-    //     ))
-    // ))
 
 }
 

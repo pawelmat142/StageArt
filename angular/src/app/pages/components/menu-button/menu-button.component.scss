@@ -16,6 +16,8 @@
     
     transition: $transition-standard;
 
+    text-wrap: nowrap;
+
     &:hover {
         box-shadow: $card-shadow;
     }

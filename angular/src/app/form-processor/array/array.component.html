@@ -1,0 +1,25 @@
+@if (_formArrayName) {
+
+    <div [formArrayName]="_formArrayName">
+
+        @for(group of step.groups; track group.name; let i = $index) {
+
+            @if (_formGroups![i]) {
+                
+                <div [formGroup]="_formGroups![i]">
+
+                    @for(control of group.controls; track control.name; let j = $index) {
+        
+                        <app-control [control]="control"></app-control>
+                    }
+    
+                </div>
+
+            }
+
+        }
+
+
+    </div>
+
+}

@@ -1,11 +1,11 @@
+import { FormState } from "../form-processor/form.state"
 import { ArtistsState } from "./artist/artists.state"
-import { BookingFormState } from "./booking-form/booking-form.state"
 
 export interface AppState {
     artists: ArtistsState
-    bookingForm: BookingFormState
+    formState: FormState
 }
 
-export const selectBookingForm = (state: AppState) => state.bookingForm
+export const selectForm = (state: AppState) => state.formState
 
-export const selectArtists = (state: AppState) => state.artists
+export const selectArtists = (state: AppState) => state.artists.artists

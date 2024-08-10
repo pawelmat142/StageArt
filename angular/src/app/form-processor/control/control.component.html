@@ -1,0 +1,50 @@
+
+@if (_formControlName) {
+    
+    <div class="control-margin">
+    
+        @if (control.type === 'text') {
+            <app-input
+                [formControlName]="_formControlName"
+                [label]="control.name"
+                [placeholder]="control.placeholder || ''"
+                [required]="_required"
+            ></app-input>
+        } 
+    
+        @else if (control.type === 'textarea') {
+            <app-textarea
+                [formControlName]="_formControlName"
+                [label]="control.name"
+                [placeholder]="control.placeholder || ''"
+                [required]="_required"
+            ></app-textarea>
+        
+        } 
+    
+        @else if (control.type === 'period') {
+    
+            <app-dates
+                [formControlName]="_formControlName"
+                [label]="control.name"
+                [placeholder]="control.placeholder || 'Select date period...'"
+                [required]="_required"
+            ></app-dates>
+            
+        } @else if (control.type === 'selector') {
+    
+            <app-selector
+                class="skip-aspect-ratio"
+                [formControlName]="_formControlName"
+                [label]="control.name"
+                [placeholder]="control.placeholder || 'Select...'"
+                [required]="_required"
+                [items]="_selectorItems || []"
+            ></app-selector>
+        
+        } @else {
+            <div>{{control.name}}</div>
+            <div> unknown control type</div>
+        }
+    </div>
+}

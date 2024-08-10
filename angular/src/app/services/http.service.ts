@@ -28,7 +28,6 @@ export class HttpService {
 
   public get<T>(uri: string, options?: HttpRequestOptions) {
     const url = `${this.apiUri}${uri}`
-    console.log(url)
     return this.httpClient.get<T>(url)
   }
 

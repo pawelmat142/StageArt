@@ -8,7 +8,7 @@ import { ArtistViewDto } from '../../../services/artist/model/artist-view.dto';
 import { BtnComponent } from '../../controls/btn/btn.component';
 import { select, Store } from '@ngrx/store';
 import { ArtistsState, initArtists } from '../../../store/artist/artists.state';
-import { BookingFormComponent } from '../booking-form/booking-form.component';
+import { BookFormComponent } from '../book-form/book-form.component';
 
 @Component({
   selector: 'app-artists-view',
@@ -43,7 +43,7 @@ export class ArtistsViewComponent {
   }
 
   _bookNow() {
-    this.nav.to(BookingFormComponent.path)
+    this.nav.to(BookFormComponent.path)
   }
 
 }
