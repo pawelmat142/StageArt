@@ -1,12 +1,14 @@
 import { Component, HostBinding, ViewEncapsulation } from '@angular/core';
 import { BtnComponent } from '../../controls/btn/btn.component';
-import { MenuButtonItem, NavService } from '../../../services/nav.service';
+import { NavService } from '../../../services/nav/nav.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-mobile-btn',
   standalone: true,
   imports: [
-    BtnComponent
+    BtnComponent,
+    CommonModule,
   ],
   templateUrl: './mobile-btn.component.html',
   styleUrl: './mobile-btn.component.scss',
@@ -18,13 +20,9 @@ export class MobileBtnComponent {
     private readonly nav: NavService,
   ) {}
 
-  buttons: MenuButtonItem[] = []
+  buttons$ = this.nav.menuButtons$
 
   @HostBinding('class.open') open = false
-
-  ngOnInit() {
-    this.buttons = this.nav.menuButtons
-  }
 
   _toggle() {
     this.open = !this.open

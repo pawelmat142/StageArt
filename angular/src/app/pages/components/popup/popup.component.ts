@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { BtnComponent } from "../../controls/btn/btn.component";
 
 export interface DialogData {
   header: string
-  content: string[]
+  content?: string[]
   isError?: boolean
   error?: Error
 }
@@ -13,8 +14,10 @@ export interface DialogData {
   selector: 'app-popup',
   standalone: true,
   imports: [
-    CommonModule
-  ],
+    CommonModule,
+    BtnComponent,
+    BtnComponent,
+],
   templateUrl: './popup.component.html',
   styleUrl: './popup.component.scss',
   encapsulation: ViewEncapsulation.None

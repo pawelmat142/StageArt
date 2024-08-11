@@ -2,19 +2,19 @@
 
     @if (data.header) {
         <div class="popup-header">
-            <p class="fs2 light">{{data.header}}</p>
+            <p class="fs2 dark">{{data.header}}</p>
         </div>
     }
 
     @for (c of (data.content || []); track c) {
         <div class="pupup-content">
-            <p class="white">{{c}}</p>
+            <p class="dark">{{c}}</p>
         </div>
     }
 
     <div class="popup-buttons">
         @if (_defaultButton) {
-            <div class="fs5 baron red btn center" (click)="_close()">OK</div>
+            <app-btn class="big center" label="OK" (click)="_close()"></app-btn>
         }
     </div>
 

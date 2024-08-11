@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, ViewEncapsulation } from '@angular/core';
-import { map, Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ArtistViewDto } from '../../../services/artist/model/artist-view.dto';
 import { ArtistCardComponent } from '../../components/artist-card/artist-card.component';
 import { CarouselModule } from 'primeng/carousel';
 import { BtnComponent } from '../../controls/btn/btn.component';
-import { NavService } from '../../../services/nav.service';
+import { NavService } from '../../../services/nav/nav.service';
 import { ArtistsViewComponent } from '../../views/artists-view/artists-view.component';
 import { DESKTOP } from '../../../services/device';
 import { select, Store } from '@ngrx/store';

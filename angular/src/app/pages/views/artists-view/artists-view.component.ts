@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, ViewEncapsulation } from '@angular/core';
 import { ArtistCardComponent } from '../../components/artist-card/artist-card.component';
 import { HeaderComponent } from '../../components/header/header.component';
-import { NavService } from '../../../services/nav.service';
+import { NavService } from '../../../services/nav/nav.service';
 import { map, Observable } from 'rxjs';
 import { ArtistViewDto } from '../../../services/artist/model/artist-view.dto';
 import { BtnComponent } from '../../controls/btn/btn.component';

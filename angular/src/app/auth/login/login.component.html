@@ -1,0 +1,34 @@
+<app-header label="Login"></app-header>
+
+<div class="form-page">
+
+    <div class="form-container">
+    
+        <form [formGroup]="form" (ngSubmit)="_submit()">
+
+            <div class="control-margin">
+                <app-input
+                    formControlName="email"
+                    [required]="true"
+                    label="Email" 
+                ></app-input>
+            </div>
+                
+            <div class="control-margin">
+                <app-input
+                    formControlName="password"
+                    [required]="true"
+                    label="Password" 
+                    type="password"
+                ></app-input>
+            </div>
+
+            <div class="btns">
+                <app-btn label="by telegram" class="big light" (click)="_byTelegram()"></app-btn>
+                <app-btn label="submit" class="big" (click)="_submit()"></app-btn>
+            </div>
+
+        </form>
+
+    </div>
+</div>

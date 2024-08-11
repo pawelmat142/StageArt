@@ -1,4 +1,4 @@
-import { Component, HostListener, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HeaderComponent } from '../../../components/header/header.component';
 import { CountriesService } from '../../../../services/countries/countries.service';
@@ -15,7 +15,7 @@ import { FileViewComponent } from '../../../controls/file-loader/file-view/file-
 import { ArtistForm, FireImg, Images } from '../../../../services/artist/model/artist-form';
 import { ArtistService } from '../../../../services/artist/artist.service';
 import { catchError, concatMap, filter, forkJoin, map, noop, of } from 'rxjs';
-import { NavService } from '../../../../services/nav.service';
+import { NavService } from '../../../../services/nav/nav.service';
 import { TextareaElementComponent } from '../../../controls/textarea-element/textarea-element.component';
 import { TextareaComponent } from '../../../controls/textarea/textarea.component';
 import { Country } from '../../../../services/countries/country.model';
@@ -25,6 +25,7 @@ import { fetchArtists } from '../../../../store/artist/artists.state';
 import { FireImgStorageService } from '../../../../services/fire-img-storage.service';
 import { ImgSize, ImgUtil } from '../../../../utils/img.util';
 import { FormUtil } from '../../../../utils/form.util';
+import { BtnComponent } from '../../../controls/btn/btn.component';
 
 
 @Component({
@@ -40,7 +41,8 @@ import { FormUtil } from '../../../../utils/form.util';
     FileLoaderComponent,
     FileViewComponent,
     TextareaElementComponent,
-    TextareaComponent
+    TextareaComponent,
+    BtnComponent,
 ],
   templateUrl: './artist-form.component.html',
   styleUrl: './artist-form.component.scss',

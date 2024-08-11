@@ -3,7 +3,7 @@ import { Component, ElementRef, EventEmitter, forwardRef, HostListener, Injector
 import { NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { IconButtonComponent } from '../../components/icon-button/icon-button.component';
 import { DialogData } from '../../components/popup/popup.component';
-import { NavService } from '../../../services/nav.service';
+import { NavService } from '../../../services/nav/nav.service';
 import { FileViewComponent } from './file-view/file-view.component';
 import { AbstractControlComponent } from '../abstract-control/abstract-control.component';
 import { ImgUtil } from '../../../utils/img.util';

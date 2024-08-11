@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core"
 import { Actions, createEffect, ofType } from "@ngrx/effects"
 import { createAction, createReducer, createSelector, on, props, Store } from "@ngrx/store"
-import { catchError, map, of, switchMap, tap, withLatestFrom } from "rxjs"
+import { catchError, map, of, switchMap, withLatestFrom } from "rxjs"
 import { FormProcessorService } from "./form-processor.service"
 import { AppState } from "../store/app.state"
 
@@ -29,7 +29,7 @@ export interface FormState {
 
 export const selectFormState = (state: AppState) => state.formState
 
-export const loadingChange = createSelector(
+export const formLoadingChange = createSelector(
     selectFormState,
     (state: FormState) => state.loading
 )

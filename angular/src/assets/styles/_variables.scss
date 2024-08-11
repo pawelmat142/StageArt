@@ -140,3 +140,16 @@ $card-shadow: 0 0 16px $red;
         object-position: center;
     }
 }
+
+.courtine {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: $dark-courtine;
+
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}

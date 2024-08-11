@@ -9,7 +9,7 @@
         <div class="header-section">
 
             @if (DESKTOP) {
-                <div *ngFor="let btn of menuButtons" (click)="btn.onclick()"
+                <div *ngFor="let btn of (menuButtons$ | async)" (click)="btn.onclick()"
                 class="header-button">
                     <h2 class="fs3 baron red hovergrow menu-item">
                         {{btn.label}}

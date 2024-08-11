@@ -1,0 +1,14 @@
+<form [formGroup]="form" (ngSubmit)="_submit()" class="popup-container">
+
+    <div class="control-margin max-300">
+        <app-input
+            formControlName="pin"
+            [required]="true"
+            label="Pin" 
+        ></app-input>
+    </div>
+
+    <app-btn label="submit" class="big center" (click)="_submit()"></app-btn>
+        
+</form>
+

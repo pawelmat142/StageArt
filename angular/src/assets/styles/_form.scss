@@ -78,6 +78,12 @@ textarea {
 
 .control-margin {
     margin-bottom: $padding-standard;
+
+    &.max-300 {
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 300px;
+    }
 }
 
 
@@ -219,15 +225,8 @@ textarea {
     color: $placeholder-color!important;
 }
 
-.courtine {
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    background-color: $dark-courtine;
-
-    align-items: center;
-    justify-content: center;
+.btns {
     display: flex;
+    justify-content: center;
+    gap: $padding-standard;
 }

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, forwardRef } from '@angular/core';
+import { Component, forwardRef, Input } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { AbstractControlComponent } from '../abstract-control/abstract-control.component';
 
@@ -20,6 +20,8 @@ import { AbstractControlComponent } from '../abstract-control/abstract-control.c
 export class InputComponent extends AbstractControlComponent<string> {
 
   override get _EMPTY_VALUE(): string { return '' }
+
+  @Input() type = 'text'
 
   _onInput($event: Event) {
     const input = $event.target as HTMLInputElement;

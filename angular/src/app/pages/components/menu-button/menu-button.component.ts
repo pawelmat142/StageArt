@@ -1,5 +1,5 @@
 import { Component, ElementRef, HostBinding, HostListener, ViewChild, ViewEncapsulation } from '@angular/core';
-import { MenuButtonItem, NavService } from '../../../services/nav.service';
+import { NavService } from '../../../services/nav/nav.service';
 import { CommonModule } from '@angular/common';
 import { BtnComponent } from '../../controls/btn/btn.component';
 
@@ -37,11 +37,7 @@ export class MenuButtonComponent {
     }
   }
 
-  buttons: MenuButtonItem[] = []
-
-  ngOnInit() {
-    this.buttons = this.nav.menuButtons
-  }
+  buttons$ = this.nav.menuButtons$
 
   toggleButton() {
     this.menuButtonOpen = !this.menuButtonOpen

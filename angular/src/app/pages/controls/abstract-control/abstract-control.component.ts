@@ -41,7 +41,6 @@ export abstract class AbstractControlComponent<T> implements ControlValueAccesso
   protected updateValue(value: T): void {
     this.value = value
     this.onChange(value)
-    this.onTouched()
   }
 
   protected input?: HTMLInputElement | HTMLTextAreaElement
@@ -67,6 +66,7 @@ export abstract class AbstractControlComponent<T> implements ControlValueAccesso
   }
 
   protected onblur = ($event: FocusEvent) => {
+    this.onTouched()
     this.active = false
   }
 

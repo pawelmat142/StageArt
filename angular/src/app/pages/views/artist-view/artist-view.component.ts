@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ArtistService } from '../../../services/artist/artist.service';
-import { NavService } from '../../../services/nav.service';
+import { NavService } from '../../../services/nav/nav.service';
 import { Observable, tap } from 'rxjs';
 import { ArtistViewDto } from '../../../services/artist/model/artist-view.dto';
 import { CommonModule } from '@angular/common';

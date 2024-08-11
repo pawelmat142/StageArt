@@ -1,6 +1,6 @@
 import { Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
 import { LogoComponent } from '../logo/logo.component';
-import { MenuButtonItem, NavService } from '../../../services/nav.service';
+import { MenuButtonItem, NavService } from '../../../services/nav/nav.service';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { MenuButtonComponent } from '../menu-button/menu-button.component';
@@ -34,11 +34,10 @@ export class HeaderComponent {
 
   menuButtonOverhiddenSubsciption?: Subscription
 
-  menuButtons: MenuButtonItem[] = []
+  menuButtons$ = this.nav.menuButtons$
 
   ngOnInit() {
     if (this.DESKTOP) {
-      this.menuButtons = this.nav.menuButtons
       if (this.floating) {
         this.menuButtonOverhiddenSubsciption = this.nav.menuButtonOverhidden$.subscribe(menuButtonOverhidden => {
           this.show = menuButtonOverhidden

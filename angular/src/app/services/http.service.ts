@@ -1,9 +1,10 @@
 import { HttpClient, HttpContext, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment'
-import { Observable, pipe } from 'rxjs';
+import { Observable, of, switchMap } from 'rxjs';
 
 export interface HttpRequestOptions {
+  // skipAuth?: boolean
   headers?: HttpHeaders | { [header: string]: string | string[] };
   context?: HttpContext;
   observe?: 'body';
@@ -19,24 +20,45 @@ export interface HttpRequestOptions {
 })
 export class HttpService {
 
-  private readonly apiUri = location.hostname === 'localhost' ? environment.testApiUri : environment.apiUri
+  private readonly apiUri = ['localhost', '127.0.0.1'].includes(location.hostname) ? environment.testApiUri : environment.apiUri
 
   constructor(
-    private readonly httpClient: HttpClient
-  ) { }
-
-
-  public get<T>(uri: string, options?: HttpRequestOptions) {
-    const url = `${this.apiUri}${uri}`
-    return this.httpClient.get<T>(url)
+    private readonly httpClient: HttpClient,
+  ) { 
   }
 
-  public post<T>(uri: string, data: any, options?: HttpRequestOptions) {
-    return this.httpClient.post<T>(`${this.apiUri}${uri}`, data)
+
+  public get<T>(uri: string, auth = false) {
+    return this.authHeader$(auth).pipe(
+      switchMap(headers => {
+        return this.httpClient.get<T>(`${this.apiUri}${uri}`, { headers: headers })
+      })
+    )
   }
 
-  public put<T>(uri: string, data: any, options?: HttpRequestOptions) {
-    return this.httpClient.put<T>(`${this.apiUri}${uri}`, data)
+  public post<T>(uri: string, data: any, auth = false) {
+    return this.authHeader$(auth).pipe(
+      switchMap(headers => this.httpClient.post<T>(`${this.apiUri}${uri}`, data, { headers: headers }))
+    )
+  }
+
+  public put<T>(uri: string, data: any, auth = false) {
+    return this.authHeader$(auth).pipe(
+      switchMap(headers => this.httpClient.put<T>(`${this.apiUri}${uri}`, data, { headers: headers }))
+    )
+  }
+
+
+
+  private authHeader$(auth: boolean): Observable<HttpHeaders | undefined> {
+    // if (this.userSubject$.value && auth) {
+    //     return from(this.userSubject$.value.getIdToken())
+    //         .pipe(
+    //             filter(token => typeof token === 'string'),
+    //             map(token => new HttpHeaders({"Authorization": `Bearer ${token}`}))
+    //         )
+    // }
+    return of(undefined)
   }
 
 

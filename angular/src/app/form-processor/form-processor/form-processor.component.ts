@@ -9,9 +9,8 @@ import { pForm, pFormArray, pFormStep } from '../form-processor.service';
 import { AppState } from '../../store/app.state';
 import { Store } from '@ngrx/store';
 import { skip, Subscription, take } from 'rxjs';
-import { dataChange, FormType, loadingChange, openForm, selectFormId, startForm, storeForm } from '../form.state';
+import { dataChange, FormType, openForm, selectFormId, startForm, storeForm } from '../form.state';
 import { FormUtil } from '../../utils/form.util';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @Component({
   selector: 'app-form-processor',
@@ -22,8 +21,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     ControlComponent,
     BtnComponent,
     GroupComponent,
-    ArrayComponent,
-    ProgressSpinnerModule
+    ArrayComponent
 ],
   viewProviders: [
     {
@@ -48,8 +46,6 @@ export class FormProcessorComponent {
   step?: pFormStep
 
   subscriptions: Subscription[] = []
-
-  isLoading$ = this.store.select(loadingChange).pipe(skip(1))
 
   rebuildDetector = 0
 

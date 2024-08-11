@@ -4,7 +4,7 @@ import { MatChipsModule} from '@angular/material/chips';
 import { CommonModule } from '@angular/common';
 import { CountryComponent } from '../country/country.component';
 import { MediaItemComponent } from '../media-item/media-item.component';
-import { NavService } from '../../../services/nav.service';
+import { NavService } from '../../../services/nav/nav.service';
 
 @Component({
   selector: 'app-artist-card',

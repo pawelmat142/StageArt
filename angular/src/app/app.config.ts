@@ -17,6 +17,8 @@ import { ArtistEffect, artistsReducer } from './store/artist/artists.state';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideEffects } from '@ngrx/effects';
 import { FormEffect, formReducer } from './form-processor/form.state';
+import { FIREBASE_OPTIONS } from '@angular/fire/compat';
+import { profileReducer } from './auth/profile.state';
 
 registerLocaleData(localeEn);
 
@@ -29,16 +31,18 @@ export const appConfig: ApplicationConfig = {
     provideStore(),
     provideState({ name: 'artists', reducer: artistsReducer }),
     provideState({ name: 'formState', reducer: formReducer }),
+    provideState({ name: 'profileState', reducer: profileReducer }),
     provideEffects([ArtistEffect, FormEffect]),
     
     provideHttpClient(withInterceptorsFromDi()),
     provideAnimations(),
     provideAnimationsAsync(),
 
-
-    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
-    // provideAuth(() => getAuth()),
     provideStorage(() => getStorage()),
+    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+
+    { provide: FIREBASE_OPTIONS, useValue: environment.firebaseConfig },
+
     {
         provide: LOCALE_ID,
         useValue: 'en-EN'

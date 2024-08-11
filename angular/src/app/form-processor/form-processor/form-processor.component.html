@@ -2,15 +2,6 @@
 @if (formGroup) {
     <div [formGroup]="formGroup" class="form-container">
 
-        @if (isLoading$ | async) {
-            <div class="courtine">
-                <p-progressSpinner 
-                    styleClass="w-4rem h-4rem" 
-                    strokeWidth="8" 
-                    animationDuration=".5s" />
-            </div>
-        }
-
         @if (step) {
             <div class="step">
 
