@@ -1,8 +1,7 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Profile } from './model/profile.model';
+import { Profile, RegisterMode } from './model/profile.model';
 import { Model } from 'mongoose';
-import { ProfileTelegramService } from './profile-telegram.service';
 
 export interface Credentials {
     email: string
@@ -16,7 +15,6 @@ export class ProfileService {
 
     constructor(
         @InjectModel(Profile.name) private profileModel: Model<Profile>,
-        private readonly profileTelegramService: ProfileTelegramService,
     ) {}
 
     public findById(uid: string) {
@@ -24,6 +22,31 @@ export class ProfileService {
     }
 
 
+
+    async createProfile(profile: Partial<Profile>, registerMode: RegisterMode) {
+
+        const checkName = await this.profileModel.findOne({ name: profile.name })
+        if (checkName) {
+            throw new BadRequestException('Name already n use')
+        } 
+
+        const user = new this.profileModel({
+            uid: profile.uid,
+            name: profile.name,
+            role: profile.role,
+
+            registerMode: registerMode,
+            telegramChannelId: profile.telegramChannelId,
+            email: profile.email,
+            passwordHash: profile.passwordHash,
+
+            created: new Date(),
+            modified: new Date(),
+        })
+
+        await user.save()
+        this.logger.log(`Created user ${user.name}, uid: ${user.uid}`)
+    }
 
 
 }

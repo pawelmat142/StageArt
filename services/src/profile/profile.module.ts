@@ -3,9 +3,10 @@ import { ProfileService } from './profile.service';
 import { ProfileController } from './profile.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Profile, ProfileSchema } from './model/profile.model';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { ProfileTelegramService } from './profile-telegram.service';
 import { AppJwtService } from './auth/app-jwt.service';
+import { ProfileEmailService } from './profile-email.service';
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { AppJwtService } from './auth/app-jwt.service';
   providers: [
     ProfileService,
     ProfileTelegramService,
-    AppJwtService
+    AppJwtService,
+    ProfileEmailService
   ],
   controllers: [ProfileController],
   exports: [

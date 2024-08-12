@@ -5,7 +5,7 @@ export type ProfileDocument = HydratedDocument<Profile>
 
 export type Role = 'MANAGER' | 'PROMOTER' | 'ARTIST' | 'ADMIN'
 
-export type RegisterMode = 'TELEGRAM'
+export type RegisterMode = 'TELEGRAM' | 'EMAIL'
 
 @Schema()
 export class Profile {
@@ -19,11 +19,20 @@ export class Profile {
     @Prop({ required: true })
     role: Role
 
+
+    @Prop()
+    registerMode: RegisterMode
+
     @Prop()
     telegramChannelId?: string
 
     @Prop()
-    registerMode: RegisterMode
+    email?: string
+
+    @Prop()
+    passwordHash?: string
+
+
     
     @Prop()
     created: Date

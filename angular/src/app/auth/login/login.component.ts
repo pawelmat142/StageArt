@@ -5,7 +5,13 @@ import { HeaderComponent } from '../../pages/components/header/header.component'
 import { InputComponent } from '../../pages/controls/input/input.component';
 import { BtnComponent } from '../../pages/controls/btn/btn.component';
 import { FormUtil } from '../../utils/form.util';
-import { ProfileService } from '../profile.service';
+import { LoginForm, ProfileService } from '../profile.service';
+import { SelectorComponent } from "../../pages/controls/selector/selector.component";
+import { NavService } from '../../services/nav/nav.service';
+import { loggedIn, login, logout } from '../profile.state';
+import { AppState } from '../../store/app.state';
+import { Store } from '@ngrx/store';
+import { Token } from '../token';
 
 @Component({
   selector: 'app-login',
@@ -15,10 +21,10 @@ import { ProfileService } from '../profile.service';
     CommonModule,
     HeaderComponent,
     InputComponent,
-    BtnComponent
-  ],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+    BtnComponent,
+    SelectorComponent
+],
+  templateUrl: './login.component.html'
 })
 export class LoginComponent {
 
@@ -26,6 +32,8 @@ export class LoginComponent {
 
   constructor(
     private profileService: ProfileService,
+    private nav: NavService,
+    private store: Store<AppState>,
   ) {}
 
   form = new FormGroup({
@@ -34,13 +42,31 @@ export class LoginComponent {
   })
 
   _submit() {
-    console.log('submit')
-    if (this.form.invalid) {
+    if (!this.form.valid) {
       FormUtil.markForm(this.form)
       return
     }
+    const form = this.form.value
 
+    this.store.dispatch(login())
+
+    this.profileService.loginByEmail$(form as Partial<LoginForm>).subscribe({
+      next: (token) => {
+        Token.setToken(token.token)
+        const profile = Token.payload
+        if (profile) {
+          this.store.dispatch(loggedIn(profile))
+        } else {
+          this.store.dispatch(logout())
+        }
+        this.nav.simplePopup('Logged in!')
+      },
+      error: (error) => {
+        this.nav.errorPopup(error.error.message)
+      },
+    })
   }
+
 
   _byTelegram() {
     this.profileService.fetchTelegramBotHref$().subscribe(telegramHref => {

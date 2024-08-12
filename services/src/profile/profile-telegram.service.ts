@@ -4,6 +4,7 @@ import { Profile } from './model/profile.model';
 import { Model } from 'mongoose';
 import { TelegramUtil } from '../telegram/util/telegram.util';
 import { AppJwtService } from './auth/app-jwt.service';
+import { ProfileService } from './profile.service';
 
 export interface LoginToken {
     telegramChannelId: string
@@ -18,8 +19,9 @@ export class ProfileTelegramService {
     private readonly logger = new Logger(this.constructor.name)
 
     constructor(
-        private readonly jwtService: AppJwtService,
         @InjectModel(Profile.name) private profileModel: Model<Profile>,
+        private readonly jwtService: AppJwtService,
+        private readonly profileService: ProfileService,
     ) {}
 
     private loginTokens: LoginToken[] = []
@@ -67,32 +69,21 @@ export class ProfileTelegramService {
 
 
     async createProfile(profile: Partial<Profile>) {
-
-        const checkName = await this.profileModel.findOne({ name: profile.name })
-        if (checkName) throw new BadRequestException('Name in use')
-
-        if (profile.telegramChannelId) {
-            const checkTelegram = await this.profileModel.findOne({ 
-                telegramChannelId: profile.telegramChannelId
-            })
-            if (checkTelegram) throw new BadRequestException('Name in use')
+        if (!profile.telegramChannelId) {
+            throw new BadRequestException('Missing telegram channel id')
+        }
+        
+        const checkTelegram = await this.profileModel.findOne({ 
+            telegramChannelId: profile.telegramChannelId
+        })
+        if (checkTelegram) {
+            throw new BadRequestException('Name in use')
         }
 
-        const user = new this.profileModel({
-            uid: TelegramUtil.idByTelegram(profile.telegramChannelId),
-            name: profile.name,
-            role: profile.role,
-            telegramChannelId: profile.telegramChannelId,
-            registerMode: 'TELEGRAM',
-            created: new Date(),
-            modified: new Date(),
-        })
+        profile.uid = TelegramUtil.idByTelegram(profile.telegramChannelId)
 
-        await user.save()
-        this.logger.log(`Created user ${user.name}, uid: ${user.uid}`)
+        await this.profileService.createProfile(profile, 'TELEGRAM')
     }
-
-
 
 
     public async deleteByTelegram(profile: Profile) {

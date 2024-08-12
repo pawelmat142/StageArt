@@ -88,6 +88,11 @@ export class NavService {
   }
 
 
+  public async simplePopup(header: string) {
+    const data = { header }
+    return this.popup(data)
+  }
+
   public async popup(data: DialogData) {
     return this.dialog.open(PopupComponent, { data: data })
   }

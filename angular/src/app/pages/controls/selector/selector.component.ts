@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, forwardRef, HostListener, Input, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, forwardRef, HostListener, Input, Output, ViewEncapsulation } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { ArtistMediaCode } from '../../../services/artist/artist-medias/artist-medias.service';
 import { IconButtonComponent } from "../../components/icon-button/icon-button.component";
@@ -32,21 +32,20 @@ export interface SelectorItem {
     }
   ]
 })
-export class SelectorComponent extends AbstractControlComponent<SelectorItem> {
+export class SelectorComponent extends AbstractControlComponent<string> {
 
-  public static get EMPTY_SELECTOR_ITEM() { return { code: '', name: '' } as SelectorItem }
 
   override ngOnInit(): void {
     super.ngOnInit()
+    if (this.value) {
+      this._item = this.items.find(i => i.code === this.value) || null
+    }
     this.filterItems()
   }
 
   _onInput($event: Event) {
-      const input = $event.target as HTMLInputElement;
-      this.value = { name: input.value, code: '' }
-      this.filterItems(input.value)
-
-    this.value = { name: input.value, code: '' }
+    const input = $event.target as HTMLInputElement;
+    this.value = input.value
     this.filterItems(input.value)
   }
 
@@ -54,12 +53,16 @@ export class SelectorComponent extends AbstractControlComponent<SelectorItem> {
   _items: SelectorItem[] = []
   @Input() itemsLength = 10
   @Input() chachedImg = false
-    
+
+  _item: SelectorItem | null = null
+
+  @Output() select = new EventEmitter<SelectorItem>()
 
   _select(item: SelectorItem, event: MouseEvent) {
     event.stopPropagation()
     event.preventDefault()
-    this.updateValue(item)
+    this.updateValue(item.name)
+    this.select.emit(item)
     this.onBlur()
   }
 

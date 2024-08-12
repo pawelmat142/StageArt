@@ -68,7 +68,7 @@ export class ArtistFormComponent {
     name: new FormControl('', Validators.required),
     firstName: new FormControl(''),
     lastName: new FormControl(''),
-    country: new FormControl<Country>(SelectorComponent.EMPTY_SELECTOR_ITEM, [countryValidator(this.countriesService)]),
+    country: new FormControl('', [countryValidator(this.countriesService)]),
     email: new FormControl('', [Validators.required, Validators.email]),
     phone: new FormControl('', [Validators.required, Validators.pattern(this.phoneNumberRegex)]),
     medias: this.fb.array<FormGroup>([]),
@@ -231,7 +231,7 @@ export class ArtistFormComponent {
     return {
       signature: 'signature',
       name: this.f.name.value!,
-      countryCode: this.f.country.value!.code,
+      countryCode: this.f.country.value!,
       firstName: this.f.firstName.value ?? undefined,
       lastName: this.f.firstName.value ?? undefined,
       email: this.f.email.value!,

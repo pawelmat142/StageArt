@@ -8,28 +8,28 @@
                 #selectorControl 
                 class="form-input-control"
                 [placeholder]="placeholder"
-                [value]="value ? value.name : ''"
+                [value]="value"
                 [attr.disabled]="disabled ? true : null"
                 (input)="_onInput($event)"
                 type="text"
                 />
         </div>
 
-        @if (value) {
-            @if (value.imgUrl) {
+        @if (_item) {
+            @if (_item.imgUrl) {
                 <app-icon-button
                     class="border"
                     [button]="false"
-                    [src]="value.imgUrl"
+                    [src]="_item.imgUrl"
                     [chachedImg]="chachedImg"
                 ></app-icon-button>
             } 
-            @else if (value.svg) {
+            @else if (_item.svg) {
                 <app-icon-button
                     class="border"
                     class="side-img"
                     [button]="false"
-                    [mediaIcon]="value.svg"
+                    [mediaIcon]="_item.svg"
                 ></app-icon-button>
             }
         }

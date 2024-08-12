@@ -1,10 +1,18 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable, tap } from "rxjs";
+import { Observable, tap } from "rxjs";
 import { HttpService } from "../services/http.service";
+import { Role } from "./profile.state";
 
 export interface LoginToken {
     token: string
     pin: string
+}
+
+export interface LoginForm {
+    name: string
+    role: Role
+    email: string
+    password: string
 }
 
 @Injectable({
@@ -40,5 +48,13 @@ export class ProfileService {
 
     }
 
+
+    createProfileEmail$(loginForm: LoginForm) {
+        return this.http.post(`/profile/email/register`, loginForm)
+    }
+
+    loginByEmail$(loginForm: Partial<LoginForm>) {
+        return this.http.post<{ token: string }>(`/profile/email/login`, loginForm)
+    }
 
 }
