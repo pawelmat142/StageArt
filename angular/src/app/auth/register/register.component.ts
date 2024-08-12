@@ -10,6 +10,7 @@ import { SelectorComponent, SelectorItem } from '../../pages/controls/selector/s
 import { CourtineService } from '../../services/nav/courtine.service';
 import { NavService } from '../../services/nav/nav.service';
 import { LoginComponent } from '../login/login.component';
+import { DialogService } from '../../services/nav/dialogs/dialog.service';
 
 function repassword(): ValidatorFn {
   const error = { mismatch: true }
@@ -56,6 +57,7 @@ export class RegisterComponent {
     private profileService: ProfileService,
     private courtineService: CourtineService,
     private nav: NavService,
+    private dialog: DialogService,
   ) {}
 
   form = new FormGroup({
@@ -92,7 +94,7 @@ export class RegisterComponent {
         this.courtineService.stopCourtine()
       },
       error: (error) => {
-        this.nav.errorPopup(error.error.message)
+        this.dialog.errorPopup(error.error.message)
         this.courtineService.stopCourtine()
       },
     })

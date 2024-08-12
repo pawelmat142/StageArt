@@ -21,7 +21,8 @@
         margin-top: 2*$padding-standard;
         margin-bottom: $padding-standard;
         display: flex;
-        justify-content: flex-start;
+        justify-content: center;
+        gap: $padding-standard;
         align-items: center;
         
         .center {

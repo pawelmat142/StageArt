@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 import { ControlContainer, FormArray, FormBuilder, FormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
 import { ControlComponent } from '../control/control.component';
 import { BtnComponent } from '../../pages/controls/btn/btn.component';
@@ -42,6 +42,8 @@ export class FormProcessorComponent {
 
   @Input() form!: pForm
   formGroup = new FormGroup({})
+
+  @Output() submit = new EventEmitter<any>()
 
   stepIndex = 0
   step?: pFormStep
@@ -100,13 +102,15 @@ export class FormProcessorComponent {
   }
 
 
-  _next() {
+  _next(keepIndex?: boolean) {
     const currentStepForm = this.currentStepForm
     if (currentStepForm) {
       if (currentStepForm?.valid) {
         this.startOrStoreFormAction()
-        this.stepIndex++
-        this.setStep()
+        if (!keepIndex) {
+          this.stepIndex++
+          this.setStep()
+        }
       } else {
         FormUtil.markForm(currentStepForm)
       }
@@ -114,11 +118,8 @@ export class FormProcessorComponent {
   }
 
   _submit() {
-    console.log(this.formGroup.valid)
-    if (this.formGroup.valid) {
-      this.startOrStoreFormAction()
-      console.log(this.formGroup.value)
-    }
+    this._next(true)
+    this.submit.emit(this.formGroup.value)
   }
 
   _back() {
@@ -142,7 +143,7 @@ export class FormProcessorComponent {
       throw new Error(`step ${stepName} is not an array`)
     }
 
-    const newName = Math.max(...step.groups.map(g => this.findNumberInArrayGroupName(g.name))) + 1
+    const newName = Math.max(...step.groups.map(g => this.findNumberInArrayGroupName(g.name)))
     const newGroup = step.getGroup(newName)
     step.groups.push(newGroup)
     this.rebuildDetector++
@@ -223,8 +224,6 @@ export class FormProcessorComponent {
     })
     return groups
   }
-
-
 
 
   private startOrStoreFormAction() {

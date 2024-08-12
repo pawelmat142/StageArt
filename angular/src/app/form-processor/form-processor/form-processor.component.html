@@ -12,9 +12,9 @@
                     <app-array [step]="step" [rebuildDetector]="rebuildDetector"></app-array>
 
                     <div class="btns center margin-top-2">
-                        <app-btn label="remove" class="light" (click)="_removeFromArray(step.name)" [active]="this._removeActive"></app-btn>
+                        <app-btn label="remove" class="grey" (click)="_removeFromArray(step.name)" [active]="this._removeActive"></app-btn>
                         <div></div>
-                        <app-btn label="add" class="light" (click)="_addToArray(step.name)"></app-btn>
+                        <app-btn label="add" class="grey" (click)="_addToArray(step.name)"></app-btn>
                     </div>
                 } 
                 @else {

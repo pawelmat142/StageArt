@@ -18,6 +18,19 @@
             }
         }
     }
+
+    .yellow {
+        .btn:hover {
+            background-color: $yellow-dark;
+            
+        }
+    }
+    .grey {
+        .btn:hover {
+            background-color: $light;
+            
+        }
+    }
 }
 
 
@@ -27,17 +40,20 @@
         cursor: pointer;
     }
 }
-
 .light {
     .btn {
         background-color: $light;
     }
 }
-
 .yellow {
     .btn {
         background-color: $yellow-dark;
     } 
+}
+.grey {
+    .btn {
+        background-color: $grey;
+    }
 }
 
 .desktop {

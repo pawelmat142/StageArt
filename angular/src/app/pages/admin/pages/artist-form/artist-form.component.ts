@@ -26,6 +26,7 @@ import { FireImgStorageService } from '../../../../services/fire-img-storage.ser
 import { ImgSize, ImgUtil } from '../../../../utils/img.util';
 import { FormUtil } from '../../../../utils/form.util';
 import { BtnComponent } from '../../../controls/btn/btn.component';
+import { DialogService } from '../../../../services/nav/dialogs/dialog.service';
 
 
 @Component({
@@ -59,6 +60,7 @@ export class ArtistFormComponent {
     private readonly fireImgStorageService: FireImgStorageService,
     private readonly fb: FormBuilder,
     private readonly nav: NavService,
+    private readonly dialog: DialogService,
     private readonly store: Store,
   ) {}
 
@@ -243,14 +245,14 @@ export class ArtistFormComponent {
   }
 
   private handleUploadImagesError = (error: any) => {
-    this.nav.errorPopup(`Error uploading images`)
+    this.dialog.errorPopup(`Error uploading images`)
     console.error(error)
     // TODO popup
     return of(undefined)
   }
 
   private handleCreateArtistError = (error: any) => {
-    this.nav.errorPopup(`Error when create artist`)
+    this.dialog.errorPopup(`Error when create artist`)
     console.error(error)
     this.removeImagesFromStorage()
     // TODO popup

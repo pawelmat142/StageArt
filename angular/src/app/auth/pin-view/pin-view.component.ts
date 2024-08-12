@@ -6,12 +6,12 @@ import { ProfileService } from '../profile.service';
 import { FormUtil } from '../../utils/form.util';
 import { BtnComponent } from '../../pages/controls/btn/btn.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { CourtineService } from '../../services/nav/courtine.service';
 import { NavService } from '../../services/nav/nav.service';
 import { Token } from '../token';
 import { AppState } from '../../store/app.state';
 import { Store } from '@ngrx/store';
 import { loggedIn, login, logout } from '../profile.state';
+import { DialogService } from '../../services/nav/dialogs/dialog.service';
 
 @Component({
   selector: 'app-pin-view',
@@ -31,7 +31,7 @@ export class PinViewComponent {
     private readonly profileService: ProfileService,
     private readonly store: Store<AppState>,
     private readonly nav: NavService,
-    private readonly courtineService: CourtineService,
+    private readonly dialog: DialogService,
     private readonly dialogRef: MatDialogRef<PinViewComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { token: string },
   ) {}
@@ -65,7 +65,7 @@ export class PinViewComponent {
       },
       error: error => {
         this.store.dispatch(logout())
-        this.nav.errorPopup(error.error.message)
+        this.dialog.errorPopup(error.error.message)
       }
     })
 

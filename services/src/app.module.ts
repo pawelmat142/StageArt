@@ -11,6 +11,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { FormModule } from './form/form.module';
 import { ProfileModule } from './profile/profile.module';
 import { TelegramModule } from './telegram/telegram.module';
+import { BookingModule } from './booking/booking.module';
 
 @Module({
   imports: [
@@ -29,6 +30,8 @@ import { TelegramModule } from './telegram/telegram.module';
     ProfileModule,
 
     TelegramModule,
+
+    BookingModule,
   ],
   controllers: [AppController],
   providers: [AppService],

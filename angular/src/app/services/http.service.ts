@@ -1,7 +1,13 @@
 import { HttpClient, HttpContext, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment'
-import { Observable, of, switchMap } from 'rxjs';
+import { catchError, filter, map, Observable, of, switchMap } from 'rxjs';
+import { AppState, selectProfileState } from '../store/app.state';
+import { Store } from '@ngrx/store';
+import { Token } from '../auth/token';
+import { NavService } from './nav/nav.service';
+import { DialogService } from './nav/dialogs/dialog.service';
+import { loggedInChange } from '../auth/profile.state';
 
 export interface HttpRequestOptions {
   // skipAuth?: boolean
@@ -24,42 +30,24 @@ export class HttpService {
 
   constructor(
     private readonly httpClient: HttpClient,
-  ) { 
+    private readonly store: Store<AppState>,
+    private readonly nav: NavService,
+    private readonly dialog: DialogService,
+  ) { }
+
+
+  public get<T>(uri: string) {
+    return this.httpClient.get<T>(`${this.apiUri}${uri}`)
   }
 
-
-  public get<T>(uri: string, auth = false) {
-    return this.authHeader$(auth).pipe(
-      switchMap(headers => {
-        return this.httpClient.get<T>(`${this.apiUri}${uri}`, { headers: headers })
-      })
-    )
+  public post<T>(uri: string, data: any) {
+    return this.httpClient.post<T>(`${this.apiUri}${uri}`, data)
   }
 
-  public post<T>(uri: string, data: any, auth = false) {
-    return this.authHeader$(auth).pipe(
-      switchMap(headers => this.httpClient.post<T>(`${this.apiUri}${uri}`, data, { headers: headers }))
-    )
+  public put<T>(uri: string, data: any) {
+    return this.httpClient.put<T>(`${this.apiUri}${uri}`, data)
   }
 
-  public put<T>(uri: string, data: any, auth = false) {
-    return this.authHeader$(auth).pipe(
-      switchMap(headers => this.httpClient.put<T>(`${this.apiUri}${uri}`, data, { headers: headers }))
-    )
-  }
-
-
-
-  private authHeader$(auth: boolean): Observable<HttpHeaders | undefined> {
-    // if (this.userSubject$.value && auth) {
-    //     return from(this.userSubject$.value.getIdToken())
-    //         .pipe(
-    //             filter(token => typeof token === 'string'),
-    //             map(token => new HttpHeaders({"Authorization": `Bearer ${token}`}))
-    //         )
-    // }
-    return of(undefined)
-  }
 
 
 }

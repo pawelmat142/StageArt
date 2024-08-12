@@ -2,13 +2,14 @@ import { CommonModule } from '@angular/common';
 import { Component, ElementRef, EventEmitter, forwardRef, HostListener, Injector, Input, Output } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { IconButtonComponent } from '../../components/icon-button/icon-button.component';
-import { DialogData } from '../../components/popup/popup.component';
 import { NavService } from '../../../services/nav/nav.service';
 import { FileViewComponent } from './file-view/file-view.component';
 import { AbstractControlComponent } from '../abstract-control/abstract-control.component';
 import { ImgUtil } from '../../../utils/img.util';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { tap } from 'rxjs';
+import { DialogData } from '../../../services/nav/dialogs/popup/popup.component';
+import { DialogService } from '../../../services/nav/dialogs/dialog.service';
 
 @Component({
   selector: 'app-file-loader',
@@ -34,6 +35,7 @@ export class FileLoaderComponent extends AbstractControlComponent<File | null> {
     elementRef: ElementRef,
     injector: Injector,
     private nav: NavService,
+    private dialog: DialogService,
   ) {
     super(elementRef, injector);
   }
@@ -128,7 +130,7 @@ export class FileLoaderComponent extends AbstractControlComponent<File | null> {
       header: `Wrong extension: ${extenstion}`,
       content: [`Available extensions: ${this.extensions.join(', ')}`]
     }
-    this.nav.popup(data)
+    this.dialog.popup(data)
   }
 
 }

@@ -2,7 +2,7 @@
 
     @if (data.header) {
         <div class="popup-header">
-            <p class="fs2 dark">{{data.header}}</p>
+            <p class="fs2 dark short">{{data.header}}</p>
         </div>
     }
 
@@ -16,6 +16,11 @@
         @if (_defaultButton) {
             <app-btn class="big center" label="OK" (click)="_close()"></app-btn>
         }
+
+        @for(btn of data.buttons; track btn.label) {
+            <app-btn [ngClass]="btn.class" [label]="btn.label" (click)="_onBtnClick(btn)"></app-btn>
+        }
+
     </div>
 
 

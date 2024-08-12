@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { BehaviorSubject, skip } from 'rxjs';
-import { DialogData, PopupComponent } from '../../pages/components/popup/popup.component';
 import { ArtistFormComponent } from '../../pages/admin/pages/artist-form/artist-form.component';
 import { NotFoundPageComponent } from '../../pages/error/not-found-page/not-found-page.component';
 import { ArtistsViewComponent } from '../../pages/views/artists-view/artists-view.component';
@@ -85,25 +84,6 @@ export class NavService {
 
   public toArtist(artistName: string) {
     return this.router.navigate(['artist', artistName])
-  }
-
-
-  public async simplePopup(header: string) {
-    const data = { header }
-    return this.popup(data)
-  }
-
-  public async popup(data: DialogData) {
-    return this.dialog.open(PopupComponent, { data: data })
-  }
-  
-  public async errorPopup(msg: string, content: string[] = []) {
-    const data: DialogData = {
-      header: msg,
-      content: content,
-      isError: true
-    }
-    return this.dialog.open(PopupComponent, { data: data })
   }
 
 }

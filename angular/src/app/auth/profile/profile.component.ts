@@ -6,7 +6,6 @@ import { ProfileService } from '../profile.service';
 import { FormGroup } from '@angular/forms';
 import { PinViewComponent } from '../pin-view/pin-view.component';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogData } from '../../pages/components/popup/popup.component';
 
 @Component({
   selector: 'app-profile',

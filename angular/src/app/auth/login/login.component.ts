@@ -7,11 +7,11 @@ import { BtnComponent } from '../../pages/controls/btn/btn.component';
 import { FormUtil } from '../../utils/form.util';
 import { LoginForm, ProfileService } from '../profile.service';
 import { SelectorComponent } from "../../pages/controls/selector/selector.component";
-import { NavService } from '../../services/nav/nav.service';
 import { loggedIn, login, logout } from '../profile.state';
 import { AppState } from '../../store/app.state';
 import { Store } from '@ngrx/store';
 import { Token } from '../token';
+import { DialogService } from '../../services/nav/dialogs/dialog.service';
 
 @Component({
   selector: 'app-login',
@@ -32,7 +32,7 @@ export class LoginComponent {
 
   constructor(
     private profileService: ProfileService,
-    private nav: NavService,
+    private dialog: DialogService,
     private store: Store<AppState>,
   ) {}
 
@@ -59,10 +59,10 @@ export class LoginComponent {
         } else {
           this.store.dispatch(logout())
         }
-        this.nav.simplePopup('Logged in!')
+        this.dialog.simplePopup('Logged in!')
       },
       error: (error) => {
-        this.nav.errorPopup(error.error.message)
+        this.dialog.errorPopup(error.error.message)
       },
     })
   }

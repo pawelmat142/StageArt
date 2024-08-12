@@ -1,13 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { BtnComponent } from "../../controls/btn/btn.component";
+import { BtnComponent } from '../../../../pages/controls/btn/btn.component';
 
 export interface DialogData {
   header: string
   content?: string[]
   isError?: boolean
   error?: Error
+  buttons?: DialogBtn[] 
+}
+
+export interface DialogBtn {
+  label: string
+  class?: string
+  onclick?: () => any
 }
 
 @Component({
@@ -15,7 +22,6 @@ export interface DialogData {
   standalone: true,
   imports: [
     CommonModule,
-    BtnComponent,
     BtnComponent,
 ],
   templateUrl: './popup.component.html',
@@ -28,6 +34,8 @@ export class PopupComponent {
     private readonly dialogRef: MatDialogRef<PopupComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
   ) {}
+  
+  _defaultButton = true
 
   ngOnInit(): void {
     this.dialogRef.afterClosed().subscribe(() => {
@@ -35,12 +43,20 @@ export class PopupComponent {
         console.error(this.data.error)
       }
     })
+    this._defaultButton = !this.data.buttons?.length
   }
 
-  _defaultButton = true
+
 
   _close() {
     this.dialogRef.close()
+  }
+
+  _onBtnClick(btn: DialogBtn) {
+    this._close()
+    if (btn.onclick) {
+      btn.onclick()
+    }
   }
 
 }

@@ -1,7 +1,7 @@
 import { APP_INITIALIZER, ApplicationConfig, LOCALE_ID } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 
 import { routes } from './app.routes';
@@ -19,6 +19,7 @@ import { provideEffects } from '@ngrx/effects';
 import { FormEffect, formReducer } from './form-processor/form.state';
 import { FIREBASE_OPTIONS } from '@angular/fire/compat';
 import { profileReducer } from './auth/profile.state';
+import { AuthInterceptor } from './auth.interceptor';
 
 registerLocaleData(localeEn);
 
@@ -53,6 +54,9 @@ export const appConfig: ApplicationConfig = {
         deps: [CountriesService],
         multi: true
     },
+
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+
 
     provideStoreDevtools({ maxAge: 25, logOnly: environment.production,  }),
 

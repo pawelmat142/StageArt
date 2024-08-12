@@ -4,12 +4,15 @@ import { ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormProcessorComponent } from '../../../form-processor/form-processor/form-processor.component';
 import { HeaderComponent } from '../../components/header/header.component';
 import { pForm, pFormGroup } from '../../../form-processor/form-processor.service';
-import { FormType } from '../../../form-processor/form.state';
+import { formLoadingChange, FormType, selectFormId } from '../../../form-processor/form.state';
 import { AppState } from '../../../store/app.state';
 import { Store } from '@ngrx/store';
 import { initArtists, selectArtists } from '../../../store/artist/artists.state';
-import { map } from 'rxjs';
+import { map, of, switchMap, withLatestFrom } from 'rxjs';
 import { ArtistUtil } from '../../../services/artist/artist.util';
+import { loggedInChange } from '../../../auth/profile.state';
+import { DialogService } from '../../../services/nav/dialogs/dialog.service';
+import { BookingService } from '../../../services/booking/booking.service';
 
 @Component({
   selector: 'app-book-form',
@@ -30,10 +33,30 @@ export class BookFormComponent {
 
   constructor(
     private readonly store: Store<AppState>,
+    private readonly dialog: DialogService,
+    private readonly bookingService: BookingService,
   ) {}
 
   ngOnInit(): void {
     this.store.dispatch(initArtists())
+  }
+
+  _submit(data: any) {
+    console.log('_submit')
+    console.log(data)
+
+    const sub = this.store.select(loggedInChange).pipe(
+      withLatestFrom(this.store.select(selectFormId)),
+      switchMap(([loggedIn, formId]) => {
+        if (loggedIn && formId) {
+          return this.bookingService.submitForm$(formId)
+        } else {
+          this.dialog.loginPopup()
+        }
+        return of()
+      })
+    ).subscribe()
+    sub.unsubscribe()
   }
 
   private artistsStepGetter = (index: number): pFormGroup => {
@@ -131,6 +154,7 @@ export class BookFormComponent {
           name: 'Experience in organizing events (in years)',
         }, {
           name: 'Significant organized past events',
+          type: 'textarea'
         }]
       },
 
