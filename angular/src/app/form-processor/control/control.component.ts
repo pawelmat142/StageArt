@@ -4,7 +4,7 @@ import { ControlContainer, FormGroupDirective, ReactiveFormsModule, Validators }
 import { InputComponent } from '../../pages/controls/input/input.component';
 import { TextareaComponent } from '../../pages/controls/textarea/textarea.component';
 import { TextareaElementComponent } from '../../pages/controls/textarea-element/textarea-element.component';
-import { DateComponent } from '../../pages/controls/dates/date.component';
+import { DateComponent } from '../../pages/controls/date/date.component';
 import { SelectorComponent, SelectorItem } from '../../pages/controls/selector/selector.component';
 import { pFormControl } from '../form-processor.service';
 import { FormUtil } from '../../utils/form.util';

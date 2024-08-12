@@ -3,6 +3,7 @@ import {CalendarModule} from 'primeng/calendar';
 import { AbstractControlComponent } from '../abstract-control/abstract-control.component';
 import { NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Util } from '../../../utils/util';
 
 @Component({
   selector: 'app-dates',
@@ -36,6 +37,14 @@ export class DateComponent extends AbstractControlComponent<Date | null> {
 
   _onInput(selection: Date) {
     this.updateValue(selection)
+  }
+
+  override writeValue(value: Date | null): void {
+    this.value = value ? new Date(value) : null
+
+    if (this.value && this.input) {
+      this.input.value = Util.formatDate(this.value)
+    }
   }
 
 }
