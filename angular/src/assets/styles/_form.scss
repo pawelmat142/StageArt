@@ -13,7 +13,8 @@ $form-transition: $transition-standard;
 $input-active-shadow: 0px 0px 8px $yellow;
 $input-error-shadow: 0px 0px 8px $red;
 
-$control-padding-y: 12px;
+$control-padding-y: 8px;
+$control-padding-y-desc: 12px;
 $control-padding-x: 15px;
 $control-padding: $control-padding-y $control-padding-x;
 
@@ -25,6 +26,11 @@ $selector-img-height: 50px;
 }
 
 .desktop {
+
+    .form-group {
+        grid-template-columns: 1fr 1fr;
+        column-gap: $padding-standard;
+    }
 
     .form-page {
         padding-top: $header-margin-desc;
@@ -44,9 +50,22 @@ $selector-img-height: 50px;
                 width: calc(50% - 0.5*$padding-standard);
             }
         }
+
+        .form-input {
+            padding: $control-padding-y-desc $control-padding-x;
+        }
     }
     .control-margin {
         margin-bottom: 2*$padding-standard;
+    }
+}
+
+.form-group {
+    display: grid;
+    grid-template-columns: 1fr;
+
+    & > * {
+        width: 100%;
     }
 }
 
@@ -227,6 +246,9 @@ textarea {
 
 .btns {
     display: flex;
-    justify-content: center;
     gap: $padding-standard;
+    &.center {
+        justify-content: center;
+    }
 }
+

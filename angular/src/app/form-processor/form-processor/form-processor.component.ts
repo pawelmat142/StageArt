@@ -30,6 +30,7 @@ import { FormUtil } from '../../utils/form.util';
     }
   ],
   templateUrl: './form-processor.component.html',
+  styleUrl: './form-processor.component.scss',
   encapsulation: ViewEncapsulation.None
 })
 export class FormProcessorComponent {
@@ -55,10 +56,8 @@ export class FormProcessorComponent {
     
     this.subscriptions.push(this.store.select(dataChange).pipe(
       skip(1),
-    ).subscribe(x => {
-      console.log('formData')
-      console.log(x)
-      this.formData = x
+    ).subscribe(formData => {
+      this.formData = formData
       this.recreateArrayStepGroups()
       FormUtil.setFormValues(this.formGroup, this.formData)
       this.rebuildDetector++
@@ -72,7 +71,6 @@ export class FormProcessorComponent {
   private recreated = false
 
   private recreateArrayStepGroups() {
-    console.log('recreateArrayStepGroups')
     if (this.recreated) {
       return
     }
@@ -144,7 +142,7 @@ export class FormProcessorComponent {
       throw new Error(`step ${stepName} is not an array`)
     }
 
-    const newName = Math.max(...step.groups.map(g => Number(g.name))) + 1
+    const newName = Math.max(...step.groups.map(g => this.findNumberInArrayGroupName(g.name))) + 1
     const newGroup = step.getGroup(newName)
     step.groups.push(newGroup)
     this.rebuildDetector++
@@ -154,14 +152,19 @@ export class FormProcessorComponent {
     FormUtil.setFormValues(this.formGroup, this.formData)
   }
 
+  private findNumberInArrayGroupName(name: string) {
+    const match = name.match(/\d+/);
+    return match ? parseInt(match[0], 10) : 0
+  }
+
 
   _removeFromArray(stepName: string) {
     const step = this.form.steps.find(s => s.name === stepName)
     if (!step?.array) {
       throw new Error(`Step ${stepName} is not an array`)
     }
+    step.groups.pop()
     this.rebuildDetector++
-    console.log(step.groups)
     this.buildFormGroup()
     FormUtil.setFormValues(this.formGroup, this.formData)
   }
@@ -170,7 +173,7 @@ export class FormProcessorComponent {
   private setStep() {
     this.step = this.form.steps[this.stepIndex]
     if (this.step.array) {
-      this._removeActive = !!this.step.groups.length
+      this._removeActive = this.step.groups.length > 1
     }
   }
 
@@ -188,8 +191,6 @@ export class FormProcessorComponent {
 
 
   private buildFormGroup() {
-    console.log('build form group')
-    
     const formGroup = new FormGroup({})
 
     this.form.steps.forEach(step => {

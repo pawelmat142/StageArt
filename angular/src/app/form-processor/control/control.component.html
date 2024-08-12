@@ -3,7 +3,7 @@
     
     <div class="control-margin">
     
-        @if (control.type === 'text') {
+        @if (!control.type || control.type === 'text') {
             <app-input
                 [formControlName]="_formControlName"
                 [label]="control.name"
@@ -22,12 +22,12 @@
         
         } 
     
-        @else if (control.type === 'period') {
+        @else if (control.type === 'date') {
     
             <app-dates
                 [formControlName]="_formControlName"
                 [label]="control.name"
-                [placeholder]="control.placeholder || 'Select date period...'"
+                [placeholder]="control.placeholder || 'Select date...'"
                 [required]="_required"
             ></app-dates>
             
@@ -39,7 +39,7 @@
                 [label]="control.name"
                 [placeholder]="control.placeholder || 'Select...'"
                 [required]="_required"
-                [items]="_selectorItems || []"
+                [items]="(control.selectorItems$ | async)!"
             ></app-selector>
         
         } @else {

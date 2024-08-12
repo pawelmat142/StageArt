@@ -11,10 +11,10 @@
 
                     <app-array [step]="step" [rebuildDetector]="rebuildDetector"></app-array>
 
-                    <div class="btns margin-top-2">
-                        <app-btn label="remove" (click)="_removeFromArray(step.name)" [active]="this._removeActive"></app-btn>
+                    <div class="btns center margin-top-2">
+                        <app-btn label="remove" class="light" (click)="_removeFromArray(step.name)" [active]="this._removeActive"></app-btn>
                         <div></div>
-                        <app-btn label="add" (click)="_addToArray(step.name)"></app-btn>
+                        <app-btn label="add" class="light" (click)="_addToArray(step.name)"></app-btn>
                     </div>
                 } 
                 @else {
@@ -33,7 +33,6 @@
         </div>
         
         <div class="btns margin-top-2">
-            <app-btn label="test" (click)="test()"></app-btn>
             <app-btn label="back" [active]="stepIndex > 0" (click)="_back()"></app-btn>
             <div></div>
             @if (stepIndex === form.steps.length-1) {

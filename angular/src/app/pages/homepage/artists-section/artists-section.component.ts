@@ -9,7 +9,8 @@ import { NavService } from '../../../services/nav/nav.service';
 import { ArtistsViewComponent } from '../../views/artists-view/artists-view.component';
 import { DESKTOP } from '../../../services/device';
 import { select, Store } from '@ngrx/store';
-import { ArtistsState, initArtists } from '../../../store/artist/artists.state';
+import { ArtistsState, initArtists, selectArtists } from '../../../store/artist/artists.state';
+import { AppState } from '../../../store/app.state';
 
 @Component({
   selector: 'app-artists-section',
@@ -32,10 +33,9 @@ export class ArtistsSectionComponent {
 
   constructor(
     private readonly nav: NavService,
-    private store: Store<{ artists: ArtistsState }>,
+    private store: Store<AppState>,
   ) {
-    this.artists$ = this.store
-      .pipe(select(store => store.artists.artists))
+    this.artists$ = this.store.select(selectArtists)
   }
   
   ngOnInit(): void {

@@ -1,60 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, ViewEncapsulation } from '@angular/core';
-import { ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
+import { Component, ViewEncapsulation } from '@angular/core';
+import { ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormProcessorComponent } from '../../../form-processor/form-processor/form-processor.component';
 import { HeaderComponent } from '../../components/header/header.component';
-import { pForm, pFormGroup, pFormControl, pControlType, pFormArray } from '../../../form-processor/form-processor.service';
+import { pForm, pFormGroup } from '../../../form-processor/form-processor.service';
 import { FormType } from '../../../form-processor/form.state';
-import { ArtistService } from '../../../services/artist/artist.service';
-
-export class ArtistsSelectorControl implements pFormControl {
-
-  constructor(private artistService: ArtistService) {}
-
-  name = 'Artist'
-  type = 'selector' as pControlType
-  validators = [Validators.required]
-
-  getSelectorItems = this.artistService.getArtistsSelectorItems
-} 
-
-export class ArtistsStep implements pFormArray {
-
-  constructor(private artistService: ArtistService) {}
-
-  array = true as true
-  name = 'Artists'
-  groups = [this.getFormGroup(0)]
-  getGroup = this.getFormGroup
-
-  private getFormGroup(index: number): pFormGroup {
-    const artistControl = new ArtistsSelectorControl(this.artistService)
-    return {
-      name: index.toString(),
-      controls: [
-        artistControl,
-      {
-        name: 'Offer',
-        type: 'text',
-      }, {
-        name: 'Travel',
-        type: 'text',
-      }, {
-        name: 'Accommodation',
-        type: 'text',
-      }, {
-        name: 'Ground Transport',
-        type: 'text',
-      }, {
-        name: 'Visa',
-        type: 'text',
-      }, {
-        name: 'Details of media/recording requests',
-        type: 'textarea',
-      }]
-    }
-  }
-}
+import { AppState } from '../../../store/app.state';
+import { Store } from '@ngrx/store';
+import { initArtists, selectArtists } from '../../../store/artist/artists.state';
+import { map } from 'rxjs';
+import { ArtistUtil } from '../../../services/artist/artist.util';
 
 @Component({
   selector: 'app-book-form',
@@ -74,8 +29,37 @@ export class BookFormComponent {
   public static readonly path = `book-form`
 
   constructor(
-    private readonly artistService: ArtistService,
+    private readonly store: Store<AppState>,
   ) {}
+
+  ngOnInit(): void {
+    this.store.dispatch(initArtists())
+  }
+
+  private artistsStepGetter = (index: number): pFormGroup => {
+    return {
+      name: `Artist #${index+1}`,
+      controls: [{
+          name: 'Artist',
+          type: 'selector',
+          validators: [Validators.required],
+          selectorItems$: this.store.select(selectArtists).pipe(map(a => ArtistUtil.selectorItems(a)))
+      }, {
+        name: 'Offer',
+      }, {
+        name: 'Travel',
+      }, {
+        name: 'Accommodation',
+      }, {
+        name: 'Ground Transport',
+      }, {
+        name: 'Visa',
+      }, {
+        name: 'Details of media/recording requests',
+        type: 'textarea',
+      }]
+    }
+  }
 
   form: pForm = {
     type: FormType.BOOKING,
@@ -84,80 +68,69 @@ export class BookFormComponent {
       {
         name: 'Event information',
         controls: [{
-            name: 'Performance date',
-            type: 'period',
+            name: 'Performance start date',
+            type: 'date',
             validators: [Validators.required]
+          }, {
+            name: 'Performance end date',
+            type: 'date',
           }, {
             name: 'Event name',
             type: 'text',
             validators: [Validators.required]
           }, {
             name: 'Venue Name',
-            type: 'text',
           }, {
             name: 'Venue Address',
-            type: 'text',
           }, {
             name: 'Nearest Airport',
-            type: 'text',
           }, {
             name: 'Website',
-            type: 'text',
           }, {
             name: 'Venue Capacity',
-            type: 'text',
           }, {
             name: 'Ticket Price',
-            type: 'text',
           }, {
             name: 'Age Restriction',
-            type: 'text',
           }, {
             name: 'Recent artists performed in venue',
-            type: 'text',
           }, {
             name: 'Video link to recent show',
-            type: 'text',
           }
-          
         ]
       },
-      new ArtistsStep(this.artistService),
+      {
+        name: 'Artists',
+        array: true,
+        groups: [this.artistsStepGetter(0)],
+        getGroup: this.artistsStepGetter
+      },
       {
         name: 'Promoter information',
         controls: [{
           name: 'Promoter Name',
-          type: 'text',
           validators: [Validators.required]
         }, {
           name: 'Company Name',
-          type: 'text',
           validators: [Validators.required]
         }, {
           name: 'Company Address',
-          type: 'text',
           validators: [Validators.required]
         }, {
           name: 'Company VAT Number',
-          type: 'text',
           validators: [Validators.required]
         }, {
           name: 'Email',
-          type: 'text',
           validators: [Validators.required, Validators.email]
         }, {
           name: 'Phone number',
-          type: 'text',
           validators: [Validators.required]
         }, {
           name: 'Website',
-          type: 'text',
         }, {
           name: 'Experience in organizing events (in years)',
-          type: 'text',
         }, {
           name: 'Significant organized past events',
-          type: 'text',
         }]
       },
 

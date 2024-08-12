@@ -1,4 +1,3 @@
-import e from "express"
 import { Profile } from "../../profile/model/profile.model"
 import { LoginToken } from "../../profile/profile-telegram.service"
 import { ServiceProvider } from "./services.provider"

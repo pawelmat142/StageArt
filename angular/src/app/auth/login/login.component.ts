@@ -5,6 +5,7 @@ import { HeaderComponent } from '../../pages/components/header/header.component'
 import { InputComponent } from '../../pages/controls/input/input.component';
 import { BtnComponent } from '../../pages/controls/btn/btn.component';
 import { FormUtil } from '../../utils/form.util';
+import { ProfileService } from '../profile.service';
 
 @Component({
   selector: 'app-login',
@@ -24,6 +25,7 @@ export class LoginComponent {
   public static readonly path = 'login'
 
   constructor(
+    private profileService: ProfileService,
   ) {}
 
   form = new FormGroup({
@@ -41,7 +43,9 @@ export class LoginComponent {
   }
 
   _byTelegram() {
-
+    this.profileService.fetchTelegramBotHref$().subscribe(telegramHref => {
+      window.location.href = telegramHref.url
+    })
   }
 
 }

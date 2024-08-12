@@ -5,7 +5,7 @@ import { Observable, of, tap } from 'rxjs';
 import { Form, FormType } from './form.state';
 import { HttpService } from '../services/http.service';
 
-export type pControlType = 'text' | 'textarea' | 'period' | 'selector'
+export type pControlType = 'text' | 'textarea' | 'date' | 'selector'
 
 export interface pForm {
   type: FormType
@@ -31,11 +31,11 @@ export interface pFormArray {
 
 export interface pFormControl {
   name: string
-  type: pControlType,
+  type?: pControlType,
   placeholder?: string
   required?: boolean
   validators?: ValidatorFn[]
-  getSelectorItems?: () => SelectorItem[]
+  selectorItems$?: Observable<SelectorItem[]>
 }
 
 @Injectable({

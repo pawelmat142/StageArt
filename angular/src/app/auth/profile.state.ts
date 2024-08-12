@@ -1,5 +1,5 @@
 import { createAction, createReducer, createSelector, on, props } from "@ngrx/store"
-import { selectProfile } from "../store/app.state"
+import { selectProfileState } from "../store/app.state"
 
 export type Role = 'MANAGER' | 'PROMOTER' | 'ARTIST' | 'ADMIN'
 
@@ -30,17 +30,17 @@ export const logout = createAction("[PROFILE] logout")
 
 
 export const profileLoadingChange = createSelector(
-    selectProfile,
+    selectProfileState,
     (state: ProfileState) => state.loading
 )
 
 export const profileChange = createSelector(
-    selectProfile,
+    selectProfileState,
     (state: ProfileState) => state.profile
 )
 
 export const loggedInChange = createSelector(
-    selectProfile,
+    selectProfileState,
     (state: ProfileState) => state.loggedIn
 )
 

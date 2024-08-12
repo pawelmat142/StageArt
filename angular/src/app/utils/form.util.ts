@@ -1,6 +1,5 @@
 import { FormArray, FormControl, FormGroup } from "@angular/forms";
 import { pFormControl } from "../form-processor/form-processor.service";
-import { DatePeriod } from "../pages/controls/dates/dates.component";
 
 export abstract class FormUtil {
 
@@ -25,8 +24,6 @@ export abstract class FormUtil {
     }
 
     public static setFormValues(formGroup: FormGroup, data: any) {
-        console.warn('setFormValues')
-        console.log(data)
         Object.keys(formGroup.controls).forEach(key => {
             const control = formGroup.get(key)
             const controlData = data[key]
@@ -52,11 +49,11 @@ export abstract class FormUtil {
     }
 
     public static prepareFormControl(control: pFormControl): FormControl {
-        if (['text', 'textarea'].includes(control.type)) {
+        if (!control.type || ['text', 'textarea'].includes(control.type)) {
           return new FormControl('', control.validators)
         }
-        if (control.type === 'period') {
-          return new FormControl<DatePeriod>({ start: undefined, end: undefined }, control.validators)
+        if (control.type === 'date') {
+          return new FormControl<Date | null>(null, control.validators)
         }
         if (control.type === 'selector') {
           return new FormControl<any>(null, control.validators)

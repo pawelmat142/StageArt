@@ -1,9 +1,9 @@
 @if (_formGroup && !step.array) {
-    <form [formGroup]="_formGroup">
+    <form [formGroup]="_formGroup" class="form-group">
 
         @for(control of step.controls; track control.name) {
 
-            <app-control [control]="control"></app-control>
+            <app-control [control]="control" class=""></app-control>
 
         }
 

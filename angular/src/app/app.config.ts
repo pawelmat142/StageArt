@@ -29,7 +29,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
 
     provideStore(),
-    provideState({ name: 'artists', reducer: artistsReducer }),
+    provideState({ name: 'artistsState', reducer: artistsReducer }),
     provideState({ name: 'formState', reducer: formReducer }),
     provideState({ name: 'profileState', reducer: profileReducer }),
     provideEffects([ArtistEffect, FormEffect]),

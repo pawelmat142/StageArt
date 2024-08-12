@@ -5,6 +5,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ArtistService } from '../../services/artist/artist.service';
 import { catchError, map, of, switchMap, withLatestFrom } from 'rxjs';
 import { AppState } from '../app.state';
+import { state } from '@angular/animations';
 
 export interface ArtistsState {
     artists: ArtistViewDto[]
@@ -35,7 +36,8 @@ export const fetchArtistsFail = createAction(ArtistsAction.FETCH_ARTISTS_FAILED,
 export const cleanArtists = createAction(ArtistsAction.CLEAN_ARTISTS)
 
 
-export const selectArtistsState = (state: AppState) => state.artists
+export const selectArtistsState = (state: AppState) => state.artistsState
+export const selectArtists = (state: AppState) => state.artistsState.artists
 
 export const loadingChange = createSelector(
     selectArtistsState,
@@ -78,12 +80,12 @@ export class ArtistEffect {
     constructor(
         private actions$: Actions,
         private artistService: ArtistService, 
-        private store: Store<{ artists: ArtistsState }>, 
+        private store: Store<AppState>, 
     ){}
 
     initArtists$ = createEffect(() => this.actions$.pipe(
         ofType(initArtists),
-        withLatestFrom(this.store.select(state => state.artists.initialized)),
+        withLatestFrom(this.store.select(selectArtistsState).pipe(map(state => state.initialized))),
         map(arr => arr[1]),
         switchMap(initialized => {
             if (initialized) {

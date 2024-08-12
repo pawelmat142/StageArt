@@ -19,12 +19,18 @@
 
 }
 
+.desktop {
+    .form-input.dates {
+        padding: $control-padding-y-desc 0!important;
+    }
+}
+
 .form-input.dates {
     
-    padding: $control-padding-y 0;
+    padding: $control-padding-y 0!important;
     
     .form-input-label {
-        padding: 0 $control-padding-x;
+        padding: 0 $control-padding-x!important;
     }
     
     p-calendar {

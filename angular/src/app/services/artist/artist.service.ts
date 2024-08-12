@@ -2,10 +2,10 @@ import { Injectable } from "@angular/core";
 import { HttpService } from "../http.service";
 import { ArtistForm } from "./model/artist-form";
 import { ArtistViewDto } from "./model/artist-view.dto";
-import { AppState, selectArtists } from "../../store/app.state";
+import { AppState } from "../../store/app.state";
 import { Store } from "@ngrx/store";
 import { take } from "rxjs";
-import { SelectorItem } from "../../pages/controls/selector/selector.component";
+import { selectArtists } from "../../store/artist/artists.state";
   
 @Injectable({
     providedIn: 'root'
@@ -35,13 +35,5 @@ export class ArtistService {
         return result
     }
 
-    public getArtistsSelectorItems = (): SelectorItem[] => {
-        return this.getArtists().map(a => {
-            return {
-                code: a.name,
-                name: a.name,
-                imgUrl: a.images.avatar?.mini?.url
-            }
-        })
-    }
+
 }

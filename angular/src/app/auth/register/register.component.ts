@@ -66,10 +66,9 @@ export class RegisterComponent {
   }
 
   _byTelegram() {
-    this.profileService.fetchTelegramBotHref$().subscribe(x => {
-      window.location.href = x.url
+    this.profileService.fetchTelegramBotHref$().subscribe(telegramHref => {
+      window.location.href = telegramHref.url
     })
   }
-
 
 }
