@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ArtistForm } from './model/artist-form';
 import { Artist } from './model/artist.model';
 import { Model } from 'mongoose';
@@ -36,7 +36,6 @@ export class ArtistService {
         return this.artistModel.find({ active: true })
     }
 
-
     private prepareArtistSignature(name: string): string {
         const nameWithoutSpaces = name.replace(/\s+/g, '').toLowerCase();
         const initials = nameWithoutSpaces.split('').map((char, index) => {
@@ -66,6 +65,7 @@ export class ArtistService {
         }
         
         booking.artistSignatures = artistSignatures
+        booking.artistNames = artists.map(a => a.name)
 
         const artistBooking = {
             ...booking

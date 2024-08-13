@@ -1,10 +1,11 @@
-import { BadRequestException, Controller, Get, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { BookingService } from './booking.service';
 import { JwtGuard } from '../profile/auth/jwt.guard';
 import { Profile } from '../profile/auth/profile-path-param-getter';
 import { JwtPayload } from '../profile/auth/jwt-strategy';
 import { Serialize } from '../global/interceptors/serialize.interceptor';
 import { BookingListDto } from './model/booking.dto';
+import { Booking } from './model/booking.model';
 
 @Controller('api/booking')
 export class BookingController {
@@ -24,6 +25,13 @@ export class BookingController {
     @Serialize(BookingListDto)
     fetchProfileBookings(@Profile() profile: JwtPayload) {
         return this.bookingService.fetchProfileBookings(profile)
+    }
+
+    @Get('get/:id')
+    @UseGuards(JwtGuard)
+    @Serialize(Booking)
+    fetchBooking(@Param('id') formId: string, @Profile() profile: JwtPayload) {
+        return this.bookingService.fetchBooking(formId, profile)
     }
 
 }

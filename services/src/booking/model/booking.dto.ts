@@ -9,4 +9,6 @@ export class BookingListDto {
     @Expose() startDate: Date
     @Expose() endDate?: Date
     @Expose() submitDate?: Date
+    @Expose() eventName: string
+    @Expose() artistNames: string[]
 }

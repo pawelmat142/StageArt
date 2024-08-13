@@ -26,7 +26,6 @@ export class ArtistController {
     @Get('artists')
     @Serialize(ArtistViewDto)
     fetchArtists() {
-        console.log('ttt')
         return this.artistService.fetchArtists()
     }
 

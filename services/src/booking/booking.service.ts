@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Booking } from './model/booking.model';
 import { Model } from 'mongoose';
@@ -6,6 +6,7 @@ import { JwtPayload } from '../profile/auth/jwt-strategy';
 import { SubmitService } from './util/submit.service';
 import { IllegalStateException } from '../global/exceptions/illegal-state.exception';
 import { BookingListDto } from './model/booking.dto';
+import { ArtistService } from '../artist/artist.service';
 
 @Injectable()
 export class BookingService {
@@ -15,6 +16,7 @@ export class BookingService {
     constructor(
         @InjectModel(Booking.name) private bookingModel: Model<Booking>,
         private readonly submitService: SubmitService,
+        private readonly artistService: ArtistService,
     ) {}
 
     public async submitForm(formId: string, profile: JwtPayload) {
@@ -34,9 +36,23 @@ export class BookingService {
             { promoterUid: uid },
             { managerUid: uid }
         ] })
-        const promoterBookings = await this.bookingModel.find({ promoterUid: uid })
         this.logger.log(`Fetch profile bookings for ${uid}`)
         return managerBookings
+    }
+
+    public async fetchBooking(formId: string, profile: JwtPayload): Promise<Booking> {
+        const booking = await this.bookingModel.findOne({ formId })
+        if (!booking) {
+            throw new NotFoundException()
+        }
+        const uidsWithAccess = [
+            booking.promoterUid,
+            booking.managerUid
+        ]
+        if (!uidsWithAccess.includes(profile.uid)) {
+            throw new UnauthorizedException()
+        }
+        return booking
     }
     
 }

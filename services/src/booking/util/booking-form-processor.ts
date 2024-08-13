@@ -22,20 +22,30 @@ export abstract class BookingFormProcessor {
         }
         const start = eventInformation['performanceStartDate']
         const end = eventInformation['performanceEndDate']
-        if (start) {
-            const startDate = new Date(start)
-            if (startDate instanceof Date) {
-                const result: DatePeriod = { startDate }
-                if (end) {
-                    const endDate = new Date(end)
-                    if (endDate instanceof Date) {
-                        result.endDate = endDate
-                    }
+        if (!start) {
+            throw new BadRequestException("Missing event date")
+        }
+        const startDate = new Date(start)
+        if (startDate instanceof Date) {
+            const result: DatePeriod = { startDate }
+            if (end) {
+                const endDate = new Date(end)
+                if (endDate instanceof Date) {
+                    result.endDate = endDate
                 }
-                return result
             }
+            return result
         }
     }
+
+    public static findEventName(bookingFormData: any): string {
+        const eventInformation = bookingFormData['eventInformation']
+        if (eventInformation) {
+            const eventName = eventInformation['eventName']
+            return eventName
+        }
+    }
+
 
 
 }

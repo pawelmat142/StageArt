@@ -29,6 +29,9 @@ export class SubmitService {
         if (!profile) {
             throw new IllegalStateException("Missing profile")
         }
+
+        // TODO prevent set type by ngrx actions 
+        delete form.data.type
         
         const booking: Partial<Booking> = {
             formId: form.id,
@@ -40,6 +43,7 @@ export class SubmitService {
         }   
         
         this.processEventDates(booking)
+        this.processEventName(booking)
 
         await this.formService.submitForm(formId)
 
@@ -60,6 +64,15 @@ export class SubmitService {
         this.logger.log(`Found event start date: ${Util.formatDate(dates.startDate)}${dates.endDate ? `, end date: ${Util.formatDate(dates.endDate)}` : ''}` )
         booking.startDate = dates.startDate
         booking.endDate = dates.endDate
+    }
+
+    private processEventName(booking: Partial<Booking>) {
+        const eventName = BookingFormProcessor.findEventName(booking.formData)
+        if (!eventName) {
+            throw new BadRequestException("Missing eventName")
+        }
+        this.logger.log(`Found event name : ${eventName}`)
+        booking.eventName = eventName
     }
 
 }
