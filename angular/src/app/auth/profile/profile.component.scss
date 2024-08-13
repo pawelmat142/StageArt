@@ -1,6 +1,12 @@
-.spinner-wrapper  {
+@import 'variables';
 
+.spinner-wrapper  {
     display: flex;
     margin-top: 30vh;
     justify-content: center;
+}
+
+.profile-view-content {
+    margin-top: $header-height;
+    margin-left: $sidebar-width;
 }

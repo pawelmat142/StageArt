@@ -44,7 +44,7 @@ export class BookFormComponent {
   }
 
   _submit(data: any) {
-    const sub = this.store.select(loggedInChange).pipe(
+    this.store.select(loggedInChange).pipe(
       withLatestFrom(this.store.select(selectFormId)),
       switchMap(([loggedIn, formId]) => {
         if (!loggedIn) {
@@ -68,7 +68,6 @@ export class BookFormComponent {
         console.error(error)
       }
     })
-    sub.unsubscribe()
   }
 
   private artistsStepGetter = (index: number): pFormGroup => {

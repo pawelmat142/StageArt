@@ -18,11 +18,12 @@ export class Booking {
     @Prop({ required: true })
     managerUid: string
     
-    @Prop({ required: true })
-    artistSignatures: string[]
 
     @Prop({ required: true })
     status: BookingStatus
+
+    @Prop()
+    submitDate?: Date
 
 
     @Prop({ required: true })
@@ -30,6 +31,9 @@ export class Booking {
     
     @Prop()
     endDate?: Date
+
+    @Prop({ required: true })
+    artistSignatures: string[]
 
 
     @Prop({ type: Object })

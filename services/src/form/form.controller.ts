@@ -30,7 +30,7 @@ export class FormController {
 
     @Post('/start/:formType')
     async startForm(@Param('formType') formType: string, @Body() data: any) {
-        const id = this.generateBookingId(formType)
+        const id = this.generateFormId(formType)
         const form = new this.formModel({
             id: id,
             formType: formType,
@@ -77,7 +77,7 @@ export class FormController {
     }
 
 
-    private generateBookingId(formType: string): string {
+    private generateFormId(formType: string): string {
         return `${formType.replace(' ', '_')}-${Date.now().toString().slice(-4)}`
     }
     

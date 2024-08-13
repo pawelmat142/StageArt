@@ -12,6 +12,7 @@ import { AppState } from '../../store/app.state';
 import { Store } from '@ngrx/store';
 import { loggedIn, login, logout } from '../profile.state';
 import { DialogService } from '../../services/nav/dialogs/dialog.service';
+import { ProfileComponent } from '../profile/profile.component';
 
 @Component({
   selector: 'app-pin-view',
@@ -46,7 +47,6 @@ export class PinViewComponent {
       return
     }
 
-    this.nav.home()
     this.dialogRef.close()
     this.store.dispatch(login())
 
@@ -55,10 +55,11 @@ export class PinViewComponent {
       token: this.data.token
     }).subscribe({
       next: token => {
-        Token.setToken(token.token)
+        Token.set(token.token)
         const profile = Token.payload
         if (profile) {
           this.store.dispatch(loggedIn(profile))
+          this.nav.to(ProfileComponent.path)
         } else {
           this.store.dispatch(logout())
         }
@@ -70,18 +71,5 @@ export class PinViewComponent {
     })
 
   }
-
-  private setSession(res: { token: string }) {
-    const token = res?.token
-    if (!token) {
-        throw new Error('TOKEN MISSING')
-    }
-
-
-
-
-    Token.setToken(token)
-  }
-
 
 }

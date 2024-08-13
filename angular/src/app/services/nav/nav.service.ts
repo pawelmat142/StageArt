@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { BehaviorSubject, skip } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { ArtistFormComponent } from '../../pages/admin/pages/artist-form/artist-form.component';
 import { NotFoundPageComponent } from '../../pages/error/not-found-page/not-found-page.component';
 import { ArtistsViewComponent } from '../../pages/views/artists-view/artists-view.component';
@@ -10,10 +10,12 @@ import { ProfileComponent } from '../../auth/profile/profile.component';
 import { AppState } from '../../store/app.state';
 import { Store } from '@ngrx/store';
 import { loggedInChange } from '../../auth/profile.state';
+import { LoginComponent } from '../../auth/login/login.component';
 
 export interface MenuButtonItem {
   label: string
   onclick(): void
+  active?: boolean
 }
 
 @Injectable({
@@ -40,15 +42,20 @@ export class NavService {
     private readonly dialog: MatDialog,
     private readonly store: Store<AppState>,
   ) {
-    this.store.select(loggedInChange).pipe(skip(1)).subscribe(profile => {
-      if (profile) {
+    this.store.select(loggedInChange)
+    // .pipe(skip(1))
+    .subscribe(loggedIn => {
+      if (loggedIn) {
         this.menuButtonsSubject$.next([...this._menuButtons, {
           label: 'Profie',
           onclick: () => this.to(ProfileComponent.path)
         }])
       } else {
-        this.menuButtonsSubject$.next(this._menuButtons)
-        this.home()
+        this.menuButtonsSubject$.next([...this._menuButtons, {
+          label: 'Login',
+          onclick: () => this.to(LoginComponent.path)
+        }])
+        // this.home()
       }
     })
     

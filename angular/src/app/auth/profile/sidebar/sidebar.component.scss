@@ -1,0 +1,34 @@
+@import 'color';
+@import 'variables';
+@import 'font';
+
+$border: 1px solid $red; 
+
+
+.sidebar {
+    width: $sidebar-width;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+
+    border-right: solid 1px $red-border;
+    margin-top: $header-height;
+}
+
+.siderbar-item {
+    @extend .fs3;
+    color: $red;
+    @extend .baron;
+    @extend .highlight;
+    padding: 0.5*$padding-standard 2*$padding-standard;
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.2*$padding-standard;
+
+    &.active {
+        background: $red-transparent;
+    }
+}
+

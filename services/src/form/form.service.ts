@@ -1,10 +1,12 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Form } from "./form.model";
 import { Model } from "mongoose";
 
 @Injectable()
 export class FormService {
+
+    private readonly logger = new Logger(this.constructor.name)
 
     constructor(
         @InjectModel(Form.name) private formModel: Model<Form>,
@@ -17,7 +19,7 @@ export class FormService {
     async submitForm(id: string) {
         const update = await this.formModel.updateOne({ id }, { $set: { formStatus: 'SUBMITTED' }})
         if (!update.modifiedCount) {
-            throw new NotFoundException(`Not found form to submit: ${id}`)
+            this.logger.warn(`Not found form to submit: ${id}`)
         }
     }
 }

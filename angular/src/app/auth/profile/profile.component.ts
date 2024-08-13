@@ -3,9 +3,12 @@ import { BtnComponent } from '../../pages/controls/btn/btn.component';
 import { HeaderComponent } from '../../pages/components/header/header.component';
 import { Router } from '@angular/router';
 import { ProfileService } from '../profile.service';
-import { FormGroup } from '@angular/forms';
 import { PinViewComponent } from '../pin-view/pin-view.component';
 import { MatDialog } from '@angular/material/dialog';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { BookingsComponent } from '../../booking/view/bookings/bookings.component';
+
+export type ProfileView  = 'NONE' | 'BOOKINGS'
 
 @Component({
   selector: 'app-profile',
@@ -13,7 +16,9 @@ import { MatDialog } from '@angular/material/dialog';
   imports: [
     BtnComponent,
     HeaderComponent,
-    PinViewComponent
+    PinViewComponent,
+    SidebarComponent,
+    BookingsComponent,
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
@@ -29,18 +34,24 @@ export class ProfileComponent {
     private readonly dialog: MatDialog,
   ) {}
 
-  form = new FormGroup({})
+  _profileView: ProfileView = 'NONE' 
 
   _spinner = false
 
-  _token?: string
 
   ngOnInit(): void {
     this.pinViewIfTokenExists()
   }
 
-  _logout() {
+
+  _setView(view: ProfileView) {
+    this._profileView = view
   }
+
+
+
+  // TODO
+  _token?: string
 
 
   private pinViewIfTokenExists() {

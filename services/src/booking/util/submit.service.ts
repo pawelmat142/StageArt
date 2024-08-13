@@ -35,7 +35,8 @@ export class SubmitService {
             promoterUid: profile.uid,
             managerUid: 'MOCK TODO',
             status: 'SUBMITTED',
-            formData: form.data
+            formData: form.data,
+            submitDate: new Date()
         }   
         
         this.processEventDates(booking)

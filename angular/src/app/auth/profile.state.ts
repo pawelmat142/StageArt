@@ -1,5 +1,9 @@
-import { createAction, createReducer, createSelector, on, props } from "@ngrx/store"
-import { selectProfileState } from "../store/app.state"
+import { createAction, createReducer, createSelector, on, props, Store } from "@ngrx/store"
+import { AppState, selectProfileState } from "../store/app.state"
+import { Injectable } from "@angular/core"
+import { Actions, createEffect, ofType } from "@ngrx/effects"
+import { tap } from "rxjs"
+import { Token } from "./token"
 
 export type Role = 'MANAGER' | 'PROMOTER' | 'ARTIST' | 'ADMIN'
 
@@ -39,6 +43,11 @@ export const profileChange = createSelector(
     (state: ProfileState) => state.profile
 )
 
+export const uid = createSelector(
+    selectProfileState,
+    (state: ProfileState) => state.profile?.uid
+)
+
 export const loggedInChange = createSelector(
     selectProfileState,
     (state: ProfileState) => state.loggedIn
@@ -74,3 +83,19 @@ export const profileReducer = createReducer(
     }))
 
 )
+
+
+@Injectable()
+export class ProfileEffect {
+    
+    constructor(
+        private actions$: Actions,
+        private store: Store<AppState>, 
+    ){}
+
+    logout$ = createEffect(() => this.actions$.pipe(
+        ofType(logout),
+        tap(() => Token.remove()),
+    ), { dispatch: false })
+
+}

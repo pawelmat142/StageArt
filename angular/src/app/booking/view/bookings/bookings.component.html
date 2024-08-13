@@ -1,0 +1,33 @@
+<div class="bookings" *ngIf="(_bookingsAsManager$ | async) as bookings">
+
+    @if (bookings.length) {
+
+        <h2 class="fs3 light baron">Received booking requests</h2>
+    
+        @for (booking of bookings; track booking.formId) {
+    
+            <div class="booking-item">
+                {{booking.formId}}
+                {{booking.startDate}}
+            </div>
+        }
+    }
+
+</div>
+
+
+<div class="bookings" *ngIf="(_bookingsAsPromoter$ | async) as bookings">
+
+    @if (bookings.length) {
+
+        <h2 class="fs3 light baron">Sent booking requests</h2>
+    
+        @for (booking of bookings; track booking.formId) {
+    
+            <div class="booking-item">
+                {{booking.formId}}
+                {{booking.startDate}}
+            </div>
+        }
+    }
+</div>

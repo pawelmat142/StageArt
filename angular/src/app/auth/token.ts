@@ -13,7 +13,7 @@ export abstract class Token {
 
     private static readonly TOKEN = 'token'
 
-    public static setToken(token: string) {
+    public static set(token: string) {
         localStorage.setItem(this.TOKEN, token)
     }
 

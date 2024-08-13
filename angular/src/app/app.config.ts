@@ -18,7 +18,7 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideEffects } from '@ngrx/effects';
 import { FormEffect, formReducer } from './form-processor/form.state';
 import { FIREBASE_OPTIONS } from '@angular/fire/compat';
-import { profileReducer } from './auth/profile.state';
+import { ProfileEffect, profileReducer } from './auth/profile.state';
 import { AuthInterceptor } from './auth.interceptor';
 
 registerLocaleData(localeEn);
@@ -33,7 +33,7 @@ export const appConfig: ApplicationConfig = {
     provideState({ name: 'artistsState', reducer: artistsReducer }),
     provideState({ name: 'formState', reducer: formReducer }),
     provideState({ name: 'profileState', reducer: profileReducer }),
-    provideEffects([ArtistEffect, FormEffect]),
+    provideEffects([ArtistEffect, FormEffect, ProfileEffect]),
     
     provideHttpClient(withInterceptorsFromDi()),
     provideAnimations(),

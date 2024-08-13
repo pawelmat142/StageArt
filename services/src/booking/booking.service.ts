@@ -1,10 +1,11 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Booking } from './model/booking.model';
 import { Model } from 'mongoose';
 import { JwtPayload } from '../profile/auth/jwt-strategy';
 import { SubmitService } from './util/submit.service';
 import { IllegalStateException } from '../global/exceptions/illegal-state.exception';
+import { BookingListDto } from './model/booking.dto';
 
 @Injectable()
 export class BookingService {
@@ -23,6 +24,19 @@ export class BookingService {
         }
         const booking = await this.submitService.submitForm(formId, profile)
         await new this.bookingModel(booking).save()
+        return
+    }
+
+
+    public async fetchProfileBookings(profile: JwtPayload): Promise<BookingListDto[]> {
+        const uid = profile.uid
+        const managerBookings = await this.bookingModel.find({ $or: [
+            { promoterUid: uid },
+            { managerUid: uid }
+        ] })
+        const promoterBookings = await this.bookingModel.find({ promoterUid: uid })
+        this.logger.log(`Fetch profile bookings for ${uid}`)
+        return managerBookings
     }
     
 }

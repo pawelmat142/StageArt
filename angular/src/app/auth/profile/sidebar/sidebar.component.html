@@ -1,0 +1,7 @@
+@for (item of _items; track item.label) {
+
+    <div class="siderbar-item" (click)="_clickItem(item)" [class.active]="item.active">
+        {{item.label}}
+    </div>
+
+}

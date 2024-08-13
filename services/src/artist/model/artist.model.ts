@@ -12,6 +12,20 @@ export interface FireImg {
     url: string
 }
 
+export interface FireImgSet {
+    name: string
+    bg?: FireImg
+    miniBg?: FireImg
+
+    avatar?: FireImg
+    mini?: FireImg
+}
+
+export interface Images {
+    avatar?: FireImgSet
+    bg?: FireImgSet[]
+}
+
 
 export type DiscountDocument = HydratedDocument<Artist>
 
@@ -46,11 +60,8 @@ export class Artist {
     medias?: ArtistMedia[]
     
     @Prop({ type: Object })
-    avatar: FireImg
-    
-    @Prop({ type: Object })
-    images: FireImg[]
-    
+    images: Images
+
     @Prop()
     bio: string
     

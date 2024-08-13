@@ -1,6 +1,5 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose"
 import { Expose } from "class-transformer"
-import { ArtistMedia, FireImg } from "./artist.model"
+import { ArtistMedia, Images } from "./artist.model"
 
 export class ArtistViewDto {
 
@@ -17,10 +16,7 @@ export class ArtistViewDto {
     medias?: ArtistMedia[]
     
     @Expose()
-    avatar: FireImg
-    
-    @Expose()
-    images: FireImg[]
+    images: Images
     
     @Expose()
     bio: string

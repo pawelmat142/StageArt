@@ -10,6 +10,9 @@ $view-margin-3: calc($view-margin-1 + $view-margin-2);
 
 $header-margin: 200px;
 
+$sidebar-width: 250px;
+$header-height: 70px;
+
 .section-margin {
     margin-left: $view-margin-1;
     margin-right: $view-margin-1;
@@ -23,6 +26,8 @@ $transition-standard: all 0.16s ease-in-out;
 $text-shadow: 0px 2px 1px $dark;
 $text-shadow-red: 0px 2px 1px $red;
 $card-shadow: 0 0 16px $red;
+
+$border-shadow: 0 3px 5px $red;
 
 .padding-top {
     padding-top: $padding-standard;
@@ -68,6 +73,13 @@ $card-shadow: 0 0 16px $red;
     }
     &.max:hover {
         transform: scale(1.2);
+    }
+}
+
+.highlight {
+    cursor: pointer;
+    &:hover {
+        background-color: $red-transparent;
     }
 }
 

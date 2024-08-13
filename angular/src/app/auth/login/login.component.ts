@@ -52,7 +52,7 @@ export class LoginComponent {
 
     this.profileService.loginByEmail$(form as Partial<LoginForm>).subscribe({
       next: (token) => {
-        Token.setToken(token.token)
+        Token.set(token.token)
         const profile = Token.payload
         if (profile) {
           this.store.dispatch(loggedIn(profile))

@@ -1,3 +1,17 @@
 <app-header label="Profile"></app-header>
 
-<app-btn label="logout" class="big center margin-top-4" (click)="_logout()"></app-btn>
+<app-sidebar class="sidebar" (view)="_setView($event)"></app-sidebar>
+
+<div class="profile-view-content">
+
+    @switch (_profileView) {
+        @case ('BOOKINGS') {
+
+            <app-bookings></app-bookings>
+
+        }
+
+    }
+
+
+</div>
