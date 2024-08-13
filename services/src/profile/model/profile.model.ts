@@ -27,6 +27,9 @@ export class Profile {
     telegramChannelId?: string
 
     @Prop()
+    phoneNumber?: string
+
+    @Prop()
     email?: string
 
     @Prop()

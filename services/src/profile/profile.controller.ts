@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { LoginToken, ProfileTelegramService } from './profile-telegram.service';
 import { LoginForm, ProfileEmailService } from './profile-email.service';
 
@@ -14,6 +14,11 @@ export class ProfileController {
     @Get('telegram')
     fetchTelegramBotHref() {
         return { url: `tg://resolve?domain=${process.env.TELEGRAM_BOT_NAME}`}
+    }
+
+    @Get('telegram/pin/:id')
+    telegramPinRequest(@Param('id') uidOrNameOrEmail: string) {
+        return this.profileTelegramService.telegramPinRequest(uidOrNameOrEmail)
     }
 
     @Post('login/pin')

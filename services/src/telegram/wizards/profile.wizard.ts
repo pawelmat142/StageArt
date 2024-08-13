@@ -25,36 +25,22 @@ export class ProfileWizard extends Wizard {
     public getSteps(): WizardStep[] {
         return [{
             order: 0,
-            message: [`Welcome to Unity Management`],
+            message: [
+                `Welcome to Unity Management`,
+                `your name: ${this.profile?.name}`,
+            ],
             buttons: [[{
-                text: 'Login',
-                process: () => this.loginToken()
-            }], [{
-                text: 'Delete account',
-                process: async () => 4
-            }]]
+                text: 'Login page',
+                url: this.prepareLoginUrl()
+            }]], 
         }, {
             order: 1,
-            message: ['Provide your name...'],
-            process: async (input: string) => {
-                if (!input) {
-                    this.error = `Empty...`
-                    return 1
-                }
-                return 3
-            }
         }, {
             order: 2,
             message: [this.error],
             close: true
         }, {
             order: 3,
-            message: [this.prepareLoginPinMsg()],
-            buttons: [[{
-                text: 'Login page',
-                url: this.prepareLoginUrl()
-            }]],
-            close: true
         }, {
             order: 4,
             message: [`Are you sure?`],
@@ -72,29 +58,9 @@ export class ProfileWizard extends Wizard {
         }]
     }
 
-    private async loginToken(): Promise<number> {
-        try {
-            this._loginToken = await this.services.profileTelegramService.loginToken(this.profile.telegramChannelId)
-        } catch (error) {
-            this.error = error
-            this.logger.error(error)
-            return 2
-        }
-        return 3
-    }
-
-    private prepareLoginPinMsg() {
-        if (this.order === 3) {
-            return `Your login PIN: ${this._loginToken.pin}`
-        }
-        return ''
-    }
 
     private prepareLoginUrl(): string {
-        if (this.order === 3) {
-            return `${process.env.FRONT_APP_URL}/profile/telegram/${this._loginToken.token}`
-        }
-        return ''
+        return `${process.env.FRONT_APP_URL}/login`
     }
 
     private async deleteAccount() {

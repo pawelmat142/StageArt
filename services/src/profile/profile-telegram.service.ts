@@ -1,16 +1,23 @@
-import { BadRequestException, Injectable, Logger, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Profile } from './model/profile.model';
 import { Model } from 'mongoose';
 import { TelegramUtil } from '../telegram/util/telegram.util';
 import { AppJwtService } from './auth/app-jwt.service';
 import { ProfileService } from './profile.service';
+import { Subject } from 'rxjs';
+import { BotUtil } from '../telegram/util/bot.util';
 
 export interface LoginToken {
     telegramChannelId: string
     token: string
     expiration: Date
     pin: string
+}
+
+export interface TelegramMessage {
+    message: string
+    telegramChannelId: string
 }
 
 @Injectable()
@@ -22,12 +29,48 @@ export class ProfileTelegramService {
         @InjectModel(Profile.name) private profileModel: Model<Profile>,
         private readonly jwtService: AppJwtService,
         private readonly profileService: ProfileService,
+        // private readonly telegramService: TelegramService,
     ) {}
+
+    private sendMessageSubject$ = new Subject<TelegramMessage>()
+    public get sendMessageObs$() {
+        return this.sendMessageSubject$.asObservable()
+    } 
+
+    public sendMessage(msg: TelegramMessage) {
+        this.sendMessageSubject$.next(msg)
+    }
 
     private loginTokens: LoginToken[] = []
 
     public findByTelegram(telegramChannelId: string) {
         return this.profileModel.findOne({ telegramChannelId })
+    }
+
+    async telegramPinRequest(uidOrNameOrEmail: string): Promise<{ token: string }> {
+        this.logger.log(`Telegram PIN request with argument uidOrNameOrEmail: ${uidOrNameOrEmail}`)
+        let profile = await this.profileModel.findOne({ uid: uidOrNameOrEmail }, { telegramChannelId: true })
+        if (!profile) {
+            profile = await this.profileModel.findOne({ name: uidOrNameOrEmail }, { telegramChannelId: true } )
+            if (!profile) {
+
+                // TODO
+                profile = await this.profileModel.findOne({ email: uidOrNameOrEmail }, { telegramChannelId: true } )
+                if (!profile) {
+                    throw new NotFoundException(`Not found matched profile`)
+                }
+            }
+        }
+        const token = await this.generateLoginToken(profile.telegramChannelId)
+
+        this.sendMessage({
+            telegramChannelId: profile.telegramChannelId,
+            message: BotUtil.msgFrom([
+                `You login PIN: ${token.pin}`,
+                `It's valid for 60 seconds`
+            ])
+        })
+        return { token: token.token }
     }
 
     async loginByPin(input: Partial<LoginToken>) {
@@ -48,7 +91,7 @@ export class ProfileTelegramService {
     }
 
 
-    async loginToken(telegramChannelId: string): Promise<LoginToken> {
+    async generateLoginToken(telegramChannelId: string): Promise<LoginToken> {
         const check = await this.profileModel.findOne({ telegramChannelId })
         if (!check) throw new BadRequestException('Not a member')
 
