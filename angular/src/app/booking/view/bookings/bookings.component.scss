@@ -1,0 +1,86 @@
+@import 'variables';
+
+.bookings-container {
+    
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $padding-standard;
+    background-color: $light-dark;
+
+
+    padding: $padding-standard;
+    padding-top: $header-height;
+
+    .separate-line {
+        margin: 0 $padding-standard;
+        border-top: 0.5px solid $light-dark;
+    }
+}
+
+.bookings {
+
+    @extend .tile;
+    
+    padding: 0;
+    border: 1px solid $dark;
+
+}
+
+.form-data {
+    padding-bottom: $padding-standard;
+}
+
+.bookings-header {
+    padding: $padding-standard;
+}
+
+.booking-item {
+    padding: 0.8*$padding-standard $padding-standard;
+    
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 2fr;
+    
+    
+    p {
+        color: $white;
+        font-weight: 100;
+        font-size: 12px;
+    }   
+    
+    
+    &:not(.labels) {
+        border-top: 0.5px solid $light-dark;
+        cursor: pointer;
+        &:hover {
+            background-color: $light-dark;
+            box-shadow: 5px 5px 5px 5px $dark;
+        }
+    }
+    
+}
+
+.booking-item.labels {
+    p {
+        font-size: 14px;
+        color: $red;
+    }
+}
+
+.booking-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.profile-form-control {
+    padding-left: 2*$padding-standard;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    
+    .key {
+        color: $light;
+    }
+}
+
+.array-group {
+    margin-bottom: $padding-standard;
+}

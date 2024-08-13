@@ -1,16 +1,22 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { BookingListDto, BookingService } from '../../../services/booking/booking.service';
-import { map, Observable, shareReplay, tap, withLatestFrom } from 'rxjs';
+import { Booking, BookingListDto, BookingService } from '../../../services/booking/booking.service';
+import { map, Observable, of, shareReplay, tap, withLatestFrom } from 'rxjs';
 import { AppState } from '../../../store/app.state';
 import { Store } from '@ngrx/store';
 import { uid } from '../../../auth/profile.state';
+import { StatusPipe } from '../../../utils/pipes/status.pipe';
+import { FromCamelToTextPipe } from '../../../utils/pipes/from-camel.pipe';
+import { IsArrayPipe } from '../../../utils/pipes/is-array.pipe';
 
 @Component({
   selector: 'app-bookings',
   standalone: true,
   imports: [
     CommonModule,
+    StatusPipe,
+    FromCamelToTextPipe,
+    IsArrayPipe,
   ],
   templateUrl: './bookings.component.html',
   styleUrl: './bookings.component.scss'
@@ -39,5 +45,18 @@ export class BookingsComponent {
     map(([bookings, uid]) => bookings.filter(b => b.promoterUid === uid))
   )
 
+  _booking$: Observable<Booking | null> = of(null)
+
+  _openBooking(booking: BookingListDto) {
+    this._booking$ = this.bookingService.fetchBooking$(booking.formId)
+  }
+
+  _isArray(value: any): boolean {
+    return Array.isArray(value);
+  }
+
+  _iterable(value: any): any[] {
+    return Array.isArray(value) ? value : [];
+  }
 
 }

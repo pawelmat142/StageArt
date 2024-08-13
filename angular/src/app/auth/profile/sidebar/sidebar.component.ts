@@ -32,6 +32,10 @@ export class SidebarComponent {
     onclick: () => this.logout()
   }]
 
+  ngOnInit(): void {
+    this._clickItem(this._items[0])
+  }
+
 
   private logout() {
     this.store.dispatch(logout())

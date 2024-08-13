@@ -12,9 +12,7 @@ $border: 1px solid $red;
     top: 0;
     left: 0;
     bottom: 0;
-
-    border-right: solid 1px $red-border;
-    margin-top: $header-height;
+    padding-top: $header-height;
 }
 
 .siderbar-item {

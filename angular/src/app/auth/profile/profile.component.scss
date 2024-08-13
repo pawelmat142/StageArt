@@ -1,4 +1,5 @@
 @import 'variables';
+@import 'color';
 
 .spinner-wrapper  {
     display: flex;
@@ -7,6 +8,7 @@
 }
 
 .profile-view-content {
-    margin-top: $header-height;
+    background-color: $light-dark;
     margin-left: $sidebar-width;
+    min-height: 100vh;
 }
