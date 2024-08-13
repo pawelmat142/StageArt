@@ -3,32 +3,45 @@
 <div class="form-page">
 
     <div class="form-container">
+
+        @if (_nameOrEmailForm) {
+            <form [formGroup]="_nameOrEmailForm" (ngSubmit)="_submit()">
+                <div class="control-margin">
+                    <app-input
+                        formControlName="nameOrEmail"
+                        [required]="true"
+                        label="Name or email" 
+                    ></app-input>
+                </div>
+            </form>
+        } 
+        @else {
+            <form [formGroup]="form" (ngSubmit)="_submit()">
+
+                <div class="control-margin">
+                    <app-input
+                        formControlName="email"
+                        [required]="true"
+                        label="Email" 
+                    ></app-input>
+                </div>
     
-        <form [formGroup]="form" (ngSubmit)="_submit()">
+                <div class="control-margin">
+                    <app-input
+                        formControlName="password"
+                        [required]="true"
+                        label="Password" 
+                        type="password"
+                    ></app-input>
+                </div>
+    
+            </form>
+        }
 
-            <div class="control-margin">
-                <app-input
-                    formControlName="email"
-                    [required]="true"
-                    label="Email" 
-                ></app-input>
-            </div>
-
-            <div class="control-margin">
-                <app-input
-                    formControlName="password"
-                    [required]="true"
-                    label="Password" 
-                    type="password"
-                ></app-input>
-            </div>
-
-            <div class="btns center">
-                <app-btn label="by telegram" class="big grey" (click)="_byTelegram()"></app-btn>
-                <app-btn label="submit" class="big" (click)="_submit()"></app-btn>
-            </div>
-
-        </form>
-
+        <div class="btns center">
+            <app-btn label="by telegram" class="big grey" (click)="_byTelegram()"></app-btn>
+            <app-btn label="submit" class="big" (click)="_submit()"></app-btn>
+        </div>
+    
     </div>
 </div>

@@ -12,9 +12,22 @@ export interface JwtPayload extends Profile {
 export abstract class Token {
 
     private static readonly TOKEN = 'token'
+    private static readonly UID = 'uid'
 
     public static set(token: string) {
         localStorage.setItem(this.TOKEN, token)
+        this.setUid()
+    }
+
+    public static getUid(): string {
+        return localStorage.getItem(this.UID) || ''
+    }
+    
+    private static setUid() {
+        const uid = this.payload?.uid
+        if (uid) {
+            localStorage.setItem(this.UID, uid)
+        }
     }
 
     public static remove() {

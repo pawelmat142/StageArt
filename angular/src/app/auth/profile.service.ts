@@ -29,6 +29,9 @@ export class ProfileService {
         return this.http.get<{ url: string }>(`/profile/telegram`)
     }
 
+    telegramPinRequest$(uidOrNameOrEmail: string) {
+        return this.http.get<{ token: string }>(`/profile/telegram/pin/${uidOrNameOrEmail}`)
+    }
 
     loginByPin$(loginToken: LoginToken): Observable<{ token: string }> {
         return this.http.post<{ token: string }>(`/profile/login/pin`, loginToken).pipe(

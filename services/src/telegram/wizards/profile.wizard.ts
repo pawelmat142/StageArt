@@ -1,5 +1,4 @@
 import { Profile } from "../../profile/model/profile.model"
-import { LoginToken } from "../../profile/profile-telegram.service"
 import { ServiceProvider } from "./services.provider"
 import { Wizard, WizardStep } from "./wizard"
 
@@ -14,8 +13,6 @@ export class ProfileWizard extends Wizard {
     }
 
     private error: any
-
-    private _loginToken?: LoginToken
 
     public getProfile(): Profile {
         return this.profile
@@ -32,6 +29,9 @@ export class ProfileWizard extends Wizard {
             buttons: [[{
                 text: 'Login page',
                 url: this.prepareLoginUrl()
+            }],[{
+                text: 'Delete account',
+                process: async () => 4
             }]], 
         }, {
             order: 1,
