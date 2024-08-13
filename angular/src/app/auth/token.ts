@@ -4,11 +4,7 @@ import { Profile } from "./profile.state";
 
 export type Role = 'MANAGER' | 'PROMOTER' | 'ARTIST' | 'ADMIN'
 
-export interface JwtPayload {
-    uid: string
-    name: string
-    telegramChannelId: string
-    role: Role
+export interface JwtPayload extends Profile {
     exp: number
     iat: number
 }
@@ -35,9 +31,9 @@ export abstract class Token {
         return `Bearer ${token}`
     }
 
-    public static get payload(): Profile | null {
+    public static get payload(): JwtPayload | null {
         const _token = this.token
-        return _token ? decode.jwtDecode(_token) as Profile : null
+        return _token ? decode.jwtDecode(_token) as JwtPayload : null
     }
 
     public static get loggedIn(): boolean {

@@ -1,10 +1,13 @@
-import { Component, Renderer2, SimpleChange } from '@angular/core';
+import { Component, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { DESKTOP } from './services/device';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { NavService } from './services/nav/nav.service';
 import { CourtineService } from './services/nav/courtine.service';
+import { Token } from './auth/token';
+import { AppState } from './store/app.state';
+import { Store } from '@ngrx/store';
+import { loggedIn, loggedInChange } from './auth/profile.state';
 
 @Component({
   selector: 'app-root',
@@ -20,14 +23,26 @@ export class AppComponent {
   constructor(
     private renderer: Renderer2,
     private courtineService: CourtineService,
+    private store: Store<AppState>,
   ) {}
 
   ngOnInit() {
     if (DESKTOP) {
       this.renderer.addClass(document.body, 'desktop')
     }
+
+    // TODO
+    this.autoLogin()
   }
 
   courtine$ = this.courtineService.courtine$
 
+  private autoLogin() {
+    if (Token.loggedIn) {
+      this.store.dispatch(loggedIn(Token.payload!))
+    } else {
+      console.log('Token not found')
+    }
+  }
 }
+

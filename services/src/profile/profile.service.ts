@@ -2,6 +2,8 @@ import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Profile, RegisterMode } from './model/profile.model';
 import { Model } from 'mongoose';
+import { IllegalStateException } from '../global/exceptions/illegal-state.exception';
+import { JwtPayload } from './auth/jwt-strategy';
 
 export interface Credentials {
     email: string
@@ -21,7 +23,13 @@ export class ProfileService {
         return this.profileModel.findOne({ uid })
     }
 
-
+    public async updatePromoterInfoWhenSubmitForm(formData: any, profile: JwtPayload) {
+        const promoterInfo = formData.promoterInformation
+        if (!promoterInfo) {
+            throw new IllegalStateException('Not found promoter info')
+        }
+        await this.profileModel.updateOne({ uid: profile.uid }, { $set: { promoterInfo: promoterInfo } })
+    }
 
     async createProfile(profile: Partial<Profile>, registerMode: RegisterMode) {
 

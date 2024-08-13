@@ -40,6 +40,9 @@ export class Profile {
     @Prop()
     modified: Date
     
+
+    @Prop({ type: Object })
+    promoterInfo?: any
 }
 
 export const ProfileSchema = SchemaFactory.createForClass(Profile)

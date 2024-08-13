@@ -1,7 +1,6 @@
 import { NestFactory, } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { createMyLogger } from './global/logger';
-import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 import * as dotenv from 'dotenv';
 import { Logger } from '@nestjs/common';
 

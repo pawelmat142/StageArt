@@ -61,7 +61,7 @@ export const stopLoading = createAction("[FORM PROCESSOR] Stop loading")
 
 export const setFormId = createAction("[FORM PROCESSOR] Set form id", props<{ id: string }>())
 
-export const submitForm = createAction("[FORM PROCESSOR] Submit form", props<any>())
+export const submittedForm = createAction("[FORM PROCESSOR] Submitted form")
 
 
 const initialState: FormState = {
@@ -89,6 +89,7 @@ export const formReducer = createReducer(
     on(newForm, (state) => ({
         ...state,
         loading: false,
+        ready: false,
         form: {
             ...state.form,
             id: '',
@@ -100,6 +101,7 @@ export const formReducer = createReducer(
         ...state,
         loading: false,
         started: true,
+        ready: false,
         form: {
             ...form,
         }
@@ -109,6 +111,7 @@ export const formReducer = createReducer(
         ...state,
         loading: true,
         started: true,
+        ready: false,
         form: {
             ...state.form,
             data
@@ -137,14 +140,12 @@ export const formReducer = createReducer(
         }
     })),
 
-    on(submitForm, (state, data) => ({
+    on(submittedForm, (state) => ({
         ...state,
-        loading: true,
+        started: false,
+        loading: false,
         ready: true,
-        form: {
-            ...state.form,
-            data
-        }
+        form: initialState.form,
     }))
 ) 
 
@@ -195,16 +196,6 @@ export class FormEffect {
         map(arr => arr[1]),
 
         switchMap(form => this.formProcessorService.storeForm$(form)),
-        catchError(error => of(stopLoading())),
-        map(_ => stopLoading()),
-    ))
-
-    submitForm$ = createEffect(() => this.actions$.pipe(
-        ofType(submitForm),
-        withLatestFrom(this.store.select(store => store.formState.form)),
-        map(arr => arr[1]),
-
-        switchMap(form => this.formProcessorService.submitForm$(form)),
         catchError(error => of(stopLoading())),
         map(_ => stopLoading()),
     ))

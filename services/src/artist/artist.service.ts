@@ -1,8 +1,11 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { ArtistForm } from './model/artist-form';
 import { Artist } from './model/artist.model';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+import { Booking } from '../booking/model/booking.model';
+import { BookingFormProcessor } from '../booking/util/booking-form-processor';
+import { IllegalStateException } from '../global/exceptions/illegal-state.exception';
 
 @Injectable()
 export class ArtistService {
@@ -45,5 +48,43 @@ export class ArtistService {
         const timestamp = Date.now().toString(36); // Base-36 encoding to shorten
         const uniqueSignature = `${initials}${timestamp}`;
         return uniqueSignature;
+    }
+
+    public async processBookingForm(booking: Partial<Booking>) {
+        const artistSignatures = BookingFormProcessor.findArtistSignatures(booking.formData)
+        if (!artistSignatures?.length) {
+            throw new IllegalStateException("Missing artist signatures")
+        }
+        this.logger.log(`Found artist signatures: ${artistSignatures.join(', ')}`)
+        
+        const artists = await this.artistModel.find({ signature: { $in: artistSignatures }}, { 
+            signature: true, bookings: true
+        })
+        
+        if (!artists?.length) {
+            throw new IllegalStateException("Artists not found")
+        }
+        
+        booking.artistSignatures = artistSignatures
+
+        const artistBooking = {
+            ...booking
+        }
+        delete artistBooking.formData
+
+        for (let artist of artists) {
+            await this.processBookingFormPerArtist(booking, artist)
+        }
+    }
+
+    private async processBookingFormPerArtist(booking: Partial<Booking>, artist: Partial<Artist>) {
+        artist.bookings.push({
+            ...booking,
+            formData: null
+        })
+        await this.artistModel.updateOne({ signature: artist.signature}, {
+            $set: { bookings: artist.bookings }
+        })
+        this.logger.log(`Processed booking ${booking.formId} for artist ${artist.signature}`)
     }
 }

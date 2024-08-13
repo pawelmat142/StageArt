@@ -8,7 +8,7 @@ import { AppJwtService } from "./app-jwt.service";
 @Injectable()
 export class JwtGuard extends AuthGuard('jwt') {
 
-    protected logger = new Logger('Guard')
+    protected logger = new Logger(this.constructor.name)
 
     constructor(
         private readonly jwtService: AppJwtService,

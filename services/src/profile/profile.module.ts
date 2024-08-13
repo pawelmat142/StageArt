@@ -7,6 +7,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ProfileTelegramService } from './profile-telegram.service';
 import { AppJwtService } from './auth/app-jwt.service';
 import { ProfileEmailService } from './profile-email.service';
+import { JwtGuard } from './auth/jwt.guard';
 
 @Module({
   imports: [
@@ -18,14 +19,18 @@ import { ProfileEmailService } from './profile-email.service';
     ConfigModule,
   ],
   providers: [
+    AppJwtService,
     ProfileService,
     ProfileTelegramService,
-    AppJwtService,
-    ProfileEmailService
+    ProfileEmailService,
+    JwtGuard
   ],
   controllers: [ProfileController],
   exports: [
-    ProfileTelegramService
+    ProfileTelegramService,
+    ProfileService,
+    AppJwtService,
+    JwtGuard
   ]
 })
 export class ProfileModule {}

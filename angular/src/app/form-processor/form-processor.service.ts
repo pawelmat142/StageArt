@@ -66,11 +66,4 @@ export class FormProcessorService {
     return this.http.put<void>(`/form/store/${form.id}`, form.data)
   }
 
-  submitForm$(form: Form): Observable<void> {
-    return this.http.put<void>(`/form//${form.id}`, form.data)
-    .pipe(tap(_ => {
-      localStorage.removeItem(form.formType)
-    }))
-  }
-
 }

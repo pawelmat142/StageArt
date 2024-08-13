@@ -24,17 +24,6 @@ export class ProfileService {
         private readonly http: HttpService,
     ) {}
 
-    // TODO move to store
-    // authHeader$(auth: boolean): Observable<HttpHeaders | undefined> {
-    //     if (this.userSubject$.value && auth) {
-    //         return from(this.userSubject$.value.getIdToken())
-    //             .pipe(
-    //                 filter(token => typeof token === 'string'),
-    //                 map(token => new HttpHeaders({"Authorization": `Bearer ${token}`}))
-    //             )
-    //     }
-    //     return of(undefined)
-    // }
 
     fetchTelegramBotHref$() {
         return this.http.get<{ url: string }>(`/profile/telegram`)
@@ -45,9 +34,7 @@ export class ProfileService {
         return this.http.post<{ token: string }>(`/profile/login/pin`, loginToken).pipe(
             tap(console.log),
         )
-
     }
-
 
     createProfileEmail$(loginForm: LoginForm) {
         return this.http.post(`/profile/email/register`, loginForm)

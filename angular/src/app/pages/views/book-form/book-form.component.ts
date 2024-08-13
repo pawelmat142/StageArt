@@ -4,15 +4,16 @@ import { ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormProcessorComponent } from '../../../form-processor/form-processor/form-processor.component';
 import { HeaderComponent } from '../../components/header/header.component';
 import { pForm, pFormGroup } from '../../../form-processor/form-processor.service';
-import { formLoadingChange, FormType, selectFormId } from '../../../form-processor/form.state';
+import { FormType, selectFormId, submittedForm } from '../../../form-processor/form.state';
 import { AppState } from '../../../store/app.state';
 import { Store } from '@ngrx/store';
 import { initArtists, selectArtists } from '../../../store/artist/artists.state';
-import { map, of, switchMap, withLatestFrom } from 'rxjs';
+import { map, of, switchMap, tap, withLatestFrom } from 'rxjs';
 import { ArtistUtil } from '../../../services/artist/artist.util';
 import { loggedInChange } from '../../../auth/profile.state';
 import { DialogService } from '../../../services/nav/dialogs/dialog.service';
 import { BookingService } from '../../../services/booking/booking.service';
+import { NavService } from '../../../services/nav/nav.service';
 
 @Component({
   selector: 'app-book-form',
@@ -34,6 +35,7 @@ export class BookFormComponent {
   constructor(
     private readonly store: Store<AppState>,
     private readonly dialog: DialogService,
+    private readonly nav: NavService,
     private readonly bookingService: BookingService,
   ) {}
 
@@ -42,20 +44,30 @@ export class BookFormComponent {
   }
 
   _submit(data: any) {
-    console.log('_submit')
-    console.log(data)
-
     const sub = this.store.select(loggedInChange).pipe(
       withLatestFrom(this.store.select(selectFormId)),
       switchMap(([loggedIn, formId]) => {
-        if (loggedIn && formId) {
-          return this.bookingService.submitForm$(formId)
-        } else {
+        if (!loggedIn) {
           this.dialog.loginPopup()
+        } else if (!formId) {
+          console.error('no form id')
+        } else {
+          return this.bookingService.submitForm$(formId)
         }
         return of()
-      })
-    ).subscribe()
+      }),
+      tap(console.log)
+    ).subscribe({
+      next: () => {
+        this.store.dispatch(submittedForm())
+        this.nav.home()
+        // TODO
+        this.dialog.simplePopup('Form submitted')
+      },
+      error: error => {
+        console.error(error)
+      }
+    })
     sub.unsubscribe()
   }
 

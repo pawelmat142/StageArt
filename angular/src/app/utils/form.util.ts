@@ -24,6 +24,9 @@ export abstract class FormUtil {
     }
 
     public static setFormValues(formGroup: FormGroup, data: any) {
+        if (!data) {
+            return
+        }
         Object.keys(formGroup.controls).forEach(key => {
             const control = formGroup.get(key)
             const controlData = data[key]

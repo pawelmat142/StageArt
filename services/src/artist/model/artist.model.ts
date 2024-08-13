@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose"
 import { HydratedDocument } from "mongoose"
+import { Booking } from "../../booking/model/booking.model"
 
 export interface ArtistMedia {
     code: string,
@@ -52,6 +53,9 @@ export class Artist {
     
     @Prop()
     bio: string
+    
+    @Prop()
+    bookings?: Partial<Booking>[]
 
 }
 

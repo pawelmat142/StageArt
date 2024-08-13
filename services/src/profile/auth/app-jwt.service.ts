@@ -50,7 +50,7 @@ export class AppJwtService extends JwtService {
 
     private getExpirationTimestamp(): number {
         const now = new Date()
-        return now.setMinutes(now.getMinutes() + 20).valueOf()
+        return now.setDate(now.getDate() + 2).valueOf()
     }
 
 }

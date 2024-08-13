@@ -12,6 +12,7 @@ import { Artist, ArtistSchema } from './model/artist.model';
     }]),
   ],
   providers: [ArtistService],
-  controllers: [ArtistController]
+  controllers: [ArtistController],
+  exports: [ArtistService]
 })
 export class ArtistModule {}

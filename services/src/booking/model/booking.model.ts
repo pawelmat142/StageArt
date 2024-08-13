@@ -33,7 +33,7 @@ export class Booking {
 
 
     @Prop({ type: Object })
-    form?: any
+    formData?: any
 }
 
 export const BookingSchema = SchemaFactory.createForClass(Booking)
