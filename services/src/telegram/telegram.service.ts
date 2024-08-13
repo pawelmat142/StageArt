@@ -21,6 +21,10 @@ export class TelegramService implements OnModuleInit{
             this.logger.log(`Sending message to channel ${msg.telegramChannelId}`)
             this.sendMessage(Number(msg.telegramChannelId), msg.message)
         })
+
+        this.profileTelegramService.cleanMessages$.subscribe(telegramChannelId => {
+            this.wizardService.cleanMessages(telegramChannelId)
+        })
     }
 
     public async sendMessage(chatId: number, message: string): Promise<TelegramBot.Message> {

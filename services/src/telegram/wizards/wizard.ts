@@ -37,6 +37,8 @@ export class Wizard {
 
     modified: Date
 
+    msgId: number
+
     constructor(
         chatId: number,
         protected readonly services: ServiceProvider

@@ -38,6 +38,13 @@ export class NewProfileWizard extends Wizard {
                     this.error = `Empty...`
                     return 1
                 }
+
+                const checkName = await this.services.profileTelegramService.findByName(input)
+                if (checkName) {
+                    this.error = `Name alredy in use...`
+                    return 1
+                }
+
                 this.profile.name = input
                 return 3
             }

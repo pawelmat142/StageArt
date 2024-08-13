@@ -37,6 +37,11 @@ export class ProfileTelegramService {
         return this.sendMessageSubject$.asObservable()
     } 
 
+    private cleanMessagesSubject$ = new Subject<string>()
+    public get cleanMessages$() {
+        return this.cleanMessagesSubject$.asObservable()
+    } 
+
     public sendMessage(msg: TelegramMessage) {
         this.sendMessageSubject$.next(msg)
     }
@@ -45,6 +50,10 @@ export class ProfileTelegramService {
 
     public findByTelegram(telegramChannelId: string) {
         return this.profileModel.findOne({ telegramChannelId })
+    }
+
+    public findByName(name: string) {
+        return this.profileModel.findOne({ name })
     }
 
     async telegramPinRequest(uidOrNameOrEmail: string): Promise<{ token: string }> {
@@ -87,6 +96,7 @@ export class ProfileTelegramService {
             throw new UnauthorizedException(`Profile not found`)
         }
 
+        this.cleanMessagesSubject$.next(token.telegramChannelId)
         return { token: this.jwtService.signIn(profile) }
     }
 
@@ -136,5 +146,7 @@ export class ProfileTelegramService {
         if (!deleted.deletedCount) {
             throw new Error(`Not found user with uid: ${profile.uid}`)
         }
+
+        this.cleanMessagesSubject$.next(profile.telegramChannelId)
     }
 }

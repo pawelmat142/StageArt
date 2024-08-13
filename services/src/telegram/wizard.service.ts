@@ -43,9 +43,22 @@ export class WizardService {
         }
     }
 
+    lastMsgIdPerTelegram = new Map<number, number>()
+
     public async sendMessage(chatId: number, message: string, options?: TelegramBot.SendMessageOptions): Promise<TelegramBot.Message> {
         const result = await this.bot?.sendMessage(chatId, message, options)
+        this.lastMsgIdPerTelegram.set(chatId, result.message_id)
         return result
+    }
+
+    public async cleanMessages(telegramChannelId: string) {
+        const msgId = this.lastMsgIdPerTelegram.get(Number(telegramChannelId))
+        if (msgId) {
+            for (let i = 0; i < 50; i++) {
+                this.bot.deleteMessage(Number(telegramChannelId), msgId-i).catch(er=>{return})
+            }
+            this.logger.log('Chat cleaned successfully');
+        }
     }
 
     private async onBotMessage(message: TelegramBot.Message) {
@@ -65,6 +78,7 @@ export class WizardService {
             const order = await step.process(input)
             wizard.order = order
         }
+        wizard.msgId = message.message_id
         this.sendWizardMessage(wizard, input)
     }
 
@@ -98,9 +112,9 @@ export class WizardService {
             }
         }
 
+        wizard.msgId = message.message.message_id
         this.sendWizardMessage(wizard, input)
     }
-
 
     
     private async findOrCreateWizard(chatId: number): Promise<Wizard> {
@@ -142,6 +156,7 @@ export class WizardService {
     }
 
     private stopWizard(wizard: Wizard) {
+        this.cleanMessages(wizard.chatId.toString())
         const wizards = this.wizards$.value.filter(w => w.chatId !== wizard.chatId)
         this.wizards$.next(wizards)
         this.wizardLog(wizard, `stopped`)
