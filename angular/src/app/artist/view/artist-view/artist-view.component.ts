@@ -1,8 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ArtistService } from '../../../artist/artist.service';
-import { Observable, shareReplay, take, tap } from 'rxjs';
-import { ArtistViewDto } from '../../../artist/model/artist-view.dto';
+import { shareReplay, take, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { BookFormComponent } from '../../../booking/view/book-form/book-form.component';
 import { BtnComponent } from '../../../global/controls/btn/btn.component';
@@ -20,7 +19,7 @@ import { AppState } from '../../../app.state';
 import { Store } from '@ngrx/store';
 import { IconButtonComponent } from "../../../global/components/icon-button/icon-button.component";
 import { AvatarComponent } from './avatar/avatar.component';
-import { editable, editMode, initializedArtist, startEditArtist } from './artist-view.state';
+import { artist, editable, editMode, initializedArtist, startEditArtist } from './artist-view.state';
 
 @Component({
   selector: 'app-artist-view',
@@ -50,7 +49,6 @@ export class ArtistViewComponent {
   public static readonly path = `artist/:name`
 
   artistName?: string
-  _artist$?: Observable<ArtistViewDto>
 
   constructor(
     private route: ActivatedRoute,
@@ -63,6 +61,8 @@ export class ArtistViewComponent {
   _editable$ = this.store.select(editable)
 
   _editMode$ = this.store.select(editMode)
+
+  _artist$ = this.store.select(artist)
 
   ngOnInit() {
     this.artistName = this.route.snapshot.paramMap.get('name') || ''

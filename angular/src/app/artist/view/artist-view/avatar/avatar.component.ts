@@ -27,18 +27,12 @@ export class AvatarComponent {
 
   @Input() editMode!: boolean
 
-  @Input() artist!: ArtistViewDto
-
-  _avatarSet?: FireImgSet
 
   @ViewChild('input') input?: ElementRef<HTMLInputElement>
 
-  ngOnInit(): void {
-    if (!this.artist.images) {
-      this.artist.images = {}
-    }
-    this._avatarSet = this.artist.images.avatar
-  }
+  _currentAvatarUrl$ = this.store.select(artist).pipe(
+    map(artist => artist?.images?.avatar?.avatar?.url)
+  )
 
   tempAvatar$ = this.store.select(artistAvatar).pipe(
     filter(file => !!file),

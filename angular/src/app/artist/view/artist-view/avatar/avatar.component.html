@@ -10,18 +10,14 @@
     }
 
 
-    <ng-container *ngIf="tempAvatar$ | async as tempAvatar; else notTemp">
-        <img *ngIf="tempAvatar" [src]="tempAvatar" alt="avatar">
-    </ng-container>
+    <img *ngIf="tempAvatar$ | async as tempAvatar; else notTemp" [src]="tempAvatar" alt="avatar">
 
     <ng-template #notTemp>
-        @if (_avatarSet) {
-            <img [src]="artist.images.avatar?.avatar" alt="avatar">
-        } 
-        @else {
-            <div class="avatar-mock">
-            </div>
-        }
+
+        <img *ngIf="_currentAvatarUrl$ | async as url; else mock" [src]="url" alt="avatar">
+
+        <ng-template #mock><div class="avatar-mock"></div></ng-template>
+
     </ng-template>
     
 
