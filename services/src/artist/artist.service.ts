@@ -23,6 +23,7 @@ export class ArtistService {
             signature: this.prepareArtistSignature(profile.name),
             name: profile.name,
             status: 'CREATED',
+            images: {},
             created: new Date(),
             modified: new Date(),
         })

@@ -1,7 +1,7 @@
-import { Component, ElementRef, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ArtistService } from '../../../artist/artist.service';
-import { Observable, shareReplay, take, tap, withLatestFrom } from 'rxjs';
+import { Observable, shareReplay, take, tap } from 'rxjs';
 import { ArtistViewDto } from '../../../artist/model/artist-view.dto';
 import { CommonModule } from '@angular/common';
 import { BookFormComponent } from '../../../booking/view/book-form/book-form.component';
@@ -18,8 +18,9 @@ import { TextareaElementComponent } from '../../../global/controls/textarea-elem
 import { NotFoundPageComponent } from '../../../global/view/error/not-found-page/not-found-page.component';
 import { AppState } from '../../../app.state';
 import { Store } from '@ngrx/store';
-import { profileChange } from '../../../profile/profile.state';
 import { IconButtonComponent } from "../../../global/components/icon-button/icon-button.component";
+import { AvatarComponent } from './avatar/avatar.component';
+import { editable, editMode, initializedArtist, startEditArtist } from './artist-view.state';
 
 @Component({
   selector: 'app-artist-view',
@@ -35,7 +36,8 @@ import { IconButtonComponent } from "../../../global/components/icon-button/icon
     MediaItemComponent,
     ButtonComponent,
     BtnComponent,
-    IconButtonComponent
+    IconButtonComponent,
+    AvatarComponent,
 ],
   templateUrl: './artist-view.component.html',
   styleUrl: './artist-view.component.scss',
@@ -58,8 +60,9 @@ export class ArtistViewComponent {
   ) {}
 
 
-  _isViewOwner = false
+  _editable$ = this.store.select(editable)
 
+  _editMode$ = this.store.select(editMode)
 
   ngOnInit() {
     this.artistName = this.route.snapshot.paramMap.get('name') || ''
@@ -74,28 +77,19 @@ export class ArtistViewComponent {
     this._artist$ = this.artistService.fetchArtist$(this.artistName!).pipe(
       take(1),
       shareReplay(),
-      tap(artist => this.isViewOwner(artist))
+      tap(artist => {
+        this.store.dispatch(initializedArtist(artist))
+      })
     )
   }
 
-  private isViewOwner(artist: ArtistViewDto) {
-    this.store.select(profileChange).pipe(
-      take(1),
-    ).subscribe(profile => {
-      this._isViewOwner = profile?.artistSignature === artist.signature
-      console.log('this._isViewOwner')
-      console.log(this._isViewOwner)
-    })
-  }
 
   _onBookNow() {
     this.nav.to(BookFormComponent.path)
   }
 
-  _editMode = false
-
   _editToggle() {
-    this._editMode = !this._editMode
+    this.store.dispatch(startEditArtist())
   }
 
 }

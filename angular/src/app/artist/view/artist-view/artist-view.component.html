@@ -1,7 +1,7 @@
 
 <app-header [floating]="true" [label]="artistName"></app-header>
 
-@if (_isViewOwner) {
+@if (_editable$ | async) {
     <div class="edit-toggle">
         <app-icon-button
             (click)="_editToggle()"
@@ -34,9 +34,12 @@
         <div class="spacer"></div>
 
         <div class="avatar-container margin-bottom-2">
-            <div class="avatar cover-center">
-                <img [src]="artist?.images?.avatar?.avatar?.url" alt="avatar">
-            </div>
+
+            <app-avatar
+                [artist]="artist"
+                [editMode]="(_editMode$ | async) || false" 
+            ></app-avatar>
+
             <div>
                 <h1 class="fs1 light baron">{{artist?.name}}</h1>
                 <app-country [countryCode]="artist?.countryCode!"></app-country>

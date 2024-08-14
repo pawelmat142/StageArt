@@ -1,0 +1,28 @@
+<div class="avatar cover-center">
+
+    @if (editMode) {
+
+        <input type="file" #input (change)="onFileChange($event)" [hidden]="true"/>
+
+        <div class="edit-button" (click)="_openFileSelector()">
+            <span class="dark">edit avatar</span>
+        </div>
+    }
+
+
+    <ng-container *ngIf="tempAvatar$ | async as tempAvatar; else notTemp">
+        <img *ngIf="tempAvatar" [src]="tempAvatar" alt="avatar">
+    </ng-container>
+
+    <ng-template #notTemp>
+        @if (_avatarSet) {
+            <img [src]="artist.images.avatar?.avatar" alt="avatar">
+        } 
+        @else {
+            <div class="avatar-mock">
+            </div>
+        }
+    </ng-template>
+    
+
+</div>

@@ -45,11 +45,6 @@ $view-padding: 4*$padding-standard;
                 margin-left: 0;
             }
 
-            .avatar {
-                width: 17vw;
-                height: 17vw;
-            }
-
             h1 {
                 margin-bottom: $padding-standard;
             }
@@ -90,7 +85,7 @@ $view-padding: 4*$padding-standard;
     width: 100vw;
     max-height: 100vh;
     white-space: nowrap;
-    background-color: $dark;
+    background-color: $light-dark;
     opacity: 0.7;
 }
 
@@ -142,18 +137,6 @@ $view-padding: 4*$padding-standard;
             flex-grow: 1;
         }
 
-        .avatar {
-            width: 30vw;
-            height: 30vw;
-            border-radius: 50%;
-            border: 2px solid $light;
-            box-shadow: $text-shadow;
-            overflow: hidden;
-
-            img {
-                width: 100%;
-            }
-        }
 
         app-btn {
             margin-left: auto;
@@ -208,3 +191,22 @@ $view-padding: 4*$padding-standard;
     justify-content: flex-end;
 }
 
+
+.edit-button {
+    @extend .hovergrow;
+    color: $dark;
+    padding: 0.2*$padding-standard 0.5*$padding-standard;
+    border-radius: $radius;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $white;
+    border: 1px solid $dark;
+    font-size: 12px;
+    
+    z-index: 50;
+
+    position: absolute;
+    top: 0;
+    right: 0;
+}

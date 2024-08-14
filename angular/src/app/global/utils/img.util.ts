@@ -20,6 +20,9 @@ export abstract class ImgUtil {
     public static readonly DEFAULT_WIDTH_TO_RESIZE = ImgSize.bg.width
     public static readonly DEFAULT_HEIGHT_TO_RESIZE = ImgSize.bg.height
 
+    public static fileToBlob(file: File) {
+      return new Blob([file], { type: file.type })
+    }
     
     public static resizeImgFile$(_file: File, fileName?: string, size?: Size): Observable<File> {
       return ImgUtil.blobToImage$(_file).pipe(

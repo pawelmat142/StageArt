@@ -25,15 +25,7 @@ export interface ProfileState {
 }
 
 
-// ACTIONS
-
-export const login = createAction("[PROFILE] login")
-
-export const loggedIn = createAction("[PROFILE] logged in", props<Profile>())
-
-export const logout = createAction("[PROFILE] logout")
-
-
+// SELECTORS
 export const profileLoadingChange = createSelector(
     selectProfileState,
     (state: ProfileState) => state.loading
@@ -53,6 +45,15 @@ export const loggedInChange = createSelector(
     selectProfileState,
     (state: ProfileState) => state.loggedIn
 )
+
+
+// ACTIONS
+
+export const login = createAction("[PROFILE] login")
+
+export const loggedIn = createAction("[PROFILE] logged in", props<Profile>())
+
+export const logout = createAction("[PROFILE] logout")
 
 
 const initialState: ProfileState = {

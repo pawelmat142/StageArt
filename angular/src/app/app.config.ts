@@ -20,6 +20,7 @@ import { FIREBASE_OPTIONS } from '@angular/fire/compat';
 import { ProfileEffect, profileReducer } from './profile/profile.state';
 import { initCountries, CountriesService } from './global/countries/countries.service';
 import { AuthInterceptor } from './profile/auth.interceptor';
+import { ArtistViewEffect, artistViewReducer } from './artist/view/artist-view/artist-view.state';
 
 registerLocaleData(localeEn);
 
@@ -33,7 +34,8 @@ export const appConfig: ApplicationConfig = {
     provideState({ name: 'artistsState', reducer: artistsReducer }),
     provideState({ name: 'formState', reducer: formReducer }),
     provideState({ name: 'profileState', reducer: profileReducer }),
-    provideEffects([ArtistEffect, FormEffect, ProfileEffect]),
+    provideState({ name: 'artistViewState', reducer: artistViewReducer }),
+    provideEffects([ArtistEffect, FormEffect, ProfileEffect, ArtistViewEffect]),
     
     provideHttpClient(withInterceptorsFromDi()),
     provideAnimations(),
