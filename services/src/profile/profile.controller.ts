@@ -44,10 +44,4 @@ export class ProfileController {
     }
 
 
-    @Get('artist-name')
-    @UseGuards(JwtGuard)
-    findArtistName(@GetProfile() profile: JwtPayload) {
-        return this.profileService.findArtistName(profile)
-    }
-
 }

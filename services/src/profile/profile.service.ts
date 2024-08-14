@@ -26,15 +26,6 @@ export class ProfileService {
     }
 
 
-    public async findArtistName(payload: JwtPayload) {
-        const profile = await this.findById(payload.uid)
-            .select({ artistSignature: true })
-        if (profile.artistSignature) {
-            return this.artistService.findName(profile.artistSignature)
-        }
-        return null
-    }
-
     public async updatePromoterInfoWhenSubmitForm(formData: any, profile: JwtPayload) {
         const promoterInfo = formData.promoterInformation
         if (!promoterInfo) {

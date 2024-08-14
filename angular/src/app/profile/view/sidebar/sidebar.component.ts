@@ -5,7 +5,7 @@ import { logout, profileChange } from '../../profile.state';
 import { DialogService } from '../../../global/nav/dialog.service';
 import { NavService, MenuButtonItem } from '../../../global/nav/nav.service';
 import { AppState } from '../../../app.state';
-import { map, of, switchMap, take, tap } from 'rxjs';
+import { filter, map, of, switchMap, take, tap } from 'rxjs';
 import { ArtistService } from '../../../artist/artist.service';
 import { ProfileService } from '../../profile.service';
 
@@ -41,7 +41,7 @@ export class SidebarComponent {
     this.store.select(profileChange).pipe(
       take(1),
     ).subscribe(profile => {
-      if(profile?.role === 'ARTIST') {
+      if (profile?.role === 'ARTIST') {
         this._items.push({
           label: `Artist view`,
           onclick: () => this.navToArtistView()
@@ -52,15 +52,23 @@ export class SidebarComponent {
   }
 
   private navToArtistView() {
-    this.profileService.findArtistName$().pipe(
-      tap(name => {
-        if (name?.name) {
-          this.nav.toArtist(name.name)
-        } else {
-          this.dialog.sww()
-        }
-      })
-    ).subscribe()
+    this.store.select(profileChange).pipe(
+      take(1),
+      map(profile => profile?.artistSignature),
+      filter(signature => !!signature),
+      switchMap(signature => {
+        if (signature) {
+          return this.artistService.findName$(signature)
+        } 
+        return of()
+      }),
+    ).subscribe(name => {
+      if (name?.name) {
+        this.nav.toArtist(name.name)
+      } else {
+        this.dialog.sww()
+      }
+    })
   }
 
   private logout() {

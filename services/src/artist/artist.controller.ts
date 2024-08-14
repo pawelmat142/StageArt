@@ -3,10 +3,6 @@ import { ArtistService } from './artist.service';
 import { ArtistForm } from './model/artist-form';
 import { Serialize } from '../global/interceptors/serialize.interceptor';
 import { ArtistViewDto } from './model/artist-view.dto';
-import { JwtGuard } from '../profile/auth/jwt.guard';
-import { GetProfile } from '../profile/auth/profile-path-param-getter';
-import { profile } from 'console';
-import { JwtPayload } from '../profile/auth/jwt-strategy';
 
 @Controller('api')
 export class ArtistController {
@@ -31,6 +27,11 @@ export class ArtistController {
     @Serialize(ArtistViewDto)
     fetchArtists() {
         return this.artistService.fetchArtists()
+    }
+    
+    @Get('artist/find-name/:signature')
+    findName(@Param('signature') signature: string) {
+        return this.artistService.findName(signature)
     }
 
 }

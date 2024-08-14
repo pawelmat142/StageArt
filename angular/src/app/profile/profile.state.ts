@@ -14,6 +14,7 @@ export interface Profile { // JwtPayload
     role: Role
     exp: number
     iat: number
+    artistSignature?: string
 }
 
 export interface ProfileState {

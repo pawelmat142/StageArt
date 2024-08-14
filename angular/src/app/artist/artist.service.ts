@@ -26,7 +26,7 @@ export class ArtistService {
     }
     
     public findName$(signature: string) {
-        return this.http.get<{ name: string }>(`/artist/find/${signature}`)
+        return this.http.get<{ name: string }>(`/artist/find-name/${signature}`)
     }
 
     public fetchArtists$() {
@@ -38,6 +38,5 @@ export class ArtistService {
         this.store.select(selectArtists).pipe(take(1)).subscribe(x => result = x)
         return result
     }
-
 
 }

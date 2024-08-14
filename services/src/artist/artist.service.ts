@@ -46,13 +46,13 @@ export class ArtistService {
         return this.artistModel.findOne({ name })
     }
 
-    public async findName(signature: string) {
-        return this.artistModel.findOne({ signature })
-            .select({ name: true })
-    }
-
     public fetchArtists() {
         return this.artistModel.find({ active: true })
+    }
+
+    public findName(signature: string) {
+        return this.artistModel.findOne({ signature })
+            .select({ name: true})
     }
 
     private prepareArtistSignature(name: string): string {

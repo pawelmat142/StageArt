@@ -6,7 +6,25 @@
 
 $view-padding: 4*$padding-standard;
 
+.edit-toggle {
+    position: fixed;
+    top: 30%;
+    left: 0;
+    width: 50px;
+    height: 50px;
 
+    z-index: 100;
+
+    background-color: $red;
+    border-top-right-radius: $radius;
+    border-bottom-right-radius: $radius;
+    
+    color: $dark;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 .desktop {
     .image-bg-item {

@@ -43,6 +43,7 @@ export class AppJwtService extends JwtService {
             role: profile.role,
             name: profile.name,
             telegramChannelId: profile.telegramChannelId,
+            artistSignature: profile.artistSignature,
             exp: this.getExpirationTimestamp(),
             iat: Date.now()
         }

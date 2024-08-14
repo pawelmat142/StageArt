@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ArtistService } from '../../../artist/artist.service';
-import { Observable } from 'rxjs';
+import { Observable, shareReplay, take, tap, withLatestFrom } from 'rxjs';
 import { ArtistViewDto } from '../../../artist/model/artist-view.dto';
 import { CommonModule } from '@angular/common';
 import { BookFormComponent } from '../../../booking/view/book-form/book-form.component';
@@ -16,6 +16,10 @@ import { NavService } from '../../../global/nav/nav.service';
 import { DESKTOP } from '../../../global/services/device';
 import { TextareaElementComponent } from '../../../global/controls/textarea-element/textarea-element.component';
 import { NotFoundPageComponent } from '../../../global/view/error/not-found-page/not-found-page.component';
+import { AppState } from '../../../app.state';
+import { Store } from '@ngrx/store';
+import { profileChange } from '../../../profile/profile.state';
+import { IconButtonComponent } from "../../../global/components/icon-button/icon-button.component";
 
 @Component({
   selector: 'app-artist-view',
@@ -31,6 +35,7 @@ import { NotFoundPageComponent } from '../../../global/view/error/not-found-page
     MediaItemComponent,
     ButtonComponent,
     BtnComponent,
+    IconButtonComponent
 ],
   templateUrl: './artist-view.component.html',
   styleUrl: './artist-view.component.scss',
@@ -49,11 +54,12 @@ export class ArtistViewComponent {
     private route: ActivatedRoute,
     private artistService: ArtistService,
     private nav: NavService,
+    private store: Store<AppState>,
   ) {}
 
 
-  @ViewChild('backgroundRef') backgroundRef!: ElementRef
-  @ViewChildren('image', { read: ElementRef }) images!: ElementRef[]
+  _isViewOwner = false
+
 
   ngOnInit() {
     this.artistName = this.route.snapshot.paramMap.get('name') || ''
@@ -64,14 +70,32 @@ export class ArtistViewComponent {
     }
   }
 
-
   private fetchArtist() {
     this._artist$ = this.artistService.fetchArtist$(this.artistName!).pipe(
+      take(1),
+      shareReplay(),
+      tap(artist => this.isViewOwner(artist))
     )
+  }
+
+  private isViewOwner(artist: ArtistViewDto) {
+    this.store.select(profileChange).pipe(
+      take(1),
+    ).subscribe(profile => {
+      this._isViewOwner = profile?.artistSignature === artist.signature
+      console.log('this._isViewOwner')
+      console.log(this._isViewOwner)
+    })
   }
 
   _onBookNow() {
     this.nav.to(BookFormComponent.path)
+  }
+
+  _editMode = false
+
+  _editToggle() {
+    this._editMode = !this._editMode
   }
 
 }

@@ -1,6 +1,15 @@
 
 <app-header [floating]="true" [label]="artistName"></app-header>
 
+@if (_isViewOwner) {
+    <div class="edit-toggle">
+        <app-icon-button
+            (click)="_editToggle()"
+            icon="edit"
+            [active]="true"
+        ></app-icon-button>
+    </div>
+}
 
 <div class="artist" *ngIf="_artist$ | async as artist">
     

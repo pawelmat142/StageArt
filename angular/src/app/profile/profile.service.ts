@@ -47,8 +47,4 @@ export class ProfileService {
         return this.http.post<{ token: string }>(`/profile/email/login`, loginForm)
     }
 
-    findArtistName$() {
-        return this.http.get<{ name: string }>(`/profile/artist-name`)
-    }
-
 }
