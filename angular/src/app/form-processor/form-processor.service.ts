@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ValidatorFn } from '@angular/forms';
-import { SelectorItem } from '../pages/controls/selector/selector.component';
+import { SelectorItem } from '../global/controls/selector/selector.component';
 import { Observable, of, tap } from 'rxjs';
 import { Form, FormType } from './form.state';
-import { HttpService } from '../services/http.service';
+import { HttpService } from '../global/services/http.service';
 
 export type pControlType = 'text' | 'textarea' | 'date' | 'selector'
 

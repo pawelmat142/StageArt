@@ -1,13 +1,13 @@
 import { Routes } from '@angular/router';
-import { HomepageComponent } from './pages/homepage/homepage.component';
-import { NotFoundPageComponent } from './pages/error/not-found-page/not-found-page.component';
-import { ArtistFormComponent } from './pages/admin/pages/artist-form/artist-form.component';
-import { ArtistViewComponent } from './pages/views/artist-view/artist-view.component';
-import { ArtistsViewComponent } from './pages/views/artists-view/artists-view.component';
-import { BookFormComponent } from './pages/views/book-form/book-form.component';
-import { RegisterComponent } from './auth/register/register.component';
-import { ProfileComponent } from './auth/profile/profile.component';
-import { LoginComponent } from './auth/login/login.component';
+import { HomepageComponent } from './global/view/homepage/homepage.component';
+import { NotFoundPageComponent } from './global/view/error/not-found-page/not-found-page.component';
+import { RegisterComponent } from './profile/auth/view/register/register.component';
+import { LoginComponent } from './profile/auth/view/login/login.component';
+import { ProfileComponent } from './profile/view/profile/profile.component';
+import { BookFormComponent } from './booking/view/book-form/book-form.component';
+import { ArtistFormComponent } from './artist/view/artist-form/artist-form.component';
+import { ArtistViewComponent } from './artist/view/artist-view/artist-view.component';
+import { ArtistsViewComponent } from './artist/view/artists-view/artists-view.component';
 
 export const routes: Routes = [
     {

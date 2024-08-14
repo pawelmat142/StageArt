@@ -1,13 +1,13 @@
 import { Component, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { DESKTOP } from './services/device';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { CourtineService } from './services/nav/courtine.service';
-import { Token } from './auth/token';
-import { AppState } from './store/app.state';
+import { CourtineService } from './global/nav/courtine.service';
+import { Token } from './profile/auth/view/token';
 import { Store } from '@ngrx/store';
-import { loggedIn, loggedInChange } from './auth/profile.state';
+import { loggedIn } from './profile/profile.state';
+import { DESKTOP } from './global/services/device';
+import { AppState } from './app.state';
 
 @Component({
   selector: 'app-root',

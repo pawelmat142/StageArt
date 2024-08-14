@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from "@ngrx/effects"
 import { createAction, createReducer, createSelector, on, props, Store } from "@ngrx/store"
 import { catchError, map, of, switchMap, withLatestFrom } from "rxjs"
 import { FormProcessorService } from "./form-processor.service"
-import { AppState } from "../store/app.state"
+import { AppState } from "../app.state"
 
 export enum FormType {
     BOOKING = "BOOKING"

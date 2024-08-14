@@ -4,8 +4,8 @@ import { CommonModule } from '@angular/common';
 import { GroupComponent } from '../group/group.component';
 import { ControlComponent } from '../control/control.component';
 import { pFormArray } from '../form-processor.service';
-import { FormUtil } from '../../utils/form.util';
-import { BtnComponent } from '../../pages/controls/btn/btn.component';
+import { BtnComponent } from '../../global/controls/btn/btn.component';
+import { FormUtil } from '../../global/utils/form.util';
 
 @Component({
   selector: 'app-array',

@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { Booking, BookingListDto, BookingService } from '../../../services/booking/booking.service';
 import { map, Observable, of, shareReplay, tap, withLatestFrom } from 'rxjs';
-import { AppState } from '../../../store/app.state';
 import { Store } from '@ngrx/store';
-import { uid } from '../../../auth/profile.state';
-import { StatusPipe } from '../../../utils/pipes/status.pipe';
-import { FromCamelToTextPipe } from '../../../utils/pipes/from-camel.pipe';
-import { IsArrayPipe } from '../../../utils/pipes/is-array.pipe';
+import { uid } from '../../../profile/profile.state';
+import { StatusPipe } from '../../../global/pipes/status.pipe';
+import { FromCamelToTextPipe } from '../../../global/pipes/from-camel.pipe';
+import { IsArrayPipe } from '../../../global/pipes/is-array.pipe';
+import { Booking, BookingListDto, BookingService } from '../../services/booking.service';
+import { AppState } from '../../../app.state';
 
 @Component({
   selector: 'app-bookings',

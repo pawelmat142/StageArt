@@ -2,15 +2,15 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 import { ControlContainer, FormArray, FormBuilder, FormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
 import { ControlComponent } from '../control/control.component';
-import { BtnComponent } from '../../pages/controls/btn/btn.component';
+import { BtnComponent } from '../../global/controls/btn/btn.component';
 import { GroupComponent } from '../group/group.component';
 import { ArrayComponent } from "../array/array.component";
 import { pForm, pFormArray, pFormStep } from '../form-processor.service';
-import { AppState } from '../../store/app.state';
 import { Store } from '@ngrx/store';
 import { skip, Subscription, take } from 'rxjs';
 import { dataChange, FormType, openForm, selectFormId, startForm, storeForm } from '../form.state';
-import { FormUtil } from '../../utils/form.util';
+import { FormUtil } from '../../global/utils/form.util';
+import { AppState } from '../../app.state';
 
 @Component({
   selector: 'app-form-processor',

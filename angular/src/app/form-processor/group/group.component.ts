@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { ControlContainer, FormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
-import { Util } from '../../utils/util';
 import { ControlComponent } from '../control/control.component';
 import { pFormGroup } from '../form-processor.service';
-import { FormUtil } from '../../utils/form.util';
+import { FormUtil } from '../../global/utils/form.util';
 
 @Component({
   selector: 'app-group',

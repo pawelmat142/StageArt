@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { ControlContainer, FormGroupDirective, ReactiveFormsModule, Validators } from '@angular/forms';
-import { InputComponent } from '../../pages/controls/input/input.component';
-import { TextareaComponent } from '../../pages/controls/textarea/textarea.component';
-import { TextareaElementComponent } from '../../pages/controls/textarea-element/textarea-element.component';
-import { DateComponent } from '../../pages/controls/date/date.component';
-import { SelectorComponent, SelectorItem } from '../../pages/controls/selector/selector.component';
+import { SelectorComponent, SelectorItem } from '../../global/controls/selector/selector.component';
 import { pFormControl } from '../form-processor.service';
-import { FormUtil } from '../../utils/form.util';
 import { Observable, of } from 'rxjs';
+import { FormUtil } from '../../global/utils/form.util';
+import { DateComponent } from '../../global/controls/date/date.component';
+import { InputComponent } from '../../global/controls/input/input.component';
+import { TextareaElementComponent } from '../../global/controls/textarea-element/textarea-element.component';
+import { TextareaComponent } from '../../global/controls/textarea/textarea.component';
 
 @Component({
   selector: 'app-control',

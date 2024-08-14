@@ -9,17 +9,17 @@ import { routes } from './app.routes';
 import { registerLocaleData } from '@angular/common';
 import localeEn from '@angular/common/locales/en';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { CountriesService, initCountries } from './services/countries/countries.service';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { environment } from '../environments/environment';
 import { provideState, provideStore } from '@ngrx/store';
-import { ArtistEffect, artistsReducer } from './store/artist/artists.state';
+import { ArtistEffect, artistsReducer } from './artist/artists.state';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideEffects } from '@ngrx/effects';
 import { FormEffect, formReducer } from './form-processor/form.state';
 import { FIREBASE_OPTIONS } from '@angular/fire/compat';
-import { ProfileEffect, profileReducer } from './auth/profile.state';
-import { AuthInterceptor } from './auth.interceptor';
+import { ProfileEffect, profileReducer } from './profile/profile.state';
+import { initCountries, CountriesService } from './global/countries/countries.service';
+import { AuthInterceptor } from './profile/auth.interceptor';
 
 registerLocaleData(localeEn);
 
