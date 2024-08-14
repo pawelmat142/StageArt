@@ -52,5 +52,8 @@ export class BookingService {
   fetchBooking$(formId: string) {
     return this.http.get<Booking>(`/booking/get/${formId}`)
   }
-
+  
+  findPromoterInfo$() {
+    return this.http.get<any>(`/booking/promoter-info`)
+  }
 }

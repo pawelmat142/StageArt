@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { LoginToken, ProfileTelegramService } from './profile-telegram.service';
 import { LoginForm, ProfileEmailService } from './profile-email.service';
+import { ProfileService } from './profile.service';
 
 @Controller('api/profile')
 export class ProfileController {

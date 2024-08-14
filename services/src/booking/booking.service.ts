@@ -54,5 +54,19 @@ export class BookingService {
         }
         return booking
     }
+
+    public async findPromoterInfo(uid: string) {
+        const booking = await this.bookingModel.findOne({ promoterUid: uid })
+            .sort({ submitDate: -1 })
+            .select({ formData: true })
+
+        const promoterInformation = booking?.formData?.promoterInformation
+        if (promoterInformation) {
+            this.logger.log(`Found promoter info for profile: ${uid}`)
+            return promoterInformation  
+        }
+        this.logger.log(`Not found promoter info for profile: ${uid}`)
+        return null
+    }
     
 }

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { ControlContainer, FormArray, FormBuilder, FormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
 import { ControlComponent } from '../control/control.component';
 import { BtnComponent } from '../../global/controls/btn/btn.component';
@@ -7,7 +7,7 @@ import { GroupComponent } from '../group/group.component';
 import { ArrayComponent } from "../array/array.component";
 import { pForm, pFormArray, pFormStep } from '../form-processor.service';
 import { Store } from '@ngrx/store';
-import { skip, Subscription, take } from 'rxjs';
+import { skip, Subscription, take, tap } from 'rxjs';
 import { dataChange, FormType, openForm, selectFormId, startForm, storeForm } from '../form.state';
 import { FormUtil } from '../../global/utils/form.util';
 import { AppState } from '../../app.state';
@@ -45,6 +45,8 @@ export class FormProcessorComponent {
 
   @Output() submit = new EventEmitter<any>()
 
+  @Input() initialData?: any
+
   stepIndex = 0
   step?: pFormStep
 
@@ -57,9 +59,9 @@ export class FormProcessorComponent {
   ngOnInit(): void {
     
     this.subscriptions.push(this.store.select(dataChange).pipe(
+      tap(formData => this.formData = formData),
       skip(1),
     ).subscribe(formData => {
-      this.formData = formData
       this.recreateArrayStepGroups()
       FormUtil.setFormValues(this.formGroup, this.formData)
       this.rebuildDetector++
@@ -69,6 +71,25 @@ export class FormProcessorComponent {
     this.buildFormGroup()
     this.setStep()
   }
+
+  ngOnChanges(changes: SimpleChanges): void  {
+    if (changes['initialData']) {
+      if (this.initialData) {
+        Object.keys(this.initialData).forEach(key => {
+          if (!this.formData?.[key]) {
+            const data = this.initialData[key]
+            if (this.formData) {
+              this.formData[key] = data
+            } else {
+              this.formData = { [key]: data }
+            }
+
+            FormUtil.setFormValues(this.formGroup, this.formData)
+          }
+        })
+      }
+    }
+  } 
 
   private recreated = false
 
