@@ -1,4 +1,4 @@
-import { map, Observable, switchMap } from "rxjs"
+import { map, Observable, of, switchMap } from "rxjs"
 import { FireImgSet, Images } from "../../artist/model/artist-form"
 
 export abstract class ImgSize {
@@ -48,6 +48,41 @@ export abstract class ImgUtil {
             };
             reader.readAsDataURL(blob)
         })
+    }
+
+    public static srcToFile(src?: string): Observable<File> {
+      if (!src) {
+        return of()
+      }
+      return new Observable((observer) => {
+        const img = new Image()
+        img.onerror = () => {
+          observer.error('Image failed to load.')
+        }
+        img.onload = () => {
+          
+          const canvas = document.createElement('canvas');
+          canvas.width = img.width;
+          canvas.height = img.height;
+          
+          const ctx = canvas.getContext('2d');
+          if (ctx) {
+            ctx.drawImage(img, 0, 0);
+            canvas.toBlob((blob) => {
+              if (blob) {
+                const file = new File([blob], 'filename', { type: blob.type });
+                observer.next(file)
+                observer.complete()
+              } else {
+                observer.error('Conversion to Blob failed.')
+              }
+            })
+          } else {
+            observer.error('Canvas context is not available.')
+          }
+        }
+        img.src = src
+      })
     }
 
     public static blobToFile(blob: Blob, fileName: string): File {

@@ -1,12 +1,10 @@
 import { ChangeDetectorRef, Component, ElementRef, Input, ViewChild, ViewEncapsulation } from '@angular/core';
-import { ArtistViewDto } from '../../../model/artist-view.dto';
-import { FireImgSet } from '../../../model/artist-form';
 import { ImgUtil } from '../../../../global/utils/img.util';
 import { filter, map, switchMap, take, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { AppState } from '../../../../app.state';
 import { Store } from '@ngrx/store';
-import { artist, artistAvatar, load, selectAvatar } from '../artist-view.state';
+import { artist, artistAvatar, editMode, load, selectAvatar } from '../artist-view.state';
 
 @Component({
   selector: 'app-avatar',
@@ -25,20 +23,21 @@ export class AvatarComponent {
     private readonly store: Store<AppState>
   ) {}
 
-  @Input() editMode!: boolean
-
-
   @ViewChild('input') input?: ElementRef<HTMLInputElement>
 
-  _currentAvatarUrl$ = this.store.select(artist).pipe(
-    map(artist => artist?.images?.avatar?.avatar?.url)
+  _editMode$ = this.store.select(editMode).pipe(
+    tap(console.log)
   )
-
+  
+  _currentAvatarUrl$ = this.store.select(artist).pipe(
+    map(artist => artist?.images?.avatar?.avatar?.url),
+  )
+  
   tempAvatar$ = this.store.select(artistAvatar).pipe(
     filter(file => !!file),
     map(file => ImgUtil.fileToBlob(file)),
     switchMap(blob => ImgUtil.blobToBase64$(blob)),
-    tap(() => this.cdRef.detectChanges())
+    tap(() => this.cdRef.detectChanges()),
   )
 
   onFileChange(event: Event): void {

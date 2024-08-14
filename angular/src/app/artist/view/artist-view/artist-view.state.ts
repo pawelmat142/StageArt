@@ -4,7 +4,7 @@ import { AppState, selectArtistView } from "../../../app.state";
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { ArtistService } from "../../artist.service";
-import { map, withLatestFrom } from "rxjs";
+import { map, of, withLatestFrom } from "rxjs";
 import { profileChange } from "../../../profile/profile.state";
 
 export interface ArtistViewState {
@@ -14,7 +14,7 @@ export interface ArtistViewState {
     editMode: boolean
     editable: boolean
     tempAvatar?: File 
-    tempBgImages?: File[] 
+    tempBgImage?: File
 }
 
 
@@ -45,6 +45,11 @@ export const artistAvatar = createSelector(
     (state: ArtistViewState) => state.tempAvatar
 )
 
+export const artistTempBgImage = createSelector(
+    selectArtistView,
+    (state: ArtistViewState) => state.tempBgImage
+)
+
 
 // ACTIONS
 
@@ -58,6 +63,8 @@ export const load = createAction("[ArtistViewState] loading")
 
 export const selectAvatar = createAction("[ArtistViewState] select avatar", props<{ file: File }>())
 
+export const addBgImage = createAction("[ArtistViewState] add background image", props<{ file: File }>())
+
 
 
 
@@ -68,8 +75,10 @@ export const declineArtistChanges = createAction("[ArtistViewState] decline chan
 
 const initialState: ArtistViewState = {
     loading: false,
-    editMode: false,
-    editable: false
+    editMode: true,
+    // TODO mock
+    // editMode: false,
+    editable: false,
 }
 
 export const artistViewReducer = createReducer(
@@ -89,7 +98,7 @@ export const artistViewReducer = createReducer(
     on(startEditArtist, (state) => ({
         ...state,
         editMode: true,
-        original:  state.artist
+        original:  state.artist,
     })),
 
     on(load, (state) => ({
@@ -101,6 +110,12 @@ export const artistViewReducer = createReducer(
         ...state,
         loading: false,
         tempAvatar: avatar.file
+    })),
+
+    on(addBgImage, (state, image) => ({
+        ...state,
+        loading: false,
+        tempBgImage: image.file 
     }))
 )
 

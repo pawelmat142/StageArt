@@ -1,0 +1,15 @@
+<ng-container *ngIf="_editMode$ | async as editMode">
+
+    @if (editMode) {
+
+        <input type="file" #input (change)="onFileChange($event)" [hidden]="true"/>
+
+        <div class="edit-background">
+            <div class="edit-button" (click)="_openFileSelector()">
+                <span class="dark">set background image</span>
+            </div>
+        </div>
+    }
+
+</ng-container>
+

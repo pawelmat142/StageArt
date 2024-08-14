@@ -1,14 +1,12 @@
 <div class="avatar cover-center">
 
-    @if (editMode) {
-
+    <ng-container *ngIf="_editMode$ | async as editModes">
         <input type="file" #input (change)="onFileChange($event)" [hidden]="true"/>
 
         <div class="edit-button" (click)="_openFileSelector()">
             <span class="dark">edit avatar</span>
         </div>
-    }
-
+    </ng-container>
 
     <img *ngIf="tempAvatar$ | async as tempAvatar; else notTemp" [src]="tempAvatar" alt="avatar">
 
@@ -19,6 +17,6 @@
         <ng-template #mock><div class="avatar-mock"></div></ng-template>
 
     </ng-template>
-    
+
 
 </div>

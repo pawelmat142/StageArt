@@ -20,6 +20,8 @@ import { Store } from '@ngrx/store';
 import { IconButtonComponent } from "../../../global/components/icon-button/icon-button.component";
 import { AvatarComponent } from './avatar/avatar.component';
 import { artist, editable, editMode, initializedArtist, startEditArtist } from './artist-view.state';
+import { BackgroundComponent } from './background/background.component';
+import { BackgroundEditorComponent } from './background-editor/background-editor.component';
 
 @Component({
   selector: 'app-artist-view',
@@ -37,6 +39,8 @@ import { artist, editable, editMode, initializedArtist, startEditArtist } from '
     BtnComponent,
     IconButtonComponent,
     AvatarComponent,
+    BackgroundComponent,
+    BackgroundEditorComponent
 ],
   templateUrl: './artist-view.component.html',
   styleUrl: './artist-view.component.scss',

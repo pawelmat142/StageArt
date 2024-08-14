@@ -12,15 +12,16 @@
 }
 
 <div class="artist" *ngIf="_artist$ | async as artist">
+
+    <div class="background-editor" *ngIf="_editMode$ | async as editMode">
+        <app-background-editor></app-background-editor>
+    </div>
     
-    <div class="image-bg" #backgroundRef>
-        <div class="image-bg-container cover-center">
-            
-            @for(imgSet of artist?.images?.bg; track $index) {
-                <img [src]="imgSet.bg?.url" class="image-bg-item" #image/>
-            }
-            
-        </div>
+    <div class="image-bg">
+
+        <app-background
+        ></app-background>
+
     </div>
     
     <div class="view-content">
@@ -35,9 +36,7 @@
 
         <div class="avatar-container margin-bottom-2">
 
-            <app-avatar
-                [editMode]="(_editMode$ | async) || false" 
-            ></app-avatar>
+            <app-avatar></app-avatar>
 
             <div>
                 <h1 class="fs1 light baron">{{artist?.name}}</h1>
