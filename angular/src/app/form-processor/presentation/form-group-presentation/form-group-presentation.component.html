@@ -1,0 +1,22 @@
+<div class="step-control" *ngFor="let control of _controlsWithData | keyvalue">
+    <span class="key">{{control.key.name}}</span>
+
+
+    @switch (control.key.type) {
+
+        @case ('date') {
+            <span>{{control.value | date: 'dd-MM-yyy'}}</span>
+        }
+
+        @case ('textarea') {
+
+            @if (control.value) {
+                <app-textarea-element [value]="control.value" [disabled]="true"></app-textarea-element>
+            }
+        }
+        
+        @default {
+            <span>{{control.value}}</span>
+        }
+    }
+</div>

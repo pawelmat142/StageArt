@@ -40,34 +40,10 @@
                 <span>{{booking.status | status}}</span>
             </h2>
         </div>
-
-        <div class="profile-form-group" *ngFor="let group of booking?.formData | keyvalue">
-
-            <div class="booking-item labels">
-                <p>{{group.key | fromCamel}}</p>
-            </div>
-
-
-            @if (_isArray(group.value)) {
-
-                <div class="array-group" *ngFor="let arrayGroup of _iterable(group.value) || null; let index = index">
-
-                    <div class="profile-form-control" *ngFor="let control of (arrayGroup | keyvalue)">
-                        <span class="key">{{control.key | fromCamel}}</span>
-                        <span>{{control.value}}</span>
-                    </div>
-                </div>
-
-            } @else if (group.value) {
-                <div class="profile-form-control" *ngFor="let control of (group.value | keyvalue)">
-                    <span class="key">{{control.key | fromCamel}}</span>
-                    <span>{{control.value}}</span>
-                </div>
-            }
-
-        </div>
-
-
+        <app-form-presentation 
+            [data]="booking.formData"
+            [structure]="_bookingFormStructure.form"
+        ></app-form-presentation>
     </div>
 
     <div class="bookings" *ngIf="(_bookingsAsPromoter$ | async) as bookings">

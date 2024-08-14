@@ -8,6 +8,8 @@ import { FromCamelToTextPipe } from '../../../global/pipes/from-camel.pipe';
 import { IsArrayPipe } from '../../../global/pipes/is-array.pipe';
 import { Booking, BookingListDto, BookingService } from '../../services/booking.service';
 import { AppState } from '../../../app.state';
+import { FormPresentationComponent } from '../../../form-processor/presentation/form-presentation/form-presentation.component';
+import { BookingFormStructure } from '../../booking-form-structure';
 
 @Component({
   selector: 'app-bookings',
@@ -17,6 +19,7 @@ import { AppState } from '../../../app.state';
     StatusPipe,
     FromCamelToTextPipe,
     IsArrayPipe,
+    FormPresentationComponent,
   ],
   templateUrl: './bookings.component.html',
   styleUrl: './bookings.component.scss'
@@ -27,6 +30,8 @@ export class BookingsComponent {
     private readonly bookingService: BookingService,
     private readonly store: Store<AppState>,
   ) {}
+
+  _bookingFormStructure = new BookingFormStructure(this.store)
 
   _bookings$: Observable<BookingListDto[]> = this.bookingService.fetchProfileBookings$().pipe(
     tap(console.log),
@@ -48,15 +53,9 @@ export class BookingsComponent {
   _booking$: Observable<Booking | null> = of(null)
 
   _openBooking(booking: BookingListDto) {
-    this._booking$ = this.bookingService.fetchBooking$(booking.formId)
-  }
-
-  _isArray(value: any): boolean {
-    return Array.isArray(value);
-  }
-
-  _iterable(value: any): any[] {
-    return Array.isArray(value) ? value : [];
+    this._booking$ = this.bookingService.fetchBooking$(booking.formId).pipe(
+      shareReplay()
+    )
   }
 
 }

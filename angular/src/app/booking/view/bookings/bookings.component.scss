@@ -18,20 +18,19 @@
 }
 
 .bookings {
-
     @extend .tile;
-    
     padding: 0;
     border: 1px solid $dark;
 
 }
 
-.form-data {
-    padding-bottom: $padding-standard;
-}
-
 .bookings-header {
     padding: $padding-standard;
+}
+
+.booking-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
 }
 
 .booking-item {
@@ -64,23 +63,4 @@
         font-size: 14px;
         color: $red;
     }
-}
-
-.booking-header {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-}
-
-.profile-form-control {
-    padding-left: 2*$padding-standard;
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    
-    .key {
-        color: $light;
-    }
-}
-
-.array-group {
-    margin-bottom: $padding-standard;
 }

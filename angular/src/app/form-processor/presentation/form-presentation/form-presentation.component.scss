@@ -1,0 +1,36 @@
+@import 'variables';
+@import 'color';
+
+.step {
+    margin-bottom: 2*$padding-standard;
+}
+
+.step-name {
+    margin: $padding-standard;
+    p {
+        font-size: 14px;
+        color: $red;
+    }
+}
+
+.array-group {
+    &:not(:last-child) {
+        margin-bottom: 2*$padding-standard;
+    }
+}
+
+.step-control {
+    padding-left: 2*$padding-standard;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    margin-bottom: 0.5*$padding-standard;
+    color: $white;
+    .key {
+        color: $light;
+    }
+
+    .form-input-control {
+        color: $white;
+        font-weight: 100;
+    }
+}

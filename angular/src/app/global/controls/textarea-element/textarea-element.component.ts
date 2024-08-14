@@ -22,8 +22,6 @@ export class TextareaElementComponent {
 
   @ViewChild('textareaRef') textareaRef!: ElementRef
 
-  _rows = 4
-
   ngAfterViewInit(): void {
     this.resize()
   }
