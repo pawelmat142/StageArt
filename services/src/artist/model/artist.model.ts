@@ -29,6 +29,7 @@ export interface Images {
 
 export type DiscountDocument = HydratedDocument<Artist>
 
+export type ArtistStatus = 'CREATED' | 'READY' | 'ACTIVE'
 @Schema()
 export class Artist {
 
@@ -38,8 +39,9 @@ export class Artist {
     @Prop({ required: true })
     name: string
     
+
     @Prop({ required: true })
-    active: boolean
+    status: ArtistStatus
     
     @Prop()
     countryCode: string

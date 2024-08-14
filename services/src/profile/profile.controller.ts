@@ -1,7 +1,10 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { LoginToken, ProfileTelegramService } from './profile-telegram.service';
 import { LoginForm, ProfileEmailService } from './profile-email.service';
 import { ProfileService } from './profile.service';
+import { JwtGuard } from './auth/jwt.guard';
+import { GetProfile } from './auth/profile-path-param-getter';
+import { JwtPayload } from './auth/jwt-strategy';
 
 @Controller('api/profile')
 export class ProfileController {
@@ -9,6 +12,7 @@ export class ProfileController {
     constructor(
         private readonly profileTelegramService: ProfileTelegramService,
         private readonly profileEmailService: ProfileEmailService,
+        private readonly profileService: ProfileService,
     ) {}
 
     // TELEGRAM
@@ -37,6 +41,13 @@ export class ProfileController {
     @Post('email/login')
     loginByEmail(@Body() body: Partial<LoginForm>) {
         return this.profileEmailService.loginByEmail(body)
+    }
+
+
+    @Get('artist-name')
+    @UseGuards(JwtGuard)
+    findArtistName(@GetProfile() profile: JwtPayload) {
+        return this.profileService.findArtistName(profile)
     }
 
 }

@@ -4,6 +4,7 @@ import { Profile, RegisterMode } from './model/profile.model';
 import { Model } from 'mongoose';
 import { IllegalStateException } from '../global/exceptions/illegal-state.exception';
 import { JwtPayload } from './auth/jwt-strategy';
+import { ArtistService } from '../artist/artist.service';
 
 export interface Credentials {
     email: string
@@ -17,10 +18,21 @@ export class ProfileService {
 
     constructor(
         @InjectModel(Profile.name) private profileModel: Model<Profile>,
+        private readonly artistService: ArtistService
     ) {}
 
     public findById(uid: string) {
         return this.profileModel.findOne({ uid })
+    }
+
+
+    public async findArtistName(payload: JwtPayload) {
+        const profile = await this.findById(payload.uid)
+            .select({ artistSignature: true })
+        if (profile.artistSignature) {
+            return this.artistService.findName(profile.artistSignature)
+        }
+        return null
     }
 
     public async updatePromoterInfoWhenSubmitForm(formData: any, profile: JwtPayload) {
@@ -36,7 +48,7 @@ export class ProfileService {
         const checkName = await this.profileModel.findOne({ name: profile.name })
         if (checkName) {
             throw new BadRequestException('Name already n use')
-        } 
+        }
 
         const user = new this.profileModel({
             uid: profile.uid,
@@ -51,6 +63,11 @@ export class ProfileService {
             created: new Date(),
             modified: new Date(),
         })
+
+        if (profile.role === 'ARTIST') {
+            const artist = await this.artistService.createPlainArtist(user)
+            user.artistSignature = artist.signature
+        }
 
         await user.save()
         this.logger.log(`Created user ${user.name}, uid: ${user.uid}`)

@@ -2,12 +2,12 @@
 <app-header [floating]="true" [label]="artistName"></app-header>
 
 
-@if (_artist$ | async) {
-
+<div class="artist" *ngIf="_artist$ | async as artist">
+    
     <div class="image-bg" #backgroundRef>
         <div class="image-bg-container cover-center">
             
-            @for(imgSet of _artist?.images?.bg; track $index) {
+            @for(imgSet of artist?.images?.bg; track $index) {
                 <img [src]="imgSet.bg?.url" class="image-bg-item" #image/>
             }
             
@@ -26,11 +26,11 @@
 
         <div class="avatar-container margin-bottom-2">
             <div class="avatar cover-center">
-                <img [src]="_artist?.images?.avatar?.avatar?.url" alt="avatar">
+                <img [src]="artist?.images?.avatar?.avatar?.url" alt="avatar">
             </div>
             <div>
-                <h1 class="fs1 light baron">{{_artist?.name}}</h1>
-                <app-country [countryCode]="_artist?.countryCode!"></app-country>
+                <h1 class="fs1 light baron">{{artist?.name}}</h1>
+                <app-country [countryCode]="artist?.countryCode!"></app-country>
             </div>
             
             @if (DESKTOP) {
@@ -51,13 +51,13 @@
 
             <div class="about-me tile big col66">
                 <p class="fs2 baron red margin-bottom-2">About me</p>
-                <app-textarea-element [value]="_artist?.bio ??''"></app-textarea-element>
+                <app-textarea-element [value]="artist?.bio ??''"></app-textarea-element>
             </div>
 
             <div class="col33">
                 <div class="tile">
                     <p class="fs2 baron red margin-bottom">Connect</p>
-                    @for (media of _artist?.medias; track media.code) {
+                    @for (media of artist?.medias; track media.code) {
 
                         <app-media-item [media]="media"
                             class="margin-bottom"
@@ -71,7 +71,6 @@
         </div>
 
     </div>
-}
-
+</div>
 
 

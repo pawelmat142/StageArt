@@ -6,6 +6,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Booking } from '../booking/model/booking.model';
 import { BookingFormProcessor } from '../booking/util/booking-form-processor';
 import { IllegalStateException } from '../global/exceptions/illegal-state.exception';
+import { Profile } from '../profile/model/profile.model';
 
 @Injectable()
 export class ArtistService {
@@ -17,12 +18,25 @@ export class ArtistService {
     ) {}
 
 
+    public async createPlainArtist(profile: Profile): Promise<Artist> {
+        const plainArtist = new this.artistModel({
+            signature: this.prepareArtistSignature(profile.name),
+            name: profile.name,
+            status: 'CREATED',
+            created: new Date(),
+            modified: new Date(),
+        })
+        await plainArtist.save()
+        this.logger.log(`Created artist from profile ${profile.uid}`)
+        return plainArtist
+    }
+
     public async createArtist(artist: ArtistForm) {
         const newArtist = new this.artistModel({
             ...artist,
             signature: this.prepareArtistSignature(artist.name)
         })
-        newArtist.active = true
+        newArtist.status = 'CREATED'
         const saved = await newArtist.save()
         this.logger.warn(`Artist created, name: ${artist.name}, signature: ${artist.signature}`)
         return saved
@@ -30,6 +44,11 @@ export class ArtistService {
 
     public fetchArtist(name: string) {
         return this.artistModel.findOne({ name })
+    }
+
+    public async findName(signature: string) {
+        return this.artistModel.findOne({ signature })
+            .select({ name: true })
     }
 
     public fetchArtists() {

@@ -33,7 +33,15 @@ export class DialogService {
           isError: true
         }
         return this.popup(data)
-      }
+    }
+      
+    public async sww() {
+        const data: DialogData = {
+          header: 'Something went wrong',
+          content: ['Please contact service'],
+        }
+        return this.popup(data)
+    }
 
     public loginPopup(msg?: string) {
         const data: DialogData = {

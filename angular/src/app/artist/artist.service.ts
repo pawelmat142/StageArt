@@ -24,6 +24,10 @@ export class ArtistService {
     public fetchArtist$(artistName: string) {
         return this.http.get<ArtistViewDto>(`/artist/${artistName}`)
     }
+    
+    public findName$(signature: string) {
+        return this.http.get<{ name: string }>(`/artist/find/${signature}`)
+    }
 
     public fetchArtists$() {
         return this.http.get<ArtistViewDto[]>(`/artists`)

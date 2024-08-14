@@ -1,10 +1,13 @@
 import { Component, EventEmitter, Output, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ProfileView } from '../profile/profile.component';
-import { logout } from '../../profile.state';
+import { logout, profileChange } from '../../profile.state';
 import { DialogService } from '../../../global/nav/dialog.service';
 import { NavService, MenuButtonItem } from '../../../global/nav/nav.service';
 import { AppState } from '../../../app.state';
+import { map, of, switchMap, take, tap } from 'rxjs';
+import { ArtistService } from '../../../artist/artist.service';
+import { ProfileService } from '../../profile.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -20,6 +23,8 @@ export class SidebarComponent {
     private readonly store: Store<AppState>,
     private readonly nav: NavService,
     private readonly dialog: DialogService,
+    private readonly artistService: ArtistService,
+    private readonly profileService: ProfileService,
   ) {}
 
   @Output() view = new EventEmitter<ProfileView>()
@@ -33,9 +38,30 @@ export class SidebarComponent {
   }]
 
   ngOnInit(): void {
+    this.store.select(profileChange).pipe(
+      take(1),
+    ).subscribe(profile => {
+      if(profile?.role === 'ARTIST') {
+        this._items.push({
+          label: `Artist view`,
+          onclick: () => this.navToArtistView()
+        })
+      }
+    })
     this._clickItem(this._items[0])
   }
 
+  private navToArtistView() {
+    this.profileService.findArtistName$().pipe(
+      tap(name => {
+        if (name?.name) {
+          this.nav.toArtist(name.name)
+        } else {
+          this.dialog.sww()
+        }
+      })
+    ).subscribe()
+  }
 
   private logout() {
     this.store.dispatch(logout())

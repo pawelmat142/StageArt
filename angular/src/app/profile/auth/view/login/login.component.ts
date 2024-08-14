@@ -8,7 +8,7 @@ import { Store } from '@ngrx/store';
 import { Token } from '../token';
 import { MatDialog } from '@angular/material/dialog';
 import { PinViewComponent } from '../pin-view/pin-view.component';
-import { filter, map, noop, Observer, of, switchMap } from 'rxjs';
+import { filter, noop, Observer, of, switchMap } from 'rxjs';
 import { FormUtil } from '../../../../global/utils/form.util';
 import { LoginForm, ProfileService } from '../../../profile.service';
 import { ProfileComponent } from '../../../view/profile/profile.component';
@@ -17,6 +17,7 @@ import { DialogService } from '../../../../global/nav/dialog.service';
 import { NavService } from '../../../../global/nav/nav.service';
 import { InputComponent } from '../../../../global/controls/input/input.component';
 import { AppState } from '../../../../app.state';
+import { RegisterComponent } from '../register/register.component';
 
 @Component({
   selector: 'app-login',
@@ -78,6 +79,10 @@ export class LoginComponent {
     } else {
       this.setNameOrEmailForm()
     }
+  }
+
+  _register() {
+    this.nav.to(RegisterComponent.path)
   }
 
   private setNameOrEmailForm() {

@@ -19,7 +19,10 @@ export class Profile {
     @Prop({ required: true })
     role: Role
 
+    @Prop()
+    artistSignature?: string
 
+    
     @Prop()
     registerMode: RegisterMode
 

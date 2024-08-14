@@ -8,6 +8,7 @@ import { ProfileTelegramService } from './profile-telegram.service';
 import { AppJwtService } from './auth/app-jwt.service';
 import { ProfileEmailService } from './profile-email.service';
 import { JwtGuard } from './auth/jwt.guard';
+import { ArtistModule } from '../artist/artist.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { JwtGuard } from './auth/jwt.guard';
     }]),
 
     ConfigModule,
+    ArtistModule,
   ],
   providers: [
     AppJwtService,

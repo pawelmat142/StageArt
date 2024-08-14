@@ -7,6 +7,7 @@ export interface JwtPayload {
     uid: string
     name: string
     telegramChannelId: string
+    artistSignature?: string
     role: Role
     exp: number
     iat: number

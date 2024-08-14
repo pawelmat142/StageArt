@@ -1,8 +1,12 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { ArtistService } from './artist.service';
 import { ArtistForm } from './model/artist-form';
 import { Serialize } from '../global/interceptors/serialize.interceptor';
 import { ArtistViewDto } from './model/artist-view.dto';
+import { JwtGuard } from '../profile/auth/jwt.guard';
+import { GetProfile } from '../profile/auth/profile-path-param-getter';
+import { profile } from 'console';
+import { JwtPayload } from '../profile/auth/jwt-strategy';
 
 @Controller('api')
 export class ArtistController {
@@ -22,7 +26,7 @@ export class ArtistController {
     fetchArtist(@Param('name') name: string) {
         return this.artistService.fetchArtist(name)
     }
-
+    
     @Get('artists')
     @Serialize(ArtistViewDto)
     fetchArtists() {

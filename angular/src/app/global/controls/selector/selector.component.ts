@@ -34,6 +34,8 @@ export interface SelectorItem {
 })
 export class SelectorComponent extends AbstractControlComponent<string> {
 
+  _displayValue: string = ''
+
 
   override ngOnInit(): void {
     super.ngOnInit()
@@ -61,7 +63,8 @@ export class SelectorComponent extends AbstractControlComponent<string> {
   _select(item: SelectorItem, event: MouseEvent) {
     event.stopPropagation()
     event.preventDefault()
-    this.updateValue(item.name)
+    this.updateValue(item.code)
+    this._displayValue = item.name
     this.select.emit(item)
     this.onBlur()
   }

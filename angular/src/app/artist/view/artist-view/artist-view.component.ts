@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ArtistService } from '../../../artist/artist.service';
-import { Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ArtistViewDto } from '../../../artist/model/artist-view.dto';
 import { CommonModule } from '@angular/common';
 import { BookFormComponent } from '../../../booking/view/book-form/book-form.component';
@@ -15,6 +15,7 @@ import { MenuButtonComponent } from '../../../global/components/menu-button/menu
 import { NavService } from '../../../global/nav/nav.service';
 import { DESKTOP } from '../../../global/services/device';
 import { TextareaElementComponent } from '../../../global/controls/textarea-element/textarea-element.component';
+import { NotFoundPageComponent } from '../../../global/view/error/not-found-page/not-found-page.component';
 
 @Component({
   selector: 'app-artist-view',
@@ -54,28 +55,19 @@ export class ArtistViewComponent {
   @ViewChild('backgroundRef') backgroundRef!: ElementRef
   @ViewChildren('image', { read: ElementRef }) images!: ElementRef[]
 
-  _artist?: ArtistViewDto
-
   ngOnInit() {
     this.artistName = this.route.snapshot.paramMap.get('name') || ''
     if (!this.artistName) {
-      this.nav.toNotFound()
-      return
+      this.nav.to(NotFoundPageComponent.path)
+    } else {
+      this.fetchArtist()
     }
-    this.fetchArtist()
   }
 
 
   private fetchArtist() {
     this._artist$ = this.artistService.fetchArtist$(this.artistName!).pipe(
-      tap(this.initArtist)
     )
-  }
-
-  private initArtist = (artist: ArtistViewDto) => {
-    console.log('init artist')
-    console.log(artist)
-    this._artist = artist
   }
 
   _onBookNow() {
