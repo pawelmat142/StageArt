@@ -4,7 +4,7 @@ import { AppState, selectArtistView } from "../../../app.state";
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { ArtistService } from "../../artist.service";
-import { catchError, filter, forkJoin, map, noop, Observable, of, switchMap, take, tap, withLatestFrom } from "rxjs";
+import { catchError, filter, forkJoin, map, Observable, of, switchMap, take, tap, withLatestFrom } from "rxjs";
 import { profileChange } from "../../../profile/profile.state";
 import { FireImgStorageService } from "../../../global/services/fire-img-storage.service";
 import { ImgSize, ImgUtil } from "../../../global/utils/img.util";

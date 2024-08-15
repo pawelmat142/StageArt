@@ -42,6 +42,10 @@ $card-width: 24vw;
         }
     }
 
+    .media-item-container .icon-button svg {
+        fill: $dark;
+    }
+
     .description {
         background-color: $white;
         padding: 0.5*$padding-standard $padding-standard $padding-standard;

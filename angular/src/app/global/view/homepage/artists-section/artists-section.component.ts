@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, ViewEncapsulation } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { CarouselModule } from 'primeng/carousel';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../../app.state';
@@ -36,7 +36,9 @@ export class ArtistsSectionComponent {
     private readonly nav: NavService,
     private store: Store<AppState>,
   ) {
-    this.artists$ = this.store.select(selectArtists)
+    this.artists$ = this.store.select(selectArtists).pipe(
+      tap(console.log)
+    )
   }
   
   ngOnInit(): void {
