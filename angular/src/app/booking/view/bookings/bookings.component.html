@@ -1,42 +1,45 @@
 <div class="bookings-container">
-    
-    <div class="bookings" *ngIf="(_bookingsAsManager$ | async) as bookings">
-    
-        @if (bookings.length) {
-    
-            <div class="bookings-header">
-                <h2 class="fs3 light">Received booking requests</h2>
-            </div>
 
-            <div class="booking-itmes-container">
-
-                <div class="booking-item labels">
-                    <p>Event date</p>
-                    <p>Submit date</p>
-                    <p>Event name</p>
-                    <p>Status</p>
-                    @if (DESKTOP) {
-                        <p>Artists</p>
-                    }
+    <ng-container *ngIf="(_bookingsAsManager$ | async) as bookingsAsManager">
+        @if (bookingsAsManager.length) {
+            <div class="bookings">
+        
+                <div class="bookings-header">
+                    <h2 class="fs3 light">Received booking requests</h2>
                 </div>
-                @for (booking of bookings; track booking.formId; let last = $last) {
-                    
-                    <div class="booking-item" (click)="_openBooking(booking)">
-                        <p>{{booking.startDate | date : 'dd-MM-yyyy'}}</p>
-                        <p>{{booking.submitDate | date : 'dd-MM-yyyy'}}</p>
-                        <p>{{booking.eventName}}</p>
-                        <p>{{booking.status | status}}</p>
-
+    
+                <div class="booking-itmes-container">
+    
+                    <div class="booking-item labels">
+                        <p>Event date</p>
+                        <p>Submit date</p>
+                        <p>Event name</p>
+                        <p>Status</p>
                         @if (DESKTOP) {
-                            <p>{{booking.artistNames.join(', ')}}</p>
+                            <p>Artists</p>
                         }
                     </div>
-
-                }
+                    @for (booking of bookingsAsManager; track booking.formId; let last = $last) {
+                        
+                        <div class="booking-item" (click)="_openBooking(booking)">
+                            <p>{{booking.startDate | date : 'dd-MM-yyyy'}}</p>
+                            <p>{{booking.submitDate | date : 'dd-MM-yyyy'}}</p>
+                            <p>{{booking.eventName}}</p>
+                            <p>{{booking.status | status}}</p>
+    
+                            @if (DESKTOP) {
+                                <p>{{booking.artistNames.join(', ')}}</p>
+                            }
+                        </div>
+    
+                    }
+                </div>
             </div>
         }
-    </div>
 
+    </ng-container>
+
+        
     <div class="bookings form-data" *ngIf="(_booking$ | async) as booking">
         <div class="bookings-header ">
             <h2 class="fs3 light booking-header">
@@ -51,41 +54,42 @@
         ></app-form-presentation>
     </div>
 
-    <div class="bookings" *ngIf="(_bookingsAsPromoter$ | async) as bookings">
-    
-        @if (bookings.length) {
-    
-            <div class="bookings-header">
-                <h2 class="fs3 light">Sent booking requests</h2>
-            </div>
+    <ng-container *ngIf="(_bookingsAsPromoter$ | async) as bookingsAsPromoter">
+        @if (bookingsAsPromoter.length) {
+            <div class="bookings">
 
-            <div class="booking-itmes-container">
-
-                <div class="booking-item labels">
-                    <p>Event date</p>
-                    <p>Submit date</p>
-                    <p>Event name</p>
-                    <p>Status</p>
-                    @if (DESKTOP) {
-                        <p>Artists</p>
-                    }
+                <div class="bookings-header">
+                    <h2 class="fs3 light">Sent booking requests</h2>
                 </div>
-                @for (booking of bookings; track booking.formId; let last = $last) {
-                    
-                    <div class="booking-item" (click)="_openBooking(booking)">
-                        <p>{{booking.startDate | date : 'dd-MM-yyyy'}}</p>
-                        <p>{{booking.submitDate | date : 'dd-MM-yyyy'}}</p>
-                        <p>{{booking.eventName}}</p>
-                        <p>{{booking.status | status}}</p>
+    
+                <div class="booking-itmes-container">
+    
+                    <div class="booking-item labels">
+                        <p>Event date</p>
+                        <p>Submit date</p>
+                        <p>Event name</p>
+                        <p>Status</p>
                         @if (DESKTOP) {
-                            <p>{{booking.artistNames.join(', ')}}</p>
+                            <p>Artists</p>
                         }
                     </div>
+                    @for (booking of bookingsAsPromoter; track booking.formId; let last = $last) {
+                        
+                        <div class="booking-item" (click)="_openBooking(booking)">
+                            <p>{{booking.startDate | date : 'dd-MM-yyyy'}}</p>
+                            <p>{{booking.submitDate | date : 'dd-MM-yyyy'}}</p>
+                            <p>{{booking.eventName}}</p>
+                            <p>{{booking.status | status}}</p>
+                            @if (DESKTOP) {
+                                <p>{{booking.artistNames.join(', ')}}</p>
+                            }
+                        </div>
+    
+                    }
+                </div>
 
-                }
             </div>
         }
-    </div>
-    
+    </ng-container>
 
 </div>

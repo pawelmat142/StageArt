@@ -8,6 +8,10 @@
             bottom: 20px;
             left: 50px;
         }
+
+        .floating .selector-items {
+            top: 85%;
+        }
     }
 }
 
@@ -25,7 +29,7 @@
 
     .floating {
         .selector-items {
-            top: 85%;
+            top: 50px;
             max-width: 150px;
 
             .icon-button .svg-wrapper svg {

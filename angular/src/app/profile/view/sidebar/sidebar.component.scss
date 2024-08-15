@@ -10,7 +10,9 @@ app-profile {
 
 .desktop {
     .sidebar {
-        right: 0;
+        right: unset;
+        left: 0;
+        transform: unset;
     }
 }
 

@@ -72,7 +72,7 @@ export class ArtistService {
         const update = await this.artistModel.updateOne({ signature: newArtist.signature }, { $set: newArtist })
 
         if (!update?.modifiedCount) {
-            this.logger.warn(`Not modfied !`)
+            this.logger.warn(`Not modified!`)
         }
         return newArtist
     }

@@ -4,7 +4,7 @@ import { AppState, selectArtistView } from "../../../app.state";
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { ArtistService } from "../../artist.service";
-import { catchError, filter, forkJoin, map, noop, of, switchMap, take, tap, withLatestFrom } from "rxjs";
+import { catchError, filter, forkJoin, map, noop, Observable, of, switchMap, take, tap, withLatestFrom } from "rxjs";
 import { profileChange } from "../../../profile/profile.state";
 import { FireImgStorageService } from "../../../global/services/fire-img-storage.service";
 import { ImgSize, ImgUtil } from "../../../global/utils/img.util";
@@ -111,9 +111,7 @@ export const artistSaved = createAction("[ArtistViewState] saved", props<ArtistV
 
 const initialState: ArtistViewState = {
     loading: false,
-    editMode: true,
-    // TODO mock
-    // editMode: false,
+    editMode: false,
     editable: false,
 }
 
@@ -214,7 +212,7 @@ export const artistViewReducer = createReducer(
     on(cancelArtistChanges, (state) => ({
         ...state,
         editMode: false,
-        artist: undefined,
+        artist: state.original,
         original: undefined,
         tempAvatar: undefined,
         tempBgImage: undefined,
@@ -259,22 +257,7 @@ export class ArtistViewEffect {
 
     saveChanges$ = createEffect(() => this.actions$.pipe(
         ofType(saveChanges),
-        switchMap(() => this.fireImgUploads$().pipe(
-            catchError(error => this.handleUploadImagesError(error)),
-            switchMap(imgSets => {
-                if (imgSets?.length) {
-                    const images = ImgUtil.prepareImages(imgSets)
-                    return this.store.select(artist).pipe(
-                        map(artist => this.setImages(images, artist))
-                    )
-                } else {
-                    return this.store.select(artist).pipe(
-                    )
-                }
-            }), 
-        )),
-        take(1),
-        filter(artist => !!artist),
+        switchMap(() => this.uploadImagesIfNeeded$()),
         switchMap(artist => this.artistService.updateArtistView$(artist).pipe(
             map(artist => artistSaved(artist)),
             catchError((error) => {
@@ -285,22 +268,11 @@ export class ArtistViewEffect {
         )),
     ))
 
-    private setImages(_images: Images, _artist?: ArtistViewDto): ArtistViewDto {
-        const images: Images = {
-            ..._images,
-            avatar: _images.avatar || _artist?.images.avatar,
-            bg: _images.bg?.length ? _images.bg : _artist?.images?.bg
-        }
-        const artist: ArtistViewDto = {
-            ..._artist!,
-            images: images
-        }
-        return artist as ArtistViewDto
-    }
-
-    private fireImgUploads$() {
+    private uploadImagesIfNeeded$(): Observable<ArtistViewDto> {
         return this.store.select(selectArtistView).pipe(
+            take(1),
             switchMap(state => {
+                const artist = state.artist!
                 const uploads = []
                 if (state.tempAvatar) {
                     uploads.push(this.fireImgStorageService.createFireImgSet$(state.tempAvatar, 
@@ -314,9 +286,35 @@ export class ArtistViewEffect {
                         [ImgSize.bg, ImgSize.miniBg, ImgSize.avatar]
                     ))
                 }
-                return uploads?.length? forkJoin(uploads) : of(noop())
+                if (uploads.length) {
+                    return forkJoin(uploads).pipe(
+                        catchError(error => this.handleUploadImagesError(error)),
+                        map(imgSets => {
+                            if (imgSets?.length) {
+                                const images = ImgUtil.prepareImages(imgSets)
+                                this.setImages(images, artist)
+                                return artist
+                            }
+                            return artist
+                        })
+                    )
+                }
+                return of(artist)
             })
         )
+    }
+
+    private setImages(_images: Images, _artist?: ArtistViewDto): ArtistViewDto {
+        const images: Images = {
+            ..._images,
+            avatar: _images.avatar || _artist?.images.avatar,
+            bg: _images.bg?.length ? _images.bg : _artist?.images?.bg
+        }
+        const artist: ArtistViewDto = {
+            ..._artist!,
+            images: images
+        }
+        return artist as ArtistViewDto
     }
 
     private handleUploadImagesError = (error: any) => {
