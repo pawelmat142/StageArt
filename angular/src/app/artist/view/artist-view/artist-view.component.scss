@@ -8,64 +8,47 @@ $view-padding: 4*$padding-standard;
 
 .edit-toggle-container {
     position: fixed;
-    top: 30%;
+    top: 12%;
     left: 0;
     z-index: 100;
 }
 
 .edit-toggle {
-    min-width: 40px;
-    height: 40px;
-    color: $dark;
 
-
+    @extend .edit-toggle-style;
     background-color: $red;
     border-top-right-radius: $radius;
     border-bottom-right-radius: $radius;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
     margin-bottom: $padding-standard;
 }
 
 .desktop {
-    .image-bg-item {
 
+    .bio-tile {
+        order: 0;
+    }
+
+    .edit-toggle-container {
+        position: fixed;
+        top: 30%;
+    }
+
+    .image-bg-item {
         max-height: 100vh;
     }
 
     .view-content {
-        .avatar-container {
-            padding-left: $view-padding;
-            padding-right: $view-padding;
-            column-gap: 3*$padding-standard;
-            row-gap: $padding-standard;
-            align-items: center;
-
-            app-btn {
-                margin-top: auto;
-                margin-left: 0;
-            }
-
-            h1 {
+        .grid-container {
+            &.one {
+                row-gap: 0; 
+                grid-template-columns: 1fr 2fr 1fr;
                 margin-bottom: $padding-standard;
+                margin-bottom: 4*$padding-standard;
             }
-        }
-
-        .content {
-
-            display: grid;
             grid-template-columns: 2fr 1fr;
-            gap: 2*$padding-standard;
-            padding-right: $view-padding;
-            padding-left: $view-padding;
-            .about-me {
-                order: 1;
-            }
-
+            column-gap: 2*$padding-standard;
+            row-gap: 2*$padding-standard;
         }
-
     }
 
 }
@@ -80,78 +63,43 @@ $view-padding: 4*$padding-standard;
     opacity: 0.7;
 }
 
+.book-now-btn {
+    display: flex;
+    justify-content: flex-end;
+    align-self: flex-end;
+}
+
 .view-content {
     position: relative;
-    min-height: 200vh;
+    min-height: 100vh;
 
     .spacer {
         height: 35vh;
     }
 
-    .avatar-container {
+    .grid-container {
+        &.one {
+            row-gap: 0; 
+            grid-template-columns: 2fr 3fr;
+            margin-bottom: $padding-standard;
+            align-items: center;
+        }
+        &.two {
+            margin-bottom: 4*$padding-standard;
+        }
+        
         padding-left: $view-margin-2-desc;
         padding-right: $view-margin-2-desc;
-
+        display: grid;
         column-gap: $padding-standard;
-        row-gap: 0;
-        display: flex;
-        align-items: flex-start;
+        row-gap: $padding-standard;
+        grid-template-columns: 1fr;
         width: 100%;
-        flex-wrap: wrap;
-        h1 {
-            text-shadow: $text-shadow;
-            margin-bottom: 0.5*$padding-standard; 
-        }
-
-        .flexer {
-            flex-grow: 1;
-        }
-
-
-        app-btn {
-            margin-left: auto;
-        }
     }
-
-    .content {
-        display: flex;
-        flex-wrap: wrap;
-        gap: $padding-standard;
-
-        padding-right: $view-margin-1;
-        padding-left: $view-margin-1;
-
-        .col66 {
-            width: 100%;
-        }
-        .col33 {
-            width: 100%;
-        }
-
-        & > div {
-            order: 5;
-        }
-
-        .about-me {
-            order: 6;
-        }
-
-        .icon-button .svg-wrapper {
-            min-height: 30px;
-            svg {
-                fill: $light;
-            }
-        }
-    }
-    
 }
 
-.country-container {
-    .icon-button {
-        img {
-            max-height: 30px;
-        }
-    }
+.bio-tile {
+    order: 1;
 }
 
 .menu-button {
@@ -160,7 +108,6 @@ $view-padding: 4*$padding-standard;
     display: flex;
     justify-content: flex-end;
 }
-
 
 .edit-button {
     @extend .hovergrow;

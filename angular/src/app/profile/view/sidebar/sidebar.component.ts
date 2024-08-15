@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, HostBinding, HostListener, Output, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ProfileView } from '../profile/profile.component';
 import { logout, profileChange } from '../../profile.state';
@@ -8,16 +8,22 @@ import { AppState } from '../../../app.state';
 import { filter, map, of, switchMap, take, tap } from 'rxjs';
 import { ArtistService } from '../../../artist/artist.service';
 import { ProfileService } from '../../profile.service';
+import { DESKTOP } from '../../../global/services/device';
+import { IconButtonComponent } from '../../../global/components/icon-button/icon-button.component';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [],
+  imports: [
+    IconButtonComponent,
+  ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
   encapsulation: ViewEncapsulation.None
 })
 export class SidebarComponent {
+
+  readonly DESKTOP = DESKTOP
 
   constructor(
     private readonly store: Store<AppState>,
@@ -28,6 +34,15 @@ export class SidebarComponent {
   ) {}
 
   @Output() view = new EventEmitter<ProfileView>()
+
+  @HostBinding('class.open') _sidebarOpened = false
+
+  _open() {
+    if (this.DESKTOP) {
+      return
+    }
+    this._sidebarOpened = !this._sidebarOpened
+  }
 
   _items: MenuButtonItem[] = [{
     label: `Bookings`,

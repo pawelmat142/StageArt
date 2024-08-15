@@ -2,19 +2,43 @@
 @import 'form';
 @import 'font';
 
+.desktop {
+    .artist-name {
+        @extend .margin-bottom;
+    }
+
+    .name {
+        .edit-button.edit-name {
+            top: -44px;
+            right: unset;
+            left: 0;
+        }
+        .edit-button.edit-country {
+            top: 120px;
+            right: unset;
+            left: 40px;
+    
+        }
+    }
+
+}
+
 .name {
+    .artist-name {
+        margin-bottom: 0.5*$padding-standard;
+        width: 100%;
+    }
+
     position: relative;
 
     .edit-button.edit-name {
-        top: -44px;
-        right: unset;
-        left: 0;
+        top: -33px;
+        right: 8px;
     }
 
     .edit-button.edit-country {
-        top: 120px;
-        right: unset;
-        left: 40px;
+        top: 73px;
+        right: 0px;
     }
 
     h1.edit-mode {

@@ -2,17 +2,39 @@
 @import 'font';
 @import 'color';
 
-.media-item {
-    position: relative;
+.desktop {
     .edit-button {
         top: 15px;
         bottom: unset;
         right: unset;
         left: -70px;
-        
         &.edit {
             right: 100px;
             left: unset;
+        }
+    }
+
+    .media-item {
+        .edit-button {
+            top: 10px;
+            bottom: unset;
+            left: unset;
+            right: 20px;
+            &.edit {
+                right: 112px;
+            }
+        }
+    }
+}
+
+.media-item {
+    position: relative;
+
+    .edit-button {
+        top: 10px;
+        right: -20px;
+        &.edit {
+            right: 60px;
         }
     }
 }
@@ -26,11 +48,10 @@
     @extend .fs3;
 
     width: fit-content;
-    padding: 0.7*$padding-standard $padding-standard;
-}
+    padding: 0.5*$padding-standard 0;
 
-:host.no-padding {
-    .media-item-container {
-        padding: 0;
+    .icon-button svg {
+        fill: $light;
+        width: 25px;
     }
 }

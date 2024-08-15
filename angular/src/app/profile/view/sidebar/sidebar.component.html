@@ -1,7 +1,19 @@
-@for (item of _items; track item.label) {
-
-    <div class="siderbar-item" (click)="_clickItem(item)" [class.active]="item.active">
-        {{item.label}}
-    </div>
-
-}
+<div class="sidebar-container">
+    @if (!DESKTOP) {
+        <div class="sidebar-btn">
+            <app-icon-button
+                (click)="_open()"
+                [icon]="_sidebarOpened ? 'arrow_forward_ios' : 'arrow_back_ios'"
+                [active]="true"
+            ></app-icon-button>
+        </div>
+    }
+    
+    @for (item of _items; track item.label) {
+    
+        <div class="siderbar-item" (click)="_clickItem(item)" [class.active]="item.active">
+            {{item.label}}
+        </div>
+    
+    }
+</div>

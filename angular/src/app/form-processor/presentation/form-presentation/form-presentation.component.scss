@@ -1,6 +1,17 @@
 @import 'variables';
 @import 'color';
 
+.desktop {
+    .step-control {
+        grid-template-columns: 1fr 2fr;
+        .value > .textarea,
+        .value {
+            text-align: unset;
+            padding-right: unset;
+        }
+    }
+}
+
 .step {
     margin-bottom: 2*$padding-standard;
 }
@@ -22,11 +33,19 @@
 .step-control {
     padding-left: 2*$padding-standard;
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1fr 1fr;
     margin-bottom: 0.5*$padding-standard;
     color: $white;
+
+    
     .key {
         color: $light;
+    }
+
+    .value > .textarea,
+    .value {
+        text-align: right;
+        padding-right: $padding-standard;
     }
 
     .form-input-control {

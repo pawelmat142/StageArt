@@ -15,12 +15,14 @@
         ></app-selector-items>
     }
 
-    <p class="fs2 baron red margin-bottom">Connect</p>
-    @for (media of _medias$ | async; track media.url) {
+    <p class="fs2 baron red">Connect</p>
 
-        <app-media-item [media]="media"
-            class="margin-bottom"
-        ></app-media-item>
-
-    }
+    <div class="tile-content">
+        @for (media of _medias$ | async; track media.url) {
+    
+            <app-media-item [media]="media"
+                class="margin-bottom"
+            ></app-media-item>
+        }
+    </div>
 </div>

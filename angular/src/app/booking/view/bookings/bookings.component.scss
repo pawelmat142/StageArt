@@ -1,15 +1,35 @@
 @import 'variables';
 
+.desktop {
+    .bookings-container {
+        padding-right: $padding-standard;
+        padding-left: $padding-standard;
+        padding-bottom: 4*$padding-standard;
+    }
+
+    .booking-item {
+        grid-template-columns: 1fr 1fr 1fr 1fr 2fr;
+    }
+
+    .booking-header {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .booking-item p:last-of-type {
+        text-align: unset;
+    }
+}
+
 .bookings-container {
     
     display: grid;
     grid-template-columns: 1fr;
     gap: $padding-standard;
     background-color: $light-dark;
-
-
-    padding: $padding-standard;
+    
     padding-top: $header-height;
+
+    padding-bottom: 4*$padding-standard;
 
     .separate-line {
         margin: 0 $padding-standard;
@@ -30,20 +50,25 @@
 
 .booking-header {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr;
+    row-gap: $padding-standard;
 }
 
 .booking-item {
     padding: 0.8*$padding-standard $padding-standard;
     
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 2fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     
     
     p {
         color: $white;
         font-weight: 100;
         font-size: 12px;
+
+        &:last-of-type {
+            text-align: right;
+        }
     }   
     
     

@@ -191,7 +191,7 @@ textarea {
 .form-input-control {
     width: 100%;
     padding: 0px;
-    font-weight: 600;
+    font-weight: 400;
     font-size: 16px;
     letter-spacing: 0;
     color: $light-dark;
@@ -250,11 +250,34 @@ textarea {
     color: $placeholder-color!important;
 }
 
+.desktop {
+    .btns {
+        flex-direction: row;
+        gap: 2*$padding-standard;
+
+        app-btn,
+        .btn {
+            width: unset;
+        }
+        .btn {
+            padding: 0 2*$padding-standard;
+        }
+    }
+}
+
 .btns {
+    margin-top: 2*$padding-standard;
     display: flex;
+    flex-direction: column;
     gap: $padding-standard;
     &.center {
         justify-content: center;
     }
+    
+    app-btn,
+    .btn {
+        width: 100%;
+    }
+
 }
 

@@ -1,4 +1,3 @@
-
 <div class="name">
     @if (_editMode$ | async) {
         
@@ -23,13 +22,13 @@
     }
     
     <div>
-
-        <input class="fs1 light baron margin-bottom"
+        <div>
+            <input class="fs1 light baron artist-name"
             [value]="(_name$ | async)" 
             (input)="_nameChange($event)"
             [disabled]="!_editName"
-        >
-
+            >
+        </div>
 
         <app-country *ngIf="(_countryCode$ | async) as countryCode; else countryMock"
             [countryCode]="countryCode"
@@ -40,4 +39,5 @@
             }
         </ng-template>
     </div>
+    
 </div>

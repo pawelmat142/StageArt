@@ -1,8 +1,18 @@
+.desktop {
+    .bio {
+        .edit-button {
+            top: 30px;
+            right: 80px;
+            left: unset;
+        }
+    }
+}
+
 .bio {
     position: relative;
 
     .edit-button {
-        top: 30px;
-        right: 80px
+        top: 18px;
+        right: 25px;
     }
 }

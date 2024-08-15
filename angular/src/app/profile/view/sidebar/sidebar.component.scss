@@ -4,15 +4,49 @@
 
 $border: 1px solid $red; 
 
+app-profile {
+    background-color: $light-dark;
+}
+
+.desktop {
+    .sidebar {
+        right: 0;
+    }
+}
+
+.sidebar-container {
+    position: relative;
+    .sidebar-btn {
+        position: absolute;
+        top: -10px;
+        left: -50px;
+
+        background-color: $red;
+        width: 50px;
+
+        @extend .edit-toggle-style;
+        border-bottom-left-radius: $radius;
+        border-top-left-radius: $radius;
+    }
+}
+
 
 .sidebar {
+    background-color: $dark;
     width: $sidebar-width;
-
     position: fixed;
     top: 0;
-    left: 0;
+    left: unset;
+    right: 0;
     bottom: 0;
     padding-top: $header-height;
+
+    transition: $transition-standard;
+    
+    transform: translateX(100%);
+    &.open {
+        transform: translateX(0);
+    }
 }
 
 .siderbar-item {

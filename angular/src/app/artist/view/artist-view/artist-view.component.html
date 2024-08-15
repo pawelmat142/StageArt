@@ -40,9 +40,7 @@
     </div>
     
     <div class="image-bg">
-
         <app-background></app-background>
-
     </div>
     
     <div class="view-content">
@@ -55,34 +53,34 @@
 
         <div class="spacer"></div>
 
-        <div class="avatar-container margin-bottom-2">
+        <div class="grid-container one">
 
             <app-avatar></app-avatar>
 
             <app-name></app-name>
 
-            @if (DESKTOP) {
-                <div class="flexer"></div>
+            @if (!DESKTOP) {
+                <div></div>
             }
 
-            <app-btn
-                class="light"
-                [active]="true"
-                (click)="_onBookNow()"
-                label="Book now"
-                icon="list_alt"
-            ></app-btn>
+            <div class="book-now-btn">
+                <app-btn
+                    class="light book-now"
+                    [active]="true"
+                    (click)="_onBookNow()"
+                    label="Book now"
+                    icon="list_alt"
+                ></app-btn>
+            </div>
+
         </div>
 
 
-        <div class="content">
+        <div class="grid-container two">
 
-            <app-bio></app-bio>
+            <app-bio class="bio-tile"></app-bio>
 
-            <div>
-                <app-medias></app-medias>
-
-            </div>
+            <app-medias></app-medias>
 
         </div>
 

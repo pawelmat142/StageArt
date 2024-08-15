@@ -10,8 +10,10 @@
     </div>
     
     
-    <div class="about-me tile big col66">
-        <p class="fs2 baron red margin-bottom-2">About me</p>
+    <div class="tile big">
+        <p class="fs2 baron red">About me</p>
+
+        <div class="tile-content">
             <app-textarea-element
                 class="white"
                 [class.edit-mode]="_editBioMode"
@@ -19,6 +21,7 @@
                 [disabled]="!_editBioMode"
                 (onInput)="_onInput($event)"
             ></app-textarea-element>
+        </div>
     </div>
 </div>
 

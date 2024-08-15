@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { map, Observable, of, shareReplay, tap, withLatestFrom } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { uid } from '../../../profile/profile.state';
@@ -10,6 +10,7 @@ import { Booking, BookingListDto, BookingService } from '../../services/booking.
 import { AppState } from '../../../app.state';
 import { FormPresentationComponent } from '../../../form-processor/presentation/form-presentation/form-presentation.component';
 import { BookingFormStructure } from '../../booking-form-structure';
+import { DESKTOP } from '../../../global/services/device';
 
 @Component({
   selector: 'app-bookings',
@@ -22,9 +23,12 @@ import { BookingFormStructure } from '../../booking-form-structure';
     FormPresentationComponent,
   ],
   templateUrl: './bookings.component.html',
-  styleUrl: './bookings.component.scss'
+  styleUrl: './bookings.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class BookingsComponent {
+
+  readonly DESKTOP = DESKTOP
 
   constructor(
     private readonly bookingService: BookingService,

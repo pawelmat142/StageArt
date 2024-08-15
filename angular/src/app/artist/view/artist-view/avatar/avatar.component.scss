@@ -3,23 +3,29 @@
 
 .desktop {
     .avatar {
-        width: 17vw;
-        height: 17vw;
+        border: 2px solid $light;
+        .edit-button {
+            top: 5%;
+            right: 25%;
+            left: unset;
+        }
     }
 }
 
-
 .avatar {
     position: relative;
-    width: 30vw;
-    height: 30vw;
     border-radius: 50%;
-    border: 2px solid $light;
+    border: 1px solid $light;
     box-shadow: $text-shadow;
     overflow: hidden;
 
     img {
         width: 100%;
+    }
+
+    .edit-button {
+        top: 50%;
+        right: 20%;
     }
 }
 
@@ -32,7 +38,3 @@
     background-position: center;
 }
 
-.edit-button {
-    top: 5%;
-    right: 25%;
-}

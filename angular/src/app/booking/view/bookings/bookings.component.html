@@ -15,7 +15,9 @@
                     <p>Submit date</p>
                     <p>Event name</p>
                     <p>Status</p>
-                    <p>Artists</p>
+                    @if (DESKTOP) {
+                        <p>Artists</p>
+                    }
                 </div>
                 @for (booking of bookings; track booking.formId; let last = $last) {
                     
@@ -24,7 +26,10 @@
                         <p>{{booking.submitDate | date : 'dd-MM-yyyy'}}</p>
                         <p>{{booking.eventName}}</p>
                         <p>{{booking.status | status}}</p>
-                        <p>{{booking.artistNames.join(', ')}}</p>
+
+                        @if (DESKTOP) {
+                            <p>{{booking.artistNames.join(', ')}}</p>
+                        }
                     </div>
 
                 }
@@ -51,7 +56,7 @@
         @if (bookings.length) {
     
             <div class="bookings-header">
-                <h2 class="fs3 light">Received booking requests</h2>
+                <h2 class="fs3 light">Sent booking requests</h2>
             </div>
 
             <div class="booking-itmes-container">
@@ -61,7 +66,9 @@
                     <p>Submit date</p>
                     <p>Event name</p>
                     <p>Status</p>
-                    <p>Artists</p>
+                    @if (DESKTOP) {
+                        <p>Artists</p>
+                    }
                 </div>
                 @for (booking of bookings; track booking.formId; let last = $last) {
                     
@@ -70,7 +77,9 @@
                         <p>{{booking.submitDate | date : 'dd-MM-yyyy'}}</p>
                         <p>{{booking.eventName}}</p>
                         <p>{{booking.status | status}}</p>
-                        <p>{{booking.artistNames.join(', ')}}</p>
+                        @if (DESKTOP) {
+                            <p>{{booking.artistNames.join(', ')}}</p>
+                        }
                     </div>
 
                 }

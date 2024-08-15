@@ -7,8 +7,13 @@
     justify-content: center;
 }
 
+.desktop {
+    .profile-view-content {
+        margin-left: $sidebar-width;
+    }
+}
+
 .profile-view-content {
     background-color: $light-dark;
-    margin-left: $sidebar-width;
     min-height: 100vh;
 }
