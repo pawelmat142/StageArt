@@ -95,6 +95,12 @@ textarea {
     width: 100%;
 }
 
+.edit-mode {
+    .textarea {
+        background-color: $light-dark;
+    }
+}
+
 .control-margin {
     margin-bottom: $padding-standard;
 

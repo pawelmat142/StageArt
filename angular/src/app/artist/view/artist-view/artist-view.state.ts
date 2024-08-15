@@ -4,7 +4,7 @@ import { AppState, selectArtistView } from "../../../app.state";
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { ArtistService } from "../../artist.service";
-import { catchError, filter, forkJoin, map, noop, of, switchMap, tap, withLatestFrom } from "rxjs";
+import { catchError, filter, forkJoin, map, noop, of, switchMap, take, tap, withLatestFrom } from "rxjs";
 import { profileChange } from "../../../profile/profile.state";
 import { FireImgStorageService } from "../../../global/services/fire-img-storage.service";
 import { ImgSize, ImgUtil } from "../../../global/utils/img.util";
@@ -65,6 +65,8 @@ export const startEditArtist = createAction("[ArtistViewState] start edit")
 
 export const load = createAction("[ArtistViewState] loading")
 
+export const updateBio = createAction("[ArtistViewState] update bio", props<{ value: string}>())
+
 export const selectAvatar = createAction("[ArtistViewState] select avatar", props<{ file: File }>())
 
 export const addBgImage = createAction("[ArtistViewState] add background image", props<{ file: File }>())
@@ -114,6 +116,20 @@ export const artistViewReducer = createReducer(
         ...state,
         loading: true,
     })),
+
+    on(updateBio, (state, value) => {
+        if (state.artist) {
+            return {
+                ...state,
+                artist: {
+                    ...state.artist,
+                    bio: value.value
+                }
+            }
+        } else {
+            return state
+        }
+    }),
 
     on(selectAvatar, (state, avatar) => ({
         ...state,
@@ -175,12 +191,22 @@ export class ArtistViewEffect {
 
     saveChanges$ = createEffect(() => this.actions$.pipe(
         ofType(saveChanges),
-        switchMap(() => this.fireImgUploads$()),
-        catchError(error => this.handleUploadImagesError(error)),
-        filter(fireImgs => !!fireImgs),
-        map(fireImgs => ImgUtil.prepareImages(fireImgs)),
-        withLatestFrom(this.store.select(artist)),
-        map(([images, artist]) => this.setImages(images, artist)),
+        switchMap(() => this.fireImgUploads$().pipe(
+            catchError(error => this.handleUploadImagesError(error)),
+            switchMap(imgSets => {
+                if (imgSets?.length) {
+                    const images = ImgUtil.prepareImages(imgSets)
+                    return this.store.select(artist).pipe(
+                        map(artist => this.setImages(images, artist))
+                    )
+                } else {
+                    return this.store.select(artist).pipe(
+                    )
+                }
+            }), 
+        )),
+        take(1),
+        filter(artist => !!artist),
         switchMap(artist => this.artistService.updateArtistView$(artist).pipe(
             map(artist => artistSaved(artist)),
             catchError((error) => {
@@ -220,7 +246,7 @@ export class ArtistViewEffect {
                         [ImgSize.bg, ImgSize.miniBg, ImgSize.avatar]
                     ))
                 }
-                return forkJoin(uploads)
+                return uploads?.length? forkJoin(uploads) : of(noop())
             })
         )
     }

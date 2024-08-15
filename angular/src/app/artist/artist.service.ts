@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { ArtistViewDto } from "./model/artist-view.dto";
 import { Store } from "@ngrx/store";
-import { Observable, take } from "rxjs";
+import { Observable, shareReplay, take } from "rxjs";
 import { selectArtists } from "./artists.state";
 import { ArtistForm } from "./model/artist-form";
 import { HttpService } from "../global/services/http.service";

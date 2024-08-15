@@ -80,12 +80,9 @@
 
         <div class="content">
 
-            <div class="about-me tile big col66">
-                <p class="fs2 baron red margin-bottom-2">About me</p>
-                <app-textarea-element [value]="artist?.bio ??''"></app-textarea-element>
-            </div>
+            <app-bio></app-bio>
 
-            <div class="col33">
+            <div>
                 <div class="tile">
                     <p class="fs2 baron red margin-bottom">Connect</p>
                     @for (media of artist?.medias; track media.code) {

@@ -110,13 +110,8 @@ $border-shadow: 0 3px 5px $red;
     padding: 2*$padding-standard;
     color: $white;
     background-color: $dark-transparent;
-    width: 100%;
-
-    border-radius: 10px;
     
-    &.big {
-        padding: 2*$padding-standard $view-margin-3 $padding-standard;
-    }
+    border-radius: 10px;
 }
 
 .card {

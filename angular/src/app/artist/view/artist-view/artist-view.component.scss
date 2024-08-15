@@ -54,16 +54,12 @@ $view-padding: 4*$padding-standard;
         }
 
         .content {
+
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2*$padding-standard;
             padding-right: $view-padding;
             padding-left: $view-padding;
-            gap: 2*$padding-standard;
-            .col66 {
-                width: calc(67% - 2*$padding-standard);
-            }
-            .col33 {
-                width: 33%;
-            }
-
             .about-me {
                 order: 1;
             }

@@ -23,6 +23,7 @@ import { artist, cancelArtistChanges, editable, editMode, initializedArtist, sav
 import { BackgroundComponent } from './background/background.component';
 import { BackgroundEditorComponent } from './background-editor/background-editor.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { BioComponent } from './bio/bio.component';
 
 @Component({
   selector: 'app-artist-view',
@@ -42,7 +43,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     AvatarComponent,
     BackgroundComponent,
     BackgroundEditorComponent,
-    MatTooltipModule
+    MatTooltipModule,
+    BioComponent
 ],
   templateUrl: './artist-view.component.html',
   styleUrl: './artist-view.component.scss',
