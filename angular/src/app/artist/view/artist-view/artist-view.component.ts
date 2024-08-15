@@ -5,14 +5,10 @@ import { shareReplay, take, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { BookFormComponent } from '../../../booking/view/book-form/book-form.component';
 import { BtnComponent } from '../../../global/controls/btn/btn.component';
-import { ButtonComponent } from '../../../global/controls/button/button.component';
-import { FileViewComponent } from '../../../global/controls/file-loader/file-view/file-view.component';
 import { HeaderComponent } from '../../../global/components/header/header.component';
-import { MediaItemComponent } from '../../../global/components/media-item/media-item.component';
 import { MenuButtonComponent } from '../../../global/components/menu-button/menu-button.component';
 import { NavService } from '../../../global/nav/nav.service';
 import { DESKTOP } from '../../../global/services/device';
-import { TextareaElementComponent } from '../../../global/controls/textarea-element/textarea-element.component';
 import { NotFoundPageComponent } from '../../../global/view/error/not-found-page/not-found-page.component';
 import { AppState } from '../../../app.state';
 import { Store } from '@ngrx/store';
@@ -24,6 +20,7 @@ import { BackgroundEditorComponent } from './background-editor/background-editor
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { BioComponent } from './bio/bio.component';
 import { NameComponent } from './name/name.component';
+import { MediasComponent } from './medias/medias.component';
 
 @Component({
   selector: 'app-artist-view',
@@ -33,10 +30,6 @@ import { NameComponent } from './name/name.component';
     HeaderComponent,
     HeaderComponent,
     MenuButtonComponent,
-    FileViewComponent,
-    TextareaElementComponent,
-    MediaItemComponent,
-    ButtonComponent,
     BtnComponent,
     IconButtonComponent,
     AvatarComponent,
@@ -44,7 +37,8 @@ import { NameComponent } from './name/name.component';
     BackgroundEditorComponent,
     MatTooltipModule,
     BioComponent,
-    NameComponent
+    NameComponent,
+    MediasComponent
 ],
   templateUrl: './artist-view.component.html',
   styleUrl: './artist-view.component.scss',

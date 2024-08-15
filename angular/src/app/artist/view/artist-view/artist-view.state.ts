@@ -10,6 +10,7 @@ import { FireImgStorageService } from "../../../global/services/fire-img-storage
 import { ImgSize, ImgUtil } from "../../../global/utils/img.util";
 import { DialogService } from "../../../global/nav/dialog.service";
 import { Images } from "../../model/artist-form";
+import { ArtistMedia } from "../../artist-medias/artist-medias.service";
 
 export interface ArtistViewState {
     artist?: ArtistViewDto
@@ -69,6 +70,10 @@ export const artistCountry = createSelector(
     (state: ArtistViewState) => state.artist?.countryCode
 )
 
+export const artistMedias = createSelector(
+    selectArtistView,
+    (state: ArtistViewState) => state.artist?.medias
+)
 
 
 
@@ -82,17 +87,17 @@ export const startEditArtist = createAction("[ArtistViewState] start edit")
 
 export const load = createAction("[ArtistViewState] loading")
 
-export const updateBio = createAction("[ArtistViewState] update bio", props<{ value: string}>())
-
-export const updateName = createAction("[ArtistViewState] update name", props<{ value: string}>())
-
-export const updateCountry = createAction("[ArtistViewState] update country", props<{ value: string}>())
-
 export const selectAvatar = createAction("[ArtistViewState] select avatar", props<{ file: File }>())
 
 export const addBgImage = createAction("[ArtistViewState] add background image", props<{ file: File }>())
 
+export const updateBio = createAction("[ArtistViewState] update bio", props<{ value: string }>())
 
+export const updateName = createAction("[ArtistViewState] update name", props<{ value: string }>())
+
+export const updateCountry = createAction("[ArtistViewState] update country", props<{ value: string }>())
+
+export const updateMedias = createAction("[ArtistViewState] update medias", props<{ value: ArtistMedia[] }>())
 
 
 export const uploadArtistChanges = createAction("[ArtistViewState] upload changes")
@@ -138,6 +143,18 @@ export const artistViewReducer = createReducer(
         loading: true,
     })),
 
+    on(selectAvatar, (state, avatar) => ({
+        ...state,
+        loading: false,
+        tempAvatar: avatar.file
+    })),
+
+    on(addBgImage, (state, image) => ({
+        ...state,
+        loading: false,
+        tempBgImage: image.file 
+    })),
+
     on(updateBio, (state, value) => {
         if (state.artist) {
             return {
@@ -180,17 +197,19 @@ export const artistViewReducer = createReducer(
         }
     }),
 
-    on(selectAvatar, (state, avatar) => ({
-        ...state,
-        loading: false,
-        tempAvatar: avatar.file
-    })),
-
-    on(addBgImage, (state, image) => ({
-        ...state,
-        loading: false,
-        tempBgImage: image.file 
-    })),
+    on(updateMedias, (state, medias) => {
+        if (state.artist) {
+            return {
+                ...state,
+                artist: {
+                    ...state.artist,
+                    medias: medias.value
+                }
+            }
+        } else {
+            return state
+        }
+    }),
 
     on(cancelArtistChanges, (state) => ({
         ...state,

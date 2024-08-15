@@ -1,0 +1,89 @@
+import { Component, ViewEncapsulation } from '@angular/core';
+import { MediaItemComponent } from '../../../../global/components/media-item/media-item.component';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../../app.state';
+import { artistMedias, editMode, updateMedias } from '../artist-view.state';
+import { CommonModule } from '@angular/common';
+import { SelectorItemsComponent } from '../../../../global/controls/selector/selector-items/selector-items.component';
+import { SelectorItem } from '../../../../global/controls/selector/selector.component';
+import { ArtistMedia, ArtistMediaCode, ArtistMediasService } from '../../../artist-medias/artist-medias.service';
+import { Util } from '../../../../global/utils/util';
+import { DialogService } from '../../../../global/nav/dialog.service';
+import { DialogData } from '../../../../global/nav/dialogs/popup/popup.component';
+import { Validators } from '@angular/forms';
+import { map, noop, of, switchMap, take, tap } from 'rxjs';
+
+@Component({
+  selector: 'app-medias',
+  standalone: true,
+  imports: [
+    CommonModule,
+    MediaItemComponent,
+    SelectorItemsComponent,
+  ],
+  templateUrl: './medias.component.html',
+  styleUrl: './medias.component.scss',
+  encapsulation: ViewEncapsulation.None
+})
+export class MediasComponent {
+
+  constructor(
+    private readonly store: Store<AppState>,
+    private readonly artistMediasService: ArtistMediasService,
+    private readonly dialog: DialogService,
+  ) {}
+
+  ngOnInit(): void {
+    this._items = this.artistMediasService.getMedias().filter(type => !!type).map(mediaType => {
+      return {
+        code: mediaType,
+        name: Util.capitalizeFirstLetter(mediaType),
+        svg: mediaType
+      }
+    })
+  }
+
+  _items: SelectorItem[] = []
+
+  _editMode$ = this.store.select(editMode)
+
+  _medias$ = this.store.select(artistMedias)
+
+
+  editMedias() {
+    this._editMedias = true
+  }
+
+  _editMedias = false
+
+  _selectoMedia(item: SelectorItem) {
+    this._editMedias = false
+    const data: DialogData = {
+      header: `${item.name}`,
+      input: 'url',
+      inputValidators: [Validators.required],
+    }
+
+    this.dialog.popup(data).afterClosed().pipe(
+      tap(console.log),
+      switchMap(url => {
+        if (url) {
+          const media: ArtistMedia = {
+            code: item.code as ArtistMediaCode,
+            url: url
+          }
+          return this._medias$.pipe(
+            take(1),
+            tap(medias => {
+              const newMedias = medias ? [...medias, media] : [media]
+              this.store.dispatch(updateMedias({ value: newMedias }))
+            })
+          )
+        }
+        return of(noop())
+      })
+    ).subscribe()
+
+  }
+
+}

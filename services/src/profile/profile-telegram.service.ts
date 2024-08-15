@@ -70,6 +70,9 @@ export class ProfileTelegramService {
                 }
             }
         }
+        if (!profile.telegramChannelId) {
+            return null
+        }
         const token = await this.generateLoginToken(profile.telegramChannelId)
 
         this.sendMessage({

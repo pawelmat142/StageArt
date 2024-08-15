@@ -1,12 +1,25 @@
-<a class="media-item-container hovergrow" [href]="media.url" target="_blank">
+<div class="media-item">
 
-    <app-icon-button
-        [button]="false"
-        [mediaIcon]="media.code"
-    ></app-icon-button>
+    @if (_editMode$ | async) {
+        <div class="edit-button" (click)="_remove()">
+            <span class="dark">remove</span>
+        </div>
 
-    @if (!hideName) {
-        <p class="light">{{_name}}</p>
+        <div class="edit-button edit" (click)="_edit()">
+            <span class="dark">edit</span>
+        </div>
     }
-
-</a>
+    
+    <a class="media-item-container hovergrow" [href]="media.url" target="_blank">
+    
+        <app-icon-button
+            [button]="false"
+            [mediaIcon]="media.code"
+        ></app-icon-button>
+    
+        @if (!hideName) {
+            <p class="light">{{_name}}</p>
+        }
+    
+    </a>
+</div>

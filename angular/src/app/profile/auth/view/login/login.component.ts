@@ -7,7 +7,6 @@ import { loggedIn, login, logout } from '../../../profile.state';
 import { Store } from '@ngrx/store';
 import { Token } from '../token';
 import { MatDialog } from '@angular/material/dialog';
-import { PinViewComponent } from '../pin-view/pin-view.component';
 import { filter, noop, Observer, of, switchMap } from 'rxjs';
 import { FormUtil } from '../../../../global/utils/form.util';
 import { LoginForm, ProfileService } from '../../../profile.service';
@@ -18,6 +17,7 @@ import { NavService } from '../../../../global/nav/nav.service';
 import { InputComponent } from '../../../../global/controls/input/input.component';
 import { AppState } from '../../../../app.state';
 import { RegisterComponent } from '../register/register.component';
+import { DialogData } from '../../../../global/nav/dialogs/popup/popup.component';
 
 @Component({
   selector: 'app-login',
@@ -95,10 +95,23 @@ export class LoginComponent {
     this.profileService.telegramPinRequest$(uidOrNameOrEmail).pipe(
       switchMap(token => {
         if (!token?.token) {
+          if (this._nameOrEmailForm) {
+            this.dialog.simplePopup('Telegrm connection not found')
+            this._nameOrEmailForm = undefined
+          } else {
+            this.setNameOrEmailForm()
+          }
           return of(noop())
         }
         this.loginToken = token.token
-        return this.matDialog.open(PinViewComponent).afterClosed()
+
+        const data: DialogData = {
+          header: '',
+          input: 'pin',
+          inputClass: 'max-300',
+          inputValidators: [Validators.minLength(4), Validators.maxLength(4), Validators.pattern(/^[0-9]*$/)]
+        }
+        return this.dialog.popup(data).afterClosed()
       }),
       filter(pin => !!pin),
       switchMap(pin => this.profileService.loginByPin$({

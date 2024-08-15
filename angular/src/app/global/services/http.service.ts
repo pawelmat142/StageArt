@@ -1,11 +1,6 @@
 import { HttpClient, HttpContext, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, filter, map, Observable, of, switchMap } from 'rxjs';
-import { Store } from '@ngrx/store';
 import { environment } from '../../../environments/environment';
-import { DialogService } from '../nav/dialog.service';
-import { NavService } from '../nav/nav.service';
-import { AppState } from '../../app.state';
 
 export interface HttpRequestOptions {
   // skipAuth?: boolean
@@ -28,9 +23,6 @@ export class HttpService {
 
   constructor(
     private readonly httpClient: HttpClient,
-    private readonly store: Store<AppState>,
-    private readonly nav: NavService,
-    private readonly dialog: DialogService,
   ) { }
 
 
@@ -45,7 +37,5 @@ export class HttpService {
   public put<T>(uri: string, data: any) {
     return this.httpClient.put<T>(`${this.apiUri}${uri}`, data)
   }
-
-
 
 }

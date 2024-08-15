@@ -1,0 +1,30 @@
+@import 'variables';
+
+.medias {
+
+    &.tile {
+        overflow: unset;
+    }
+
+    position: relative;
+
+    .edit-button {
+        right: 27px;
+        top: unset;
+        bottom: 30px
+    }
+
+    .floating {
+        .selector-items {
+            top: 85%;
+            max-width: 150px;
+
+            .icon-button .svg-wrapper svg {
+                fill: $dark;
+            }
+        }
+
+    } 
+
+
+}

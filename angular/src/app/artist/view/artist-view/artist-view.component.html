@@ -80,16 +80,7 @@
             <app-bio></app-bio>
 
             <div>
-                <div class="tile">
-                    <p class="fs2 baron red margin-bottom">Connect</p>
-                    @for (media of artist?.medias; track media.code) {
-
-                        <app-media-item [media]="media"
-                            class="margin-bottom"
-                        ></app-media-item>
-
-                    }
-                </div>
+                <app-medias></app-medias>
 
             </div>
 

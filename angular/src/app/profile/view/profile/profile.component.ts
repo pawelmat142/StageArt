@@ -1,7 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { BtnComponent } from '../../../global/controls/btn/btn.component';
 import { BookingsComponent } from '../../../booking/view/bookings/bookings.component';
-import { PinViewComponent } from '../../auth/view/pin-view/pin-view.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { HeaderComponent } from '../../../global/components/header/header.component';
 
@@ -13,7 +12,6 @@ export type ProfileView  = 'NONE' | 'BOOKINGS'
   imports: [
     BtnComponent,
     HeaderComponent,
-    PinViewComponent,
     SidebarComponent,
     BookingsComponent,
   ],

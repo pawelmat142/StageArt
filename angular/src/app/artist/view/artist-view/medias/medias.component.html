@@ -1,0 +1,26 @@
+<div class="tile medias">
+
+    @if (_editMode$ | async) {
+        
+        <div class="edit-button" (click)="editMedias()">
+            <span class="dark">add link</span>
+        </div>
+        
+        <app-selector-items
+            [class.active]="_editMedias"
+            class="floating"
+            [items]="_items"
+            [chachedImg]="true"
+            (select)="_selectoMedia($event)"
+        ></app-selector-items>
+    }
+
+    <p class="fs2 baron red margin-bottom">Connect</p>
+    @for (media of _medias$ | async; track media.url) {
+
+        <app-media-item [media]="media"
+            class="margin-bottom"
+        ></app-media-item>
+
+    }
+</div>

@@ -2,13 +2,20 @@ import { CommonModule } from '@angular/common';
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BtnComponent } from '../../../controls/btn/btn.component';
+import { FormControl, FormGroup, ReactiveFormsModule, ValidatorFn } from '@angular/forms';
+import { InputComponent } from '../../../controls/input/input.component';
+import { FormUtil } from '../../../utils/form.util';
 
 export interface DialogData {
   header: string
   content?: string[]
   isError?: boolean
   error?: Error
-  buttons?: DialogBtn[] 
+  buttons?: DialogBtn[]
+  input?: string
+  inputValidators?: ValidatorFn[]
+  inputClass?: string
+  inputValue?: string
 }
 
 export interface DialogBtn {
@@ -23,6 +30,8 @@ export interface DialogBtn {
   imports: [
     CommonModule,
     BtnComponent,
+    ReactiveFormsModule,
+    InputComponent,
 ],
   templateUrl: './popup.component.html',
   styleUrl: './popup.component.scss',
@@ -37,15 +46,42 @@ export class PopupComponent {
   
   _defaultButton = true
 
+  form?: FormGroup 
+
+  private readonly closeButton: DialogBtn = { label: 'Close', class: 'big' }
+
   ngOnInit(): void {
     this.dialogRef.afterClosed().subscribe(() => {
       if (this.data.error) {
         console.error(this.data.error)
       }
     })
+
+    if (this.data.input) {
+      const validators = this.data.inputValidators
+      this.form = new FormGroup({
+        control: new FormControl(this.data.inputValue || '', validators)
+      })
+
+      const submit: DialogBtn = {
+        label: 'Submit',
+        class: 'grey big',
+        onclick: () => this._submit()
+      } 
+      
+      if (this.data.buttons) {
+        this.data.buttons.unshift(this.closeButton)
+        this.data.buttons.push(submit)
+      } else {
+        this.data.buttons = [
+          this.closeButton,
+          submit
+        ]
+      }
+    }
+
     this._defaultButton = !this.data.buttons?.length
   }
-
 
 
   _close() {
@@ -57,6 +93,15 @@ export class PopupComponent {
     if (btn.onclick) {
       btn.onclick()
     }
+  }
+
+  _submit() {
+    if (this.form?.invalid) {
+      FormUtil.markForm(this.form)
+      return
+    }
+    const value = this.form?.controls['control']?.value
+    this.dialogRef.close(value)
   }
 
 }

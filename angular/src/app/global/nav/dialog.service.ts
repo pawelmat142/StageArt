@@ -22,9 +22,9 @@ export class DialogService {
         return this.popup(data)
       }
     
-      public async popup(data: DialogData) {
-        return this.dialog.open(PopupComponent, { data })
-      }
+    public popup(data: DialogData) {
+    return this.dialog.open(PopupComponent, { data })
+    }
       
     public async errorPopup(msg: string, content: string[] = []) {
         const data: DialogData = {

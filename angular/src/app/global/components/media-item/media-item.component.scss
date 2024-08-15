@@ -2,6 +2,20 @@
 @import 'font';
 @import 'color';
 
+.media-item {
+    position: relative;
+    .edit-button {
+        top: 15px;
+        bottom: unset;
+        right: unset;
+        left: -70px;
+        
+        &.edit {
+            right: 100px;
+            left: unset;
+        }
+    }
+}
 
 .media-item-container {
     display: flex;
@@ -13,7 +27,6 @@
 
     width: fit-content;
     padding: 0.7*$padding-standard $padding-standard;
-
 }
 
 :host.no-padding {

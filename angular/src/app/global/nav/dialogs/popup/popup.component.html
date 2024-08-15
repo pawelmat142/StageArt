@@ -12,6 +12,18 @@
         </div>
     }
 
+    @if (form) {
+        <form [formGroup]="form" (ngSubmit)="_submit()">
+            <div class="control-margin" [ngClass]="data.inputClass">
+                <app-input
+                    formControlName="control"
+                    [required]="true"
+                    [label]="data.input || 'input'" 
+                ></app-input>
+            </div>
+        </form>
+    }
+
     <div class="popup-buttons">
         @if (_defaultButton) {
             <app-btn class="big center" label="OK" (click)="_close()"></app-btn>
