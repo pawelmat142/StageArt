@@ -1,10 +1,12 @@
 import { Injectable } from "@angular/core";
 
-export const artistMediaCodes = ['', 
+export const artistMediaCodes = [
+    '', 
     'facebook', 
     'instagram', 
     'soundcloud', 
-    'bandcamp'
+    'bandcamp',
+    'website'
 ] as const
 
 export type ArtistMediaCode = typeof artistMediaCodes[number]
