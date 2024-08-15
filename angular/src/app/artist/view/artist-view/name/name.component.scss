@@ -1,0 +1,37 @@
+@import 'color';
+@import 'form';
+@import 'font';
+
+.name {
+    position: relative;
+
+    .edit-button.edit-name {
+        top: -44px;
+        right: unset;
+        left: 0;
+    }
+
+    .edit-button.edit-country {
+        top: 120px;
+        right: unset;
+        left: 40px;
+    }
+
+    h1.edit-mode {
+        background-color: $input-bg;
+    }
+
+    .country-txt {
+        @extend .fs3;
+        color: $white;
+    }
+
+    .country-container {
+        .icon-button {
+            img {
+                max-height: 30px;
+            }
+        }
+    }
+
+}

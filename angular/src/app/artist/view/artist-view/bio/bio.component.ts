@@ -3,9 +3,8 @@ import { TextareaElementComponent } from '../../../../global/controls/textarea-e
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../../app.state';
-import { artist, editMode, updateBio } from '../artist-view.state';
-import { map, tap } from 'rxjs';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { artistBio, editMode, updateBio } from '../artist-view.state';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-bio',
@@ -27,9 +26,7 @@ export class BioComponent {
   
   @ViewChild('viewRef') viewRef?: ElementRef
 
-  _bio$ = this.store.select(artist).pipe(
-    map(artist => artist?.bio),
-    tap(console.log)
+  _bio$ = this.store.select(artistBio).pipe(
   )
 
   _editMode$ = this.store.select(editMode)

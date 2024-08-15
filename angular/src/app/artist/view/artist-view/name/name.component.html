@@ -1,0 +1,43 @@
+
+<div class="name">
+    @if (_editMode$ | async) {
+        
+        <div class="edit-button edit-name" (click)="editName()">
+            @if (_editName) {
+                <span class="dark">stop edit name</span>
+            } @else {
+                <span class="dark">edit name</span>
+            }
+        </div>
+        
+        <div class="edit-button edit-country" (click)="editCountry()" [class.active]="_editCountry">
+            <span class="dark">select country</span>
+
+            <app-selector-items
+                class="floating"
+                [items]="_countryItems"
+                [chachedImg]="true"
+                (select)="_selectCountry($event)"
+            ></app-selector-items>
+        </div>
+    }
+    
+    <div>
+
+        <input class="fs1 light baron margin-bottom"
+            [value]="(_name$ | async)" 
+            (input)="_nameChange($event)"
+            [disabled]="!_editName"
+        >
+
+
+        <app-country *ngIf="(_countryCode$ | async) as countryCode; else countryMock"
+            [countryCode]="countryCode"
+        ></app-country>
+        <ng-template #countryMock>
+            @if (_editable$ | async) {
+                <p class="white fs3">Select country...</p>
+            }
+        </ng-template>
+    </div>
+</div>

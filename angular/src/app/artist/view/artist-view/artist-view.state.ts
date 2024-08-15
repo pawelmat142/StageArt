@@ -54,6 +54,23 @@ export const artistTempBgImage = createSelector(
     (state: ArtistViewState) => state.tempBgImage
 )
 
+export const artistBio = createSelector(
+    selectArtistView,
+    (state: ArtistViewState) => state.artist?.bio
+)
+
+export const artistName = createSelector(
+    selectArtistView,
+    (state: ArtistViewState) => state.artist?.name
+)
+
+export const artistCountry = createSelector(
+    selectArtistView,
+    (state: ArtistViewState) => state.artist?.countryCode
+)
+
+
+
 
 // ACTIONS
 
@@ -66,6 +83,10 @@ export const startEditArtist = createAction("[ArtistViewState] start edit")
 export const load = createAction("[ArtistViewState] loading")
 
 export const updateBio = createAction("[ArtistViewState] update bio", props<{ value: string}>())
+
+export const updateName = createAction("[ArtistViewState] update name", props<{ value: string}>())
+
+export const updateCountry = createAction("[ArtistViewState] update country", props<{ value: string}>())
 
 export const selectAvatar = createAction("[ArtistViewState] select avatar", props<{ file: File }>())
 
@@ -124,6 +145,34 @@ export const artistViewReducer = createReducer(
                 artist: {
                     ...state.artist,
                     bio: value.value
+                }
+            }
+        } else {
+            return state
+        }
+    }),
+
+    on(updateName, (state, value) => {
+        if (state.artist) {
+            return {
+                ...state,
+                artist: {
+                    ...state.artist,
+                    name: value.value
+                }
+            }
+        } else {
+            return state
+        }
+    }),
+
+    on(updateCountry, (state, value) => {
+        if (state.artist) {
+            return {
+                ...state,
+                artist: {
+                    ...state.artist,
+                    countryCode: value.value
                 }
             }
         } else {

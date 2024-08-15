@@ -26,7 +26,6 @@ export class AvatarComponent {
   @ViewChild('input') input?: ElementRef<HTMLInputElement>
 
   _editMode$ = this.store.select(editMode).pipe(
-    tap(console.log)
   )
   
   _currentAvatarUrl$ = this.store.select(artist).pipe(

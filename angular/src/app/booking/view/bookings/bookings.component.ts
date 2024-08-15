@@ -34,7 +34,6 @@ export class BookingsComponent {
   _bookingFormStructure = new BookingFormStructure(this.store)
 
   _bookings$: Observable<BookingListDto[]> = this.bookingService.fetchProfileBookings$().pipe(
-    tap(console.log),
     shareReplay(1),
   )
 

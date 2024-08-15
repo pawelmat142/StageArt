@@ -59,11 +59,8 @@
 
             <app-avatar></app-avatar>
 
-            <div>
-                <h1 class="fs1 light baron">{{artist?.name}}</h1>
-                <app-country [countryCode]="artist?.countryCode!"></app-country>
-            </div>
-            
+            <app-name></app-name>
+
             @if (DESKTOP) {
                 <div class="flexer"></div>
             }

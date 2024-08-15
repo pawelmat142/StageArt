@@ -1,8 +1,7 @@
 @import 'variables';
 @import 'font';
 
-:host.card-country {
-
+.card-country {
     .country-txt {
         color: $light-dark;
         text-shadow: none;

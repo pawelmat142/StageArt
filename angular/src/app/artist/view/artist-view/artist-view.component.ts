@@ -7,7 +7,6 @@ import { BookFormComponent } from '../../../booking/view/book-form/book-form.com
 import { BtnComponent } from '../../../global/controls/btn/btn.component';
 import { ButtonComponent } from '../../../global/controls/button/button.component';
 import { FileViewComponent } from '../../../global/controls/file-loader/file-view/file-view.component';
-import { CountryComponent } from '../../../global/components/country/country.component';
 import { HeaderComponent } from '../../../global/components/header/header.component';
 import { MediaItemComponent } from '../../../global/components/media-item/media-item.component';
 import { MenuButtonComponent } from '../../../global/components/menu-button/menu-button.component';
@@ -24,6 +23,7 @@ import { BackgroundComponent } from './background/background.component';
 import { BackgroundEditorComponent } from './background-editor/background-editor.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { BioComponent } from './bio/bio.component';
+import { NameComponent } from './name/name.component';
 
 @Component({
   selector: 'app-artist-view',
@@ -34,7 +34,6 @@ import { BioComponent } from './bio/bio.component';
     HeaderComponent,
     MenuButtonComponent,
     FileViewComponent,
-    CountryComponent,
     TextareaElementComponent,
     MediaItemComponent,
     ButtonComponent,
@@ -44,7 +43,8 @@ import { BioComponent } from './bio/bio.component';
     BackgroundComponent,
     BackgroundEditorComponent,
     MatTooltipModule,
-    BioComponent
+    BioComponent,
+    NameComponent
 ],
   templateUrl: './artist-view.component.html',
   styleUrl: './artist-view.component.scss',
@@ -90,7 +90,6 @@ export class ArtistViewComponent {
       })
     )
   }
-
 
   _onBookNow() {
     this.nav.to(BookFormComponent.path)

@@ -36,31 +36,10 @@
 
     </div>
 
-    
-    <div class="selector-items">
-        <div *ngFor="let item of _items"
-            class="selector-item form-input-control"
-            (click)="_select(item, $event)"
-
-        ><span class="dark">{{item.name}}</span>
-
-
-        @if (item.imgUrl) {
-            <app-icon-button
-                class="border"
-                [button]="false"
-                [src]="item.imgUrl"
-                [chachedImg]="chachedImg"
-            ></app-icon-button>
-            } 
-            @else if (item.svg) {
-            <app-icon-button
-                class="side-img"
-                [button]="false"
-                [mediaIcon]="item.svg"
-            ></app-icon-button>
-        }
-
-    </div>
+    <app-selector-items
+        [items]="_items"
+        [chachedImg]="chachedImg"
+        (select)="_select($event)"
+    ></app-selector-items>
 
 </div>

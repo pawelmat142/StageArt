@@ -4,6 +4,7 @@ import { NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { ArtistMediaCode } from '../../../artist/artist-medias/artist-medias.service';
 import { AbstractControlComponent } from '../abstract-control/abstract-control.component';
 import { IconButtonComponent } from '../../components/icon-button/icon-button.component';
+import { SelectorItemsComponent } from './selector-items/selector-items.component';
 
 
 export interface SelectorItem {
@@ -20,6 +21,7 @@ export interface SelectorItem {
     CommonModule,
     ReactiveFormsModule,
     IconButtonComponent,
+    SelectorItemsComponent
 ],
   templateUrl: './selector.component.html',
   styleUrl: './selector.component.scss',
@@ -35,7 +37,6 @@ export interface SelectorItem {
 export class SelectorComponent extends AbstractControlComponent<string> {
 
   _displayValue: string = ''
-
 
   override ngOnInit(): void {
     super.ngOnInit()
@@ -60,9 +61,8 @@ export class SelectorComponent extends AbstractControlComponent<string> {
 
   @Output() select = new EventEmitter<SelectorItem>()
 
-  _select(item: SelectorItem, event: MouseEvent) {
-    event.stopPropagation()
-    event.preventDefault()
+  _select(item: SelectorItem) {
+    this._item = item
     this.updateValue(item.code)
     this._displayValue = item.name
     this.select.emit(item)
