@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common';
+import { BadRequestException, forwardRef, Inject, Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Profile, RegisterMode } from './model/profile.model';
 import { Model } from 'mongoose';
@@ -18,6 +18,8 @@ export class ProfileService {
 
     constructor(
         @InjectModel(Profile.name) private profileModel: Model<Profile>,
+        
+        @Inject(forwardRef(() => ArtistService))
         private readonly artistService: ArtistService
     ) {}
 

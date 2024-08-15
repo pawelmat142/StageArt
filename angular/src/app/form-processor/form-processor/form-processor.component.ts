@@ -116,13 +116,6 @@ export class FormProcessorComponent {
     this.subscriptions.forEach(s => s.unsubscribe())
   }
 
-  // TODO
-  test() {
-    console.log(this.formGroup.value)
-    console.log(this.formData)
-  }
-
-
   _next(keepIndex?: boolean) {
     const currentStepForm = this.currentStepForm
     if (currentStepForm) {

@@ -4,8 +4,12 @@ import { AppState, selectArtistView } from "../../../app.state";
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { ArtistService } from "../../artist.service";
-import { map, of, withLatestFrom } from "rxjs";
+import { catchError, filter, forkJoin, map, noop, of, switchMap, tap, withLatestFrom } from "rxjs";
 import { profileChange } from "../../../profile/profile.state";
+import { FireImgStorageService } from "../../../global/services/fire-img-storage.service";
+import { ImgSize, ImgUtil } from "../../../global/utils/img.util";
+import { DialogService } from "../../../global/nav/dialog.service";
+import { Images } from "../../model/artist-form";
 
 export interface ArtistViewState {
     artist?: ArtistViewDto
@@ -70,7 +74,11 @@ export const addBgImage = createAction("[ArtistViewState] add background image",
 
 export const uploadArtistChanges = createAction("[ArtistViewState] upload changes")
 
-export const declineArtistChanges = createAction("[ArtistViewState] decline changes")
+export const cancelArtistChanges = createAction("[ArtistViewState] cancel changes")
+
+export const saveChanges = createAction("[ArtistViewState] save changes")
+
+export const artistSaved = createAction("[ArtistViewState] saved", props<ArtistViewDto>())
 
 
 const initialState: ArtistViewState = {
@@ -87,6 +95,7 @@ export const artistViewReducer = createReducer(
     on(initializedArtist, (state, artist) => ({
         ...state,
         loading: false,
+        editMode: false,
         artist: artist
     })),
 
@@ -116,7 +125,31 @@ export const artistViewReducer = createReducer(
         ...state,
         loading: false,
         tempBgImage: image.file 
-    }))
+    })),
+
+    on(cancelArtistChanges, (state) => ({
+        ...state,
+        editMode: false,
+        artist: undefined,
+        original: undefined,
+        tempAvatar: undefined,
+        tempBgImage: undefined,
+    })),
+
+    on(saveChanges, (state) => ({
+        ...state,
+        loading: true
+    })),
+
+    on(artistSaved, (state, artist) => ({
+        ...state,
+        loading: false,
+        editMode: false,
+        artist: artist,
+        original: undefined,
+        tempAvatar: undefined,
+        tempBgImage: undefined,
+    })),
 )
 
 
@@ -124,9 +157,12 @@ export const artistViewReducer = createReducer(
 export class ArtistViewEffect {
     
     constructor(
-        private actions$: Actions,
-        private store: Store<AppState>,
-        private artistService: ArtistService
+        private readonly actions$: Actions,
+        private readonly store: Store<AppState>,
+        private readonly artistService: ArtistService,
+        private readonly dialog: DialogService,
+        private readonly fireImgStorageService: FireImgStorageService,
+
     ){}
 
     initializedArtist$ = createEffect(() => this.actions$.pipe(
@@ -136,5 +172,64 @@ export class ArtistViewEffect {
             return canEdit({ canEdit: artist.signature === profile?.artistSignature })
         })
     ))
+
+    saveChanges$ = createEffect(() => this.actions$.pipe(
+        ofType(saveChanges),
+        switchMap(() => this.fireImgUploads$()),
+        catchError(error => this.handleUploadImagesError(error)),
+        filter(fireImgs => !!fireImgs),
+        map(fireImgs => ImgUtil.prepareImages(fireImgs)),
+        withLatestFrom(this.store.select(artist)),
+        map(([images, artist]) => this.setImages(images, artist)),
+        switchMap(artist => this.artistService.updateArtistView$(artist).pipe(
+            map(artist => artistSaved(artist)),
+            catchError((error) => {
+                this.dialog.errorPopup(error)
+                return of(cancelArtistChanges())
+            }),
+            tap(_ => this.dialog.simplePopup('Saved changes')),
+        )),
+    ))
+
+    private setImages(_images: Images, _artist?: ArtistViewDto): ArtistViewDto {
+        const images: Images = {
+            ..._images,
+            avatar: _images.avatar || _artist?.images.avatar,
+            bg: _images.bg?.length ? _images.bg : _artist?.images?.bg
+        }
+        const artist: ArtistViewDto = {
+            ..._artist!,
+            images: images
+        }
+        return artist as ArtistViewDto
+    }
+
+    private fireImgUploads$() {
+        return this.store.select(selectArtistView).pipe(
+            switchMap(state => {
+                const uploads = []
+                if (state.tempAvatar) {
+                    uploads.push(this.fireImgStorageService.createFireImgSet$(state.tempAvatar, 
+                        `artist/${state.artist?.signature}/avatar`, 
+                        [ImgSize.avatar, ImgSize.mini]
+                    ))
+                }
+                if (state.tempBgImage) {
+                    uploads.push(this.fireImgStorageService.createFireImgSet$(state.tempBgImage, 
+                        `artist/${state.artist?.signature}/bg-0`, 
+                        [ImgSize.bg, ImgSize.miniBg, ImgSize.avatar]
+                    ))
+                }
+                return forkJoin(uploads)
+            })
+        )
+    }
+
+    private handleUploadImagesError = (error: any) => {
+        this.dialog.errorPopup(`Error uploading images`)
+        console.error(error)
+        // TODO popup
+        return of(undefined)
+      }
 
 }

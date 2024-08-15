@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { ArtistForm } from './model/artist-form';
 import { Artist } from './model/artist.model';
 import { Model } from 'mongoose';
@@ -7,6 +7,8 @@ import { Booking } from '../booking/model/booking.model';
 import { BookingFormProcessor } from '../booking/util/booking-form-processor';
 import { IllegalStateException } from '../global/exceptions/illegal-state.exception';
 import { Profile } from '../profile/model/profile.model';
+import { ArtistViewDto } from './model/artist-view.dto';
+import { JwtPayload } from '../profile/auth/jwt-strategy';
 
 @Injectable()
 export class ArtistService {
@@ -23,7 +25,7 @@ export class ArtistService {
             signature: this.prepareArtistSignature(profile.name),
             name: profile.name,
             status: 'CREATED',
-            images: {},
+            images: { bg: [], avatar: {} },
             created: new Date(),
             modified: new Date(),
         })
@@ -32,6 +34,7 @@ export class ArtistService {
         return plainArtist
     }
 
+    // deprecated
     public async createArtist(artist: ArtistForm) {
         const newArtist = new this.artistModel({
             ...artist,
@@ -54,6 +57,21 @@ export class ArtistService {
     public findName(signature: string) {
         return this.artistModel.findOne({ signature })
             .select({ name: true})
+    }
+
+    public async updateArtistView(artist: ArtistViewDto, profile: JwtPayload) {
+        const artistBefore = await this.artistModel.findOne({ signature: artist.signature})
+        if (!artistBefore) {
+            throw new NotFoundException()
+        }
+        if (artistBefore.signature !== profile.artistSignature) {
+            throw new UnauthorizedException()
+        }
+        const newArtist = Object.assign(artistBefore, artist)
+
+        const update = await this.artistModel.updateOne({ signature: newArtist.signature }, { $set: newArtist })
+
+        return update
     }
 
     private prepareArtistSignature(name: string): string {

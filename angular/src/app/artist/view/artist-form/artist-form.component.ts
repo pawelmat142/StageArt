@@ -179,8 +179,6 @@ export class ArtistFormComponent {
   }
 
   _removeImage(i: number) {
-    // todo
-    this.form.controls.images.removeAt(i)
   }
 
   artist?: ArtistForm
@@ -246,7 +244,6 @@ export class ArtistFormComponent {
   private handleUploadImagesError = (error: any) => {
     this.dialog.errorPopup(`Error uploading images`)
     console.error(error)
-    // TODO popup
     return of(undefined)
   }
 
@@ -254,7 +251,6 @@ export class ArtistFormComponent {
     this.dialog.errorPopup(`Error when create artist`)
     console.error(error)
     this.removeImagesFromStorage()
-    // TODO popup
     return of(undefined)
   }
 
@@ -264,21 +260,18 @@ export class ArtistFormComponent {
       if (this.artist.images) {
         
         if (this.artist.images.avatar) {
-          // 
           deletes$.push(this.fireImgStorageService.deleteImage$(this.artist.images.avatar.avatar!))
         }
         
         for (let fireImgSet of this.artist.images.bg || []) {
-          // TODO
           if (fireImgSet.bg) {
             deletes$.push(this.fireImgStorageService.deleteImage$(fireImgSet.bg))
           }
         }
       }
     }
-
     forkJoin(deletes$)
-    .subscribe()
+      .subscribe()
   }
 
 }

@@ -34,14 +34,11 @@ import { BookingModule } from './booking/booking.module';
     BookingModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService]
 })
 export class AppModule implements NestModule {
 
   configure(consumer: MiddlewareConsumer) {
-    consumer
-    // .apply(HttpLogMiddleware)
-    // .forRoutes('*')
     if (isLocalEnv) {
       consumer
         .apply(cors({

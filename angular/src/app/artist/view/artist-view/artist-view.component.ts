@@ -19,9 +19,10 @@ import { AppState } from '../../../app.state';
 import { Store } from '@ngrx/store';
 import { IconButtonComponent } from "../../../global/components/icon-button/icon-button.component";
 import { AvatarComponent } from './avatar/avatar.component';
-import { artist, editable, editMode, initializedArtist, startEditArtist } from './artist-view.state';
+import { artist, cancelArtistChanges, editable, editMode, initializedArtist, saveChanges, startEditArtist } from './artist-view.state';
 import { BackgroundComponent } from './background/background.component';
 import { BackgroundEditorComponent } from './background-editor/background-editor.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-artist-view',
@@ -40,7 +41,8 @@ import { BackgroundEditorComponent } from './background-editor/background-editor
     IconButtonComponent,
     AvatarComponent,
     BackgroundComponent,
-    BackgroundEditorComponent
+    BackgroundEditorComponent,
+    MatTooltipModule
 ],
   templateUrl: './artist-view.component.html',
   styleUrl: './artist-view.component.scss',
@@ -94,6 +96,14 @@ export class ArtistViewComponent {
 
   _editToggle() {
     this.store.dispatch(startEditArtist())
+  }
+  
+  _discard() {
+    this.store.dispatch(cancelArtistChanges())
+  }
+  
+  _save() {
+    this.store.dispatch(saveChanges())
   }
 
 }

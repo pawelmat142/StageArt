@@ -2,12 +2,34 @@
 <app-header [floating]="true" [label]="artistName"></app-header>
 
 @if (_editable$ | async) {
-    <div class="edit-toggle">
-        <app-icon-button
-            (click)="_editToggle()"
-            icon="edit"
-            [active]="true"
-        ></app-icon-button>
+    <div class="edit-toggle-container">
+
+        <ng-container *ngIf="_editMode$ | async as editMode; else notEdit">
+            <div class="edit-toggle hovergrow fs3" matTooltip="Save progile changes">
+                <app-icon-button
+                    (click)="_save()"
+                    icon="save"
+                    [active]="true"
+                ></app-icon-button>
+            </div>
+            <div class="edit-toggle hovergrow fs3" matTooltip="Cancel profile changes">
+                <app-icon-button
+                    (click)="_discard()"
+                    icon="cancel"
+                    [active]="true"
+                ></app-icon-button>
+            </div>
+        </ng-container>
+
+        <ng-template #notEdit>
+            <div class="edit-toggle" matTooltip="Start edit profile">
+                <app-icon-button
+                    (click)="_editToggle()"
+                    icon="edit"
+                    [active]="true"
+                ></app-icon-button>
+            </div>
+        </ng-template>
     </div>
 }
 
@@ -19,8 +41,7 @@
     
     <div class="image-bg">
 
-        <app-background
-        ></app-background>
+        <app-background></app-background>
 
     </div>
     

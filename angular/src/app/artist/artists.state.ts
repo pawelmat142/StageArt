@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ArtistService } from './artist.service';
 import { catchError, map, of, switchMap, withLatestFrom } from 'rxjs';
-import { AppState } from '../app.state';
+import { AppState, selectArtistsState } from '../app.state';
 
 export interface ArtistsState {
     artists: ArtistViewDto[]
@@ -35,7 +35,6 @@ export const fetchArtistsFail = createAction(ArtistsAction.FETCH_ARTISTS_FAILED,
 export const cleanArtists = createAction(ArtistsAction.CLEAN_ARTISTS)
 
 
-export const selectArtistsState = (state: AppState) => state.artistsState
 export const selectArtists = (state: AppState) => state.artistsState.artists
 
 export const loadingChange = createSelector(

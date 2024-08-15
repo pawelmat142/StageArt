@@ -70,6 +70,7 @@ export abstract class ImgUtil {
             ctx.drawImage(img, 0, 0);
             canvas.toBlob((blob) => {
               if (blob) {
+                // Convert Blob to File
                 const file = new File([blob], 'filename', { type: blob.type });
                 observer.next(file)
                 observer.complete()

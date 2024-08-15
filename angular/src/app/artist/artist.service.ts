@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { ArtistViewDto } from "./model/artist-view.dto";
 import { Store } from "@ngrx/store";
-import { take } from "rxjs";
+import { Observable, take } from "rxjs";
 import { selectArtists } from "./artists.state";
 import { ArtistForm } from "./model/artist-form";
 import { HttpService } from "../global/services/http.service";
@@ -31,6 +31,10 @@ export class ArtistService {
 
     public fetchArtists$() {
         return this.http.get<ArtistViewDto[]>(`/artists`)
+    }
+
+    public updateArtistView$(artist: ArtistViewDto): Observable<ArtistViewDto> {
+        return this.http.put<ArtistViewDto>(`/artist`, artist)
     }
 
     public getArtists = (): ArtistViewDto[] => {
