@@ -18,8 +18,11 @@ $card-width: 24vw;
         }
         .img-wrapper {
             height: 0.73*$card-width;
-            filter: saturate(0);
         }
+    }
+    
+    .artist-card .img-wrapper img {
+        filter: saturate(0);
     }
 
 }

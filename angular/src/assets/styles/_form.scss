@@ -191,7 +191,7 @@ textarea {
 .form-input-control {
     width: 100%;
     padding: 0px;
-    font-weight: 400;
+    font-weight: 500;
     font-size: 16px;
     letter-spacing: 0;
     color: $light-dark;
@@ -258,9 +258,6 @@ textarea {
         app-btn,
         .btn {
             width: unset;
-        }
-        .btn {
-            padding: 0 2*$padding-standard;
         }
     }
 }

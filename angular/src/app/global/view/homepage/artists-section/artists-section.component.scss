@@ -17,7 +17,6 @@
                 }
             } 
         }
-
     }
 }
 
@@ -42,6 +41,7 @@
         padding: 0;
 
         li {
+            padding: $padding-standard;
             button {
                 background-color: $red;
                 border: 0;
