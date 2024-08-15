@@ -1,6 +1,6 @@
 import { Injectable, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { ArtistForm } from './model/artist-form';
-import { Artist } from './model/artist.model';
+import { Artist, ArtistStatus } from './model/artist.model';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Booking } from '../booking/model/booking.model';
@@ -9,6 +9,7 @@ import { IllegalStateException } from '../global/exceptions/illegal-state.except
 import { Profile } from '../profile/model/profile.model';
 import { ArtistViewDto } from './model/artist-view.dto';
 import { JwtPayload } from '../profile/auth/jwt-strategy';
+import { ArtistUtil } from './artist.util';
 
 @Injectable()
 export class ArtistService {
@@ -18,6 +19,10 @@ export class ArtistService {
     constructor(
         @InjectModel(Artist.name) private artistModel: Model<Artist>,
     ) {}
+
+
+    // TODO status READY temporary here!
+    private readonly PUBLIC_VIEW_ARTIST_STATUSES: ArtistStatus[] = [ 'ACTIVE', 'READY' ]
 
 
     public async createPlainArtist(profile: Profile): Promise<Artist> {
@@ -51,7 +56,7 @@ export class ArtistService {
     }
 
     public fetchArtists() {
-        return this.artistModel.find({ active: true })
+        return this.artistModel.find({ status: { $in: this.PUBLIC_VIEW_ARTIST_STATUSES } })
     }
 
     public findName(signature: string) {
@@ -68,6 +73,10 @@ export class ArtistService {
             throw new UnauthorizedException()
         }
         const newArtist = Object.assign(artistBefore, artist)
+
+        if (ArtistUtil.isViewReady(newArtist)) {
+            newArtist.status = 'READY'
+        }
 
         const update = await this.artistModel.updateOne({ signature: newArtist.signature }, { $set: newArtist })
 
