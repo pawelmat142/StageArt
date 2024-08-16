@@ -93,4 +93,8 @@ export class NavService {
     return this.router.navigate(['artist', artistName])
   }
 
+  public replaceUrl(url: string) {
+    this.router.navigateByUrl(url)
+  }
+
 }

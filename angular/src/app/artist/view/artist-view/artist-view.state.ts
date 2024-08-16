@@ -11,6 +11,7 @@ import { ImgSize, ImgUtil } from "../../../global/utils/img.util";
 import { DialogService } from "../../../global/nav/dialog.service";
 import { Images } from "../../model/artist-form";
 import { ArtistMedia } from "../../artist-medias/artist-medias.service";
+import { NavService } from "../../../global/nav/nav.service";
 
 export interface ArtistViewState {
     artist?: ArtistViewDto
@@ -244,7 +245,7 @@ export class ArtistViewEffect {
         private readonly artistService: ArtistService,
         private readonly dialog: DialogService,
         private readonly fireImgStorageService: FireImgStorageService,
-
+        private nav: NavService,
     ){}
 
     initializedArtist$ = createEffect(() => this.actions$.pipe(
@@ -258,7 +259,12 @@ export class ArtistViewEffect {
     saveChanges$ = createEffect(() => this.actions$.pipe(
         ofType(saveChanges),
         switchMap(() => this.uploadImagesIfNeeded$()),
-        switchMap(artist => this.artistService.updateArtistView$(artist).pipe(
+        switchMap(state => this.artistService.updateArtistView$(state.artist!).pipe(
+            tap(newArtist => {
+                if (state.original?.name !== newArtist.name) {
+                    this.nav.replaceUrl(`/artist/${newArtist.name}`)
+                }
+            }),
             map(artist => artistSaved(artist)),
             catchError((error) => {
                 this.dialog.errorPopup(error)
@@ -268,7 +274,7 @@ export class ArtistViewEffect {
         )),
     ))
 
-    private uploadImagesIfNeeded$(): Observable<ArtistViewDto> {
+    private uploadImagesIfNeeded$(): Observable<ArtistViewState> {
         return this.store.select(selectArtistView).pipe(
             take(1),
             switchMap(state => {
@@ -292,13 +298,14 @@ export class ArtistViewEffect {
                         map(imgSets => {
                             if (imgSets?.length) {
                                 const images = ImgUtil.prepareImages(imgSets)
-                                return this.setImages(images, artist)
+                                state.artist = this.setImages(images, artist)
+                                return state
                             }
-                            return artist
+                            return state
                         })
                     )
                 }
-                return of(artist)
+                return of(state)
             })
         )
     }
