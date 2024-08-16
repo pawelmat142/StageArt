@@ -1,7 +1,9 @@
 # open bash shell here
 # ./local-deploy.sh
 
-ip="194.163.147.10"
+ip="77.237.244.101"
+
+echo 'start deploy'
 
 rm -rf services/dist
 echo 'dist cleaned up'
@@ -22,27 +24,30 @@ cd ..
 
 cp -r services/.env services/dist
 cp -r services/package.json services/dist
+cp -r production/.env services/dist
 echo 'dist preparation finished'
 
 
 ssh root@$ip "
-    rm -rf ../../app/book-agency
+    rm -rf ../app/book
     exit
 "
 echo 'server dist cleaned up'
 
-scp -r services/dist root@$ip:/../../app/book-agency
+scp -r services/dist root@$ip:/../app/book
 echo 'dist copy finished'
 
 echo 'installing dependencies...'
+
 ssh root@$ip "
-    cd ../../app/book-agency
+    cd ../app/book
     npm i
+    npm install @nestjs/core @nestjs/common @nestjs/platform-express
     pm2 start book-agency.js
     exit
 "
 echo 'READY'
 
 
-# go 194.163.147.10/8100
-# 194.163.147.10/8100/api 
+# go 77.237.244.101/8100
+# 77.237.244.101/8100/api 

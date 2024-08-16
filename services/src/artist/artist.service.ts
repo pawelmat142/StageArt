@@ -65,7 +65,15 @@ export class ArtistService {
     }
 
     public async updateArtistView(artist: ArtistViewDto, profile: JwtPayload) {
-        const artistBefore = await this.artistModel.findOne({ signature: artist.signature})
+        const checkName = await this.artistModel.findOne({ $and: [
+            { name: artist.name },
+            { signature: { $ne: artist.signature } }
+        ]}).select({ signature: true })
+        if (checkName) {
+            throw new IllegalStateException('Artist name already in use')
+        }
+        
+        const artistBefore = await this.artistModel.findOne({ signature: artist.signature })
         if (!artistBefore) {
             throw new NotFoundException()
         }
