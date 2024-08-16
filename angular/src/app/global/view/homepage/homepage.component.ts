@@ -5,6 +5,7 @@ import { ArtistsSectionComponent } from './artists-section/artists-section.compo
 import { HeaderComponent } from '../../components/header/header.component';
 import { MenuButtonComponent } from '../../components/menu-button/menu-button.component';
 import { DESKTOP } from '../../services/device';
+import { FeedbackComponent } from './feedback/feedback.component';
 
 @Component({
   selector: 'app-homepage',
@@ -15,6 +16,7 @@ import { DESKTOP } from '../../services/device';
     MenuButtonComponent,
     HeaderComponent,
     ArtistsSectionComponent,
+    FeedbackComponent,
   ],
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.scss',

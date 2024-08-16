@@ -12,6 +12,7 @@ import { FormModule } from './form/form.module';
 import { ProfileModule } from './profile/profile.module';
 import { TelegramModule } from './telegram/telegram.module';
 import { BookingModule } from './booking/booking.module';
+import { FeedbackModule } from './feedback/feedback.module';
 
 @Module({
   imports: [
@@ -32,6 +33,8 @@ import { BookingModule } from './booking/booking.module';
     TelegramModule,
 
     BookingModule,
+
+    FeedbackModule,
   ],
   controllers: [AppController],
   providers: [AppService]

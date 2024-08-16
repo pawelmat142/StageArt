@@ -97,6 +97,9 @@ $border-shadow: 0 3px 5px $red;
     display: flex;
     align-items: center;
     justify-content: center;
+    &.right {
+        justify-content: flex-end;
+    }
 }
 
 .flex-center {

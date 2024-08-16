@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, SimpleChanges, ViewChild, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-textarea-element',
@@ -29,6 +29,14 @@ export class TextareaElementComponent {
   _onInput($event: Event) {
     this.onInput.emit($event)
     this.resize()
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['value']) {
+      setTimeout(() => {
+        this.resize()
+      }, 100)
+    }
   }
 
   private resize() {
