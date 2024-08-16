@@ -3,8 +3,9 @@ import { BtnComponent } from '../../../global/controls/btn/btn.component';
 import { BookingsComponent } from '../../../booking/view/bookings/bookings.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { HeaderComponent } from '../../../global/components/header/header.component';
+import { InitialInfoComponent } from '../../../artist/view/initial-info/initial-info.component';
 
-export type ProfileView  = 'NONE' | 'BOOKINGS'
+export type ProfileView  = 'NONE' | 'BOOKINGS' | 'ARTIST_INITIAL_INFO'
 
 @Component({
   selector: 'app-profile',
@@ -14,6 +15,7 @@ export type ProfileView  = 'NONE' | 'BOOKINGS'
     HeaderComponent,
     SidebarComponent,
     BookingsComponent,
+    InitialInfoComponent,
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
@@ -23,13 +25,10 @@ export class ProfileComponent {
 
   public static readonly path = 'profile'
 
-  constructor(
-  ) {}
-
   _profileView: ProfileView = 'NONE' 
 
   _setView(view: ProfileView) {
     this._profileView = view
   }
-
+  
 }

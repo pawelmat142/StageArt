@@ -1,6 +1,6 @@
 import * as decode from "jwt-decode";
 import moment from "moment";
-import { Profile } from "../../profile.state";
+import { Profile } from "../../profile.model";
 
 export interface JwtPayload extends Profile {
     exp: number

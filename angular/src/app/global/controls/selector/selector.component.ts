@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, forwardRef, HostListener, Input, Output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, forwardRef, HostListener, Input, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { ArtistMediaCode } from '../../../artist/artist-medias/artist-medias.service';
 import { AbstractControlComponent } from '../abstract-control/abstract-control.component';
@@ -60,6 +60,17 @@ export class SelectorComponent extends AbstractControlComponent<string> {
   _item: SelectorItem | null = null
 
   @Output() select = new EventEmitter<SelectorItem>()
+
+  @Input() selectCode?: string
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['selectCode']) {
+      const item = this.items.find(i => i.code === this.selectCode)
+      if (item) {
+        this._select(item)
+      }
+    }
+  }
 
   _select(item: SelectorItem) {
     this._item = item

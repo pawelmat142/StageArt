@@ -1,15 +1,15 @@
-import { Injectable, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
-import { ArtistForm } from './model/artist-form';
+import { BadRequestException, Injectable, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { Artist, ArtistStatus } from './model/artist.model';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Booking } from '../booking/model/booking.model';
 import { BookingFormProcessor } from '../booking/util/booking-form-processor';
 import { IllegalStateException } from '../global/exceptions/illegal-state.exception';
-import { Profile } from '../profile/model/profile.model';
 import { ArtistViewDto } from './model/artist-view.dto';
 import { JwtPayload } from '../profile/auth/jwt-strategy';
 import { ArtistUtil } from './artist.util';
+import { ArtistForm, FetchArtistQuery } from './artist.controller';
+import { ProfileService } from '../profile/profile.service';
 
 @Injectable()
 export class ArtistService {
@@ -18,41 +18,52 @@ export class ArtistService {
 
     constructor(
         @InjectModel(Artist.name) private artistModel: Model<Artist>,
+        private readonly profileService: ProfileService,
     ) {}
 
 
     // TODO status READY temporary here!
-    private readonly PUBLIC_VIEW_ARTIST_STATUSES: ArtistStatus[] = [ 'ACTIVE', 'READY' ]
+    private readonly PUBLIC_VIEW_ARTIST_STATUSES: ArtistStatus[] = [ 'ACTIVE', 'VIEW_READY' ]
 
+    public async createArtist(form: ArtistForm, profile: JwtPayload): Promise<ArtistViewDto> {
+        const checkName = await this.artistModel.findOne({ name: form.artistName })
+        if (checkName) {
+            throw new IllegalStateException(`Artist name taken`)
+        }
 
-    public async createPlainArtist(profile: Profile): Promise<Artist> {
-        const plainArtist = new this.artistModel({
-            signature: this.prepareArtistSignature(profile.name),
-            name: profile.name,
+        const newArtist = new this.artistModel({
+            signature: this.prepareArtistSignature(form.artistName),
+            name: form.artistName,
             status: 'CREATED',
             images: { bg: [], avatar: {} },
             created: new Date(),
             modified: new Date(),
+            managerUid: form.manager,
         })
-        await plainArtist.save()
-        this.logger.log(`Created artist from profile ${profile.uid}`)
-        return plainArtist
-    }
 
-    // deprecated
-    public async createArtist(artist: ArtistForm) {
-        const newArtist = new this.artistModel({
-            ...artist,
-            signature: this.prepareArtistSignature(artist.name)
-        })
+        const update = await this.profileService.updateArtistProfile(form, profile, newArtist.signature)
+        if (!update.modifiedCount) {
+            throw new IllegalStateException(`Artist profile update error, uid: ${profile.uid}`)
+        }
+
         newArtist.status = 'CREATED'
         const saved = await newArtist.save()
-        this.logger.warn(`Artist created, name: ${artist.name}, signature: ${artist.signature}`)
-        return saved
+        this.logger.warn(`Artist created, name: ${newArtist.name}, signature: ${newArtist.signature}`)
+        return newArtist
     }
 
-    public fetchArtist(name: string) {
-        return this.artistModel.findOne({ name })
+    public fetchArtist(query: FetchArtistQuery) {
+        if (query.name) {
+            return this.artistModel.findOne({ name: query.name })
+        } 
+        if (query.signature) {
+            return this.artistModel.findOne({ signature: query.signature })
+        }
+        throw new BadRequestException(`Name or signature required`)
+    }
+
+    public getArtist(signature: string) {
+        return this.artistModel.findOne({ signature })
     }
 
     public fetchArtists() {

@@ -18,7 +18,6 @@ import { AppJwtService } from './auth/app-jwt.service';
     }]),
 
     ConfigModule,
-    forwardRef(() => ArtistModule),
   ],
   providers: [
     ProfileService,

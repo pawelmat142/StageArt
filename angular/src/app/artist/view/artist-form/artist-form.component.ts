@@ -26,6 +26,7 @@ import { HeaderComponent } from '../../../global/components/header/header.compon
 import { InputComponent } from '../../../global/controls/input/input.component';
 import { TextareaElementComponent } from '../../../global/controls/textarea-element/textarea-element.component';
 import { TextareaComponent } from '../../../global/controls/textarea/textarea.component';
+import { FormVal } from '../../../global/utils/form-val';
 
 
 @Component({
@@ -63,15 +64,13 @@ export class ArtistFormComponent {
     private readonly store: Store,
   ) {}
 
-  private phoneNumberRegex = /^\+?(\d{1,4})?[-. ]?(\(?\d+\)?)?[-. ]?\d+[-. ]?\d+[-. ]?\d+$/;
-
   form = new FormGroup({
     name: new FormControl('', Validators.required),
     firstName: new FormControl(''),
     lastName: new FormControl(''),
     country: new FormControl('', [countryValidator(this.countriesService)]),
     email: new FormControl('', [Validators.required, Validators.email]),
-    phone: new FormControl('', [Validators.required, Validators.pattern(this.phoneNumberRegex)]),
+    phone: new FormControl('', [Validators.required, FormVal.phoneValidator]),
     medias: this.fb.array<FormGroup>([]),
 
     avatar: new FormControl<File | null>(null, Validators.required),
@@ -211,7 +210,7 @@ export class ArtistFormComponent {
       catchError(error => this.handleUploadImagesError(error)),
       filter(fireImgs => !!fireImgs),
       map(fireImgs => ImgUtil.prepareImages(fireImgs)),
-      concatMap(images => this.createArtist$(images)),
+      // concatMap(images => this.createArtist$(images)),
       catchError(error => this.handleCreateArtistError(error)),
     ).subscribe(artist => {
       if (artist) {
@@ -221,10 +220,10 @@ export class ArtistFormComponent {
     })
   }
 
-  private createArtist$(images: Images) {
-    this.artist = this.prepareArtistForm(images)
-    return this.artistService.createArtist$(this.artist)
-  }
+  // private createArtist$(images: Images) {
+    // this.artist = this.prepareArtistForm(images)
+    // return this.artistService.createArtist$(this.artist)
+  // }
 
   private prepareArtistForm(images: Images): ArtistForm  {
     return {

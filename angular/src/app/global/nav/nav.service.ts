@@ -55,10 +55,8 @@ export class NavService {
           label: 'Login',
           onclick: () => this.to(LoginComponent.path)
         }])
-        // this.home()
       }
     })
-    
   }
 
 

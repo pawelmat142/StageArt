@@ -137,6 +137,7 @@ export class LoginComponent {
         }
       },
       error: (error: any) => {
+        this.store.dispatch(logout())
         this.dialog.errorPopup(error.error.message)
       },
       complete: () => noop()

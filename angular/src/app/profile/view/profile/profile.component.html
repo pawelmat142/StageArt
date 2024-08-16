@@ -5,13 +5,14 @@
 <div class="profile-view-content">
 
     @switch (_profileView) {
+        
         @case ('BOOKINGS') {
-
             <app-bookings></app-bookings>
-
         }
 
+        @case ('ARTIST_INITIAL_INFO') {
+            <app-initial-info></app-initial-info>
+        }
     }
-
 
 </div>

@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable, tap } from "rxjs";
-import { Role } from "./profile.state";
 import { HttpService } from "../global/services/http.service";
+import { ProfileDto, Role } from "./profile.model";
 
 export interface LoginToken {
     token: string
@@ -45,6 +45,10 @@ export class ProfileService {
 
     loginByEmail$(loginForm: Partial<LoginForm>) {
         return this.http.post<{ token: string }>(`/profile/email/login`, loginForm)
+    }
+    
+    fetchManagers$(): Observable<ProfileDto[]> {
+        return this.http.get<ProfileDto[]>(`/profile/managers`)
     }
 
 }

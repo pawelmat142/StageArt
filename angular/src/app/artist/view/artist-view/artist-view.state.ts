@@ -1,11 +1,11 @@
 import { createAction, createReducer, createSelector, on, props, Store } from "@ngrx/store";
-import { ArtistViewDto } from "../../model/artist-view.dto";
+import { ArtistViewDto, FetchArtistQuery } from "../../model/artist-view.dto";
 import { AppState, selectArtistView } from "../../../app.state";
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { ArtistService } from "../../artist.service";
 import { catchError, forkJoin, map, Observable, of, switchMap, take, tap, withLatestFrom } from "rxjs";
-import { profileChange } from "../../../profile/profile.state";
+import { profile } from "../../../profile/profile.state";
 import { FireImgStorageService } from "../../../global/services/fire-img-storage.service";
 import { ImgSize, ImgUtil } from "../../../global/utils/img.util";
 import { DialogService } from "../../../global/nav/dialog.service";
@@ -18,7 +18,7 @@ export interface ArtistViewState {
     original?: ArtistViewDto
     loading: boolean
     editMode: boolean
-    editable: boolean
+    profileIsOwner: boolean
     tempAvatar?: File 
     tempBgImage?: File
 }
@@ -31,9 +31,9 @@ export const artistViewLoadingChange = createSelector(
     (state: ArtistViewState) => state.loading
 )
 
-export const editable = createSelector(
+export const profileIsOwner = createSelector(
     selectArtistView,
-    (state: ArtistViewState) => state.editable
+    (state: ArtistViewState) => state.profileIsOwner
 )
 
 export const editMode = createSelector(
@@ -80,13 +80,17 @@ export const artistMedias = createSelector(
 
 // ACTIONS
 
+export const initArtist = createAction("[ArtistViewState] init", props<FetchArtistQuery>())
+
 export const initializedArtist = createAction("[ArtistViewState] initialized", props<ArtistViewDto>())
 
-export const canEdit = createAction("[ArtistViewState] check if can edit", props<{ canEdit: boolean }>())
+export const isProfileOwner = createAction("[ArtistViewState] check if can edit", props<{ profileIsOwner: boolean }>())
 
 export const startEditArtist = createAction("[ArtistViewState] start edit")
 
 export const load = createAction("[ArtistViewState] loading")
+
+export const stopLoading = createAction("[ArtistViewState] stop loading")
 
 export const selectAvatar = createAction("[ArtistViewState] select avatar", props<{ file: File }>())
 
@@ -113,11 +117,26 @@ export const artistSaved = createAction("[ArtistViewState] saved", props<ArtistV
 const initialState: ArtistViewState = {
     loading: false,
     editMode: false,
-    editable: false,
+    profileIsOwner: false,
 }
 
 export const artistViewReducer = createReducer(
     initialState,
+
+    on(initArtist, (state, query) => ({
+        ...state,
+        loading: true,
+    })),
+
+    on(load, (state) => ({
+        ...state,
+        loading: true,
+    })),
+
+    on(stopLoading, (state) => ({
+        ...state,
+        loading: false,
+    })),
 
     on(initializedArtist, (state, artist) => ({
         ...state,
@@ -126,9 +145,9 @@ export const artistViewReducer = createReducer(
         artist: artist
     })),
 
-    on(canEdit, (state, canEdit) => ({
+    on(isProfileOwner, (state, profileIsOwner) => ({
         ...state,
-        editable: canEdit.canEdit
+        profileIsOwner: profileIsOwner.profileIsOwner
     })),
 
     on(startEditArtist, (state) => ({
@@ -137,10 +156,6 @@ export const artistViewReducer = createReducer(
         original:  state.artist,
     })),
 
-    on(load, (state) => ({
-        ...state,
-        loading: true,
-    })),
 
     on(selectAvatar, (state, avatar) => ({
         ...state,
@@ -248,11 +263,26 @@ export class ArtistViewEffect {
         private nav: NavService,
     ){}
 
+    initArtist$ = createEffect(() => this.actions$.pipe(
+        ofType(initArtist),
+        withLatestFrom(this.store.select(artist).pipe(take(1))),
+        switchMap(([query, artist]) => {
+            if (artist && artist?.name === query.name) {
+                console.log('artist already initialized')
+                return of(stopLoading())
+            } else {
+                return this.artistService.fetchArtist$(query).pipe(
+                    map(artist => initializedArtist(artist))
+                )
+            }
+        }),
+    ))
+
     initializedArtist$ = createEffect(() => this.actions$.pipe(
         ofType(initializedArtist),
-        withLatestFrom(this.store.select(profileChange)),
+        withLatestFrom(this.store.select(profile)),
         map(([artist, profile]) => {
-            return canEdit({ canEdit: artist.signature === profile?.artistSignature })
+            return isProfileOwner({ profileIsOwner: artist.signature === profile?.artistSignature })
         })
     ))
 

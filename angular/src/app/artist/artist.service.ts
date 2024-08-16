@@ -1,12 +1,13 @@
 import { Injectable } from "@angular/core";
-import { ArtistViewDto } from "./model/artist-view.dto";
+import { ArtistViewDto, FetchArtistQuery } from "./model/artist-view.dto";
 import { Store } from "@ngrx/store";
 import { Observable, take } from "rxjs";
 import { selectArtists } from "./artists.state";
 import { ArtistForm } from "./model/artist-form";
 import { HttpService } from "../global/services/http.service";
 import { AppState } from "../app.state";
-  
+import { HttpParams } from "@angular/common/http";
+
 @Injectable({
     providedIn: 'root'
 })
@@ -17,12 +18,22 @@ export class ArtistService {
         private store: Store<AppState>,
     ) {}
 
-    public createArtist$(artist: ArtistForm) {
-        return this.http.post<ArtistForm>('/artist', artist)
+    public fetchArtist$(query: FetchArtistQuery) {
+        let url = `/artist`
+        if (query.signature) {
+           url = `${url}?signature=${query.signature}`
+        } else if (query.name) {
+            url = `${url}?name=${query.name}`
+        }
+        return this.http.get<ArtistViewDto>(url)
     }
 
-    public fetchArtist$(artistName: string) {
-        return this.http.get<ArtistViewDto>(`/artist/${artistName}`)
+    public createArtist$(form: any) {
+        return this.http.post<ArtistViewDto>(`/artist/create`, form)
+    }
+
+    public getArtist$(signature: string) {
+        return this.http.get<ArtistViewDto>(`/artist/get/${signature}`)
     }
     
     public findName$(signature: string) {

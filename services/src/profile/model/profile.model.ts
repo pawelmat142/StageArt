@@ -39,6 +39,12 @@ export class Profile {
     passwordHash?: string
 
 
+    @Prop()
+    firstName?: string
+
+    @Prop()
+    lastName?: string
+
     
     @Prop()
     created: Date

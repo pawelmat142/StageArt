@@ -3,8 +3,8 @@ import { LoginToken, ProfileTelegramService } from './profile-telegram.service';
 import { LoginForm, ProfileEmailService } from './profile-email.service';
 import { ProfileService } from './profile.service';
 import { JwtGuard } from './auth/jwt.guard';
-import { GetProfile } from './auth/profile-path-param-getter';
-import { JwtPayload } from './auth/jwt-strategy';
+import { Serialize } from '../global/interceptors/serialize.interceptor';
+import { ProfileDto } from './model/profile.dto';
 
 @Controller('api/profile')
 export class ProfileController {
@@ -43,5 +43,11 @@ export class ProfileController {
         return this.profileEmailService.loginByEmail(body)
     }
 
+    @Get('managers')
+    @UseGuards(JwtGuard)
+    @Serialize(ProfileDto)
+    fetchManagers() {
+        return this.profileService.fetchManagers()
+    }
 
 }

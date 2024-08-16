@@ -1,7 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ArtistService } from '../../../artist/artist.service';
-import { shareReplay, take, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { BookFormComponent } from '../../../booking/view/book-form/book-form.component';
 import { BtnComponent } from '../../../global/controls/btn/btn.component';
@@ -14,7 +13,7 @@ import { AppState } from '../../../app.state';
 import { Store } from '@ngrx/store';
 import { IconButtonComponent } from "../../../global/components/icon-button/icon-button.component";
 import { AvatarComponent } from './avatar/avatar.component';
-import { artist, cancelArtistChanges, editable, editMode, initializedArtist, saveChanges, startEditArtist } from './artist-view.state';
+import { artist, cancelArtistChanges, editMode, initArtist, profileIsOwner, saveChanges, startEditArtist } from './artist-view.state';
 import { BackgroundComponent } from './background/background.component';
 import { BackgroundEditorComponent } from './background-editor/background-editor.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
@@ -60,7 +59,7 @@ export class ArtistViewComponent {
   ) {}
 
 
-  _editable$ = this.store.select(editable)
+  _editable$ = this.store.select(profileIsOwner)
 
   _editMode$ = this.store.select(editMode)
 
@@ -71,18 +70,8 @@ export class ArtistViewComponent {
     if (!this.artistName) {
       this.nav.to(NotFoundPageComponent.path)
     } else {
-      this.fetchArtist()
+      this.store.dispatch(initArtist({ name: this.artistName }))
     }
-  }
-
-  private fetchArtist() {
-    this._artist$ = this.artistService.fetchArtist$(this.artistName!).pipe(
-      take(1),
-      shareReplay(),
-      tap(artist => {
-        this.store.dispatch(initializedArtist(artist))
-      })
-    )
   }
 
   _onBookNow() {

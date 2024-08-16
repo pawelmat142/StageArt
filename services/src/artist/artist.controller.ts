@@ -1,12 +1,24 @@
-import { Body, Controller, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { ArtistService } from './artist.service';
-import { ArtistForm } from './model/artist-form';
 import { Serialize } from '../global/interceptors/serialize.interceptor';
 import { ArtistViewDto } from './model/artist-view.dto';
 import { GetProfile } from '../profile/auth/profile-path-param-getter';
-import { profile } from 'console';
 import { JwtPayload } from '../profile/auth/jwt-strategy';
 import { JwtGuard } from '../profile/auth/jwt.guard';
+
+export interface FetchArtistQuery {
+    name?: string
+    signature?: string
+}
+
+export interface ArtistForm {
+    manager: string,
+    artistName: string
+    firstName: string
+    lastName: string
+    phoneNumber: string
+    email: string
+}
 
 @Controller('api')
 export class ArtistController {
@@ -15,17 +27,23 @@ export class ArtistController {
         private readonly artistService: ArtistService,
     ) {}
 
-    // deprecated
-    @Post('artist')
+    @Post('artist/create')
     @Serialize(ArtistViewDto)
-    createArtist(@Body() artist: ArtistForm) {
-        return this.artistService.createArtist(artist)
+    @UseGuards(JwtGuard)
+    createArtist(@Body() artist: ArtistForm, @GetProfile() profile: JwtPayload) {
+        return this.artistService.createArtist(artist, profile)
     }
 
-    @Get('artist/:name')
+    @Get('artist')
     @Serialize(ArtistViewDto)
-    fetchArtist(@Param('name') name: string) {
-        return this.artistService.fetchArtist(name)
+    fetchArtist(@Query() query: FetchArtistQuery) {
+        return this.artistService.fetchArtist(query)
+    }
+
+    @Get('artist/get/:signature')
+    @Serialize(ArtistViewDto)
+    getArtist(@Param('signature') signature: string) {
+        return this.artistService.getArtist(signature)
     }
     
     @Get('artists')
@@ -34,6 +52,7 @@ export class ArtistController {
         return this.artistService.fetchArtists()
     }
     
+    // deprecated
     @Get('artist/find-name/:signature')
     findName(@Param('signature') signature: string) {
         return this.artistService.findName(signature)

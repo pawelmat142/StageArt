@@ -4,18 +4,7 @@ import { Actions, createEffect, ofType } from "@ngrx/effects"
 import { tap } from "rxjs"
 import { Token } from "./auth/view/token"
 import { selectProfileState, AppState } from "../app.state"
-
-export type Role = 'MANAGER' | 'PROMOTER' | 'ARTIST' | 'ADMIN'
-
-export interface Profile { // JwtPayload
-    uid: string
-    name: string
-    telegramChannelId: string
-    role: Role
-    exp: number
-    iat: number
-    artistSignature?: string
-}
+import { Profile } from "./profile.model"
 
 export interface ProfileState {
     loading: boolean
@@ -31,7 +20,7 @@ export const profileLoadingChange = createSelector(
     (state: ProfileState) => state.loading
 )
 
-export const profileChange = createSelector(
+export const profile = createSelector(
     selectProfileState,
     (state: ProfileState) => state.profile
 )
@@ -54,6 +43,8 @@ export const login = createAction("[PROFILE] login")
 export const loggedIn = createAction("[PROFILE] logged in", props<Profile>())
 
 export const logout = createAction("[PROFILE] logout")
+
+export const setArtistSignature = createAction("[PROFILE] set artist signature", props<{ signature: string}>())
 
 
 const initialState: ProfileState = {
@@ -82,6 +73,14 @@ export const profileReducer = createReducer(
         loggedIn: false,
         loading: false,
         profile: null,
+    })),
+
+    on(setArtistSignature, (state, signature) => ({
+        ...state,
+        profile: {
+            ...state.profile!,
+            artistSignature: signature.signature
+        }
     }))
 
 )

@@ -5,6 +5,7 @@ import { Model } from 'mongoose';
 import { IllegalStateException } from '../global/exceptions/illegal-state.exception';
 import { JwtPayload } from './auth/jwt-strategy';
 import { ArtistService } from '../artist/artist.service';
+import { ArtistForm } from '../artist/artist.controller';
 
 export interface Credentials {
     email: string
@@ -18,9 +19,6 @@ export class ProfileService {
 
     constructor(
         @InjectModel(Profile.name) private profileModel: Model<Profile>,
-        
-        @Inject(forwardRef(() => ArtistService))
-        private readonly artistService: ArtistService
     ) {}
 
     public findById(uid: string) {
@@ -57,14 +55,23 @@ export class ProfileService {
             modified: new Date(),
         })
 
-        if (profile.role === 'ARTIST') {
-            const artist = await this.artistService.createPlainArtist(user)
-            user.artistSignature = artist.signature
-        }
-
         await user.save()
         this.logger.log(`Created user ${user.name}, uid: ${user.uid}`)
     }
 
+    fetchManagers() {
+        return this.profileModel.find({ role: 'MANAGER' })
+    }
+
+    async updateArtistProfile(form: ArtistForm, _profile: JwtPayload, artistSignature: string) {
+        const update = await this.profileModel.updateOne({ uid: _profile.uid }, { $set: {
+            firstName: form.firstName,
+            lastName: form.lastName,
+            email: form.email,
+            phoneNumber: form.phoneNumber,
+            artistSignature: artistSignature
+        }})
+        return update
+    }
 
 }
