@@ -64,6 +64,11 @@ export class ArtistController {
         return this.artistService.updateArtistView(artist, profile)
     }
 
+    @Get('list-music-styles')
+    listMusicStyles() {
+        return this.artistService.listMusicStyles()
+    }
+
 }
 
 

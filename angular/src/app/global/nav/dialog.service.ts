@@ -23,7 +23,7 @@ export class DialogService {
       }
     
     public popup(data: DialogData) {
-    return this.dialog.open(PopupComponent, { data })
+        return this.dialog.open(PopupComponent, { data })
     }
       
     public async errorPopup(msg: string, content: string[] = []) {

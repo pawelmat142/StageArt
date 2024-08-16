@@ -1,5 +1,5 @@
 import { createAction, createReducer, createSelector, on, props, Store } from "@ngrx/store";
-import { ArtistViewDto, FetchArtistQuery } from "../../model/artist-view.dto";
+import { ArtistViewDto, FetchArtistQuery, MusicStyle } from "../../model/artist-view.dto";
 import { AppState, selectArtistView } from "../../../app.state";
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
@@ -103,6 +103,8 @@ export const updateName = createAction("[ArtistViewState] update name", props<{ 
 export const updateCountry = createAction("[ArtistViewState] update country", props<{ value: string }>())
 
 export const updateMedias = createAction("[ArtistViewState] update medias", props<{ value: ArtistMedia[] }>())
+
+export const updateStyle = createAction("[ArtistViewState] update style", props<{ value: MusicStyle[] }>())
 
 
 export const uploadArtistChanges = createAction("[ArtistViewState] upload changes")
@@ -225,6 +227,20 @@ export const artistViewReducer = createReducer(
         }
     }),
 
+    on(updateStyle, (state, style) => {
+        if (state.artist) {
+            return {
+                ...state,
+                artist: {
+                    ...state.artist,
+                    style: style.value
+                }
+            }
+        } else {
+            return state
+        }
+    }),
+
     on(cancelArtistChanges, (state) => ({
         ...state,
         editMode: false,
@@ -268,7 +284,6 @@ export class ArtistViewEffect {
         withLatestFrom(this.store.select(artist).pipe(take(1))),
         switchMap(([query, artist]) => {
             if (artist && artist?.name === query.name) {
-                console.log('artist already initialized')
                 return of(stopLoading())
             } else {
                 return this.artistService.fetchArtist$(query).pipe(

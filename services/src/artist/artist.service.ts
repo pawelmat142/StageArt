@@ -127,7 +127,7 @@ export class ArtistService {
         this.logger.log(`Found artist signatures: ${artistSignatures.join(', ')}`)
         
         const artists = await this.artistModel.find({ signature: { $in: artistSignatures }}, { 
-            signature: true, bookings: true
+            signature: true, bookings: true, managerUid: true
         })
         
         if (!artists?.length) {
@@ -136,6 +136,9 @@ export class ArtistService {
         
         booking.artistSignatures = artistSignatures
         booking.artistNames = artists.map(a => a.name)
+
+        // TODO!
+        // booking.managerUid = artist.managerUid
 
         const artistBooking = {
             ...booking
@@ -157,4 +160,17 @@ export class ArtistService {
         })
         this.logger.log(`Processed booking ${booking.formId} for artist ${artist.signature}`)
     }
+
+    public async listMusicStyles() {
+        const results = await this.artistModel.aggregate([
+            { $unwind: '$style' },
+            { $group: {
+                _id: null,
+                names: { $addToSet: '$style.name' }
+            } }, 
+            { $project: { _id: 0, names: 1 } }
+        ]);
+        return { styles : results.length > 0 ? results[0].names : [] }
+    }
+        
 }

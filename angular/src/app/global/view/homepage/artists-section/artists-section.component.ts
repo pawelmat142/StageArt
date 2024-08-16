@@ -37,7 +37,6 @@ export class ArtistsSectionComponent {
     private store: Store<AppState>,
   ) {
     this.artists$ = this.store.select(selectArtists).pipe(
-      tap(console.log)
     )
   }
   

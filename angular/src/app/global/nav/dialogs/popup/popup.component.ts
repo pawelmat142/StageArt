@@ -5,6 +5,8 @@ import { BtnComponent } from '../../../controls/btn/btn.component';
 import { FormControl, FormGroup, ReactiveFormsModule, ValidatorFn } from '@angular/forms';
 import { InputComponent } from '../../../controls/input/input.component';
 import { FormUtil } from '../../../utils/form.util';
+import { SelectorItem, SelectorComponent } from '../../../controls/selector/selector.component';
+import { Observable } from 'rxjs';
 
 export interface DialogData {
   header: string
@@ -16,6 +18,8 @@ export interface DialogData {
   inputValidators?: ValidatorFn[]
   inputClass?: string
   inputValue?: string
+  select?: string
+  items?: Observable<SelectorItem[]>
 }
 
 export interface DialogBtn {
@@ -32,6 +36,7 @@ export interface DialogBtn {
     BtnComponent,
     ReactiveFormsModule,
     InputComponent,
+    SelectorComponent
 ],
   templateUrl: './popup.component.html',
   styleUrl: './popup.component.scss',
@@ -57,7 +62,7 @@ export class PopupComponent {
       }
     })
 
-    if (this.data.input) {
+    if (this.data.input || this.data.select) {
       const validators = this.data.inputValidators
       this.form = new FormGroup({
         control: new FormControl(this.data.inputValue || '', validators)

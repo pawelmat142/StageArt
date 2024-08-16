@@ -41,3 +41,7 @@
 app-img-cached {
     display: flex;
 }
+
+.mat-mdc-dialog-container .mdc-dialog__surface {
+    overflow: unset;
+}

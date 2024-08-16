@@ -31,6 +31,12 @@ export type DiscountDocument = HydratedDocument<Artist>
 
 export type ArtistStatus = 'CREATED' | 'READY' | 'ACTIVE'
 
+export interface MusicStyle {
+    order: number
+    id: string
+    name: string
+}
+
 @Schema()
 export class Artist {
 
@@ -40,7 +46,7 @@ export class Artist {
     @Prop({ required: true })
     name: string
     
-    @Prop()
+    @Prop({ required: true })
     managerUid?: string
 
     @Prop({ required: true })
@@ -69,6 +75,12 @@ export class Artist {
 
     @Prop()
     bio: string
+
+    @Prop()
+    style: MusicStyle[]
+
+    @Prop()
+    managmentNotes: string
     
     @Prop()
     bookings?: Partial<Booking>[]

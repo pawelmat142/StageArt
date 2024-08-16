@@ -15,11 +15,22 @@
     @if (form) {
         <form [formGroup]="form" (ngSubmit)="_submit()">
             <div class="control-margin" [ngClass]="data.inputClass">
-                <app-input
-                    formControlName="control"
-                    [required]="true"
-                    [label]="data.input || 'input'" 
-                ></app-input>
+                @if (data.input) {
+                    <app-input
+                        formControlName="control"
+                        [required]="true"
+                        [label]="data.input || 'input'" 
+                    ></app-input>
+                } 
+                @if (data.select) {
+                    <app-selector
+                        formControlName="control"
+                        [required]="true"
+                        [label]="data.select || 'select'"
+                        [items]="(data.items | async) || []"
+                        [allowWriteItem]="true"
+                    ></app-selector>
+                }
             </div>
         </form>
     }

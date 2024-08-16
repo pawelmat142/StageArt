@@ -28,9 +28,7 @@ export class BackgroundEditorComponent {
 
   @ViewChild('input') input?: ElementRef<HTMLInputElement>
 
-  // TODO mock
-  // _editBackground = false
-  _editBackground = true
+  _editBackground = false
   
   _toggleEditBackground() {
     this._editBackground = !this._editBackground

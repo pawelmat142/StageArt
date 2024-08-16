@@ -20,6 +20,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import { BioComponent } from './bio/bio.component';
 import { NameComponent } from './name/name.component';
 import { MediasComponent } from './medias/medias.component';
+import { StyleComponent } from './style/style.component';
 
 @Component({
   selector: 'app-artist-view',
@@ -37,7 +38,8 @@ import { MediasComponent } from './medias/medias.component';
     MatTooltipModule,
     BioComponent,
     NameComponent,
-    MediasComponent
+    MediasComponent,
+    StyleComponent,
 ],
   templateUrl: './artist-view.component.html',
   styleUrl: './artist-view.component.scss',

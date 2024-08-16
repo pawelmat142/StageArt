@@ -3,10 +3,8 @@ import { ArtistViewDto, FetchArtistQuery } from "./model/artist-view.dto";
 import { Store } from "@ngrx/store";
 import { Observable, take } from "rxjs";
 import { selectArtists } from "./artists.state";
-import { ArtistForm } from "./model/artist-form";
 import { HttpService } from "../global/services/http.service";
 import { AppState } from "../app.state";
-import { HttpParams } from "@angular/common/http";
 
 @Injectable({
     providedIn: 'root'
@@ -53,6 +51,10 @@ export class ArtistService {
         let result: ArtistViewDto[] = []
         this.store.select(selectArtists).pipe(take(1)).subscribe(x => result = x)
         return result
+    }
+
+    public listMusicStyles(): Observable<{ styles: string[] }> {
+        return this.http.get<{ styles: string[] }>(`/list-music-styles`).pipe()
     }
 
 }

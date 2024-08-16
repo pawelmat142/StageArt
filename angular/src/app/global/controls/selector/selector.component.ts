@@ -6,7 +6,6 @@ import { AbstractControlComponent } from '../abstract-control/abstract-control.c
 import { IconButtonComponent } from '../../components/icon-button/icon-button.component';
 import { SelectorItemsComponent } from './selector-items/selector-items.component';
 
-
 export interface SelectorItem {
   code: string
   name: string
@@ -50,12 +49,16 @@ export class SelectorComponent extends AbstractControlComponent<string> {
     const input = $event.target as HTMLInputElement;
     this.value = input.value
     this.filterItems(input.value)
+    if (this.allowWriteItem) {
+      this.updateValue(this.value)
+    }
   }
 
   @Input() items!: SelectorItem[]
   _items: SelectorItem[] = []
   @Input() itemsLength = 10
   @Input() chachedImg = false
+  @Input() allowWriteItem = false
 
   _item: SelectorItem | null = null
 
@@ -69,6 +72,9 @@ export class SelectorComponent extends AbstractControlComponent<string> {
       if (item) {
         this._select(item)
       }
+    }
+    if (changes['items']) {
+      this.filterItems()
     }
   }
 

@@ -1,0 +1,31 @@
+<div class="tile style-tile">
+
+    @if (_editMode$ | async) {
+        <div class="edit-button" (click)="_edit()">
+            <span class="dark">add style</span>
+        </div>
+
+        @if (_length) {
+            <div class="edit-button remove" (click)="_remove()">
+                <span class="dark">remove</span>
+            </div>
+        }
+    }
+        
+
+    <p class="fs2 baron red">Style</p>
+
+    <div class="tile-content">
+        @for (style of _styles$ | async; track style.order; let last = $last) {
+
+            <span class="style-item" >
+                <span [innerHTML]="style.name"></span>
+            </span>
+            @if (!last && _length) {
+                <span>, </span>
+            }
+
+        }
+    </div>
+
+</div>

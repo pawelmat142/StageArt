@@ -7,7 +7,6 @@ import { loggedInChange } from '../../profile/profile.state';
 import { LoginComponent } from '../../profile/auth/view/login/login.component';
 import { ProfileComponent } from '../../profile/view/profile/profile.component';
 import { BookFormComponent } from '../../booking/view/book-form/book-form.component';
-import { ArtistFormComponent } from '../../artist/view/artist-form/artist-form.component';
 import { NotFoundPageComponent } from '../view/error/not-found-page/not-found-page.component';
 import { ArtistsViewComponent } from '../../artist/view/artists-view/artists-view.component';
 import { AppState } from '../../app.state';
@@ -32,9 +31,6 @@ export class NavService {
   }, {
     label: "Book now",
     onclick: () => this.to(BookFormComponent.path)
-  }, {
-    label: "ADD",
-    onclick: () => this.to(ArtistFormComponent.path)
   }]
 
   constructor(

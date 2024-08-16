@@ -1,0 +1,20 @@
+@import 'variables';
+
+.style-tile {
+    position: relative;
+
+    .edit-button {
+        top: 12px;
+        right: 30px;
+
+        &.remove {
+            top: unset;
+            bottom: 30px;
+        }
+    }
+
+    .style-item {
+        color: $white;
+        position: relative;
+    }
+}
