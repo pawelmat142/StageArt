@@ -7,9 +7,9 @@ import { Profile } from "../model/profile.model";
 @Injectable()
 export class AppJwtService extends JwtService {
     
-    public signIn(user: Profile): string {
+    public signIn(profile: Profile): string {
         const secret = process.env.JWT_SECRET
-        const payload = this.createPayload(user)
+        const payload = this.createPayload(profile)
         return super.sign(payload, { secret })
     }
 

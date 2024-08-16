@@ -1,7 +1,7 @@
 import { createAction, createReducer, createSelector, on, props, Store } from "@ngrx/store"
 import { Injectable } from "@angular/core"
 import { Actions, createEffect, ofType } from "@ngrx/effects"
-import { tap } from "rxjs"
+import { tap, withLatestFrom } from "rxjs"
 import { Token } from "./auth/view/token"
 import { selectProfileState, AppState } from "../app.state"
 import { Profile } from "./profile.model"
@@ -44,8 +44,6 @@ export const loggedIn = createAction("[PROFILE] logged in", props<Profile>())
 
 export const logout = createAction("[PROFILE] logout")
 
-export const setArtistSignature = createAction("[PROFILE] set artist signature", props<{ signature: string}>())
-
 
 const initialState: ProfileState = {
     loading: false,
@@ -74,14 +72,6 @@ export const profileReducer = createReducer(
         loading: false,
         profile: null,
     })),
-
-    on(setArtistSignature, (state, signature) => ({
-        ...state,
-        profile: {
-            ...state.profile!,
-            artistSignature: signature.signature
-        }
-    }))
 
 )
 

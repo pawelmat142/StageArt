@@ -5,6 +5,8 @@ import { ProfileService } from './profile.service';
 import { JwtGuard } from './auth/jwt.guard';
 import { Serialize } from '../global/interceptors/serialize.interceptor';
 import { ProfileDto } from './model/profile.dto';
+import { GetProfile } from './auth/profile-path-param-getter';
+import { JwtPayload } from './auth/jwt-strategy';
 
 @Controller('api/profile')
 export class ProfileController {
@@ -14,6 +16,21 @@ export class ProfileController {
         private readonly profileEmailService: ProfileEmailService,
         private readonly profileService: ProfileService,
     ) {}
+
+    @Get('refresh-token')
+    @UseGuards(JwtGuard)
+    refreshToken(@GetProfile() profile: JwtPayload) {
+        return this.profileService.refreshToken(profile)
+    }
+
+    @Get('managers')
+    @UseGuards(JwtGuard)
+    @Serialize(ProfileDto)
+    fetchManagers() {
+        return this.profileService.fetchManagers()
+    }
+
+
 
     // TELEGRAM
     @Get('telegram')
@@ -43,11 +60,6 @@ export class ProfileController {
         return this.profileEmailService.loginByEmail(body)
     }
 
-    @Get('managers')
-    @UseGuards(JwtGuard)
-    @Serialize(ProfileDto)
-    fetchManagers() {
-        return this.profileService.fetchManagers()
-    }
+
 
 }

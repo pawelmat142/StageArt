@@ -4,17 +4,18 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { InputComponent } from '../../../global/controls/input/input.component';
 import { SelectorComponent, SelectorItem } from '../../../global/controls/selector/selector.component';
 import { Store } from '@ngrx/store';
-import { AppState, selectProfileState } from '../../../app.state';
+import { AppState } from '../../../app.state';
 import { ProfileService } from '../../../profile/profile.service';
-import { map, Observable, shareReplay, take, tap } from 'rxjs';
+import { map, Observable, shareReplay, switchMap, take, tap } from 'rxjs';
 import { FormVal } from '../../../global/utils/form-val';
-import { profile, setArtistSignature } from '../../../profile/profile.state';
+import { loggedIn, profile } from '../../../profile/profile.state';
 import { ArtistService } from '../../artist.service';
 import { BtnComponent } from '../../../global/controls/btn/btn.component';
 import { FormUtil } from '../../../global/utils/form.util';
 import { CourtineService } from '../../../global/nav/courtine.service';
 import { DialogService } from '../../../global/nav/dialog.service';
 import { initializedArtist } from '../artist-view/artist-view.state';
+import { Token } from '../../../profile/auth/view/token';
 
 @Component({
   selector: 'app-initial-info',
@@ -81,14 +82,18 @@ export class InitialInfoComponent {
       FormUtil.markForm(this.form)
       return
     }
-
     this.courtine.startCourtine()
     this.artistService.createArtist$(this.form.value).pipe(
-      tap(console.log)
+      take(1),
+      tap(artist => this.store.dispatch(initializedArtist(artist))),
+      switchMap(artist => this.profileService.refreshToken$()),
     ).subscribe({
-      next: artist => {
-        this.courtine.stopCourtine()
-        this.store.dispatch(setArtistSignature({ signature: artist.signature }))
+      next: token => {
+        Token.set(token.token)
+        const profile = Token.payload
+        if (profile) {
+          this.store.dispatch(loggedIn(profile))
+        }
       }, 
       error: error => {
         this.dialog.errorPopup(error.error.message)

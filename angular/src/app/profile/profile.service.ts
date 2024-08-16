@@ -50,5 +50,9 @@ export class ProfileService {
     fetchManagers$(): Observable<ProfileDto[]> {
         return this.http.get<ProfileDto[]>(`/profile/managers`)
     }
+    
+    refreshToken$(): Observable<{ token: string }> {
+        return this.http.get<{ token: string }>(`/profile/refresh-token`)
+    }
 
 }

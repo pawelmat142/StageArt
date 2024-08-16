@@ -6,6 +6,8 @@ import { IllegalStateException } from '../global/exceptions/illegal-state.except
 import { JwtPayload } from './auth/jwt-strategy';
 import { ArtistService } from '../artist/artist.service';
 import { ArtistForm } from '../artist/artist.controller';
+import { profile } from 'console';
+import { AppJwtService } from './auth/app-jwt.service';
 
 export interface Credentials {
     email: string
@@ -19,6 +21,7 @@ export class ProfileService {
 
     constructor(
         @InjectModel(Profile.name) private profileModel: Model<Profile>,
+        private readonly jwtService: AppJwtService,
     ) {}
 
     public findById(uid: string) {
@@ -61,6 +64,12 @@ export class ProfileService {
 
     fetchManagers() {
         return this.profileModel.find({ role: 'MANAGER' })
+    }
+
+    async refreshToken(_profile: JwtPayload) {
+        const profile = await this.profileModel.findOne({ uid: _profile.uid })
+        const token = this.jwtService.signIn(profile)
+        return { token: token }
     }
 
     async updateArtistProfile(form: ArtistForm, _profile: JwtPayload, artistSignature: string) {

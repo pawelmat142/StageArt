@@ -328,8 +328,10 @@ export class ArtistViewEffect {
                         map(imgSets => {
                             if (imgSets?.length) {
                                 const images = ImgUtil.prepareImages(imgSets)
-                                state.artist = this.setImages(images, artist)
-                                return state
+                                return {
+                                    ...state,
+                                    artist: this.setImages(images, artist)
+                                }
                             }
                             return state
                         })
