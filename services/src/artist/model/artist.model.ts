@@ -29,7 +29,7 @@ export interface Images {
 
 export type DiscountDocument = HydratedDocument<Artist>
 
-export type ArtistStatus = 'CREATED' | 'READY' | 'VIEW_READY' | 'ACTIVE'
+export type ArtistStatus = 'CREATED' | 'READY' | 'ACTIVE'
 
 @Schema()
 export class Artist {

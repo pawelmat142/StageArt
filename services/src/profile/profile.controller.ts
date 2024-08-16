@@ -7,6 +7,7 @@ import { Serialize } from '../global/interceptors/serialize.interceptor';
 import { ProfileDto } from './model/profile.dto';
 import { GetProfile } from './auth/profile-path-param-getter';
 import { JwtPayload } from './auth/jwt-strategy';
+import { Profile } from './model/profile.model';
 
 @Controller('api/profile')
 export class ProfileController {
@@ -16,6 +17,14 @@ export class ProfileController {
         private readonly profileEmailService: ProfileEmailService,
         private readonly profileService: ProfileService,
     ) {}
+
+
+    @Get('full')
+    @UseGuards(JwtGuard)
+    @Serialize(Profile)
+    fetchFullProfile(@GetProfile() payload: JwtPayload) {
+        return this.profileService.fetchFullProfile(payload)
+    }
 
     @Get('refresh-token')
     @UseGuards(JwtGuard)
@@ -59,7 +68,6 @@ export class ProfileController {
     loginByEmail(@Body() body: Partial<LoginForm>) {
         return this.profileEmailService.loginByEmail(body)
     }
-
 
 
 }

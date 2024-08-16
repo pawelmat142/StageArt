@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable, tap } from "rxjs";
 import { HttpService } from "../global/services/http.service";
-import { ProfileDto, Role } from "./profile.model";
+import { Profile, ProfileDto, Role } from "./profile.model";
 
 export interface LoginToken {
     token: string
@@ -24,6 +24,19 @@ export class ProfileService {
         private readonly http: HttpService,
     ) {}
 
+    
+    fetchFullProfile$(): Observable<Profile> {
+        return this.http.get<Profile>(`/profile/full`)
+    }
+    
+    refreshToken$(): Observable<{ token: string }> {
+        return this.http.get<{ token: string }>(`/profile/refresh-token`)
+    }
+    
+    fetchManagers$(): Observable<ProfileDto[]> {
+        return this.http.get<ProfileDto[]>(`/profile/managers`)
+    }
+
 
     fetchTelegramBotHref$() {
         return this.http.get<{ url: string }>(`/profile/telegram`)
@@ -35,7 +48,6 @@ export class ProfileService {
 
     loginByPin$(loginToken: LoginToken): Observable<{ token: string }> {
         return this.http.post<{ token: string }>(`/profile/login/pin`, loginToken).pipe(
-            tap(console.log),
         )
     }
 
@@ -45,14 +57,6 @@ export class ProfileService {
 
     loginByEmail$(loginForm: Partial<LoginForm>) {
         return this.http.post<{ token: string }>(`/profile/email/login`, loginForm)
-    }
-    
-    fetchManagers$(): Observable<ProfileDto[]> {
-        return this.http.get<ProfileDto[]>(`/profile/managers`)
-    }
-    
-    refreshToken$(): Observable<{ token: string }> {
-        return this.http.get<{ token: string }>(`/profile/refresh-token`)
     }
 
 }

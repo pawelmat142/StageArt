@@ -1,10 +1,15 @@
 import * as decode from "jwt-decode";
 import moment from "moment";
-import { Profile } from "../../profile.model";
+import { Role } from "../../profile.model";
 
-export interface JwtPayload extends Profile {
+export interface JwtPayload {
+    uid: string
+    name: string
+    telegramChannelId: string
+    role: Role
     exp: number
     iat: number
+    artistSignature?: string
 }
 
 export abstract class Token {

@@ -8,7 +8,7 @@ import { AppState } from '../../../app.state';
 import { ProfileService } from '../../../profile/profile.service';
 import { map, Observable, shareReplay, switchMap, take, tap } from 'rxjs';
 import { FormVal } from '../../../global/utils/form-val';
-import { loggedIn, profile } from '../../../profile/profile.state';
+import { loggedIn } from '../../../profile/profile.state';
 import { ArtistService } from '../../artist.service';
 import { BtnComponent } from '../../../global/controls/btn/btn.component';
 import { FormUtil } from '../../../global/utils/form.util';
@@ -69,10 +69,17 @@ export class InitialInfoComponent {
   )
 
   ngOnInit(): void {
-    this.store.select(profile).pipe(
+    this.profileService.fetchFullProfile$().pipe(
       take(1),
       tap(profile => {
         this.form.controls.artistName.setValue(profile?.name!)
+        if (profile?.phoneNumber) {
+          this.form.controls.phoneNumber.setValue(profile?.phoneNumber)
+        }
+        const email = profile.contactEmail || profile.email
+        if (email) {
+          this.form.controls.email.setValue(email)
+        }
       })
     ).subscribe()
   }

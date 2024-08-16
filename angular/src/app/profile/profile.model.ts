@@ -8,12 +8,16 @@ export interface ProfileDto {
 
 export type Role = 'MANAGER' | 'PROMOTER' | 'ARTIST' | 'ADMIN'
 
-export interface Profile { // JwtPayload
+export interface Profile { 
     uid: string
     name: string
-    telegramChannelId: string
     role: Role
-    exp: number
-    iat: number
     artistSignature?: string
+    telegramChannelId?: string
+    phoneNumber?: string
+    contactEmail?: string
+    email?: string
+    firstName?: string
+    lastName?: string
+    promoterInfo?: any
 }

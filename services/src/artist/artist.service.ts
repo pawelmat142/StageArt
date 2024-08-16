@@ -23,7 +23,7 @@ export class ArtistService {
 
 
     // TODO status READY temporary here!
-    private readonly PUBLIC_VIEW_ARTIST_STATUSES: ArtistStatus[] = [ 'ACTIVE', 'VIEW_READY' ]
+    private readonly PUBLIC_VIEW_ARTIST_STATUSES: ArtistStatus[] = [ 'ACTIVE', 'READY' ]
 
     public async createArtist(form: ArtistForm, profile: JwtPayload): Promise<ArtistViewDto> {
         const checkName = await this.artistModel.findOne({ name: form.artistName })
@@ -45,6 +45,7 @@ export class ArtistService {
         if (!update.modifiedCount) {
             throw new IllegalStateException(`Artist profile update error, uid: ${profile.uid}`)
         }
+        this.logger.log(`Updated profile via created Artist entity`)
 
         newArtist.status = 'CREATED'
         const saved = await newArtist.save()

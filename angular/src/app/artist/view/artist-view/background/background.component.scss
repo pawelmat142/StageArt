@@ -1,5 +1,13 @@
 @import 'variables';
 
+.desktop {
+    .image-bg-container {
+        .bg-mock {
+            padding-bottom: 20%;
+        }
+    }
+}
+
 .image-bg-container {
     white-space: nowrap;
     width: 100%;
@@ -15,7 +23,7 @@
         justify-content: center;
         font-size: 30px;
         color: $light;
-        padding-bottom: 20%;
+        padding-bottom: 100%;
     }
 }
 

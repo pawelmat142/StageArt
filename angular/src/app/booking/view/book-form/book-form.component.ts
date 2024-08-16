@@ -71,7 +71,6 @@ export class BookFormComponent {
         }
         return of()
       }),
-      tap(console.log)
     ).subscribe({
       next: () => {
         this.store.dispatch(submittedForm())

@@ -41,7 +41,6 @@ export class AppComponent {
     if (Token.loggedIn) {
       this.store.dispatch(loggedIn(Token.payload!))
     } else {
-      console.log('Token not found')
     }
   }
 }

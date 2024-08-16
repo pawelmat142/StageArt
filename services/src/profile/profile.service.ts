@@ -66,6 +66,10 @@ export class ProfileService {
         return this.profileModel.find({ role: 'MANAGER' })
     }
 
+    fetchFullProfile(payload: JwtPayload) {
+        return this.profileModel.findOne({ uid: payload.uid })
+    }
+
     async refreshToken(_profile: JwtPayload) {
         const profile = await this.profileModel.findOne({ uid: _profile.uid })
         const token = this.jwtService.signIn(profile)
@@ -76,7 +80,7 @@ export class ProfileService {
         const update = await this.profileModel.updateOne({ uid: _profile.uid }, { $set: {
             firstName: form.firstName,
             lastName: form.lastName,
-            email: form.email,
+            contactEmail: form.email,
             phoneNumber: form.phoneNumber,
             artistSignature: artistSignature
         }})
