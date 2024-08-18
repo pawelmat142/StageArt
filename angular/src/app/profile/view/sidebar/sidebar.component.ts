@@ -44,16 +44,17 @@ export class SidebarComponent {
   
   _bookingsItem: MenuButtonItem = {
     label: `Bookings`,
+    rolesGuard: [Role.ARTIST, Role.PROMOTOR, Role.MANAGER],
     onclick: () => this.view.emit('BOOKINGS'),
   }
   _artistsOfManager: MenuButtonItem = {
     label: `Your artists`,
-    rolesGuard: ['MANAGER'],
+    rolesGuard: [Role.MANAGER],
     onclick: () => this.view.emit('MANAGER_ARTISTS'),
   }
   _artistViewItem: MenuButtonItem =  {
     label: `Artist view`,
-    rolesGuard: ['ARTIST'],
+    rolesGuard: [Role.ARTIST],
     onclick: () => this.navToArtistView(),
   }
   _logoutItem: MenuButtonItem  = {
@@ -86,7 +87,7 @@ export class SidebarComponent {
   _clickItem(item: MenuButtonItem) {
     this._sidebarItems$.value.forEach(item => item.active = false)
     item.active = true
-    item.onclick()
+    item.onclick && item.onclick()
   }
 
   private setSidebarItemsForRole(profile?: Profile) {
@@ -130,8 +131,6 @@ export class SidebarComponent {
 
   private logout() {
     this.store.dispatch(logout())
-    this.nav.home()
-    this.dialog.simplePopup('Logged out')
   }
 
 }

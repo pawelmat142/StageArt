@@ -1,21 +1,17 @@
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { BehaviorSubject, tap } from 'rxjs';
-import { Store } from '@ngrx/store';
-import { loggedInChange } from '../../profile/profile.state';
-import { LoginComponent } from '../../profile/auth/view/login/login.component';
-import { PanelComponent } from '../../profile/view/panel/panel.component';
-import { BookFormComponent } from '../../booking/view/book-form/book-form.component';
+import { BehaviorSubject } from 'rxjs';
 import { NotFoundPageComponent } from '../view/error/not-found-page/not-found-page.component';
-import { ArtistsViewComponent } from '../../artist/view/artists-view/artists-view.component';
-import { AppState } from '../../app.state';
+import { Location } from '@angular/common';
+import { Profile } from '../../profile/profile.model';
 
 export interface MenuButtonItem {
   label: string
-  onclick(): void
+  onclick?: () => void,
+  path?: string,
   active?: boolean
   rolesGuard?: string[] //undefined means its available for every role
+  filter?: (profile?: Profile) => boolean
 }
 
 @Injectable({
@@ -23,44 +19,10 @@ export interface MenuButtonItem {
 })
 export class NavService {
 
-  private readonly _menuButtons: MenuButtonItem[] = [{
-    label: 'Home',
-    onclick: () => this.home()
-  },{
-    label: "Artists",
-    onclick: () => this.to(ArtistsViewComponent.path)
-  }, {
-    label: "Book now",
-    onclick: () => this.to(BookFormComponent.path)
-  }]
-
   constructor(
     private readonly router: Router,
-    private readonly dialog: MatDialog,
-    private readonly store: Store<AppState>,
+    private readonly location: Location,
   ) {
-    this.store.select(loggedInChange).pipe(
-      tap(loggedIn => {
-        if (loggedIn) {
-          this.menuButtonsSubject$.next([{
-            label: 'Panel',
-            onclick: () => this.to(PanelComponent.path)
-          }, ...this._menuButtons])
-        } else {
-          this.menuButtonsSubject$.next([...this._menuButtons, {
-            label: 'Login',
-            onclick: () => this.to(LoginComponent.path)
-          }])
-        }
-      })
-    ).subscribe()
-  }
-
-
-  private menuButtonsSubject$ = new BehaviorSubject(this._menuButtons)
-
-  get menuButtons$() {
-    return this.menuButtonsSubject$.asObservable()
   }
 
   private menuButtonOverhiddenSubject$ = new BehaviorSubject(false)
@@ -71,7 +33,6 @@ export class NavService {
     this.menuButtonOverhiddenSubject$.next(isOnView)
   }
 
-  
   public home() {
     this.router.navigate([''], { replaceUrl: true })
   }
@@ -90,6 +51,10 @@ export class NavService {
 
   public replaceUrl(url: string) {
     this.router.navigateByUrl(url)
+  }
+
+  public get isHome(): boolean {
+    return this.location.path() === ''
   }
 
 }

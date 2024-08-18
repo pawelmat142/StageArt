@@ -5,6 +5,7 @@ import { LogoComponent } from '../logo/logo.component';
 import { NavService } from '../../nav/nav.service';
 import { DESKTOP } from '../../services/device';
 import { MobileBtnComponent } from '../mobile-btn/mobile-btn.component';
+import { MenuService } from '../../nav/menu-service';
 
 @Component({
   selector: 'app-header',
@@ -24,6 +25,7 @@ export class HeaderComponent {
 
   constructor(
     private readonly nav: NavService,
+    readonly menu: MenuService,
   ) {}
 
   @Input() label?: string
@@ -32,8 +34,6 @@ export class HeaderComponent {
   @HostBinding('class.show') show = false
 
   menuButtonOverhiddenSubsciption?: Subscription
-
-  menuButtons$ = this.nav.menuButtons$
 
   ngOnInit() {
     if (this.DESKTOP) {
@@ -52,7 +52,6 @@ export class HeaderComponent {
   ngOnDestroy() {
     this.menuButtonOverhiddenSubsciption?.unsubscribe()
   }
-
 
   _home() {
     this.nav.home()

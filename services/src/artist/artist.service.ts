@@ -43,7 +43,6 @@ export class ArtistService {
 
         await this.profileService.updateArtistProfile(form, profile, newArtist.signature)
 
-        newArtist.status = 'CREATED'
         const saved = await newArtist.save()
         this.logger.warn(`Artist created, name: ${newArtist.name}, signature: ${newArtist.signature}`)
         return saved
@@ -80,7 +79,6 @@ export class ArtistService {
         if (checkName) {
             throw new IllegalStateException('Artist name already in use')
         }
-        
         const artistBefore = await this.artistModel.findOne({ signature: artist.signature })
         if (!artistBefore) {
             throw new NotFoundException()
@@ -154,9 +152,12 @@ export class ArtistService {
             ...booking,
             formData: null
         })
-        await this.artistModel.updateOne({ signature: artist.signature}, {
-            $set: { bookings: artist.bookings }
-        })
+        const update = await this.artistModel.updateOne({ signature: artist.signature }, 
+            { $set: { bookings: artist.bookings } }
+        )
+        if (!update?.matchedCount) {
+            throw new IllegalStateException(`Not modified Artist ${artist.signature} when process Booking ${booking.formId}`)
+        }
         this.logger.log(`Processed booking ${booking.formId} for artist ${artist.signature}`)
     }
 
@@ -175,10 +176,12 @@ export class ArtistService {
     public async putManagementNotes(body: { managmentNotes: string, artistSignture: string }, profile: JwtPayload): Promise<void> {
         const update = await this.artistModel.updateOne(
             { signature: body.artistSignture, managerUid: profile.uid },
-            { $set: { managmentNotes: body.managmentNotes }}
+            { $set: { managmentNotes: body.managmentNotes } }
         )
         if (!update.modifiedCount) {
-            throw new BadRequestException(`Not modified management notes`)
+            throw new BadRequestException(`Not modified management notes for Artist: ${body.artistSignture} by manager: ${profile.uid}`)
         }
+        this.logger.log(`Management notes put success for Artist: ${body.artistSignture} by manager: ${profile.uid}`)
     }
+
 }

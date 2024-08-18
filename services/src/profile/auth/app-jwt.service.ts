@@ -6,18 +6,18 @@ import { Profile } from "../model/profile.model";
 
 @Injectable()
 export class AppJwtService extends JwtService {
+
+    private readonly SECRET = process.env.JWT_SECRET
     
     public signIn(profile: Profile): string {
-        const secret = process.env.JWT_SECRET
         const payload = this.createPayload(profile)
-        return super.sign(payload, { secret })
+        return super.sign(payload, { secret: this.SECRET })
     }
 
     public newToken(payload: JwtPayload): string {
-        const secret = process.env.JWT_SECRET
         payload.iat = Date.now()
         payload.exp = this.getExpirationTimestamp()
-        return super.sign(payload, { secret })
+        return super.sign(payload, { secret: this.SECRET })
     }
 
     public extractToken(request: any): string {

@@ -1,10 +1,14 @@
 import { createAction, createReducer, createSelector, on, props, Store } from "@ngrx/store"
 import { Injectable } from "@angular/core"
 import { Actions, createEffect, ofType } from "@ngrx/effects"
-import { tap } from "rxjs"
+import { map, tap } from "rxjs"
 import { Token } from "./auth/view/token"
 import { selectProfileState, AppState } from "../app.state"
 import { Profile } from "./profile.model"
+import { ProfileService } from "./profile.service"
+import { DialogService } from "../global/nav/dialog.service"
+import { Router } from "@angular/router"
+import { NavService } from "../global/nav/nav.service"
 
 export interface ProfileState {
     loading: boolean
@@ -40,7 +44,9 @@ export const loggedInChange = createSelector(
 
 export const login = createAction("[PROFILE] login")
 
-export const loggedIn = createAction("[PROFILE] logged in", props<Profile>())
+export const loggedIn = createAction("[PROFILE] logged in", props<{ token: string }>())
+
+export const setProfile = createAction("[PROFILE] set profile", props<Profile>())
 
 export const logout = createAction("[PROFILE] logout")
 
@@ -54,12 +60,17 @@ const initialState: ProfileState = {
 
 export const profileReducer = createReducer(
     initialState,
+
     on(login, (state) => ({
         ...state,
         loading: true
     })),
 
-    on(loggedIn, (state, profile) => ({
+    on(loggedIn, (state) => ({
+        ...state,
+    })),
+
+    on(setProfile, (state, profile) => ({
         ...state,
         loggedIn: true,
         loading: false,
@@ -80,12 +91,31 @@ export class ProfileEffect {
     
     constructor(
         private actions$: Actions,
+        private profileService: ProfileService,
+        private dialog: DialogService,
         private store: Store<AppState>, 
+        private router: Router, 
+        private nav: NavService,
     ){}
+
+    loggedIn$ = createEffect(() => this.actions$.pipe(
+        ofType(loggedIn),
+        map((token) => {
+            Token.set(token.token)
+            const profile = Token.payload
+            return profile ? setProfile(profile) : logout()
+        }),
+    ))
 
     logout$ = createEffect(() => this.actions$.pipe(
         ofType(logout),
-        tap(() => Token.remove()),
+        tap(() => {
+            Token.remove()
+            if (!this.nav.isHome) {
+                this.nav.home()
+                this.dialog.simplePopup('Logged out')
+            }
+        }),
     ), { dispatch: false })
 
 }

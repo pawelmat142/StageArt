@@ -3,10 +3,9 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BtnComponent } from '../../../../global/controls/btn/btn.component';
 import { SelectorComponent } from "../../../../global/controls/selector/selector.component";
-import { loggedIn, login, logout } from '../../../profile.state';
+import { loggedIn, login, logout, ProfileEffect } from '../../../profile.state';
 import { Store } from '@ngrx/store';
 import { Token } from '../token';
-import { MatDialog } from '@angular/material/dialog';
 import { filter, noop, Observer, of, switchMap } from 'rxjs';
 import { FormUtil } from '../../../../global/utils/form.util';
 import { LoginForm, ProfileService } from '../../../profile.service';
@@ -40,7 +39,6 @@ export class LoginComponent {
     private profileService: ProfileService,
     private dialog: DialogService,
     private nav: NavService,
-    private readonly matDialog: MatDialog,
     private store: Store<AppState>,
   ) {}
 
@@ -67,8 +65,8 @@ export class LoginComponent {
     const form = this.form.value
 
     this.store.dispatch(login())
-
-    this.profileService.loginByEmail$(form as Partial<LoginForm>).subscribe(this.loginResultObserver())
+    this.profileService.loginByEmail$(form as Partial<LoginForm>)
+      .subscribe(this.loginResultObserver())
   }
 
 
@@ -92,6 +90,7 @@ export class LoginComponent {
   }
 
   private loginRequest(uidOrNameOrEmail: string) {
+    this.store.dispatch(login())
     this.profileService.telegramPinRequest$(uidOrNameOrEmail).pipe(
       switchMap(token => {
         if (!token?.token) {
@@ -124,15 +123,9 @@ export class LoginComponent {
   private loginResultObserver(): Observer<{ token: string }> {
     return {
       next: (token: { token: string }) => {
-        Token.set(token.token)
-        const profile = Token.payload
-        if (profile) {
-          this.store.dispatch(loggedIn(profile))
-          this.nav.to(PanelComponent.path)
-          this.dialog.simplePopup('Logged in!')
-        } else {
-          this.store.dispatch(logout())
-        }
+        this.store.dispatch(loggedIn(token))
+        this.nav.to(PanelComponent.path)
+        this.dialog.simplePopup('Logged in!')
       },
       error: (error: any) => {
         this.store.dispatch(logout())

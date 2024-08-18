@@ -21,6 +21,7 @@ import { BioComponent } from './bio/bio.component';
 import { NameComponent } from './name/name.component';
 import { MediasComponent } from './medias/medias.component';
 import { StyleComponent } from './style/style.component';
+import { TextareaElementComponent } from '../../../global/controls/textarea-element/textarea-element.component';
 
 @Component({
   selector: 'app-artist-view',
@@ -40,6 +41,7 @@ import { StyleComponent } from './style/style.component';
     NameComponent,
     MediasComponent,
     StyleComponent,
+    TextareaElementComponent
 ],
   templateUrl: './artist-view.component.html',
   styleUrl: './artist-view.component.scss',

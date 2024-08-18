@@ -30,16 +30,14 @@ export class JwtGuard extends AuthGuard('jwt') {
         try {
             const token = this.jwtService.extractToken(request)
             if (!token) {
-                this.logger.error('Token not found')
                 throw new ForbiddenException(`Not found token`)
             }
             const secret = process.env.JWT_SECRET
             const payload = this.jwtService.verify(token, { secret })
             if (!payload) {
-                throw new ForbiddenException('Not found payload')
+                throw new ForbiddenException(`Not found payload`)
             }
             if (!payload.uid) {
-                this.logger.error('uid not provided')
                 throw new ForbiddenException(`Not found uid`)
             }
             this.profile = await this.profileService.fetchForJwt(payload.uid)
@@ -47,7 +45,6 @@ export class JwtGuard extends AuthGuard('jwt') {
 
             const tokenExpider = this.jwtService.isExpired(payload)
             if (tokenExpider) {
-                this.logger.warn('Token expired')
                 throw new UnauthorizedException(`Token expired`)
             }
             const newToken = this.jwtService.newToken(payload)

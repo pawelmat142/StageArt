@@ -24,6 +24,8 @@ import { FeedbackComponent } from './feedback/feedback.component';
 })
 export class HomepageComponent {
 
+  public static readonly path = ''
+
   DESKTOP = DESKTOP
 
 }

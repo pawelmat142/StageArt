@@ -24,19 +24,13 @@ export class ProfileService {
         private readonly http: HttpService,
     ) {}
 
-    
     fetchFullProfile$(): Observable<Profile> {
         return this.http.get<Profile>(`/profile/full`)
-    }
-    
-    refreshToken$(): Observable<{ token: string }> {
-        return this.http.get<{ token: string }>(`/profile/refresh-token`)
     }
     
     fetchManagers$(): Observable<ProfileDto[]> {
         return this.http.get<ProfileDto[]>(`/profile/managers`)
     }
-
 
     fetchTelegramBotHref$() {
         return this.http.get<{ url: string }>(`/profile/telegram`)
@@ -49,6 +43,10 @@ export class ProfileService {
     loginByPin$(loginToken: LoginToken): Observable<{ token: string }> {
         return this.http.post<{ token: string }>(`/profile/login/pin`, loginToken).pipe(
         )
+    }
+
+    refreshToken$(): Observable<{ token: string }> {
+        return this.http.get<{ token: string }>(`/profile/refresh-token`)
     }
 
     createProfileEmail$(loginForm: LoginForm) {

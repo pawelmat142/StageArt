@@ -12,6 +12,19 @@
         grid-template-columns: 1fr 1fr 1fr;
     }
 
+    .item-row {
+        padding: 0.8*$padding-standard $padding-standard;
+
+        // TODO 
+        // &:not(.labels) {
+        //     cursor: pointer;
+        //     &:hover {
+        //         background-color: $light-dark;
+        //         box-shadow: 5px 5px 5px 5px $dark;
+        //     }
+        // }
+    }
+
     .booking-item {
         grid-template-columns: 1fr 1fr 1fr 1fr 2fr;
     }
@@ -49,7 +62,8 @@
 }
 
 .item-row {
-    padding: 0.8*$padding-standard $padding-standard;
+    // padding: 0.8*$padding-standard $padding-standard;
+    padding: 0.8*$padding-standard 0.5*$padding-standard;
     display: grid;
     align-items: center;
 
@@ -65,11 +79,6 @@
 
     &:not(.labels) {
         border-top: 0.5px solid $light-dark;
-        cursor: pointer;
-        &:hover {
-            background-color: $light-dark;
-            box-shadow: 5px 5px 5px 5px $dark;
-        }
     }
 }
 

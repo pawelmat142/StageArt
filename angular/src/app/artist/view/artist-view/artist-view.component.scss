@@ -24,9 +24,11 @@ $view-padding: 4*$padding-standard;
 
 .desktop {
 
+    .management-notes-tile,
     .bio-tile {
         order: 0;
     }
+    
 
     .edit-toggle-container {
         position: fixed;
@@ -47,7 +49,7 @@ $view-padding: 4*$padding-standard;
             }
             grid-template-columns: 2fr 1fr;
             column-gap: 2*$padding-standard;
-            row-gap: 2*$padding-standard;
+            row-gap: $padding-standard;
         }
     }
 
@@ -99,6 +101,10 @@ $view-padding: 4*$padding-standard;
 
 .bio-tile {
     order: 1;
+}
+
+.management-notes-tile {
+    order: 2;
 }
 
 .menu-button {

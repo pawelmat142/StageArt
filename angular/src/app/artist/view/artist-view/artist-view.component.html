@@ -90,6 +90,23 @@
 
             <app-medias></app-medias>
 
+            @if (artist.managmentNotes) {
+                <div class="management-notes-tile">
+                    <div class="tile big">
+                        <p class="tile-header chip-label">Management notes</p>
+
+                        <div class="tile-content tile-textarea">
+                            <app-textarea-element
+                                class="white"
+                                [value]="artist.managmentNotes"
+                                [disabled]="true"
+                            ></app-textarea-element>
+                        </div>
+
+                    </div>
+                </div>
+            }
+
         </div>
 
     </div>

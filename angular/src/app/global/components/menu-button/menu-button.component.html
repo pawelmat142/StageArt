@@ -13,10 +13,10 @@
 
     <div class="menu-button-children">
 
-        <div *ngFor="let button of buttons$ | async"
+        <div *ngFor="let btn of menu.menuBtns$ | async"
         class="menu-button-child label"
-        (click)="button.onclick()"
-        >{{button.label}}</div>
+        (click)="menu.btnClick(btn)"
+        >{{btn.label}}</div>
 
     </div>
 </div>

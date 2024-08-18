@@ -11,7 +11,7 @@ import { ArtistsViewComponent } from './artist/view/artists-view/artists-view.co
 
 export const routes: Routes = [
     {
-        path: '', 
+        path: HomepageComponent.path, 
         component: HomepageComponent
     }, {
         path: ArtistViewComponent.path,

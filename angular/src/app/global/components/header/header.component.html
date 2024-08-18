@@ -9,16 +9,14 @@
         <div class="header-section">
 
             @if (DESKTOP) {
-                <div *ngFor="let btn of (menuButtons$ | async)" (click)="btn.onclick()"
+                <div *ngFor="let btn of (menu.menuBtns$ | async)" (click)="menu.btnClick(btn)"
                 class="header-button">
                     <h2 class="fs3 baron red hovergrow menu-item">
                         {{btn.label}}
                     </h2>
                 </div>
-                
             } @else {
                 <app-mobile-btn></app-mobile-btn>
-    
             }
 
         </div>

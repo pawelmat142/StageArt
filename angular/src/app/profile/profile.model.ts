@@ -33,7 +33,7 @@ export abstract class Role {
             return false
         }
         if (!rolesGuard) {
-            true
+            return true
         }
         return profile.roles.some(profileRole => rolesGuard?.includes(profileRole))
     }

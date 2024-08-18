@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards, UseInterceptors } from '@nestjs/common';
 import { LoginToken, ProfileTelegramService } from './profile-telegram.service';
 import { LoginForm, ProfileEmailService } from './profile-email.service';
 import { ProfileService } from './profile.service';
@@ -8,6 +8,7 @@ import { ProfileDto } from './model/profile.dto';
 import { GetProfile } from './auth/profile-path-param-getter';
 import { JwtPayload } from './auth/jwt-strategy';
 import { Profile } from './model/profile.model';
+import { ProfileInterceptor } from '../global/interceptors/profile.interceptor';
 
 @Controller('api/profile')
 export class ProfileController {
@@ -26,19 +27,12 @@ export class ProfileController {
         return this.profileService.fetchFullProfile(payload)
     }
 
-    @Get('refresh-token')
-    @UseGuards(JwtGuard)
-    refreshToken(@GetProfile() profile: JwtPayload) {
-        return this.profileService.refreshToken(profile)
-    }
-
     @Get('managers')
     @UseGuards(JwtGuard)
     @Serialize(ProfileDto)
     fetchManagers() {
         return this.profileService.fetchManagers()
     }
-
 
 
     // TELEGRAM
@@ -57,6 +51,12 @@ export class ProfileController {
         return this.profileTelegramService.loginByPin(body)
     }
 
+    @Get('refresh-token')
+    @UseGuards(JwtGuard)
+    refreshToken(@GetProfile() profile: JwtPayload) {
+        return this.profileService.refreshToken(profile)
+    }
+
 
     //EMAIL
     @Post('email/register')
@@ -68,6 +68,5 @@ export class ProfileController {
     loginByEmail(@Body() body: Partial<LoginForm>) {
         return this.profileEmailService.loginByEmail(body)
     }
-
 
 }

@@ -1,15 +1,26 @@
 @import 'panel';
 
+.desktop {
+    .item-row,
+    .panel-artist-item {
+        grid-template-columns: 1fr 1fr 4fr;
+    }
+
+    .item-row-btns {
+        gap: $padding-standard;
+    }
+}
+
 .item-row,
 .panel-artist-item {
-    grid-template-columns: 1fr 1fr 4fr;
+    grid-template-columns: 1fr 1fr 2fr;
 }
 
 .item-row-btns {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    gap: $padding-standard;
+    gap: 0.5*$padding-standard;
 }
 
 .item-row p:last-of-type {

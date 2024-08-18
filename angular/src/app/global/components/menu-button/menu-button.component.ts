@@ -2,6 +2,7 @@ import { Component, ElementRef, HostBinding, HostListener, ViewChild, ViewEncaps
 import { CommonModule } from '@angular/common';
 import { NavService } from '../../nav/nav.service';
 import { BtnComponent } from '../../controls/btn/btn.component';
+import { MenuService } from '../../nav/menu-service';
 
 @Component({
   selector: 'app-menu-button',
@@ -17,9 +18,9 @@ import { BtnComponent } from '../../controls/btn/btn.component';
 export class MenuButtonComponent {
 
   constructor(
-    private readonly nav: NavService
+    private readonly nav: NavService,
+    readonly menu: MenuService,
   ) {}
-
 
   @HostBinding('class.menu-button-open') menuButtonOpen = false
 
@@ -36,8 +37,6 @@ export class MenuButtonComponent {
       this.menuButtonOverhiddenBefore = menuButtonOverhidden
     }
   }
-
-  buttons$ = this.nav.menuButtons$
 
   toggleButton() {
     this.menuButtonOpen = !this.menuButtonOpen
