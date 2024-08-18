@@ -6,7 +6,7 @@
             <h2 class="fs3 light">Your artists</h2>
         </div>
 
-        <div class="panel-section-content">
+        <div class="">
             <div class="item-row panel-artist-item labels">
                 <p>Artist name</p>
                 <p>Status</p>
@@ -19,7 +19,12 @@
 
                     <div class="item-row-btns">
                         <app-btn
-                            label="Add notes"
+                            class="light"
+                            label="View"
+                            (click)="_artistView(artist)"
+                        ></app-btn>
+                        <app-btn
+                            [label]="artist.managmentNotes ? 'Edit notes' : 'Add notes'"
                             (click)="_addNotes(artist)"
                         ></app-btn>
                     </div>
@@ -29,5 +34,41 @@
             }
         </div>
     </div>
+    
+    @if (managementNotesForm) {
+        <div class="panel-section management-notes">
+        
+            <div class="panel-section-header">
+                <h2 class="fs3 light">Management notes for <span class="bold">{{_selectedArtist?.name}}</span></h2>
+            </div>
+
+            <form class="panel-section-content"
+                [formGroup]="managementNotesForm" 
+                (ngSubmit)="_submitManagementNotes()">
+
+                <app-textarea
+                    [class.active]="false"
+                    formControlName="managmentNotes"
+                    class="margin-bottom-2"
+                    [required]="true"
+                    label="Management notes"
+                ></app-textarea>
+
+                <div class="btns center">
+                    <app-btn class="big"
+                        label="Cancel"
+                        (click)="_cancel()"
+                    ></app-btn>
+                    <app-btn class="big light"
+                        type="submit"
+                        (click)="_submitManagementNotes()"
+                    ></app-btn>
+                </div>
+            </form>
+            
+        </div>
+    }
+
+
 
 </div>

@@ -171,4 +171,14 @@ export class ArtistService {
     public fetchArtistsOfManager(profile: JwtPayload) {
         return this.artistModel.find({ managerUid: profile.uid })
     }
+
+    public async putManagementNotes(body: { managmentNotes: string, artistSignture: string }, profile: JwtPayload): Promise<void> {
+        const update = await this.artistModel.updateOne(
+            { signature: body.artistSignture, managerUid: profile.uid },
+            { $set: { managmentNotes: body.managmentNotes }}
+        )
+        if (!update.modifiedCount) {
+            throw new BadRequestException(`Not modified management notes`)
+        }
+    }
 }

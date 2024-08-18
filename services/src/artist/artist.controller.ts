@@ -83,6 +83,12 @@ export class ArtistController {
         return this.artistService.fetchArtistsOfManager(profile)
     }
 
+    @Put('artist/management-notes')
+    @UseGuards(RoleGuard(Role.MANAGER))
+    putManagementNotes(@Body() body: { managmentNotes: string, artistSignture: string }, @GetProfile() profile: JwtPayload) {
+        return this.artistService.putManagementNotes(body, profile)
+    }
+
 }
 
 

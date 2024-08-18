@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { ArtistLabel, ArtistStyle, ArtistViewDto, FetchArtistQuery } from "./model/artist-view.dto";
 import { Store } from "@ngrx/store";
-import { Observable, take } from "rxjs";
+import { Observable, take, tap } from "rxjs";
 import { selectArtists } from "./artists.state";
 import { HttpService } from "../global/services/http.service";
 import { AppState } from "../app.state";
@@ -59,6 +59,11 @@ export class ArtistService {
 
     public fetchArtistsOfManager$(): Observable<ArtistViewDto[]> {  
         return this.http.get<ArtistViewDto[]>(`/artists/of-manager`).pipe(
+        )
+    }
+
+    public putManagementNotes$(form: { managmentNotes: string, artistSignture: string }): Observable<void> {  
+        return this.http.put<void>(`/artist/management-notes`, form).pipe(
         )
     }
 
