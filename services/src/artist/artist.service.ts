@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
-import { Artist, ArtistStatus } from './model/artist.model';
+import { Artist, ArtistLabel, ArtistStatus, ArtistStyle } from './model/artist.model';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Booking } from '../booking/model/booking.model';
@@ -161,4 +161,12 @@ export class ArtistService {
         this.logger.log(`Processed booking ${booking.formId} for artist ${artist.signature}`)
     }
 
+    public async listMusicStyles(): Promise<ArtistStyle[]> {
+        return this.artistModel.distinct('styles')
+    }
+
+    public listArtistLabels(): Promise<ArtistLabel[]> {
+        return this.artistModel.distinct('labels')
+    }
+        
 }

@@ -6,6 +6,16 @@ export interface FetchArtistQuery {
     signature?: string
 }
 
+export interface Chip {
+    name: string
+    id: string
+    class?: string
+}
+
+export interface ArtistStyle extends Chip {}
+
+export interface ArtistLabel extends Chip {}
+
 export type ArtistStatus = 'CREATED' | 'READY' | 'ACTIVE'
 
 export interface ArtistViewDto {
@@ -24,7 +34,9 @@ export interface ArtistViewDto {
     
     bio: string
 
-    style: string
+    styles: ArtistStyle[]
+
+    labels: ArtistLabel[]
     
     managmentNotes: string
 }

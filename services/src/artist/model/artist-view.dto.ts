@@ -1,19 +1,25 @@
 import { Expose } from "class-transformer"
-import { ArtistMedia, ArtistStatus, Images } from "./artist.model"
+import { ArtistLabel, ArtistMedia, ArtistStatus, ArtistStyle, Images } from "./artist.model"
 
 export class ArtistViewDto {
 
     @Expose()
+    status: ArtistStatus
+
+    @Expose()
     signature: string
-    
+
     @Expose()
     name: string
     
     @Expose()
-    status: ArtistStatus
+    countryCode: string
+
+    @Expose()
+    styles: ArtistStyle[]
     
     @Expose()
-    countryCode: string
+    labels: ArtistLabel[]
     
     @Expose()
     medias?: ArtistMedia[]
@@ -24,8 +30,7 @@ export class ArtistViewDto {
     @Expose()
     bio: string
     
-    @Expose()
-    style: string
+
     
     @Expose()
     managmentNotes: string

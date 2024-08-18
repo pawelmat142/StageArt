@@ -2,6 +2,15 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose"
 import { HydratedDocument } from "mongoose"
 import { Booking } from "../../booking/model/booking.model"
 
+export interface Chip {
+    name: string
+    id: string
+}
+
+export interface ArtistStyle extends Chip {}
+
+export interface ArtistLabel extends Chip {}
+
 export interface ArtistMedia {
     code: string,
     url: string
@@ -38,17 +47,26 @@ export class Artist {
     signature: string
 
     @Prop({ required: true })
-    name: string
-    
-    @Prop({ required: true })
     managerUid?: string
 
     @Prop({ required: true })
     status: ArtistStatus
+
+
+    @Prop({ required: true })
+    name: string
     
     @Prop()
     countryCode: string
+
+    @Prop()
+    styles: ArtistStyle[]
     
+    @Prop()
+    labels: ArtistLabel[]
+
+
+
     @Prop()
     firstName?: string
     
@@ -69,9 +87,6 @@ export class Artist {
 
     @Prop()
     bio: string
-
-    @Prop()
-    style: string
 
     @Prop()
     managmentNotes: string

@@ -2,13 +2,25 @@
 
     @if (data.header) {
         <div class="popup-header">
-            <p class="fs2 dark short">{{data.header}}</p>
+            <p class="fs3 dark short bold">{{data.header}}</p>
         </div>
     }
 
     @for (c of (data.content || []); track c) {
         <div class="pupup-content">
             <p class="dark">{{c}}</p>
+        </div>
+    }
+
+    @if (data.chips?.length) {
+        <div class="chips margin-bottom">
+            @for (chip of data.chips; track chip.id) {
+                <div 
+                (click)="_onChip(chip)"
+                [ngClass]="chip.class"
+                class="chip big hovergrow" 
+            >{{chip.name}}</div>
+            }
         </div>
     }
 

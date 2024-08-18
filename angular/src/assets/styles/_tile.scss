@@ -1,0 +1,36 @@
+@import 'variables';
+@import 'font';
+@import 'chip';
+
+.tile {
+    overflow: hidden;
+    padding: $padding-standard;
+    color: $white;
+    background-color: $dark-transparent;
+    border-radius: 10px;
+}
+
+.tile-header {
+    @extend .baron;
+    @extend .red;
+    @extend .fs3;
+}
+
+.tile-content {
+    padding: $padding-standard $padding-standard 0;
+    &.tile-textarea {
+        padding: 0.5*$padding-standard 0.5*$padding-standard 0; 
+        .textarea {
+            display: block;
+            padding: 0.5*$padding-standard;
+            margin-bottom: -0.5*$padding-standard;
+            border-radius: $radius;
+        }
+    }
+}
+
+.card {
+    @extend .tile;
+    padding: 0;
+    border: 1px solid $red;
+}

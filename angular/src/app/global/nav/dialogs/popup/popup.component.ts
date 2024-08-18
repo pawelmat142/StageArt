@@ -7,6 +7,7 @@ import { InputComponent } from '../../../controls/input/input.component';
 import { FormUtil } from '../../../utils/form.util';
 import { SelectorItem, SelectorComponent } from '../../../controls/selector/selector.component';
 import { Observable } from 'rxjs';
+import { Chip } from '../../../../artist/model/artist-view.dto';
 
 export interface DialogData {
   header: string
@@ -19,6 +20,7 @@ export interface DialogData {
   inputClass?: string
   inputValue?: string
   select?: string
+  chips?: Chip[]
   items?: Observable<SelectorItem[]>
 }
 
@@ -88,6 +90,9 @@ export class PopupComponent {
     this._defaultButton = !this.data.buttons?.length
   }
 
+  _onChip(chip: Chip) {
+    this.dialogRef.close(chip.name)
+  }
 
   _close() {
     this.dialogRef.close()

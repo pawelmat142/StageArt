@@ -11,7 +11,7 @@ import { Util } from '../../../../global/utils/util';
 import { DialogService } from '../../../../global/nav/dialog.service';
 import { DialogData } from '../../../../global/nav/dialogs/popup/popup.component';
 import { Validators } from '@angular/forms';
-import { map, noop, of, switchMap, take, tap } from 'rxjs';
+import { noop, of, switchMap, take, tap } from 'rxjs';
 
 @Component({
   selector: 'app-medias',
@@ -45,7 +45,13 @@ export class MediasComponent {
 
   _items: SelectorItem[] = []
 
-  _editMode$ = this.store.select(editMode)
+  _editMode$ = this.store.select(editMode).pipe(
+    tap(editMode => {
+      if (!editMode) {
+        this._editMedias = false
+      } 
+    })
+  )
 
   _medias$ = this.store.select(artistMedias)
 

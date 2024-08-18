@@ -1,5 +1,5 @@
 import { createAction, createReducer, createSelector, on, props, Store } from "@ngrx/store";
-import { ArtistViewDto, FetchArtistQuery } from "../../model/artist-view.dto";
+import { ArtistLabel, ArtistStyle, ArtistViewDto, FetchArtistQuery } from "../../model/artist-view.dto";
 import { AppState, selectArtistView } from "../../../app.state";
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
@@ -104,7 +104,9 @@ export const updateCountry = createAction("[ArtistViewState] update country", pr
 
 export const updateMedias = createAction("[ArtistViewState] update medias", props<{ value: ArtistMedia[] }>())
 
-export const updateStyle = createAction("[ArtistViewState] update style", props<{ value: string }>())
+export const updateStyle = createAction("[ArtistViewState] update style", props<{ value: ArtistStyle[] }>())
+
+export const updateLabels = createAction("[ArtistViewState] update labels", props<{ value: ArtistLabel[] }>())
 
 
 export const uploadArtistChanges = createAction("[ArtistViewState] upload changes")
@@ -227,13 +229,27 @@ export const artistViewReducer = createReducer(
         }
     }),
 
-    on(updateStyle, (state, style) => {
+    on(updateStyle, (state, styles) => {
         if (state.artist) {
             return {
                 ...state,
                 artist: {
                     ...state.artist,
-                    style: style.value
+                    styles: styles.value
+                }
+            }
+        } else {
+            return state
+        }
+    }),
+
+    on(updateLabels, (state, labels) => {
+        if (state.artist) {
+            return {
+                ...state,
+                artist: {
+                    ...state.artist,
+                    labels: labels.value
                 }
             }
         } else {

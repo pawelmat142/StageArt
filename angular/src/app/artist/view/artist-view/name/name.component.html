@@ -1,6 +1,5 @@
 <div class="name">
     @if (_editMode$ | async) {
-        
         <div class="edit-button edit-name" (click)="editName()">
             @if (_editName) {
                 <span class="dark">stop edit name</span>
@@ -8,18 +7,10 @@
                 <span class="dark">edit name</span>
             }
         </div>
-        
-        <div class="edit-button edit-country" (click)="editCountry()" [class.active]="_editCountry">
-            <span class="dark">select country</span>
-
-            <app-selector-items
-                class="floating"
-                [items]="_countryItems"
-                (select)="_selectCountry($event)"
-            ></app-selector-items>
-        </div>
     }
     
+    <div></div>
+
     <div>
         <div>
             <input class="fs1 light artist-name"
@@ -31,14 +22,44 @@
             >
         </div>
 
-        <app-country *ngIf="(_countryCode$ | async) as countryCode; else countryMock"
-            [countryCode]="countryCode"
-        ></app-country>
-        <ng-template #countryMock>
-            @if (_editable$ | async) {
-                <p class="white fs3">Select country...</p>
+        <div class="d-flex">
+            <app-country *ngIf="(_countryCode$ | async) as countryCode; else countryMock"
+                [countryCode]="countryCode"
+            ></app-country>
+            <ng-template #countryMock>
+                @if (_editable$ | async) {
+                    <p class="white fs3">Select country...</p>
+                }
+            </ng-template>
+    
+            @if (_editMode) {
+                <div class="edit-button inline edit-country" (click)="editCountry()" [class.active]="_editCountry">
+                    <span class="dark">select country</span>
+        
+                    <app-selector-items
+                        class="floating"
+                        [items]="_countryItems"
+                        (select)="_selectCountry($event)"
+                    ></app-selector-items>
+                </div>
             }
-        </ng-template>
+        </div>
+    
     </div>
+
+    <div>
+        <div class="chips">
+            <div class="chip">psychedelic</div>
+            <div class="chip">psycore</div>
+            <div class="chip">experimental</div>
+        </div>
+        
+        <div class="chips margin-top-05">
+            <div class="chip red-chip">Anomalistic</div>
+            <div class="chip red-chip">Ulterior Motive</div>
+            <div class="chip red-chip">Alice-D Records</div>
+        </div>
+    </div>
+
     
 </div>

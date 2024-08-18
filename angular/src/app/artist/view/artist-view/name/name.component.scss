@@ -1,15 +1,16 @@
 @import 'color';
 @import 'form';
 @import 'font';
+@import 'chip';
 
 .desktop {
     .artist-name {
-        @extend .margin-bottom;
+        font-weight: 600;
     }
 
     .name {
         .edit-button.edit-name {
-            top: -44px;
+            top: 50px;
             right: unset;
             left: 0;
         }
@@ -17,15 +18,19 @@
             top: 120px;
             right: unset;
             left: 40px;
-    
         }
     }
 }
 
 .name {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    height: 100%;
+    gap: $padding-standard;
+
     .artist-name {
-        text-shadow: 1px 1px 3px $light;
-        margin-bottom: 0.5*$padding-standard;
+        text-shadow: 1px 1px 3px #000;
         width: 100%;
     }
 
@@ -50,14 +55,13 @@
     }
 
     .country-txt {
-        @extend .fs3;
         color: $white;
     }
 
     .country-container {
         .icon-button {
             img {
-                max-height: 30px;
+                max-height: 18px;
             }
         }
     }

@@ -1,0 +1,49 @@
+@import 'variables';
+
+.chip {
+    padding: 1px 6px;
+    background-color: $light;
+    color: $dark;
+    border-radius: $radius;
+    font-size: 11px;
+    font-weight: 600;
+    text-wrap: nowrap;
+
+    display: flex;
+    gap: 4px;
+    align-items: center;
+
+    $icon-size: 11px;
+    mat-icon,
+    .mat-icon {
+        font-size: $icon-size;
+        height: $icon-size;
+        width: $icon-size;
+    }
+
+    &.red-chip {
+        background-color: $red;
+        color: #000;
+    }
+
+    &.grey-chip {
+        background-color: $white;
+        color: #000;
+    }
+
+    &.big {
+        padding: 3px 12px;
+        font-size: 14px;
+    }
+
+}
+
+.chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5*$padding-standard;
+}
+
+.chip-label {
+    margin-bottom: 0.5*$padding-standard;
+}

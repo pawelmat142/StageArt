@@ -39,6 +39,9 @@ $border-shadow: 0 3px 5px $red;
     padding-top: 4*$padding-standard;
 }
 
+.margin-top-05 {
+    margin-top: 0.5*$padding-standard;
+}
 .margin-top {
     margin-top: $padding-standard;
 }
@@ -107,40 +110,6 @@ $border-shadow: 0 3px 5px $red;
     align-items: center;
     justify-content: center;
     gap: $padding-standard;
-}
-
-.tile {
-    overflow: hidden;
-    padding: $padding-standard;
-    color: $white;
-    background-color: $dark-transparent;
-    border-radius: 10px;
-}
-
-.tile-content {
-    padding: $padding-standard $padding-standard 0;
-    &.tile-textarea {
-        padding: 0.5*$padding-standard 0.5*$padding-standard 0; 
-        .textarea {
-            display: block;
-            padding: 0.5*$padding-standard;
-            margin-bottom: -0.5*$padding-standard;
-            border-radius: $radius;
-        }
-    }
-}
-
-.card {
-    @extend .tile;
-    padding: 0;
-    border: 1px solid $red;
-
-}
-
-.chip {
-    padding: 4px 11px;
-    background-color: $dark;
-    border-radius: 10px
 }
 
 

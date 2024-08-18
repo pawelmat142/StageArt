@@ -1,28 +1,56 @@
 <div class="style-tile">
 
-    <div class="edit-button" *ngIf="_editMode$ | async as editMode" (click)="_edit()" >
-        @if (_editStyleMode) {
-            <span class="dark">stop edit styles</span>
-        } @else {
-            <span class="dark">edit music styles</span>
-        }
-    </div>
-
     <div class="tile big">
-        
-        <p class="fs2 baron red">Style</p>
 
-        <div class="tile-content tile-textarea">
-            <app-textarea-element
-                #textarea
-                class="white"
-                [class.edit-mode]="_editStyleMode"
-                [value]="(_styles$ | async) || ''"
-                [disabled]="!_editStyleMode"
-                [rowsInitial]="1"
-                (onInput)="_onInput($event)"
-            ></app-textarea-element>
+        <p class="tile-header chip-label">Styles</p>
+        <div class="chips">
+            @for (style of _styles$ | async; track style.id) {
+                <div class="chip">
+                    <span>
+                        {{style.name}}
+                    </span>
+                    @if (_canRemoveStyle) {
+                        <mat-icon
+                            matTooltip="Remove style"
+                            class="hovergrow"
+                            *ngIf="_editMode"
+                            (click)="_removeStyle(style)"
+                            fontIcon="cancel" 
+                            aria-hidden="false" 
+                            aria-label="icon" 
+                        ></mat-icon>
+                    }
+                </div>
+            }
+            <ng-container *ngIf="_editMode$ | async">
+                <div class="chip grey-chip hovergrow" (click)="_addStyle()">add music style</div>
+            </ng-container>
         </div>
-    </div>
 
+        @if (_labels.length || (_profileIsOwner$ | async)) {
+            <p class="tile-header chip-label margin-top">Labels</p>
+            <div class="chips">
+                @for (label of _labels$ | async; track label.id) {
+                    <div class="chip red-chip">
+                        <span>
+                            {{label.name}}
+                        </span>
+                        <mat-icon
+                            matTooltip="Remove label"
+                            class="hovergrow"
+                            *ngIf="_editMode"
+                            (click)="_removeLabel(label)"
+                            fontIcon="cancel" 
+                            aria-hidden="false" 
+                            aria-label="icon" 
+                        ></mat-icon>
+                    </div>
+                }
+                <ng-container *ngIf="_editMode">
+                    <div class="chip grey-chip hovergrow" (click)="_addLabel()">add  label</div>
+                </ng-container>
+            </div>
+        }
+        
+    </div>
 </div>

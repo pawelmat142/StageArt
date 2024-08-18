@@ -82,7 +82,6 @@ $view-padding: 4*$padding-standard;
             row-gap: 0; 
             grid-template-columns: 2fr 3fr;
             margin-bottom: $padding-standard;
-            align-items: center;
         }
         &.two {
             margin-bottom: 4*$padding-standard;
@@ -126,4 +125,9 @@ $view-padding: 4*$padding-standard;
     position: absolute;
     top: 0;
     right: 0;
+    &.inline {
+        position: unset;
+        margin: 0 $padding-standard;
+    }
 }
+

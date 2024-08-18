@@ -40,8 +40,11 @@ export class NameComponent {
 
   _editable$ = this.store.select(profileIsOwner)
 
+  _editMode = false
+  
   _editMode$ = this.store.select(editMode).pipe(
     tap(mdoe => {
+      this._editMode = mdoe
       if (!mdoe) {
         this._editName = false
         this._editCountry = false
