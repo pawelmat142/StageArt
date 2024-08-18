@@ -3,7 +3,7 @@ import { HomepageComponent } from './global/view/homepage/homepage.component';
 import { NotFoundPageComponent } from './global/view/error/not-found-page/not-found-page.component';
 import { RegisterComponent } from './profile/auth/view/register/register.component';
 import { LoginComponent } from './profile/auth/view/login/login.component';
-import { ProfileComponent } from './profile/view/profile/profile.component';
+import { PanelComponent } from './profile/view/panel/panel.component';
 import { BookFormComponent } from './booking/view/book-form/book-form.component';
 import { ArtistFormComponent } from './artist/view/artist-form/artist-form.component';
 import { ArtistViewComponent } from './artist/view/artist-view/artist-view.component';
@@ -32,11 +32,11 @@ export const routes: Routes = [
         path: RegisterComponent.path,
         component: RegisterComponent
     }, {
-        path: `${ProfileComponent.path}/telegram/:id`,
-        component: ProfileComponent,
+        path: `${PanelComponent.path}/telegram/:id`,
+        component: PanelComponent,
     }, {
-        path: ProfileComponent.path,
-        component: ProfileComponent,
+        path: PanelComponent.path,
+        component: PanelComponent,
     }, {
         path: NotFoundPageComponent.path,
         component: NotFoundPageComponent

@@ -1,0 +1,33 @@
+<div class="panel-container">
+
+    <div class="panel-section">
+
+        <div class="panel-section-header">
+            <h2 class="fs3 light">Your artists</h2>
+        </div>
+
+        <div class="panel-section-content">
+            <div class="item-row panel-artist-item labels">
+                <p>Artist name</p>
+                <p>Status</p>
+            </div>
+            @for (artist of _artists$ | async; track artist.signature; let last = $last) {
+                
+                <div class="item-row">
+                    <p>{{artist.name}}</p>
+                    <p>{{artist.status | status }}</p>
+
+                    <div class="item-row-btns">
+                        <app-btn
+                            label="Add notes"
+                            (click)="_addNotes(artist)"
+                        ></app-btn>
+                    </div>
+
+                    <div></div>
+                </div>
+            }
+        </div>
+    </div>
+
+</div>

@@ -1,16 +1,16 @@
-<div class="bookings-container">
+<div class="panel-container">
 
     <ng-container *ngIf="(_bookingsAsManager$ | async) as bookingsAsManager">
         @if (bookingsAsManager.length) {
-            <div class="bookings">
+            <div class="panel-section">
         
-                <div class="bookings-header">
+                <div class="panel-section-header">
                     <h2 class="fs3 light">Received booking requests</h2>
                 </div>
     
                 <div class="booking-itmes-container">
     
-                    <div class="booking-item labels">
+                    <div class="item-row booking-item labels">
                         <p>Event date</p>
                         <p>Submit date</p>
                         <p>Event name</p>
@@ -21,7 +21,7 @@
                     </div>
                     @for (booking of bookingsAsManager; track booking.formId; let last = $last) {
                         
-                        <div class="booking-item" (click)="_openBooking(booking)">
+                        <div class="item-row booking-item" (click)="_openBooking(booking)">
                             <p>{{booking.startDate | date : 'dd-MM-yyyy'}}</p>
                             <p>{{booking.submitDate | date : 'dd-MM-yyyy'}}</p>
                             <p>{{booking.eventName}}</p>
@@ -40,8 +40,8 @@
     </ng-container>
 
         
-    <div class="bookings form-data" *ngIf="(_booking$ | async) as booking">
-        <div class="bookings-header ">
+    <div class="panel-section form-data" *ngIf="(_booking$ | async) as booking">
+        <div class="panel-section-header">
             <h2 class="fs3 light booking-header">
                 <span>{{booking.eventName}}</span>
                 <span>{{booking.startDate | date : 'dd-MM-yyyy'}} <span *ngIf="booking.endDate"> - {{booking.endDate | date : 'dd-MM-yyy'}}</span></span>                
@@ -56,15 +56,15 @@
 
     <ng-container *ngIf="(_bookingsAsPromoter$ | async) as bookingsAsPromoter">
         @if (bookingsAsPromoter.length) {
-            <div class="bookings">
+            <div class="panel-section">
 
-                <div class="bookings-header">
+                <div class="panel-section-header">
                     <h2 class="fs3 light">Sent booking requests</h2>
                 </div>
     
                 <div class="booking-itmes-container">
     
-                    <div class="booking-item labels">
+                    <div class="item-row booking-item labels">
                         <p>Event date</p>
                         <p>Submit date</p>
                         <p>Event name</p>
@@ -75,7 +75,7 @@
                     </div>
                     @for (booking of bookingsAsPromoter; track booking.formId; let last = $last) {
                         
-                        <div class="booking-item" (click)="_openBooking(booking)">
+                        <div class="item-row booking-item" (click)="_openBooking(booking)">
                             <p>{{booking.startDate | date : 'dd-MM-yyyy'}}</p>
                             <p>{{booking.submitDate | date : 'dd-MM-yyyy'}}</p>
                             <p>{{booking.eventName}}</p>

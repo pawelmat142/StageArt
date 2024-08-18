@@ -2,18 +2,18 @@
 @import 'tile';
 
 .desktop {
-    .bookings-container {
+    .panel-container {
         padding-right: $padding-standard;
         padding-left: $padding-standard;
         padding-bottom: 4*$padding-standard;
     }
 
-    .booking-item {
-        grid-template-columns: 1fr 1fr 1fr 1fr 2fr;
+    .panel-section-header {
+        grid-template-columns: 1fr 1fr 1fr;
     }
 
-    .booking-header {
-        grid-template-columns: 1fr 1fr 1fr;
+    .booking-item {
+        grid-template-columns: 1fr 1fr 1fr 1fr 2fr;
     }
 
     .booking-item p:last-of-type {
@@ -21,8 +21,7 @@
     }
 }
 
-.bookings-container {
-    
+.panel-container {
     display: grid;
     grid-template-columns: 1fr;
     gap: $padding-standard;
@@ -38,30 +37,21 @@
     }
 }
 
-.bookings {
+.panel-section {
     @extend .tile;
     padding: 0;
     border: 1px solid $dark;
-
 }
 
-.bookings-header {
+.panel-section-header {
     padding: $padding-standard;
 }
 
-.booking-header {
-    display: grid;
-    grid-template-columns: 1fr;
-    row-gap: $padding-standard;
-}
-
-.booking-item {
+.item-row {
     padding: 0.8*$padding-standard $padding-standard;
-    
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    
-    
+    align-items: center;
+
     p {
         color: $white;
         font-weight: 100;
@@ -70,9 +60,8 @@
         &:last-of-type {
             text-align: right;
         }
-    }   
-    
-    
+    }
+
     &:not(.labels) {
         border-top: 0.5px solid $light-dark;
         cursor: pointer;
@@ -81,10 +70,9 @@
             box-shadow: 5px 5px 5px 5px $dark;
         }
     }
-    
 }
 
-.booking-item.labels {
+.item-row.labels {
     p {
         font-size: 14px;
         color: $red;

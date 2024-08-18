@@ -5,6 +5,7 @@ import { ArtistViewDto } from './model/artist-view.dto';
 import { GetProfile } from '../profile/auth/profile-path-param-getter';
 import { JwtPayload } from '../profile/auth/jwt-strategy';
 import { JwtGuard } from '../profile/auth/jwt.guard';
+import { profile } from 'console';
 
 export interface FetchArtistQuery {
     name?: string
@@ -66,12 +67,19 @@ export class ArtistController {
 
     @Get('list-music-styles')
     listMusicStyles() {
-        return this.artistService.listMusicStyles()
+        return this.artistService.listMusicStyles() 
     }
 
     @Get('artist/list-labels')
     listArtistLabels() {
         return this.artistService.listArtistLabels()
+    }
+
+    @Get('artists/of-manager')
+    @UseGuards(JwtGuard)
+    // TODO RoleGuard -> for manager here
+    fetchArtistsOfManager(@GetProfile() profile: JwtPayload) {
+        return this.artistService.fetchArtistsOfManager(profile)
     }
 
 }

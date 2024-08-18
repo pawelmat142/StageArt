@@ -13,7 +13,7 @@ import { BookingFormStructure } from '../../booking-form-structure';
 import { DESKTOP } from '../../../global/services/device';
 
 @Component({
-  selector: 'app-bookings',
+  selector: 'app-panel-bookings',
   standalone: true,
   imports: [
     CommonModule,
@@ -22,11 +22,11 @@ import { DESKTOP } from '../../../global/services/device';
     IsArrayPipe,
     FormPresentationComponent,
   ],
-  templateUrl: './bookings.component.html',
-  styleUrl: './bookings.component.scss',
+  templateUrl: './panel-bookings.component.html',
+  styleUrl: './panel-bookings.component.scss',
   encapsulation: ViewEncapsulation.None
 })
-export class BookingsComponent {
+export class PanelBookingsComponent {
 
   readonly DESKTOP = DESKTOP
 

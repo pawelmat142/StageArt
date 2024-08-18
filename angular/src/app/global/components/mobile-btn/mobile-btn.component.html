@@ -3,7 +3,7 @@
     
     <div class="mobile-menu-items" #mobileMenuItems>
         @for (btn of (buttons$ | async); track btn.label) {
-            <div class="menu-item" (click)="btn.onclick()">{{btn.label}}</div>
+            <div class="menu-item" (click)="_onMenuBtn(btn)">{{btn.label}}</div>
         }
     
     </div>

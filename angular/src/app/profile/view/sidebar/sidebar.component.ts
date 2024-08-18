@@ -1,6 +1,6 @@
 import { Component, EventEmitter, HostBinding, Output, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { ProfileView } from '../profile/profile.component';
+import { PanelView } from '../panel/panel.component';
 import { logout, profile } from '../../profile.state';
 import { DialogService } from '../../../global/nav/dialog.service';
 import { NavService, MenuButtonItem } from '../../../global/nav/nav.service';
@@ -33,9 +33,52 @@ export class SidebarComponent {
     private readonly dialog: DialogService,
   ) {}
 
-  @Output() view = new EventEmitter<ProfileView>()
+  @Output() view = new EventEmitter<PanelView>()
 
   @HostBinding('class.open') _sidebarOpened = false
+
+  _sidebarItems$ = new BehaviorSubject<MenuButtonItem[]>([])
+
+  _artistState$ = this.store.select(selectArtistView)
+
+  _bookingsItem: MenuButtonItem = {
+    label: `Bookings`,
+    onclick: () => this.view.emit('BOOKINGS'),
+  }
+  _artistsOfManager: MenuButtonItem = {
+    label: `Your artists`,
+    rolesGuard: ['MANAGER'],
+    onclick: () => this.view.emit('MANAGER_ARTISTS'),
+  }
+  _artistViewItem: MenuButtonItem =  {
+    label: `Artist view`,
+    rolesGuard: ['ARTIST'],
+    onclick: () => this.navToArtistView(),
+  }
+  _logoutItem: MenuButtonItem  = {
+    label: 'Logout',
+    onclick: () => this.logout()
+  }
+
+  private readonly allItems = [
+    this._bookingsItem,
+    this._artistsOfManager,
+    this._artistViewItem,
+    this._logoutItem,
+  ]
+
+  ngOnInit(): void {
+    this.store.select(profile).pipe(
+      tap(profile => {
+        const role = profile?.role
+        if (role) {
+          this.setSidebarItemsForRole(role)
+          this.setPanelViewForRole(role)
+        }
+      }),
+      tap(profile => this.initAsArtistIfNeed(profile)),
+    ).subscribe()
+  }
 
   _open() {
     if (this.DESKTOP) {
@@ -44,42 +87,23 @@ export class SidebarComponent {
     this._sidebarOpened = !this._sidebarOpened
   }
 
-  _logoutItem: MenuButtonItem  = {
-    label: 'Logout',
-    onclick: () => this.logout()
+  _clickItem(item: MenuButtonItem) {
+    this._sidebarItems$.value.forEach(item => item.active = false)
+    item.active = true
+    item.onclick()
   }
 
-  _bookingsItem: MenuButtonItem = {
-    label: `Bookings`,
-    onclick: () => this.view.emit('BOOKINGS')
+  private setSidebarItemsForRole(role: Role) {
+    const items = this.allItems.filter(item => item.rolesGuard ? item.rolesGuard.includes(role) : true)
+    this._sidebarItems$.next(items)
   }
 
-  _artistViewItem: MenuButtonItem =  {
-    label: `Artist view`,
-    onclick: () => this.navToArtistView()
-  }
-
-  _items$ = new BehaviorSubject<MenuButtonItem[]>([])
-
-  _artistState$ = this.store.select(selectArtistView)
-
-
-  ngOnInit(): void {
-    this.store.select(profile).pipe(
-      tap(profile => this.initAsArtistIfNeed(profile)),
-      tap(profile => this.setBookingsViewIfManagerOrPromoter(profile)),
-    ).subscribe()
-  }
-
-
-  private setBookingsViewIfManagerOrPromoter(profile: Profile | null) {
-    const roles: Role[] = ['MANAGER', 'PROMOTER']
-    if (profile?.role && roles.includes(profile.role)) {
-      this._items$.next([
-        this._bookingsItem,
-        this._logoutItem,
-      ])
-      this._clickItem(this._bookingsItem)
+  private setPanelViewForRole(role: Role) {
+    const showBookingsPanelViewRoles: Role[] = ['ARTIST', 'MANAGER', 'PROMOTER']
+    if (showBookingsPanelViewRoles.includes(role)) {
+      // TODO temp mock
+      // this._clickItem(this._bookingsItem)
+      this._clickItem(this._artistsOfManager)
     }
   }
 
@@ -87,14 +111,9 @@ export class SidebarComponent {
     if (profile?.role === 'ARTIST') {
       if (profile.artistSignature) {
         this.store.dispatch(initArtist({ signature: profile.artistSignature }))
-        this._items$.next([
-          this._artistViewItem,
-          this._bookingsItem,
-          this._logoutItem,
-        ])
         this.view.emit('NONE')
       } else {
-        this._items$.next([this._logoutItem])
+        this._sidebarItems$.next([this._logoutItem])
         this.view.emit('ARTIST_INITIAL_INFO')
       }
     }
@@ -117,12 +136,6 @@ export class SidebarComponent {
     this.store.dispatch(logout())
     this.nav.home()
     this.dialog.simplePopup('Logged out')
-  }
-
-  _clickItem(item: MenuButtonItem) {
-    this._items$.value.forEach(item => item.active = false)
-    item.active = true
-    item.onclick()
   }
 
 }

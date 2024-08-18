@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Store } from "@ngrx/store";
-import { BehaviorSubject, skip } from "rxjs";
+import { BehaviorSubject, combineLatest, delay, map, skip, tap } from "rxjs";
 import { profileLoadingChange } from "../../profile/profile.state";
 import { formLoadingChange } from "../../form-processor/form.state";
 import { AppState } from "../../app.state";
@@ -14,20 +14,24 @@ export class CourtineService {
     constructor(
         private readonly store: Store<AppState>
     ) {
-        this.store.select(formLoadingChange).pipe(skip(1))
-            .subscribe(loading => this.courtineSubject$.next(loading))
-
-        this.store.select(profileLoadingChange).pipe(skip(1))
-            .subscribe(loading => this.courtineSubject$.next(loading))
-
-        this.store.select(artistViewLoadingChange).pipe(skip(1))
-            .subscribe(loading => this.courtineSubject$.next(loading))
+        combineLatest([
+                this.store.select(formLoadingChange).pipe(skip(1)),
+                this.store.select(profileLoadingChange).pipe(skip(1)),
+                this.store.select(artistViewLoadingChange).pipe(skip(1)),
+            ]).pipe(
+                map(loadings => loadings.every(loading => loading)),
+                tap(loading => this.courtineSubject$.next(loading))
+            ).subscribe()
     }
 
     private courtineSubject$ = new BehaviorSubject(false)
 
+
     public get courtine$() {
-        return this.courtineSubject$.asObservable()
+        return this.courtineSubject$.asObservable().pipe(
+            // TODO temporary: 
+            delay(500)
+        )
     }
 
     public startCourtine() {

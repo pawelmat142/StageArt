@@ -167,5 +167,8 @@ export class ArtistService {
     public listArtistLabels(): Promise<ArtistLabel[]> {
         return this.artistModel.distinct('labels')
     }
-        
+
+    public fetchArtistsOfManager(profile: JwtPayload) {
+        return this.artistModel.find({ managerUid: profile.uid })
+    }
 }

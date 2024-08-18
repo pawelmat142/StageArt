@@ -1,7 +1,7 @@
 import { Component, HostBinding, ViewEncapsulation } from '@angular/core';
 import { BtnComponent } from '../../controls/btn/btn.component';
 import { CommonModule } from '@angular/common';
-import { NavService } from '../../nav/nav.service';
+import { MenuButtonItem, NavService } from '../../nav/nav.service';
 
 @Component({
   selector: 'app-mobile-btn',
@@ -28,5 +28,9 @@ export class MobileBtnComponent {
     this.open = !this.open
   }
 
+  _onMenuBtn(btn: MenuButtonItem) {
+    this.open = false
+    btn.onclick()
+  }
 
 }

@@ -5,16 +5,18 @@ import { BehaviorSubject, tap } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { loggedInChange } from '../../profile/profile.state';
 import { LoginComponent } from '../../profile/auth/view/login/login.component';
-import { ProfileComponent } from '../../profile/view/profile/profile.component';
+import { PanelComponent } from '../../profile/view/panel/panel.component';
 import { BookFormComponent } from '../../booking/view/book-form/book-form.component';
 import { NotFoundPageComponent } from '../view/error/not-found-page/not-found-page.component';
 import { ArtistsViewComponent } from '../../artist/view/artists-view/artists-view.component';
 import { AppState } from '../../app.state';
+import { Role } from '../../profile/profile.model';
 
 export interface MenuButtonItem {
   label: string
   onclick(): void
   active?: boolean
+  rolesGuard?: Role[] //undefined means its available for every role
 }
 
 @Injectable({
@@ -41,10 +43,10 @@ export class NavService {
     this.store.select(loggedInChange).pipe(
       tap(loggedIn => {
         if (loggedIn) {
-          this.menuButtonsSubject$.next([...this._menuButtons, {
+          this.menuButtonsSubject$.next([{
             label: 'Panel',
-            onclick: () => this.to(ProfileComponent.path)
-          }])
+            onclick: () => this.to(PanelComponent.path)
+          }, ...this._menuButtons])
         } else {
           this.menuButtonsSubject$.next([...this._menuButtons, {
             label: 'Login',

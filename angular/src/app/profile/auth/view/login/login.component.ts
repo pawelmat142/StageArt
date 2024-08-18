@@ -10,7 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { filter, noop, Observer, of, switchMap } from 'rxjs';
 import { FormUtil } from '../../../../global/utils/form.util';
 import { LoginForm, ProfileService } from '../../../profile.service';
-import { ProfileComponent } from '../../../view/profile/profile.component';
+import { PanelComponent } from '../../../view/panel/panel.component';
 import { HeaderComponent } from '../../../../global/components/header/header.component';
 import { DialogService } from '../../../../global/nav/dialog.service';
 import { NavService } from '../../../../global/nav/nav.service';
@@ -121,8 +121,6 @@ export class LoginComponent {
     ).subscribe(this.loginResultObserver())
   }
 
-
-
   private loginResultObserver(): Observer<{ token: string }> {
     return {
       next: (token: { token: string }) => {
@@ -130,7 +128,7 @@ export class LoginComponent {
         const profile = Token.payload
         if (profile) {
           this.store.dispatch(loggedIn(profile))
-          this.nav.to(ProfileComponent.path)
+          this.nav.to(PanelComponent.path)
           this.dialog.simplePopup('Logged in!')
         } else {
           this.store.dispatch(logout())

@@ -57,6 +57,11 @@ export class ArtistService {
         )
     }
 
+    public fetchArtistsOfManager$(): Observable<ArtistViewDto[]> {  
+        return this.http.get<ArtistViewDto[]>(`/artists/of-manager`).pipe(
+        )
+    }
+
     public getArtists = (): ArtistViewDto[] => {
         let result: ArtistViewDto[] = []
         this.store.select(selectArtists).pipe(take(1)).subscribe(x => result = x)

@@ -9,7 +9,7 @@
         </div>
     }
     
-    @for (item of _items$ | async; track item.label) {
+    @for (item of _sidebarItems$ | async; track item.label) {
     
         <div class="siderbar-item" (click)="_clickItem(item)" [class.active]="item.active">
             {{item.label}}

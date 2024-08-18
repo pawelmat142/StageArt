@@ -1,7 +1,7 @@
 import { createAction, createReducer, createSelector, on, props, Store } from "@ngrx/store"
 import { Injectable } from "@angular/core"
 import { Actions, createEffect, ofType } from "@ngrx/effects"
-import { tap, withLatestFrom } from "rxjs"
+import { tap } from "rxjs"
 import { Token } from "./auth/view/token"
 import { selectProfileState, AppState } from "../app.state"
 import { Profile } from "./profile.model"

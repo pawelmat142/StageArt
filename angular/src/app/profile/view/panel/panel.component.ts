@@ -1,11 +1,12 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { BtnComponent } from '../../../global/controls/btn/btn.component';
-import { BookingsComponent } from '../../../booking/view/bookings/bookings.component';
+import { PanelBookingsComponent } from '../../../booking/view/panel-bookings/panel-bookings.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { HeaderComponent } from '../../../global/components/header/header.component';
 import { InitialInfoComponent } from '../../../artist/view/initial-info/initial-info.component';
+import { PanelArtistsComponent } from '../../../artist/view/panel-artists/panel-artists.component';
 
-export type ProfileView  = 'NONE' | 'BOOKINGS' | 'ARTIST_INITIAL_INFO'
+export type PanelView  = 'NONE' | 'BOOKINGS' | 'MANAGER_ARTISTS' | 'ARTIST_INITIAL_INFO'
 
 @Component({
   selector: 'app-profile',
@@ -14,20 +15,21 @@ export type ProfileView  = 'NONE' | 'BOOKINGS' | 'ARTIST_INITIAL_INFO'
     BtnComponent,
     HeaderComponent,
     SidebarComponent,
-    BookingsComponent,
     InitialInfoComponent,
+    PanelBookingsComponent,
+    PanelArtistsComponent
   ],
-  templateUrl: './profile.component.html',
-  styleUrl: './profile.component.scss',
+  templateUrl: './panel.component.html',
+  styleUrl: './panel.component.scss',
   encapsulation: ViewEncapsulation.None
 })
-export class ProfileComponent {
+export class PanelComponent {
 
   public static readonly path = 'profile'
 
-  _profileView: ProfileView = 'NONE' 
+  _profileView: PanelView = 'NONE' 
 
-  _setView(view: ProfileView) {
+  _setView(view: PanelView) {
     this._profileView = view
   }
   

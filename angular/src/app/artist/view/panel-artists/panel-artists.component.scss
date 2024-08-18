@@ -1,0 +1,17 @@
+@import 'panel';
+
+.item-row,
+.panel-artist-item {
+    grid-template-columns: 1fr 1fr 4fr;
+}
+
+.item-row-btns {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: $padding-standard;
+}
+
+.item-row p:last-of-type {
+    text-align: unset;
+}

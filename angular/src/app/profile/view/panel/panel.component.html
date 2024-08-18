@@ -7,11 +7,15 @@
     @switch (_profileView) {
         
         @case ('BOOKINGS') {
-            <app-bookings></app-bookings>
+            <app-panel-bookings></app-panel-bookings>
         }
 
         @case ('ARTIST_INITIAL_INFO') {
             <app-initial-info></app-initial-info>
+        }
+
+        @case ('MANAGER_ARTISTS') {
+            <app-panel-artists></app-panel-artists>
         }
     }
 
