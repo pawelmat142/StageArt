@@ -1,12 +1,13 @@
 <div class="menu-button-container">
 
-    <div #menuButtonRef>
+    <div #menuButtonRef class="main-menu-button">
         <app-btn 
             class="block h100"
             [active]="true"
             icon="menu"
             label="menu"
             (click)="toggleButton()"
+            [shadow]="false"
         ></app-btn>
     </div>
 

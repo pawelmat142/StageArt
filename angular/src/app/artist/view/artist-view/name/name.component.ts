@@ -9,6 +9,8 @@ import { SelectorItemsComponent } from '../../../../global/controls/selector/sel
 import { SelectorItem } from '../../../../global/controls/selector/selector.component';
 import { CountriesService } from '../../../../global/countries/countries.service';
 import { tap } from 'rxjs';
+import { StyleComponent } from '../style/style.component';
+import { DESKTOP } from '../../../../global/services/device';
 
 @Component({
   selector: 'app-name',
@@ -17,13 +19,16 @@ import { tap } from 'rxjs';
     CommonModule,
     CountryComponent,
     FormsModule,
-    SelectorItemsComponent
+    SelectorItemsComponent,
+    StyleComponent,
   ],
   templateUrl: './name.component.html',
   styleUrl: './name.component.scss',
   encapsulation: ViewEncapsulation.None
 })
 export class NameComponent {
+
+  readonly DESKTOP = DESKTOP
 
   constructor(
     private readonly countriesService: CountriesService,

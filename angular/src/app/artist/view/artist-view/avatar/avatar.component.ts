@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { AppState } from '../../../../app.state';
 import { Store } from '@ngrx/store';
 import { artist, artistAvatar, editMode, load, selectAvatar } from '../artist-view.state';
+import { ArtistUtil } from '../../../artist.util';
 
 @Component({
   selector: 'app-avatar',
@@ -29,7 +30,7 @@ export class AvatarComponent {
   )
   
   _currentAvatarUrl$ = this.store.select(artist).pipe(
-    map(artist => artist?.images?.avatar?.avatar?.url),
+    map(artist => ArtistUtil.avatarUrl(artist?.images)),
   )
   
   tempAvatar$ = this.store.select(artistAvatar).pipe(

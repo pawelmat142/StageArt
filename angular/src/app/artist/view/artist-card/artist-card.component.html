@@ -1,14 +1,13 @@
 <div class="artist-card" (click)="goToArtist()">
 
     <div class="img-wrapper cover-center">
-        <img [src]="artist.images.avatar?.avatar?.url" [alt]="artist.name">
+        <img [src]="_avatarUrl" [alt]="artist.name">
     </div>
 
     <div class="description">
 
         <div class="description-row one">
             <p class="fs3 dark baron">{{artist.name}}</p>
-            <!-- <div class="chip">chip</div> -->
         </div>
 
         <div class="description-row">

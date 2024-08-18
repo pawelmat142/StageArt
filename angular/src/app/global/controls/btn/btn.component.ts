@@ -20,6 +20,8 @@ export class BtnComponent {
   @Input() label = 'Submit'
   @Input() type = 'submit'
   @Input() icon?: string
+  
+  @Input() shadow? = true
 
   @HostBinding('class.active')
   @Input() active = true

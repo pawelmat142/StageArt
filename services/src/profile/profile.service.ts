@@ -4,9 +4,7 @@ import { Profile, RegisterMode } from './model/profile.model';
 import { Model } from 'mongoose';
 import { IllegalStateException } from '../global/exceptions/illegal-state.exception';
 import { JwtPayload } from './auth/jwt-strategy';
-import { ArtistService } from '../artist/artist.service';
 import { ArtistForm } from '../artist/artist.controller';
-import { profile } from 'console';
 import { AppJwtService } from './auth/app-jwt.service';
 
 export interface Credentials {
@@ -84,6 +82,10 @@ export class ProfileService {
             phoneNumber: form.phoneNumber,
             artistSignature: artistSignature
         }})
+        if (!update.modifiedCount) {
+            throw new IllegalStateException(`Artist profile not modified, uid: ${_profile.uid},`)
+        }
+        this.logger.log(`Updated profile via created Artist entity`)
         return update
     }
 

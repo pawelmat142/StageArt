@@ -8,6 +8,7 @@ export abstract class ArtistUtil {
             && !!artist.bio
             && !!artist.medias?.length
             && this.imagesReadyForView(artist)
+            && !!artist.styles.length
     }
 
     private static imagesReadyForView(artist: ArtistViewDto): boolean {

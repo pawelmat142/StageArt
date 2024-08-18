@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, tap } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { loggedInChange } from '../../profile/profile.state';
 import { LoginComponent } from '../../profile/auth/view/login/login.component';
@@ -38,21 +38,21 @@ export class NavService {
     private readonly dialog: MatDialog,
     private readonly store: Store<AppState>,
   ) {
-    this.store.select(loggedInChange)
-    // .pipe(skip(1))
-    .subscribe(loggedIn => {
-      if (loggedIn) {
-        this.menuButtonsSubject$.next([...this._menuButtons, {
-          label: 'Profie',
-          onclick: () => this.to(ProfileComponent.path)
-        }])
-      } else {
-        this.menuButtonsSubject$.next([...this._menuButtons, {
-          label: 'Login',
-          onclick: () => this.to(LoginComponent.path)
-        }])
-      }
-    })
+    this.store.select(loggedInChange).pipe(
+      tap(loggedIn => {
+        if (loggedIn) {
+          this.menuButtonsSubject$.next([...this._menuButtons, {
+            label: 'Panel',
+            onclick: () => this.to(ProfileComponent.path)
+          }])
+        } else {
+          this.menuButtonsSubject$.next([...this._menuButtons, {
+            label: 'Login',
+            onclick: () => this.to(LoginComponent.path)
+          }])
+        }
+      })
+    ).subscribe()
   }
 
 

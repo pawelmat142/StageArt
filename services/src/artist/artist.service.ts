@@ -41,16 +41,12 @@ export class ArtistService {
             managerUid: form.manager,
         })
 
-        const update = await this.profileService.updateArtistProfile(form, profile, newArtist.signature)
-        if (!update.modifiedCount) {
-            throw new IllegalStateException(`Artist profile update error, uid: ${profile.uid}`)
-        }
-        this.logger.log(`Updated profile via created Artist entity`)
+        await this.profileService.updateArtistProfile(form, profile, newArtist.signature)
 
         newArtist.status = 'CREATED'
         const saved = await newArtist.save()
         this.logger.warn(`Artist created, name: ${newArtist.name}, signature: ${newArtist.signature}`)
-        return newArtist
+        return saved
     }
 
     public fetchArtist(query: FetchArtistQuery) {
@@ -94,7 +90,7 @@ export class ArtistService {
         }
         const newArtist = Object.assign(artistBefore, artist)
 
-        if (ArtistUtil.isViewReady(newArtist)) {
+        if (newArtist.status === 'CREATED' && ArtistUtil.isViewReady(newArtist)) {
             newArtist.status = 'READY'
         }
 
@@ -137,8 +133,7 @@ export class ArtistService {
         booking.artistSignatures = artistSignatures
         booking.artistNames = artists.map(a => a.name)
 
-        // TODO!
-        // booking.managerUid = artist.managerUid
+        booking.managerUid = artists[0].managerUid
 
         const artistBooking = {
             ...booking
@@ -148,6 +143,10 @@ export class ArtistService {
         for (let artist of artists) {
             await this.processBookingFormPerArtist(booking, artist)
         }
+    }
+
+    private getManagerUid(): string {
+        return 'telegram_636713717'
     }
 
     private async processBookingFormPerArtist(booking: Partial<Booking>, artist: Partial<Artist>) {

@@ -350,7 +350,7 @@ export class ArtistViewEffect {
                 if (state.tempBgImage) {
                     uploads.push(this.fireImgStorageService.createFireImgSet$(state.tempBgImage, 
                         `artist/${state.artist?.signature}/bg-0`, 
-                        [ImgSize.bg, ImgSize.miniBg, ImgSize.avatar]
+                        [ImgSize.bg, ImgSize.bgMobile, ImgSize.avatar]
                     ))
                 }
                 if (uploads.length) {

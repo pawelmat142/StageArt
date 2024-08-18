@@ -200,11 +200,11 @@ export class ArtistFormComponent {
       .filter(file => !!file)
       .map((file, i) => this.fireImgStorageService.createFireImgSet$(file, 
         `artist/${name}/bg-${i}`, 
-        [ImgSize.bg, ImgSize.miniBg, ImgSize.avatar]))
+        [ImgSize.bg, ImgSize.bgMobile, ImgSize.avatar]))
 
     imageUlopads$.unshift(this.fireImgStorageService.createFireImgSet$(avatarFile, 
       `artist/${name}/avatar`, 
-      [ImgSize.avatar, ImgSize.mini]))
+      [ImgSize.avatar, ImgSize.avatarMobile, ImgSize.mini]))
 
     forkJoin(imageUlopads$).pipe(
       catchError(error => this.handleUploadImagesError(error)),

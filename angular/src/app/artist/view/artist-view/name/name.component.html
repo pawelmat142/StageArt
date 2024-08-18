@@ -1,19 +1,23 @@
 <div class="name">
-    @if (_editMode$ | async) {
-        <div class="edit-button edit-name" (click)="editName()">
-            @if (_editName) {
-                <span class="dark">stop edit name</span>
-            } @else {
-                <span class="dark">edit name</span>
-            }
-        </div>
-    }
-    
-    <div></div>
 
-    <div>
-        <div>
-            <input class="fs1 light artist-name"
+    
+    <!-- row1 -->
+    <div></div>
+    
+    <!-- row2 -->
+    <div class="name-and-country">
+
+        <div class="artist-name">
+            @if (_editMode$ | async) {
+                <div class="edit-button edit-name" (click)="editName()">
+                    @if (_editName) {
+                        <span class="dark">stop edit name</span>
+                    } @else {
+                        <span class="dark">edit name</span>
+                    }
+                </div>
+            }
+            <input class="fs1 light"
                 #nameInput
                 [class.edit-mode]="_editName"
                 [value]="(_name$ | async)" 
@@ -47,19 +51,13 @@
     
     </div>
 
-    <div>
-        <div class="chips">
-            <div class="chip">psychedelic</div>
-            <div class="chip">psycore</div>
-            <div class="chip">experimental</div>
-        </div>
-        
-        <div class="chips margin-top-05">
-            <div class="chip red-chip">Anomalistic</div>
-            <div class="chip red-chip">Ulterior Motive</div>
-            <div class="chip red-chip">Alice-D Records</div>
-        </div>
-    </div>
+    <!-- row3 -->
+
+    @if (DESKTOP) {
+        <app-style></app-style>
+    } @else {
+        <div></div>
+    }
 
     
 </div>

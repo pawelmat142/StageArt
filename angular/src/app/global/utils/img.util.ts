@@ -3,9 +3,10 @@ import { FireImgSet, Images } from "../../artist/model/artist-form"
 
 export abstract class ImgSize {
     public static readonly bg: Size = { width: 1200, height: 800 }
-    public static readonly miniBg: Size = { width: 414, height: 233 }
+    public static readonly bgMobile: Size = { width: 414, height: 233 }
 
-    public static readonly avatar: Size = { width: 200, height: 200 }
+    public static readonly avatar: Size = { width: 250, height: 250 }
+    public static readonly avatarMobile: Size = { width: 150, height: 150 }
     public static readonly mini: Size = { width: 50, height: 50 }
 }
 

@@ -10,9 +10,10 @@ export interface FireImg {
 export interface FireImgSet {
     name: string
     bg?: FireImg
-    miniBg?: FireImg
+    bgMobile?: FireImg
 
     avatar?: FireImg
+    avatarMobile?: FireImg
     mini?: FireImg
 }
 

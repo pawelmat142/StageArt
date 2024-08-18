@@ -1,4 +1,6 @@
 import { SelectorItem } from "../global/controls/selector/selector.component"
+import { DESKTOP } from "../global/services/device"
+import { Images } from "./model/artist-form"
 import { ArtistViewDto } from "./model/artist-view.dto"
 
 export abstract class ArtistUtil {
@@ -11,5 +13,18 @@ export abstract class ArtistUtil {
                 imgUrl: a.images.avatar?.mini?.url
             }
         })
+    }
+
+    public static avatarUrl(images?: Images): string {
+        if (!images) {
+            return ''
+        }
+        const url = DESKTOP 
+            ? images.avatar?.avatar?.url
+            : images.avatar?.avatarMobile?.url 
+            // TODO temporary:
+            || images.avatar?.avatar?.url
+
+        return url || ''
     }
 }

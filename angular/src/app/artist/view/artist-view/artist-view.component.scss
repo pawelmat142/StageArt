@@ -14,12 +14,12 @@ $view-padding: 4*$padding-standard;
 }
 
 .edit-toggle {
-
     @extend .edit-toggle-style;
     background-color: $red;
     border-top-right-radius: $radius;
     border-bottom-right-radius: $radius;
     margin-bottom: $padding-standard;
+    box-shadow: $shadow-standard;
 }
 
 .desktop {
@@ -41,7 +41,7 @@ $view-padding: 4*$padding-standard;
         .grid-container {
             &.one {
                 row-gap: 0; 
-                grid-template-columns: 1fr 2fr 1fr;
+                grid-template-columns: $avatar-size 2fr 1fr;
                 margin-bottom: $padding-standard;
                 margin-bottom: 4*$padding-standard;
             }
@@ -74,13 +74,13 @@ $view-padding: 4*$padding-standard;
     min-height: 100vh;
 
     .spacer {
-        height: 35vh;
+        height: 30vh;
     }
 
     .grid-container {
         &.one {
             row-gap: 0; 
-            grid-template-columns: 2fr 3fr;
+            grid-template-columns: $avatar-size 1fr;
             margin-bottom: $padding-standard;
         }
         &.two {

@@ -9,6 +9,7 @@
     color: $dark;
     overflow: hidden;
     border-radius: $radius-standard;
+    box-shadow: $shadow-standard;
     
     display: flex;
     flex-direction: row-reverse;
@@ -70,7 +71,6 @@
 }
 
 .menu-button-open {
-
     .menu-button-children {
         color: $dark;
     }

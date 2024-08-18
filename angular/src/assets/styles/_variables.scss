@@ -13,6 +13,8 @@ $header-margin: 200px;
 $sidebar-width: 250px;
 $header-height: 90px;
 
+$avatar-size: var(--avatar-size);
+
 .section-margin {
     margin-left: $view-margin-1;
     margin-right: $view-margin-1;
@@ -22,6 +24,7 @@ $page-padding-big: 14vw;
 $radius: 3px;
 $radius-standard: 10px;
 
+$shadow-standard: 1px 1px 3px $dark;
 $transition-standard: all 0.16s ease-in-out;
 $text-shadow: 0px 2px 1px $dark;
 $text-shadow-red: 0px 2px 1px $red;

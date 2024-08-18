@@ -84,6 +84,7 @@
     gap: $padding-standard*0.5;
     padding: 8px $padding-standard;
     height: 100%;
+    box-shadow: $shadow-standard;
     
     border-radius: $radius-standard;
 
@@ -97,6 +98,10 @@
     
     button {
         display: flex;
+    }
+
+    &.no-shadow {
+        box-shadow: unset;
     }
     
 }

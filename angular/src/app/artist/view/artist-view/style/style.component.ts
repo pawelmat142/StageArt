@@ -12,6 +12,7 @@ import { ArtistLabel, ArtistStyle } from '../../../model/artist-view.dto';
 import { Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { DESKTOP } from '../../../../global/services/device';
 
 @Component({
   selector: 'app-style',
@@ -27,6 +28,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   encapsulation: ViewEncapsulation.None
 })
 export class StyleComponent {
+
+  readonly DESKTOP = DESKTOP
   
   constructor(
     private readonly store: Store<AppState>,

@@ -8,6 +8,8 @@ import { Store } from '@ngrx/store';
 import { loggedIn } from './profile/profile.state';
 import { DESKTOP } from './global/services/device';
 import { AppState } from './app.state';
+import { ImgSize } from './global/utils/img.util';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +19,8 @@ import { AppState } from './app.state';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
+  
+  readonly DESKTOP = DESKTOP
 
   title = 'book-agency';
 
@@ -26,6 +30,8 @@ export class AppComponent {
     private store: Store<AppState>,
   ) {}
 
+  courtine$ = of(false)
+
   ngOnInit() {
     if (DESKTOP) {
       this.renderer.addClass(document.body, 'desktop')
@@ -33,15 +39,28 @@ export class AppComponent {
 
     // TODO
     this.autoLogin()
+    this.initCourtine()
+    this.initScssVariables()
   }
 
-  courtine$ = this.courtineService.courtine$
+  private initCourtine() {
+    setTimeout(() => {
+      this.courtine$ = this.courtineService.courtine$.pipe(
+      )
+    })
+  }
+
 
   private autoLogin() {
     if (Token.loggedIn) {
       this.store.dispatch(loggedIn(Token.payload!))
     } else {
     }
+  }
+
+  private initScssVariables() {
+    const avatarSize = DESKTOP ? ImgSize.avatar.height : ImgSize.avatarMobile.height
+    document.documentElement.style.setProperty('--avatar-size', `${avatarSize}px`);
   }
 }
 

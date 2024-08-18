@@ -22,6 +22,7 @@ export class FireImgStorageService {
     }
 
     public async deleteImage$(fireImg: FireImg) {
+        // TODO usuwac caly ImgSet jak już...
         return from(deleteObject(ref(this.storage, fireImg.firePath)))
     }
 
@@ -48,11 +49,14 @@ export class FireImgStorageService {
                 if (size.width === ImgSize.bg.width) {
                     fireImgSet.bg = fireImg
                 } 
-                else if (size.width === ImgSize.miniBg.width) {
-                    fireImgSet.miniBg = fireImg
+                else if (size.width === ImgSize.bgMobile.width) {
+                    fireImgSet.bgMobile = fireImg
                 }
                 else if (size.width === ImgSize.avatar.width) {
                     fireImgSet.avatar = fireImg
+                }
+                else if (size.width === ImgSize.avatarMobile.width) {
+                    fireImgSet.avatarMobile = fireImg
                 }
                 else if (size.width === ImgSize.mini.width) {
                     fireImgSet.mini = fireImg
