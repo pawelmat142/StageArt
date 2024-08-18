@@ -41,6 +41,7 @@ export class SidebarComponent {
 
   _artistState$ = this.store.select(selectArtistView)
 
+  
   _bookingsItem: MenuButtonItem = {
     label: `Bookings`,
     onclick: () => this.view.emit('BOOKINGS'),
@@ -69,13 +70,8 @@ export class SidebarComponent {
 
   ngOnInit(): void {
     this.store.select(profile).pipe(
-      tap(profile => {
-        const role = profile?.role
-        if (role) {
-          this.setSidebarItemsForRole(role)
-          this.setPanelViewForRole(role)
-        }
-      }),
+      tap(profile => this.setSidebarItemsForRole(profile)),
+      tap(profile => this.setPanelViewForRole(profile)),
       tap(profile => this.initAsArtistIfNeed(profile)),
     ).subscribe()
   }
@@ -93,22 +89,22 @@ export class SidebarComponent {
     item.onclick()
   }
 
-  private setSidebarItemsForRole(role: Role) {
-    const items = this.allItems.filter(item => item.rolesGuard ? item.rolesGuard.includes(role) : true)
+  private setSidebarItemsForRole(profile?: Profile) {
+    const items = this.allItems.filter(item => Role.matches(profile, item.rolesGuard))
     this._sidebarItems$.next(items)
   }
 
-  private setPanelViewForRole(role: Role) {
-    const showBookingsPanelViewRoles: Role[] = ['ARTIST', 'MANAGER', 'PROMOTER']
-    if (showBookingsPanelViewRoles.includes(role)) {
+  private setPanelViewForRole(profile?: Profile) {
+    const panelBookingsRolesGuard: string[] = [Role.ARTIST, Role.MANAGER, Role.PROMOTOR]
+    if (Role.matches(profile, panelBookingsRolesGuard)) {
       // TODO temp mock
       // this._clickItem(this._bookingsItem)
       this._clickItem(this._artistsOfManager)
     }
   }
 
-  private initAsArtistIfNeed(profile: Profile | null) {
-    if (profile?.role === 'ARTIST') {
+  private initAsArtistIfNeed(profile?: Profile) {
+    if (profile?.roles.includes(Role.ARTIST)) {
       if (profile.artistSignature) {
         this.store.dispatch(initArtist({ signature: profile.artistSignature }))
         this.view.emit('NONE')

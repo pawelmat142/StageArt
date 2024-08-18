@@ -69,7 +69,7 @@ export class ArtistService {
 
     public findName(signature: string) {
         return this.artistModel.findOne({ signature })
-            .select({ name: true})
+            .select({ name: true })
     }
 
     public async updateArtistView(artist: ArtistViewDto, profile: JwtPayload) {

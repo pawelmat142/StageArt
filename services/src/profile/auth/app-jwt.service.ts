@@ -40,7 +40,7 @@ export class AppJwtService extends JwtService {
     public createPayload(profile: Profile): JwtPayload { //Profile
         return {
             uid: profile.uid,
-            role: profile.role,
+            roles: profile.roles,
             name: profile.name,
             telegramChannelId: profile.telegramChannelId,
             artistSignature: profile.artistSignature,

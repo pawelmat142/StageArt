@@ -5,7 +5,8 @@ import { ArtistViewDto } from './model/artist-view.dto';
 import { GetProfile } from '../profile/auth/profile-path-param-getter';
 import { JwtPayload } from '../profile/auth/jwt-strategy';
 import { JwtGuard } from '../profile/auth/jwt.guard';
-import { profile } from 'console';
+import { RoleGuard } from '../profile/auth/role.guard';
+import { Role } from '../profile/model/role';
 
 export interface FetchArtistQuery {
     name?: string
@@ -76,8 +77,8 @@ export class ArtistController {
     }
 
     @Get('artists/of-manager')
-    @UseGuards(JwtGuard)
-    // TODO RoleGuard -> for manager here
+    @UseGuards(RoleGuard(Role.MANAGER))
+    @Serialize(ArtistViewDto)
     fetchArtistsOfManager(@GetProfile() profile: JwtPayload) {
         return this.artistService.fetchArtistsOfManager(profile)
     }

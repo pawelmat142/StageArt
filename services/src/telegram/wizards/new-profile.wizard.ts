@@ -1,4 +1,4 @@
-import { Profile, Role } from "../../profile/model/profile.model"
+import { Profile } from "../../profile/model/profile.model"
 import { ServiceProvider } from "./services.provider"
 import { Wizard, WizardStep } from "./wizard"
 
@@ -77,9 +77,8 @@ export class NewProfileWizard extends Wizard {
         ]
     }
 
-
-    private async createProfile(role: Role): Promise<number> {
-        this.profile.role = role
+    private async createProfile(role: string): Promise<number> {
+        this.profile.roles = [role]
         try {
             await this.services.profileTelegramService.createProfile(this.profile)
             return 5
@@ -89,6 +88,5 @@ export class NewProfileWizard extends Wizard {
             return 4
         }
     }
-
 
 }

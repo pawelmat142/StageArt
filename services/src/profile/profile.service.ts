@@ -26,6 +26,16 @@ export class ProfileService {
         return this.profileModel.findOne({ uid })
     }
 
+    public fetchForJwt(uid: string) {
+        return this.profileModel.findOne({ uid })
+            .select({ 
+                uid: true,
+                name: true,
+                roles: true,
+                artistSignature: true,
+                telegramChannelId: true,
+            })
+    }
 
     public async updatePromoterInfoWhenSubmitForm(formData: any, profile: JwtPayload) {
         const promoterInfo = formData.promoterInformation
@@ -45,7 +55,7 @@ export class ProfileService {
         const user = new this.profileModel({
             uid: profile.uid,
             name: profile.name,
-            role: profile.role,
+            roles: profile.roles,
 
             registerMode: registerMode,
             telegramChannelId: profile.telegramChannelId,
@@ -61,7 +71,7 @@ export class ProfileService {
     }
 
     fetchManagers() {
-        return this.profileModel.find({ role: 'MANAGER' })
+        return this.profileModel.find({ roles: 'MANAGER' })
     }
 
     fetchFullProfile(payload: JwtPayload) {

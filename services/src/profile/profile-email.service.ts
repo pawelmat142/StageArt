@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, Logger, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { AppJwtService } from "./auth/app-jwt.service";
 import { InjectModel } from "@nestjs/mongoose";
-import { Profile, Role } from "./model/profile.model";
+import { Profile } from "./model/profile.model";
 import { Model } from "mongoose";
 import { randomBytes } from "crypto";
 import { scrypt as _scrypt }  from 'crypto';
@@ -11,7 +11,7 @@ const scrypt = promisify(_scrypt);
 
 export interface LoginForm {
     name: string
-    role: Role
+    role: string
     email: string
     password: string
 }

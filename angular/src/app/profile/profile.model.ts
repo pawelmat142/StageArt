@@ -2,16 +2,14 @@
 export interface ProfileDto {
     uid: string
     name: string
-    role: Role
+    roles: string[]
     telegramChannelId?: string
 }
-
-export type Role = 'MANAGER' | 'PROMOTER' | 'ARTIST' | 'ADMIN'
 
 export interface Profile { 
     uid: string
     name: string
-    role: Role
+    roles: string[]
     artistSignature?: string
     telegramChannelId?: string
     phoneNumber?: string
@@ -20,4 +18,23 @@ export interface Profile {
     firstName?: string
     lastName?: string
     promoterInfo?: any
+}
+
+export abstract class Role {
+
+    public static readonly ADMIN = 'ADMIN'
+
+    public static readonly ARTIST = 'ARTIST'
+    public static readonly MANAGER = 'MANAGER'
+    public static readonly PROMOTOR = 'PROMOTOR'
+
+    public static matches(profile?: Profile, rolesGuard?: string[]): boolean {
+        if (!profile) {
+            return false
+        }
+        if (!rolesGuard) {
+            true
+        }
+        return profile.roles.some(profileRole => rolesGuard?.includes(profileRole))
+    }
 }

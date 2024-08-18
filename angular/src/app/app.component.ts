@@ -39,6 +39,7 @@ export class AppComponent {
 
     // TODO
     this.autoLogin()
+
     this.initCourtine()
     this.initScssVariables()
   }

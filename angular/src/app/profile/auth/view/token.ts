@@ -6,7 +6,7 @@ export interface JwtPayload {
     uid: string
     name: string
     telegramChannelId: string
-    role: Role
+    roles: string[]
     exp: number
     iat: number
     artistSignature?: string
@@ -62,10 +62,10 @@ export abstract class Token {
 
     public static get admin(): boolean {
         const payload = this.payload
-        if (!payload || !payload.role || !payload.exp) {
+        if (!payload || !payload.roles || !payload.exp) {
             return false
         }
-        const aminRole = payload.role === 'ADMIN'
+        const aminRole = payload.roles.includes(Role.ADMIN)
         const notExpired = this.logged(payload)
         return aminRole && notExpired
     }

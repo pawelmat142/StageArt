@@ -8,16 +8,20 @@ import { AppJwtService } from "./app-jwt.service";
 @Injectable()
 export class JwtGuard extends AuthGuard('jwt') {
 
-    protected logger = new Logger(this.constructor.name)
+    get loggerName(): string {
+        return JwtGuard.name
+    }
+
+    public logger = new Logger(this.loggerName)
 
     constructor(
-        private readonly jwtService: AppJwtService,
-        private readonly profileService: ProfileService,
+        protected readonly jwtService: AppJwtService,
+        protected readonly profileService: ProfileService,
     ) {
         super()
     }
 
-    profile: Profile | undefined
+    profile?: Profile
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
         const request = context.switchToHttp().getRequest()
@@ -27,25 +31,24 @@ export class JwtGuard extends AuthGuard('jwt') {
             const token = this.jwtService.extractToken(request)
             if (!token) {
                 this.logger.error('Token not found')
-                throw new ForbiddenException()
+                throw new ForbiddenException(`Not found token`)
             }
             const secret = process.env.JWT_SECRET
             const payload = this.jwtService.verify(token, { secret })
             if (!payload) {
-                this.logger.error('No payload')
-                throw new ForbiddenException()
+                throw new ForbiddenException('Not found payload')
             }
             if (!payload.uid) {
                 this.logger.error('uid not provided')
-                throw new ForbiddenException()
+                throw new ForbiddenException(`Not found uid`)
             }
-            this.profile = await this.profileService.findById(payload.uid)
+            this.profile = await this.profileService.fetchForJwt(payload.uid)
             this.verifyRole()
 
             const tokenExpider = this.jwtService.isExpired(payload)
             if (tokenExpider) {
                 this.logger.warn('Token expired')
-                throw new UnauthorizedException()
+                throw new UnauthorizedException(`Token expired`)
             }
             const newToken = this.jwtService.newToken(payload)
             response.header('Authorization', 'Bearer ' + newToken)

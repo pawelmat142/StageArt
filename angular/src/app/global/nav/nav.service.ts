@@ -10,13 +10,12 @@ import { BookFormComponent } from '../../booking/view/book-form/book-form.compon
 import { NotFoundPageComponent } from '../view/error/not-found-page/not-found-page.component';
 import { ArtistsViewComponent } from '../../artist/view/artists-view/artists-view.component';
 import { AppState } from '../../app.state';
-import { Role } from '../../profile/profile.model';
 
 export interface MenuButtonItem {
   label: string
   onclick(): void
   active?: boolean
-  rolesGuard?: Role[] //undefined means its available for every role
+  rolesGuard?: string[] //undefined means its available for every role
 }
 
 @Injectable({

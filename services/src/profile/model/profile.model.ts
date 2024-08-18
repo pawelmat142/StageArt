@@ -4,8 +4,6 @@ import { HydratedDocument } from "mongoose"
 
 export type ProfileDocument = HydratedDocument<Profile>
 
-export type Role = 'MANAGER' | 'PROMOTER' | 'ARTIST' | 'ADMIN'
-
 export type RegisterMode = 'TELEGRAM' | 'EMAIL'
 
 @Schema()
@@ -21,7 +19,7 @@ export class Profile {
     
     @Expose()
     @Prop({ required: true })
-    role: Role
+    roles: string[]
     
     @Expose()
     @Prop()

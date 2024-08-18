@@ -1,13 +1,12 @@
 import { Injectable } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
 import { ExtractJwt, Strategy } from "passport-jwt";
-import { Role } from "../model/profile.model";
 
 export interface JwtPayload {
     uid: string
     name: string
     telegramChannelId: string
-    role: Role
+    roles: string[]
     exp: number
     iat: number
     artistSignature?: string

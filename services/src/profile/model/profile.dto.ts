@@ -1,6 +1,4 @@
 import { Expose } from "class-transformer"
-import { Role } from "./profile.model"
-
 
 export class ProfileDto {
     
@@ -11,7 +9,7 @@ export class ProfileDto {
     name: string
     
     @Expose()
-    role: Role
+    roles: string[]
     
     @Expose()
     telegramChannelId?: string

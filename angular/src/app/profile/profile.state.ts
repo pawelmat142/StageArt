@@ -9,7 +9,7 @@ import { Profile } from "./profile.model"
 export interface ProfileState {
     loading: boolean
     loggedIn: boolean
-    profile: Profile | null
+    profile?: Profile
     uuid: string
 }
 
@@ -49,7 +49,7 @@ const initialState: ProfileState = {
     loading: false,
     loggedIn: false,
     uuid: '',
-    profile: null
+    profile: undefined
 }
 
 export const profileReducer = createReducer(
@@ -70,9 +70,8 @@ export const profileReducer = createReducer(
         ...state,
         loggedIn: false,
         loading: false,
-        profile: null,
+        profile: undefined,
     })),
-
 )
 
 
