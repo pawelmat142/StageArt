@@ -22,10 +22,12 @@
     
     <div>
         <div>
-            <input class="fs1 light baron artist-name"
-            [value]="(_name$ | async)" 
-            (input)="_nameChange($event)"
-            [disabled]="!_editName"
+            <input class="fs1 light artist-name"
+                #nameInput
+                [class.edit-mode]="_editName"
+                [value]="(_name$ | async)" 
+                (input)="_nameChange($event)"
+                [disabled]="!_editName"
             >
         </div>
 

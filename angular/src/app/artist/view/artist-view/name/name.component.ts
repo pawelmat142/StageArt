@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../../app.state';
 import { CountryComponent } from '../../../../global/components/country/country.component';
@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { SelectorItemsComponent } from '../../../../global/controls/selector/selector-items/selector-items.component';
 import { SelectorItem } from '../../../../global/controls/selector/selector.component';
 import { CountriesService } from '../../../../global/countries/countries.service';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-name',
@@ -29,6 +30,7 @@ export class NameComponent {
     private readonly store: Store<AppState>
   ) {}
 
+  @ViewChild('nameInput') nameInput?: ElementRef
 
   _countryItems: SelectorItem[] = []
 
@@ -38,7 +40,14 @@ export class NameComponent {
 
   _editable$ = this.store.select(profileIsOwner)
 
-  _editMode$ = this.store.select(editMode)
+  _editMode$ = this.store.select(editMode).pipe(
+    tap(mdoe => {
+      if (!mdoe) {
+        this._editName = false
+        this._editCountry = false
+      }
+    })
+  )
 
   _editName = false
 
@@ -51,6 +60,11 @@ export class NameComponent {
 
   editName() {
     this._editName = !this._editName
+    if (this._editName) {
+      setTimeout(() => {
+        this.nameInput?.nativeElement.focus()
+      }, 100)
+    }
   }
 
   _editCountry = false
@@ -59,12 +73,10 @@ export class NameComponent {
     this._editCountry = true
   }
 
-
   _selectCountry(item: SelectorItem) {
     this.store.dispatch(updateCountry({ value: item.code }))
     this._editCountry = false
   }
-
 
   _nameChange($event: Event) {
     const target = $event.target as HTMLInputElement

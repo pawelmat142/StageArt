@@ -20,7 +20,13 @@ export class TextareaElementComponent {
   @Input() disabled? = false
   @Input() placeholder? = ''
 
+  @Input() rowsInitial = 3
+
   @ViewChild('textareaRef') textareaRef!: ElementRef
+
+  focusTextarea() {
+    this.textareaRef.nativeElement.focus()
+  }
 
   ngAfterViewInit(): void {
     this.resize()

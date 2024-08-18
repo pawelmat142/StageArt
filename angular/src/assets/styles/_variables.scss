@@ -118,7 +118,16 @@ $border-shadow: 0 3px 5px $red;
 }
 
 .tile-content {
-    padding: $padding-standard;
+    padding: $padding-standard $padding-standard 0;
+    &.tile-textarea {
+        padding: 0.5*$padding-standard 0.5*$padding-standard 0; 
+        .textarea {
+            display: block;
+            padding: 0.5*$padding-standard;
+            margin-bottom: -0.5*$padding-standard;
+            border-radius: $radius;
+        }
+    }
 }
 
 .card {

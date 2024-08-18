@@ -161,16 +161,4 @@ export class ArtistService {
         this.logger.log(`Processed booking ${booking.formId} for artist ${artist.signature}`)
     }
 
-    public async listMusicStyles() {
-        const results = await this.artistModel.aggregate([
-            { $unwind: '$style' },
-            { $group: {
-                _id: null,
-                names: { $addToSet: '$style.name' }
-            } }, 
-            { $project: { _id: 0, names: 1 } }
-        ]);
-        return { styles : results.length > 0 ? results[0].names : [] }
-    }
-        
 }

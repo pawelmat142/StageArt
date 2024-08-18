@@ -19,19 +19,21 @@
             left: 40px;
     
         }
-
-
     }
-
 }
 
 .name {
     .artist-name {
+        text-shadow: 1px 1px 3px $light;
         margin-bottom: 0.5*$padding-standard;
         width: 100%;
     }
 
     position: relative;
+
+    input.edit-mode {
+        background-color: $light-dark;
+    }
 
     .edit-button.edit-name {
         top: -33px;

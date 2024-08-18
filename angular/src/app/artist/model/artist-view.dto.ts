@@ -8,12 +8,6 @@ export interface FetchArtistQuery {
 
 export type ArtistStatus = 'CREATED' | 'READY' | 'ACTIVE'
 
-export interface MusicStyle {
-    order: number
-    id: string
-    name: string
-}
-
 export interface ArtistViewDto {
 
     signature: string
@@ -30,7 +24,7 @@ export interface ArtistViewDto {
     
     bio: string
 
-    style: MusicStyle[]
+    style: string
     
     managmentNotes: string
 }

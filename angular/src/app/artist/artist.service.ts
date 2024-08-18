@@ -53,8 +53,4 @@ export class ArtistService {
         return result
     }
 
-    public listMusicStyles(): Observable<{ styles: string[] }> {
-        return this.http.get<{ styles: string[] }>(`/list-music-styles`).pipe()
-    }
-
 }

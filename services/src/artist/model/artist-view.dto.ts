@@ -1,5 +1,5 @@
 import { Expose } from "class-transformer"
-import { ArtistMedia, ArtistStatus, Images, MusicStyle } from "./artist.model"
+import { ArtistMedia, ArtistStatus, Images } from "./artist.model"
 
 export class ArtistViewDto {
 
@@ -25,7 +25,7 @@ export class ArtistViewDto {
     bio: string
     
     @Expose()
-    style: MusicStyle[]
+    style: string
     
     @Expose()
     managmentNotes: string

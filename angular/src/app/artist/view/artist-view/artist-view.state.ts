@@ -1,5 +1,5 @@
 import { createAction, createReducer, createSelector, on, props, Store } from "@ngrx/store";
-import { ArtistViewDto, FetchArtistQuery, MusicStyle } from "../../model/artist-view.dto";
+import { ArtistViewDto, FetchArtistQuery } from "../../model/artist-view.dto";
 import { AppState, selectArtistView } from "../../../app.state";
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
@@ -104,7 +104,7 @@ export const updateCountry = createAction("[ArtistViewState] update country", pr
 
 export const updateMedias = createAction("[ArtistViewState] update medias", props<{ value: ArtistMedia[] }>())
 
-export const updateStyle = createAction("[ArtistViewState] update style", props<{ value: MusicStyle[] }>())
+export const updateStyle = createAction("[ArtistViewState] update style", props<{ value: string }>())
 
 
 export const uploadArtistChanges = createAction("[ArtistViewState] upload changes")

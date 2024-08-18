@@ -1,10 +1,10 @@
-import { Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { TextareaElementComponent } from '../../../../global/controls/textarea-element/textarea-element.component';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../../app.state';
 import { artistBio, editMode, updateBio } from '../artist-view.state';
-import { FormBuilder } from '@angular/forms';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-bio',
@@ -21,20 +21,31 @@ export class BioComponent {
 
   constructor(
     private readonly store: Store<AppState>,
-    private readonly fb: FormBuilder,
   ) {}
-  
-  @ViewChild('viewRef') viewRef?: ElementRef
 
+  @ViewChild(TextareaElementComponent) textarea?: TextareaElementComponent
+
+  
   _bio$ = this.store.select(artistBio).pipe(
   )
 
-  _editMode$ = this.store.select(editMode)
+  _editMode$ = this.store.select(editMode).pipe(
+    tap(mdoe => {
+      if (!mdoe) {
+        this._editBioMode = false
+      }
+    })
+  )
 
   _editBioMode = false
   
   _edit() {
     this._editBioMode = !this._editBioMode
+    if (this._editBioMode) {
+      setTimeout(() => {
+        this.textarea?.focusTextarea()
+      }, 100)
+    }
   }
 
   _onInput(event: Event)  {
