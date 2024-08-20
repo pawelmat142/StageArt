@@ -13,4 +13,12 @@ export abstract class Util {
         return `${day}-${month}-${year}`;
     }
 
+    public static fromSnakeCase(input: string): string {
+        let words = input.split('_');
+        if (words.length) {
+            words[0] = this.capitalizeFirstLetter(words[0])
+        }
+        return words.join(' ');
+    }
+
 }

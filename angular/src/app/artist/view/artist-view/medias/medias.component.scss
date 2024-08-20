@@ -12,12 +12,20 @@
         .floating .selector-items {
             top: 85%;
         }
+
+        .icon-button .svg-wrapper svg {
+            width: 35px;
+        }
     }
 }
 
 .medias {
     &.tile {
         overflow: unset;
+    }
+
+    .icon-button .svg-wrapper svg {
+        width: 25px;
     }
 
     position: relative;
@@ -36,5 +44,6 @@
                 fill: $dark;
             }
         }
-    } 
+    }
+
 }

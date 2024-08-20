@@ -27,6 +27,8 @@ export class JwtGuard extends AuthGuard('jwt') {
         const request = context.switchToHttp().getRequest()
         const response = context.switchToHttp().getResponse()
 
+        this.profile = undefined
+
         try {
             const token = this.jwtService.extractToken(request)
             if (!token) {

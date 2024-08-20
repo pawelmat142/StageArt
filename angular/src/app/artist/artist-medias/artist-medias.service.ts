@@ -6,6 +6,8 @@ export const artistMediaCodes = [
     'instagram', 
     'soundcloud', 
     'bandcamp',
+    'spotify',
+    'you_tube',
     'website'
 ] as const
 

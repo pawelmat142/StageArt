@@ -37,7 +37,7 @@ export class MediasComponent {
     this._items = this.artistMediasService.getMedias().filter(type => !!type).map(mediaType => {
       return {
         code: mediaType,
-        name: Util.capitalizeFirstLetter(mediaType),
+        name: Util.fromSnakeCase(mediaType),
         svg: mediaType
       }
     })
@@ -62,7 +62,7 @@ export class MediasComponent {
 
   _editMedias = false
 
-  _selectoMedia(item: SelectorItem) {
+  _selectMedia(item: SelectorItem) {
     this._editMedias = false
     const data: DialogData = {
       header: `${item.name}`,

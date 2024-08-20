@@ -9,6 +9,7 @@ import { artistMedias, editMode, updateMedias } from '../../../artist/view/artis
 import { map, noop, of, switchMap, take, tap } from 'rxjs';
 import { DialogData } from '../../nav/dialogs/popup/popup.component';
 import { DialogService } from '../../nav/dialog.service';
+import { FromSnakeCasePipe } from "../../pipes/from-snake-case.pipe";
 
 @Component({
   selector: 'app-media-item',
@@ -16,7 +17,8 @@ import { DialogService } from '../../nav/dialog.service';
   imports: [
     CommonModule,
     IconButtonComponent,
-  ],
+    FromSnakeCasePipe
+],
   templateUrl: './media-item.component.html',
   styleUrl: './media-item.component.scss',
   encapsulation: ViewEncapsulation.None
@@ -32,12 +34,6 @@ export class MediaItemComponent {
   @Input() hideName = false
   @Input() color = 'light'
   @Input() size = 30
-
-  _name = ''
-
-  ngOnInit(): void {
-    this._name = Util.capitalizeFirstLetter(this.media?.code)
-  }
 
   _editMode$ = this.store.select(editMode)
 
@@ -57,7 +53,7 @@ export class MediaItemComponent {
 
   _edit() {
     const data: DialogData = {
-      header: Util.capitalizeFirstLetter(this.media.code),
+      header: Util.fromSnakeCase(this.media.code),
       input: 'url',
       inputValue: this.media.url
     }
