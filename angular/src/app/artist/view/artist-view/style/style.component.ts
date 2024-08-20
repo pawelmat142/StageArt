@@ -2,7 +2,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { AppState } from '../../../../app.state';
 import { Store } from '@ngrx/store';
 import { CommonModule } from '@angular/common';
-import { editMode, profileIsOwner, updateLabels, updateStyle } from '../artist-view.state';
+import { editMode, updateLabels, updateStyle } from '../artist-view.state';
 import { TextareaElementComponent } from '../../../../global/controls/textarea-element/textarea-element.component';
 import { filter, map, take, tap, withLatestFrom } from 'rxjs';
 import { ArtistService } from '../../../artist.service';
@@ -37,6 +37,8 @@ export class StyleComponent {
     private readonly artistService: ArtistService,
   ) {}
 
+  _editable$ = this.artistService.artistViewEditable$
+
   _styles$ = this.store.select(state => state.artistViewState.artist?.styles).pipe(
     tap(styles => this._canRemoveStyle = (styles || [])?.length > 1)
   )
@@ -50,9 +52,6 @@ export class StyleComponent {
 
   _editMode$ = this.store.select(editMode).pipe(
     tap(editMode => this._editMode = editMode)
-  )
-
-  _profileIsOwner$ = this.store.select(profileIsOwner).pipe(
   )
 
   _editMode = false

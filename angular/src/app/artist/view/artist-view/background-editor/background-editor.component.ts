@@ -2,10 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../../app.state';
-import { addBgImage, editMode, load } from '../artist-view.state';
+import { addBgImage, editMode, loadingArtistView } from '../artist-view.state';
 import { ImgUtil } from '../../../../global/utils/img.util';
 import { take, tap } from 'rxjs';
-import { CarouselModule } from 'primeng/carousel';
+import { FireImgStorageService } from '../../../../global/services/fire-img-storage.service';
 
 @Component({
   selector: 'app-background-editor',
@@ -20,7 +20,8 @@ import { CarouselModule } from 'primeng/carousel';
 export class BackgroundEditorComponent {
 
   constructor(
-    private readonly store: Store<AppState>
+    private readonly imgService: FireImgStorageService,
+    private readonly store: Store<AppState>,
   ) {}
 
   _editMode$ = this.store.select(editMode)
@@ -42,13 +43,16 @@ export class BackgroundEditorComponent {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       const file = input.files[0]
-      this.convertAndSetTempAvatar(file)
+      const valid = this.imgService.validateExtension(file)
+      if (valid) {
+        this.convertAndSetTempBackgroundImg(file)
+      }
     }
   }
 
-  private async convertAndSetTempAvatar(value: File | null) {
+  private async convertAndSetTempBackgroundImg(value: File | null) {
     if (value) {
-      this.store.dispatch(load())
+      this.store.dispatch(loadingArtistView())
       ImgUtil.resizeImgFile$(value).pipe(
         take(1),
         tap(file => this.store.dispatch(addBgImage({ file: file }))),

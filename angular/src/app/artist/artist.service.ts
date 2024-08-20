@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { ArtistLabel, ArtistStyle, ArtistViewDto, FetchArtistQuery } from "./model/artist-view.dto";
 import { Store } from "@ngrx/store";
-import { Observable, take, tap } from "rxjs";
+import { combineLatest, filter, map, Observable, shareReplay, take } from "rxjs";
 import { selectArtists } from "./artists.state";
 import { HttpService } from "../global/services/http.service";
 import { AppState } from "../app.state";
@@ -72,5 +72,13 @@ export class ArtistService {
         this.store.select(selectArtists).pipe(take(1)).subscribe(x => result = x)
         return result
     }
+
+    public artistViewEditable$ = combineLatest([
+           this.store.select(state => state.artistViewState.artist?.signature).pipe(filter(s => !!s)),
+           this.store.select(state => state.profileState.profile?.artistSignature).pipe(filter(s => !!s)),
+         ]).pipe(
+           map(([signatureOfArtistView, artistProfileSignature]) => signatureOfArtistView === artistProfileSignature),
+           shareReplay(),
+         )
 
 }

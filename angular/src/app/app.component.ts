@@ -11,6 +11,7 @@ import { ImgSize } from './global/utils/img.util';
 import { ProfileService } from './profile/profile.service';
 import { NavService } from './global/nav/nav.service';
 import { LoginComponent } from './profile/auth/view/login/login.component';
+import { RegisterComponent } from './profile/auth/view/register/register.component';
 
 @Component({
   selector: 'app-root',
@@ -48,7 +49,7 @@ export class AppComponent {
 
 
   private autoLogin() {
-    if (this.nav.path.includes(LoginComponent.path)) {
+    if (this.skipAutoLogin()) {
       return
     }
     this.store.dispatch(login())
@@ -59,6 +60,10 @@ export class AppComponent {
         this.store.dispatch(logout())
       }
     })
+  }
+
+  private skipAutoLogin(): boolean {
+    return [LoginComponent.path, RegisterComponent.path].some(path => this.nav.path.includes(path))
   }
 
   private initScssVariables() {

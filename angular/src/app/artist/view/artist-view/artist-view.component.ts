@@ -12,7 +12,7 @@ import { AppState } from '../../../app.state';
 import { Store } from '@ngrx/store';
 import { IconButtonComponent } from "../../../global/components/icon-button/icon-button.component";
 import { AvatarComponent } from './avatar/avatar.component';
-import { artist, cancelArtistChanges, editMode, initArtist, profileIsOwner, saveChanges, startEditArtist } from './artist-view.state';
+import { artist, cancelArtistChanges, editMode, initArtist, saveChanges, startEditArtist } from './artist-view.state';
 import { BackgroundComponent } from './background/background.component';
 import { BackgroundEditorComponent } from './background-editor/background-editor.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
@@ -63,7 +63,7 @@ export class ArtistViewComponent {
   ) {}
 
 
-  _editable$ = this.store.select(profileIsOwner)
+  _editable$ = this.artistService.artistViewEditable$
 
   _editMode$ = this.store.select(editMode)
 

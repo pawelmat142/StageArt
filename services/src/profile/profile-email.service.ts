@@ -35,11 +35,11 @@ export class ProfileEmailService {
             throw new BadRequestException('Missing name')
         }
         if (!form.email) {
-            throw new BadRequestException('Missing name')
+            throw new BadRequestException('Missing email')
         }
         const checkEmail = await this.profileModel.findOne({
             email: form.email
-        })
+        }).select('_id')
         if (checkEmail) {
             throw new BadRequestException('Email already in use')
         }

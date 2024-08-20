@@ -22,7 +22,7 @@
     </ng-container>
 </div>
 
-@if (_labels.length || (_profileIsOwner$ | async)) {
+@if (_labels.length || (_editable$ | async)) {
     <p *ngIf="!DESKTOP" class="tile-header chip-label margin-top">Labels</p>
     <div class="chips">
         @for (label of _labels$ | async; track label.id) {

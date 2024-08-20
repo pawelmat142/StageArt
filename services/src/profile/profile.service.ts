@@ -46,8 +46,7 @@ export class ProfileService {
     }
 
     async createProfile(profile: Partial<Profile>, registerMode: RegisterMode) {
-
-        const checkName = await this.profileModel.findOne({ name: profile.name })
+        const checkName = await this.profileModel.findOne({ name: profile.name }).select({ _id: true })
         if (checkName) {
             throw new BadRequestException('Name already n use')
         }

@@ -3,7 +3,7 @@ import { Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/co
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../../app.state';
 import { CountryComponent } from '../../../../global/components/country/country.component';
-import { artistCountry, artistName, editMode, profileIsOwner, updateCountry, updateName } from '../artist-view.state';
+import { artistCountry, artistName, editMode, updateCountry, updateName } from '../artist-view.state';
 import { FormsModule } from '@angular/forms';
 import { SelectorItemsComponent } from '../../../../global/controls/selector/selector-items/selector-items.component';
 import { SelectorItem } from '../../../../global/controls/selector/selector.component';
@@ -11,6 +11,7 @@ import { CountriesService } from '../../../../global/countries/countries.service
 import { tap } from 'rxjs';
 import { StyleComponent } from '../style/style.component';
 import { DESKTOP } from '../../../../global/services/device';
+import { ArtistService } from '../../../artist.service';
 
 @Component({
   selector: 'app-name',
@@ -32,7 +33,8 @@ export class NameComponent {
 
   constructor(
     private readonly countriesService: CountriesService,
-    private readonly store: Store<AppState>
+    private readonly artistService: ArtistService,
+    private readonly store: Store<AppState>,
   ) {}
 
   @ViewChild('nameInput') nameInput?: ElementRef
@@ -43,7 +45,7 @@ export class NameComponent {
     this._countryItems = this.countriesService.getCountries()
   }
 
-  _editable$ = this.store.select(profileIsOwner)
+  _editable$ = this.artistService.artistViewEditable$
 
   _editMode = false
   

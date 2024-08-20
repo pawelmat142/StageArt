@@ -31,11 +31,6 @@ export const artistViewLoadingChange = createSelector(
     (state: ArtistViewState) => state.loading
 )
 
-export const profileIsOwner = createSelector(
-    selectArtistView,
-    (state: ArtistViewState) => state.profileIsOwner
-)
-
 export const editMode = createSelector(
     selectArtistView,
     (state: ArtistViewState) => state.editMode
@@ -84,11 +79,9 @@ export const initArtist = createAction("[ArtistViewState] init", props<FetchArti
 
 export const initializedArtist = createAction("[ArtistViewState] initialized", props<ArtistViewDto>())
 
-export const isProfileOwner = createAction("[ArtistViewState] check if can edit", props<{ profileIsOwner: boolean }>())
-
 export const startEditArtist = createAction("[ArtistViewState] start edit")
 
-export const load = createAction("[ArtistViewState] loading")
+export const loadingArtistView = createAction("[ArtistViewState] loading")
 
 export const stopLoading = createAction("[ArtistViewState] stop loading")
 
@@ -107,7 +100,6 @@ export const updateMedias = createAction("[ArtistViewState] update medias", prop
 export const updateStyle = createAction("[ArtistViewState] update style", props<{ value: ArtistStyle[] }>())
 
 export const updateLabels = createAction("[ArtistViewState] update labels", props<{ value: ArtistLabel[] }>())
-
 
 export const uploadArtistChanges = createAction("[ArtistViewState] upload changes")
 
@@ -132,7 +124,7 @@ export const artistViewReducer = createReducer(
         loading: true,
     })),
 
-    on(load, (state) => ({
+    on(loadingArtistView, (state) => ({
         ...state,
         loading: true,
     })),
@@ -147,11 +139,6 @@ export const artistViewReducer = createReducer(
         loading: false,
         editMode: false,
         artist: artist
-    })),
-
-    on(isProfileOwner, (state, profileIsOwner) => ({
-        ...state,
-        profileIsOwner: profileIsOwner.profileIsOwner
     })),
 
     on(startEditArtist, (state) => ({
@@ -307,14 +294,6 @@ export class ArtistViewEffect {
                 )
             }
         }),
-    ))
-
-    initializedArtist$ = createEffect(() => this.actions$.pipe(
-        ofType(initializedArtist),
-        withLatestFrom(this.store.select(profile)),
-        map(([artist, profile]) => {
-            return isProfileOwner({ profileIsOwner: artist.signature === profile?.artistSignature })
-        })
     ))
 
     saveChanges$ = createEffect(() => this.actions$.pipe(

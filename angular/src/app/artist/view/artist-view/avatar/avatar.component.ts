@@ -1,11 +1,12 @@
-import { ChangeDetectorRef, Component, ElementRef, Input, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ImgUtil } from '../../../../global/utils/img.util';
 import { filter, map, switchMap, take, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { AppState } from '../../../../app.state';
 import { Store } from '@ngrx/store';
-import { artist, artistAvatar, editMode, load, selectAvatar } from '../artist-view.state';
+import { artist, artistAvatar, editMode, loadingArtistView, selectAvatar } from '../artist-view.state';
 import { ArtistUtil } from '../../../artist.util';
+import { FireImgStorageService } from '../../../../global/services/fire-img-storage.service';
 
 @Component({
   selector: 'app-avatar',
@@ -20,8 +21,9 @@ import { ArtistUtil } from '../../../artist.util';
 export class AvatarComponent {
 
   constructor(
-    private cdRef: ChangeDetectorRef,
-    private readonly store: Store<AppState>
+    private readonly cdRef: ChangeDetectorRef,
+    private readonly imgService: FireImgStorageService,
+    private readonly store: Store<AppState>,
   ) {}
 
   @ViewChild('input') input?: ElementRef<HTMLInputElement>
@@ -44,13 +46,18 @@ export class AvatarComponent {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       const file = input.files[0]
-      this.convertAndSetTempAvatar(file)
+      const valid = this.imgService.validateExtension(file)
+      if (valid) {
+        this.convertAndSetTempAvatar(file)
+      }
     }
   }
 
+
+
   private async convertAndSetTempAvatar(value: File | null) {
     if (value) {
-      this.store.dispatch(load())
+      this.store.dispatch(loadingArtistView())
       ImgUtil.resizeImgFile$(value).pipe(
         take(1),
         tap(file => this.store.dispatch(selectAvatar({ file: file }))),
