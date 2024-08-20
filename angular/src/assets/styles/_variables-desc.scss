@@ -1,6 +1,6 @@
 @import 'color';
 
-$view-margin-1-desc: 3*$padding-standard;
+$view-margin-1-desc: 4*$padding-standard;
 $view-margin-2-desc: 7vw;
 $view-margin-3-desc: calc($view-margin-1-desc + $view-margin-2-desc);
 
@@ -15,11 +15,11 @@ $header-margin-desc: 170px;
 
     .section {
         background-color: $light;
-        padding: $view-margin-1-desc;
+        padding: $view-margin-1-desc $view-margin-2-desc;
 
         .section-container {
             background-color: $dark;
-            padding: $view-margin-2-desc;
+            padding: $view-margin-1-desc;
             border-radius: 30px;
         }
     }

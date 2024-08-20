@@ -29,8 +29,6 @@ import { BookingFormStructure } from '../../booking-form-structure';
 })
 export class BookFormComponent {
 
-  public static readonly path = `book-form`
-
   constructor(
     private readonly store: Store<AppState>,
     private readonly dialog: DialogService,

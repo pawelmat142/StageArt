@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import { NotFoundPageComponent } from '../view/error/not-found-page/not-found-page.component';
 import { Location } from '@angular/common';
 import { Profile } from '../../profile/profile.model';
+import { HomepageComponent } from '../view/homepage/homepage.component';
 
 export interface MenuButtonItem {
   label: string
@@ -34,7 +35,7 @@ export class NavService {
   }
 
   public home() {
-    this.router.navigate([''], { replaceUrl: true })
+    this.router.navigate([HomepageComponent.path], { replaceUrl: true })
   }
 
   public toNotFound() {

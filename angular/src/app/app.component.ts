@@ -8,7 +8,6 @@ import { loggedIn, login, logout } from './profile/profile.state';
 import { DESKTOP } from './global/services/device';
 import { AppState } from './app.state';
 import { ImgSize } from './global/utils/img.util';
-import { of } from 'rxjs';
 import { ProfileService } from './profile/profile.service';
 
 @Component({
@@ -31,7 +30,9 @@ export class AppComponent {
     private readonly store: Store<AppState>,
   ) {}
 
-  courtine$ = of(false)
+  courtine$ = this.courtineService.courtine$.pipe(
+    
+  )
 
   ngOnInit() {
     if (DESKTOP) {
@@ -39,16 +40,9 @@ export class AppComponent {
     }
 
     this.autoLogin()
-    this.initCourtine()
     this.initScssVariables()
   }
 
-  private initCourtine() {
-    setTimeout(() => {
-      this.courtine$ = this.courtineService.courtine$.pipe(
-      )
-    })
-  }
 
   private autoLogin() {
     this.store.dispatch(login())

@@ -12,9 +12,9 @@
     
     </div>
 
-    <div class="grid">
+    <div class="grid" *ngIf="artists$ | async as artists">
 
-        @for (artist of (artists$ | async) || []; track artist.name) {
+        @for (artist of artists; track artist.name) {
             <app-artist-card [artist]="artist" class="grid-item"></app-artist-card>
         }
 

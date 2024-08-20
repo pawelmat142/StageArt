@@ -2,7 +2,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
-import { forkJoin, catchError, filter, map, concatMap, of } from 'rxjs';
+import { forkJoin, catchError, filter, map, of } from 'rxjs';
 import { FormUtil } from '../../../global/utils/form.util';
 import { ImgSize, ImgUtil } from '../../../global/utils/img.util';
 import { Util } from '../../../global/utils/util';
@@ -15,7 +15,6 @@ import { ArtistMediasService, ArtistMediaCode, ArtistMedia } from '../../artist-
 import { mediaValidator } from '../../artist-medias/media.validator';
 import { ArtistService } from '../../artist.service';
 import { ArtistForm, Images } from '../../model/artist-form';
-import { ArtistsViewComponent } from '../artists-view/artists-view.component';
 import { CountriesService } from '../../../global/countries/countries.service';
 import { countryValidator } from '../../../global/countries/countries.validator';
 import { DialogService } from '../../../global/nav/dialog.service';
@@ -49,9 +48,8 @@ import { FormVal } from '../../../global/utils/form-val';
   styleUrl: './artist-form.component.scss',
   encapsulation: ViewEncapsulation.None
 })
+// DEPRECATED TODO to delete
 export class ArtistFormComponent {
-
-  public static readonly path = 'artist-form'
 
   constructor(
     private readonly countriesService: CountriesService,
@@ -215,7 +213,7 @@ export class ArtistFormComponent {
     ).subscribe(artist => {
       if (artist) {
         this.store.dispatch(fetchArtists())
-        this.nav.to(ArtistsViewComponent.path)
+        // this.nav.to(ArtistsListViewComponent.path)
       }
     })
   }

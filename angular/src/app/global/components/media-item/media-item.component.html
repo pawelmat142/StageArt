@@ -10,7 +10,7 @@
         </div>
     }
     
-    <a class="media-item-container hovergrow" [href]="media.url" target="_blank">
+    <a class="media-item-container hovergrow" [href]="media.url" target="_blank" (click)="$event.stopPropagation()">
     
         <app-icon-button
             [button]="false"

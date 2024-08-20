@@ -15,10 +15,12 @@
                 [value]="value"
                 (onInput)="_onInput($event)"
                 [disabled]="false"
+                [rowsInitial]="7"
             ></app-textarea-element>
+
+            <app-btn label="Send" class="big center right margin-top-2" (click)="_send()"></app-btn>
         </div>
 
-        <app-btn label="Send" class="big center right margin-top-2" (click)="_send()"></app-btn>
 
     </div>
 </div>

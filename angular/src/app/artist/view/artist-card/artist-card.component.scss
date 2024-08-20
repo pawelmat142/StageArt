@@ -8,6 +8,10 @@ $card-width: 24vw;
 .desktop {
     .artist-card {
 
+        .media-item-container .icon-button svg {
+            width: 40px;
+        }
+
         &:hover {
             box-shadow: $card-shadow;
             .img-wrapper { 

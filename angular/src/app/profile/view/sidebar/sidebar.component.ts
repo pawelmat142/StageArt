@@ -98,9 +98,7 @@ export class SidebarComponent {
   private setPanelViewForRole(profile?: Profile) {
     const panelBookingsRolesGuard: string[] = [Role.ARTIST, Role.MANAGER, Role.PROMOTOR]
     if (Role.matches(profile, panelBookingsRolesGuard)) {
-      // TODO temp mock
-      // this._clickItem(this._bookingsItem)
-      this._clickItem(this._artistsOfManager)
+      this._clickItem(this._bookingsItem)
     }
   }
 

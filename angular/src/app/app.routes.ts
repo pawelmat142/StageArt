@@ -5,9 +5,9 @@ import { RegisterComponent } from './profile/auth/view/register/register.compone
 import { LoginComponent } from './profile/auth/view/login/login.component';
 import { PanelComponent } from './profile/view/panel/panel.component';
 import { BookFormComponent } from './booking/view/book-form/book-form.component';
-import { ArtistFormComponent } from './artist/view/artist-form/artist-form.component';
 import { ArtistViewComponent } from './artist/view/artist-view/artist-view.component';
-import { ArtistsViewComponent } from './artist/view/artists-view/artists-view.component';
+import { ArtistsListViewComponent } from './artist/view/artists-view/artists-view.component';
+import { Path } from './global/nav/path';
 
 export const routes: Routes = [
     {
@@ -17,14 +17,11 @@ export const routes: Routes = [
         path: ArtistViewComponent.path,
         component: ArtistViewComponent,
     }, {
-        path: ArtistsViewComponent.path,
-        component: ArtistsViewComponent
+        path: Path.ARTISTS_LIST_VIEW,
+        component: ArtistsListViewComponent
     }, {
-        path: BookFormComponent.path,
+        path: Path.BOOK_FORM_VIEW,
         component: BookFormComponent,
-    }, {
-        path: ArtistFormComponent.path,
-        component: ArtistFormComponent,
     }, {
         path: LoginComponent.path,
         component: LoginComponent,

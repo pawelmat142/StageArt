@@ -2,7 +2,6 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ArtistService } from '../../../artist/artist.service';
 import { CommonModule } from '@angular/common';
-import { BookFormComponent } from '../../../booking/view/book-form/book-form.component';
 import { BtnComponent } from '../../../global/controls/btn/btn.component';
 import { HeaderComponent } from '../../../global/components/header/header.component';
 import { MenuButtonComponent } from '../../../global/components/menu-button/menu-button.component';
@@ -22,6 +21,7 @@ import { NameComponent } from './name/name.component';
 import { MediasComponent } from './medias/medias.component';
 import { StyleComponent } from './style/style.component';
 import { TextareaElementComponent } from '../../../global/controls/textarea-element/textarea-element.component';
+import { Path } from '../../../global/nav/path';
 
 @Component({
   selector: 'app-artist-view',
@@ -79,7 +79,7 @@ export class ArtistViewComponent {
   }
 
   _onBookNow() {
-    this.nav.to(BookFormComponent.path)
+    this.nav.to(Path.BOOK_FORM_VIEW)
   }
 
   _editToggle() {

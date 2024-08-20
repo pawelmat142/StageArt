@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import { MenuButtonItem, NavService } from "./nav.service";
-import { ArtistsViewComponent } from "../../artist/view/artists-view/artists-view.component";
 import { BookFormComponent } from "../../booking/view/book-form/book-form.component";
 import { PanelComponent } from "../../profile/view/panel/panel.component";
 import { LoginComponent } from "../../profile/auth/view/login/login.component";
@@ -9,9 +8,10 @@ import { AppState } from "../../app.state";
 import { Store } from "@ngrx/store";
 import { Location } from '@angular/common';
 import { Profile } from "../../profile/profile.model";
-import { combineLatest, filter, map, Observable, of, shareReplay, skip, startWith, switchMap, take, tap, withLatestFrom } from "rxjs";
+import { combineLatest, filter, map, Observable, shareReplay, startWith } from "rxjs";
 import { HomepageComponent } from "../view/homepage/homepage.component";
 import { ResolveEnd, Router } from "@angular/router";
+import { Path } from "./path";
 
 @Injectable({
     providedIn: 'root'
@@ -66,11 +66,11 @@ export class MenuService {
     }
     private readonly bookNowButton: MenuButtonItem  = {
         label: 'Book now',
-        path: BookFormComponent.path,
+        path: Path.BOOK_FORM_VIEW,
     }
     private readonly artistsButton: MenuButtonItem  = {
         label: 'Artists',
-        path: ArtistsViewComponent.path,
+        path: Path.ARTISTS_LIST_VIEW
     }
     private readonly loginButton: MenuButtonItem  = {
         label: 'Login',

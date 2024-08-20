@@ -8,7 +8,7 @@
                 <h2 class="fs3 baron light margin-bottom-4">Check them all!</h2>
             </div>
 
-            <app-btn class="big" label="View all" (click)="navToArtists()"></app-btn>
+            <app-btn class="big" label="View all" (click)="_viewAll()"></app-btn>
 
         </div>
 
@@ -19,7 +19,6 @@
                 [numVisible]="this.DESKTOP ? 3 : 1" 
                 [circular]="true" 
             >
-                <!-- [responsiveOptions]="responsiveOptions" -->
                 <ng-template let-artist pTemplate="item">
                     <div class="card-shadow-wrapper">
                         <app-artist-card [artist]="artist"></app-artist-card>

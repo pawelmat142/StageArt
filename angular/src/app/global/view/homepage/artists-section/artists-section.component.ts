@@ -7,10 +7,10 @@ import { AppState } from '../../../../app.state';
 import { selectArtists, initArtists } from '../../../../artist/artists.state';
 import { ArtistViewDto } from '../../../../artist/model/artist-view.dto';
 import { ArtistCardComponent } from '../../../../artist/view/artist-card/artist-card.component';
-import { ArtistsViewComponent } from '../../../../artist/view/artists-view/artists-view.component';
 import { BtnComponent } from '../../../controls/btn/btn.component';
 import { NavService } from '../../../nav/nav.service';
 import { DESKTOP } from '../../../services/device';
+import { Path } from '../../../nav/path';
 
 
 @Component({
@@ -44,8 +44,8 @@ export class ArtistsSectionComponent {
     this.store.dispatch(initArtists())
   }
 
-  navToArtists() {
-    return this.nav.to(ArtistsViewComponent.path)
+  _viewAll() {
+    this.nav.to(Path.ARTISTS_LIST_VIEW)
   }
 
 }
