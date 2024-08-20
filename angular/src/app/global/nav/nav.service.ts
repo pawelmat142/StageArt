@@ -58,4 +58,8 @@ export class NavService {
     return this.location.path() === ''
   }
 
+  public get path(): string {
+    return this.location.path()
+  }
+
 }

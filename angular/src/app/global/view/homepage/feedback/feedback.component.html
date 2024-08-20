@@ -2,10 +2,10 @@
 
     <div class="section-container">
 
-        <div class="section-top">
+        <div class="section-top section-header-margin">
             <div>
                 <h2 class="fs1 baron red uppercase margin-bottom">How can we make better?</h2>
-                <h2 class="fs3 bold light margin-bottom-4">We'd love your feedback or suggestions</h2>
+                <h2 class="fs3 bold light">We'd love your feedback or suggestions</h2>
             </div>
         </div>
 
@@ -15,7 +15,7 @@
                 [value]="value"
                 (onInput)="_onInput($event)"
                 [disabled]="false"
-                [rowsInitial]="7"
+                [rowsInitial]="DESKTOP ? 7 : 4"
             ></app-textarea-element>
 
             <app-btn label="Send" class="big center right margin-top-2" (click)="_send()"></app-btn>

@@ -128,6 +128,10 @@ $border-shadow: 0 3px 5px $red;
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
+
+    &.section-header-margin {
+        margin-bottom: 3*$padding-standard;
+    }
 }
 
 .cover-center {

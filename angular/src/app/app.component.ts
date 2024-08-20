@@ -9,6 +9,8 @@ import { DESKTOP } from './global/services/device';
 import { AppState } from './app.state';
 import { ImgSize } from './global/utils/img.util';
 import { ProfileService } from './profile/profile.service';
+import { NavService } from './global/nav/nav.service';
+import { LoginComponent } from './profile/auth/view/login/login.component';
 
 @Component({
   selector: 'app-root',
@@ -24,10 +26,11 @@ export class AppComponent {
   title = 'book-agency';
 
   constructor(
+    private readonly store: Store<AppState>,
     private readonly renderer: Renderer2,
     private readonly courtineService: CourtineService,
     private readonly profileService: ProfileService,
-    private readonly store: Store<AppState>,
+    private readonly nav: NavService,
   ) {}
 
   courtine$ = this.courtineService.courtine$.pipe(
@@ -45,6 +48,9 @@ export class AppComponent {
 
 
   private autoLogin() {
+    if (this.nav.path.includes(LoginComponent.path)) {
+      return
+    }
     this.store.dispatch(login())
     this.profileService.refreshToken$().pipe(
     ).subscribe({

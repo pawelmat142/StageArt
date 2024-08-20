@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import { MenuButtonItem, NavService } from "./nav.service";
-import { BookFormComponent } from "../../booking/view/book-form/book-form.component";
 import { PanelComponent } from "../../profile/view/panel/panel.component";
 import { LoginComponent } from "../../profile/auth/view/login/login.component";
 import { profile } from "../../profile/profile.state";
@@ -80,12 +79,10 @@ export class MenuService {
 
     private allButtons: MenuButtonItem[] = [
         this.homeButton,
-        this.panelButton,
-        this.bookNowButton,
         this.artistsButton,
+        this.bookNowButton,
+        this.panelButton,
         this.loginButton,
     ]
-
-
 
 }

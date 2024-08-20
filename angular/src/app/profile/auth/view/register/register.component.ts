@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, HostListener, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { BtnComponent } from "../../../../global/controls/btn/btn.component";
@@ -78,6 +78,12 @@ export class RegisterComponent {
     code: 'PROMOTER',
     name: 'Promoter'
   }]
+
+  @HostListener('document:keydown.enter', ['$event'])
+  onEnterPress(event: KeyboardEvent) {
+    event.preventDefault();
+    this._submit()
+  }
 
   _submit() {
     if (!this.form.valid) {

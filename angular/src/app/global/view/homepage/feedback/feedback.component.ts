@@ -6,6 +6,7 @@ import { FeedbackService } from './feedback-service';
 import { take } from 'rxjs';
 import { DialogService } from '../../../nav/dialog.service';
 import { CourtineService } from '../../../nav/courtine.service';
+import { DESKTOP } from '../../../services/device';
 
 @Component({
   selector: 'app-feedback',
@@ -20,6 +21,8 @@ import { CourtineService } from '../../../nav/courtine.service';
   encapsulation: ViewEncapsulation.None
 })
 export class FeedbackComponent {
+
+  readonly DESKTOP = DESKTOP
 
   constructor(
     private readonly feedbackService: FeedbackService,

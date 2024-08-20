@@ -24,12 +24,6 @@ $view-padding: 4*$padding-standard;
 
 .desktop {
 
-    .management-notes-tile,
-    .bio-tile {
-        order: 0;
-    }
-    
-
     .edit-toggle-container {
         position: fixed;
         top: 30%;
@@ -50,7 +44,20 @@ $view-padding: 4*$padding-standard;
             grid-template-columns: 2fr 1fr;
             column-gap: 2*$padding-standard;
             row-gap: $padding-standard;
+
+            &.two {
+                margin-bottom: 4*$padding-standard;
+    
+                .tiles-column {
+                    gap: 2*$padding-standard;
+
+                    &.right-on-desktop {
+                        order: 2;
+                    }
+                }
+            }
         }
+
     }
 
 }
@@ -87,6 +94,13 @@ $view-padding: 4*$padding-standard;
         }
         &.two {
             margin-bottom: 4*$padding-standard;
+
+            .tiles-column {
+                order: 1;
+                display: flex;
+                flex-direction: column;
+                gap: $padding-standard;
+            }
         }
         
         padding-left: $view-margin-2-desc;
@@ -97,14 +111,6 @@ $view-padding: 4*$padding-standard;
         grid-template-columns: 1fr;
         width: 100%;
     }
-}
-
-.bio-tile {
-    order: 1;
-}
-
-.management-notes-tile {
-    order: 2;
 }
 
 .menu-button {

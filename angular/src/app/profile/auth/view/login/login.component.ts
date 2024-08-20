@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BtnComponent } from '../../../../global/controls/btn/btn.component';
 import { SelectorComponent } from "../../../../global/controls/selector/selector.component";
-import { loggedIn, login, logout, ProfileEffect } from '../../../profile.state';
+import { loggedIn, login, logout } from '../../../profile.state';
 import { Store } from '@ngrx/store';
 import { Token } from '../token';
 import { filter, noop, Observer, of, switchMap } from 'rxjs';
@@ -50,6 +50,12 @@ export class LoginComponent {
   private loginToken?: string
 
   _nameOrEmailForm?: FormGroup
+
+  @HostListener('document:keydown.enter', ['$event'])
+  onEnterPress(event: KeyboardEvent) {
+    event.preventDefault();
+    this._submit()
+  }
   
   _submit() {
     if (this._nameOrEmailForm) {

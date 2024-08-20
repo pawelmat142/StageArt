@@ -28,6 +28,13 @@ $header-margin-desc: 170px;
         padding: 2*$padding-standard;
         border-radius: 15px;
     }
+
+    .section-top {
+        &.section-header-margin {
+            margin-bottom: 4*$padding-standard;
+        }
+    }
+    
     
 
 }

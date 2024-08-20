@@ -16,8 +16,6 @@ export class WizardService {
 
     private readonly wizards$ = new BehaviorSubject<Wizard[]>([])
 
-    private readonly telegramBotChannelId = process.env.TELEGRAM_BOT_CHANNEL_ID
-
     private readonly bot: TelegramBot = this.initBot()
 
     private lastMessageWithButtonsId = {}
