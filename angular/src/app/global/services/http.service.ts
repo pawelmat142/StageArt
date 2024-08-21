@@ -31,11 +31,11 @@ export class HttpService {
     return this.httpClient.get<T>(`${this.apiUri}${uri}`, options)
   }
 
-  public post<T>(uri: string, data: any) {
+  public post<T>(uri: string, data?: any) {
     return this.httpClient.post<T>(`${this.apiUri}${uri}`, data)
   }
 
-  public put<T>(uri: string, data: any) {
+  public put<T>(uri: string, data?: any) {
     return this.httpClient.put<T>(`${this.apiUri}${uri}`, data)
   }
 

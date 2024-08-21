@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { ArtistLabel, ArtistStyle, ArtistViewDto, FetchArtistQuery } from "./model/artist-view.dto";
+import { ArtistLabel, ArtistStatus, ArtistStyle, ArtistViewDto, FetchArtistQuery } from "./model/artist-view.dto";
 import { Store } from "@ngrx/store";
 import { combineLatest, filter, map, Observable, shareReplay, take } from "rxjs";
 import { selectArtists } from "./artists.state";
@@ -64,6 +64,11 @@ export class ArtistService {
 
     public putManagementNotes$(form: { managmentNotes: string, artistSignture: string }): Observable<void> {  
         return this.http.put<void>(`/artist/management-notes`, form).pipe(
+        )
+    }
+
+    public setStatus$(status: ArtistStatus, signature: string): Observable<void> {  
+        return this.http.put<void>(`/artist/set-status/${status}/${signature}`).pipe(
         )
     }
 

@@ -4,6 +4,7 @@ import { ArtistController } from './artist.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Artist, ArtistSchema } from './model/artist.model';
 import { ProfileModule } from '../profile/profile.module';
+import { TelegramModule } from '../telegram/telegram.module';
 
 @Module({
   imports: [
@@ -12,7 +13,8 @@ import { ProfileModule } from '../profile/profile.module';
       schema: ArtistSchema
     }]),
 
-    ProfileModule
+    ProfileModule,
+    TelegramModule
   ],
   providers: [ArtistService],
   controllers: [ArtistController],

@@ -47,7 +47,7 @@
 
             <div class="popup-buttons">
                 @if (_defaultButton) {
-                    <app-btn class="big center" label="OK" (click)="_close()" type="submit"></app-btn>
+                    <app-btn class="big center" label="OK" (click)="_close(true)" type="submit"></app-btn>
                 }
         
                 @for(btn of data.buttons; track btn.label) {
@@ -62,7 +62,7 @@
 
         <div class="popup-buttons">
             @if (_defaultButton) {
-                <app-btn class="big center" label="OK" (click)="_close()"></app-btn>
+                <app-btn class="big center" label="OK" (click)="_close(true)"></app-btn>
             }
     
             @for(btn of data.buttons; track btn.label) {

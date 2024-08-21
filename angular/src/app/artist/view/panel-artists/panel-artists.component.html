@@ -18,6 +18,18 @@
                     <p [matTooltip]="_artistStatusTooltip(artist.status)">{{artist.status | status }}</p>
 
                     <div class="item-row-btns">
+                        @if (['READY', 'INACTIVE'].includes(artist.status)) {
+                            <app-btn
+                                label="activate"
+                                (click)="_activate(artist)"
+                            ></app-btn>
+                        }
+                        @if (['ACTIVE'].includes(artist.status)) {
+                            <app-btn
+                                label="deactivate"
+                                (click)="_deactivate(artist)"
+                            ></app-btn>
+                        }
                         <app-btn
                             class="light"
                             label="View"
@@ -57,10 +69,9 @@
                 <div class="btns center">
                     <app-btn class="big"
                         label="Cancel"
-                        (click)="_cancel()"
+                        (click)="_cancelManagementNotesEdit()"
                     ></app-btn>
                     <app-btn class="big light"
-                        type="submit"
                         (click)="_submitManagementNotes()"
                     ></app-btn>
                 </div>

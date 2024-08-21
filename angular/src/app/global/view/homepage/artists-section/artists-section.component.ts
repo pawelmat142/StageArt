@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, ViewEncapsulation } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { CarouselModule } from 'primeng/carousel';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../../app.state';
@@ -37,6 +37,15 @@ export class ArtistsSectionComponent {
     private store: Store<AppState>,
   ) {
     this.artists$ = this.store.select(selectArtists).pipe(
+      map(artists => {
+        if (artists.length === 1) {
+          return [ artists[0], artists[0], artists[0]]
+        }
+        if (artists.length === 2) {
+          return [ ...artists, ...artists ]
+        }
+        return artists
+      })
     )
   }
   

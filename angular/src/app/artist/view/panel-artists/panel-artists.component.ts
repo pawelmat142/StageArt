@@ -3,7 +3,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { ArtistService } from '../../artist.service';
 import { AppState } from '../../../app.state';
 import { Store } from '@ngrx/store';
-import { Observable, tap } from 'rxjs';
+import { noop, Observable, Observer, of, tap } from 'rxjs';
 import { ArtistStatus, ArtistViewDto } from '../../model/artist-view.dto';
 import { StatusPipe } from "../../../global/pipes/status.pipe";
 import { BtnComponent } from '../../../global/controls/btn/btn.component';
@@ -40,7 +40,12 @@ export class PanelArtistsComponent {
     private readonly store: Store<AppState>,
   ) {}
 
-  _artists$: Observable<ArtistViewDto[]> = this.artistService.fetchArtistsOfManager$()
+  _artists$: Observable<ArtistViewDto[]> = of([])
+
+  ngOnInit(): void {
+    this.courtineService.startCourtine()
+    this.fetchArtistsOfManager()
+  }
 
 
   _artistView(artist: ArtistViewDto) {
@@ -53,7 +58,7 @@ export class PanelArtistsComponent {
     this._selectedArtist = artist
   }
 
-  _cancel() {
+  _cancelManagementNotesEdit() {
     this._selectedArtist = undefined
     this.managementNotesForm = undefined
   }
@@ -69,39 +74,16 @@ export class PanelArtistsComponent {
   }
 
   _submitManagementNotes() {
-    if (!this.managementNotesForm) {
+    if (!this.managementNotesForm || this.managementNotesForm.invalid) {
+      FormUtil.markForm(this.managementNotesForm!)
       return
     }
-    if (this.managementNotesForm.invalid) {
-      FormUtil.markForm(this.managementNotesForm)
-      return
-    }
-
-    const artistSignture = this._selectedArtist?.signature
-    if (!artistSignture) {
-      console.error(`Missing artistSignture`)
-      return
-    }
-
     this.courtineService.startCourtine()
     this.artistService.putManagementNotes$({
       managmentNotes: this.managementNotesForm.controls['managmentNotes'].value || '',
-      artistSignture
+      artistSignture: this._selectedArtist?.signature || ''
     }).pipe(
-    ).subscribe({
-      next: () => {
-        this._artists$ = this.artistService.fetchArtistsOfManager$().pipe(
-          tap(artists => {
-            this._cancel()
-            this.courtineService.stopCourtine()
-          })
-        )
-      }, 
-      error: error => {
-        this.dialog.errorPopup(error.error.message)
-        this.courtineService.stopCourtine()
-      }
-    })
+    ).subscribe(this.updateArtistObserver())
   }
 
   _artistStatusTooltip(status: ArtistStatus): string {
@@ -113,4 +95,41 @@ export class PanelArtistsComponent {
     }
     return ''
   }
+
+  _activate(artist: ArtistViewDto) {
+    this.setArtistStatus(artist, 'ACTIVE')
+  }
+  
+  _deactivate(artist: ArtistViewDto) {
+    this.setArtistStatus(artist, 'INACTIVE')
+  }
+
+  private setArtistStatus(artist: ArtistViewDto, status: ArtistStatus) {
+    this.courtineService.startCourtine()
+    this.artistService.setStatus$(status, artist.signature).pipe(
+    ).subscribe(this.updateArtistObserver())
+  }
+
+  private updateArtistObserver(): Observer<void> {
+    return {
+      next: () => {
+        this.fetchArtistsOfManager()
+      }, 
+      error: (error) => {
+        this.dialog.errorPopup(error.error.message)
+        this.courtineService.stopCourtine()
+      },
+      complete: noop
+    }
+  }
+
+  private fetchArtistsOfManager() {
+    this._artists$ = this.artistService.fetchArtistsOfManager$().pipe(
+      tap(() => {
+        this._cancelManagementNotesEdit()
+        this.courtineService.stopCourtine()
+      })
+    )
+  }
+
 }

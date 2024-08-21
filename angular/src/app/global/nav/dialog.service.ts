@@ -17,7 +17,7 @@ export class DialogService {
         private readonly nav: NavService,
     ) {}
 
-    public async simplePopup(header: string) {
+    public simplePopup(header: string) {
         const data = { header }
         return this.popup(data)
       }

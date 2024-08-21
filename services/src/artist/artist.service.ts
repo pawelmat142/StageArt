@@ -10,6 +10,8 @@ import { JwtPayload } from '../profile/auth/jwt-strategy';
 import { ArtistUtil } from './artist.util';
 import { ArtistForm, FetchArtistQuery } from './artist.controller';
 import { ProfileService } from '../profile/profile.service';
+import { TelegramService } from '../telegram/telegram.service';
+import { BotUtil } from '../telegram/util/bot.util';
 
 @Injectable()
 export class ArtistService {
@@ -19,11 +21,11 @@ export class ArtistService {
     constructor(
         @InjectModel(Artist.name) private artistModel: Model<Artist>,
         private readonly profileService: ProfileService,
+        private readonly telegramService: TelegramService,
     ) {}
 
 
-    // TODO status READY temporary here!
-    private readonly PUBLIC_VIEW_ARTIST_STATUSES: ArtistStatus[] = [ 'ACTIVE', 'READY' ]
+    private readonly PUBLIC_VIEW_ARTIST_STATUSES: ArtistStatus[] = [ 'ACTIVE' ]
 
     public async createArtist(form: ArtistForm, profile: JwtPayload): Promise<ArtistViewDto> {
         const checkName = await this.artistModel.findOne({ name: form.artistName })
@@ -89,7 +91,7 @@ export class ArtistService {
         const newArtist = Object.assign(artistBefore, artist)
 
         if (newArtist.status === 'CREATED' && ArtistUtil.isViewReady(newArtist)) {
-            // TODO tlegram msg to manager
+            this.msgToManager(newArtist)
             newArtist.status = 'READY'
         }
 
@@ -99,6 +101,16 @@ export class ArtistService {
             this.logger.warn(`Not modified!`)
         }
         return newArtist
+    }
+
+    private async msgToManager(artist: Artist) {
+        const profile = await this.profileService.findTelegramChannedId(artist.managerUid)
+        if (profile?.telegramChannelId) {
+            this.telegramService.sendMessage(Number(profile.telegramChannelId), BotUtil.msgFrom([
+                `View of artist ${artist.name} is ready,`,
+                `You can publish it now`
+            ]))
+        }
     }
 
     private prepareArtistSignature(name: string): string {
@@ -144,10 +156,6 @@ export class ArtistService {
         }
     }
 
-    private getManagerUid(): string {
-        return 'telegram_636713717'
-    }
-
     private async processBookingFormPerArtist(booking: Partial<Booking>, artist: Partial<Artist>) {
         artist.bookings.push({
             ...booking,
@@ -183,6 +191,17 @@ export class ArtistService {
             throw new BadRequestException(`Not modified management notes for Artist: ${body.artistSignture} by manager: ${profile.uid}`)
         }
         this.logger.log(`Management notes put success for Artist: ${body.artistSignture} by manager: ${profile.uid}`)
+    }
+
+    public async setStatus(status: ArtistStatus, signature: string, profile: JwtPayload) {
+        const update = await this.artistModel.updateOne({ signature, managerUid: profile.uid }, { $set: {
+            status: status
+        } })
+        if (!update.modifiedCount) {
+            this.logger.error(`Not modified status artist: ${signature}, by ${profile.uid}`)
+            throw new NotFoundException()
+        }
+        this.logger.log(`Modified status ${status} artist: ${signature}, by ${profile.uid}`)
     }
 
 }

@@ -12,6 +12,9 @@ import { ProfileModule } from '../profile/profile.module';
     TelegramService, 
     WizardService,
     ServiceProvider
-  ], 
+  ],
+  exports: [
+    TelegramService,
+  ]
 })
 export class TelegramModule {}

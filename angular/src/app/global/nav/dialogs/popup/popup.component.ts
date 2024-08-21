@@ -95,8 +95,8 @@ export class PopupComponent {
     this.dialogRef.close(chip.name)
   }
 
-  _close() {
-    this.dialogRef.close()
+  _close(result?: boolean) {
+    this.dialogRef.close({dialogResult: result})
   }
 
   _onBtnClick(btn: DialogBtn) {

@@ -8,6 +8,7 @@ import { JwtGuard } from '../profile/auth/jwt.guard';
 import { RoleGuard } from '../profile/auth/role.guard';
 import { Role } from '../profile/model/role';
 import { LogInterceptor } from '../global/interceptors/log.interceptor';
+import { ArtistStatus } from './model/artist.model';
 
 export interface FetchArtistQuery {
     name?: string
@@ -89,6 +90,16 @@ export class ArtistController {
     @UseGuards(RoleGuard(Role.MANAGER))
     putManagementNotes(@Body() body: { managmentNotes: string, artistSignture: string }, @GetProfile() profile: JwtPayload) {
         return this.artistService.putManagementNotes(body, profile)
+    }
+
+    @Put('artist/set-status/:status/:signature')
+    @UseGuards(RoleGuard(Role.MANAGER))
+    setStatus(
+        @Param('status') status: ArtistStatus, 
+        @Param('signature') signature: string, 
+        @GetProfile() profile: JwtPayload
+    ) {
+        return this.artistService.setStatus(status, signature, profile)
     }
 
 }

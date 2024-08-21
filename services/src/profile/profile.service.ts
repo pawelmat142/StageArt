@@ -26,6 +26,10 @@ export class ProfileService {
         return this.profileModel.findOne({ uid })
     }
 
+    public findTelegramChannedId(uid: string) {
+        return this.profileModel.findOne({ uid }).select('telegramChannelId')
+    }
+
     public fetchForJwt(uid: string) {
         return this.profileModel.findOne({ uid })
             .select({ 
