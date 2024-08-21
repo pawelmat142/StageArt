@@ -157,6 +157,8 @@ $border-shadow: 0 3px 5px $red;
     bottom: 0;
     background-color: $dark-courtine;
 
+    z-index: 9999;
+
     align-items: center;
     justify-content: center;
     display: flex;

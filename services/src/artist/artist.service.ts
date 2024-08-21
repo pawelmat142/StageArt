@@ -89,6 +89,7 @@ export class ArtistService {
         const newArtist = Object.assign(artistBefore, artist)
 
         if (newArtist.status === 'CREATED' && ArtistUtil.isViewReady(newArtist)) {
+            // TODO tlegram msg to manager
             newArtist.status = 'READY'
         }
 

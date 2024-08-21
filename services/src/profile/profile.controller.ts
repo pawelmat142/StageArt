@@ -8,9 +8,10 @@ import { ProfileDto } from './model/profile.dto';
 import { GetProfile } from './auth/profile-path-param-getter';
 import { JwtPayload } from './auth/jwt-strategy';
 import { Profile } from './model/profile.model';
-import { ProfileInterceptor } from '../global/interceptors/profile.interceptor';
+import { LogInterceptor } from '../global/interceptors/log.interceptor';
 
 @Controller('api/profile')
+@UseInterceptors(LogInterceptor)
 export class ProfileController {
 
     constructor(

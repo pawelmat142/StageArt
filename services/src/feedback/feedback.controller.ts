@@ -5,9 +5,11 @@ import { InjectModel } from '@nestjs/mongoose';
 import { ProfileInterceptor } from '../global/interceptors/profile.interceptor';
 import { GetProfile } from '../profile/auth/profile-path-param-getter';
 import { JwtPayload } from '../profile/auth/jwt-strategy';
+import { LogInterceptor } from '../global/interceptors/log.interceptor';
 
 @Controller('api/feedback')
 @UseInterceptors(ProfileInterceptor)
+@UseInterceptors(LogInterceptor)
 export class FeedbackController {
 
   private readonly logger = new Logger(this.constructor.name)

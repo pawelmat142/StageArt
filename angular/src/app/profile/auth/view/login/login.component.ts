@@ -6,7 +6,7 @@ import { SelectorComponent } from "../../../../global/controls/selector/selector
 import { loggedIn, login, logout } from '../../../profile.state';
 import { Store } from '@ngrx/store';
 import { Token } from '../token';
-import { filter, noop, Observer, of, switchMap } from 'rxjs';
+import { filter, noop, Observer, of, switchMap, tap } from 'rxjs';
 import { FormUtil } from '../../../../global/utils/form.util';
 import { LoginForm, ProfileService } from '../../../profile.service';
 import { PanelComponent } from '../../../view/panel/panel.component';
@@ -17,6 +17,7 @@ import { InputComponent } from '../../../../global/controls/input/input.componen
 import { AppState } from '../../../../app.state';
 import { RegisterComponent } from '../register/register.component';
 import { DialogData } from '../../../../global/nav/dialogs/popup/popup.component';
+import { CourtineService } from '../../../../global/nav/courtine.service';
 
 @Component({
   selector: 'app-login',
@@ -39,6 +40,7 @@ export class LoginComponent {
     private profileService: ProfileService,
     private dialog: DialogService,
     private nav: NavService,
+    private courtine: CourtineService,
     private store: Store<AppState>,
   ) {}
 
@@ -51,16 +53,13 @@ export class LoginComponent {
 
   _nameOrEmailForm?: FormGroup
 
-  @HostListener('document:keydown.enter', ['$event'])
-  onEnterPress(event: KeyboardEvent) {
-    event.preventDefault();
-    this._submit()
-  }
-  
   _submit() {
     if (this._nameOrEmailForm) {
       if (this._nameOrEmailForm.valid) {
         this.loginRequest(this._nameOrEmailForm.controls['nameOrEmail'].value)
+      } else {
+        FormUtil.markForm(this._nameOrEmailForm)
+        return
       }
     }
 
@@ -70,19 +69,14 @@ export class LoginComponent {
     }
     const form = this.form.value
 
-    this.store.dispatch(login())
+    this.courtine.startCourtine()
     this.profileService.loginByEmail$(form as Partial<LoginForm>)
       .subscribe(this.loginResultObserver())
   }
 
 
   _byTelegram() {
-    const uid = Token.payload?.uid || Token.getUid()
-    if (uid) {
-      this.loginRequest(uid)
-    } else {
-      this.setNameOrEmailForm()
-    }
+    this.setNameOrEmailForm()
   }
 
   _register() {
@@ -96,7 +90,7 @@ export class LoginComponent {
   }
 
   private loginRequest(uidOrNameOrEmail: string) {
-    this.store.dispatch(login())
+    this.courtine.startCourtine()
     this.profileService.telegramPinRequest$(uidOrNameOrEmail).pipe(
       switchMap(token => {
         if (!token?.token) {
@@ -116,7 +110,9 @@ export class LoginComponent {
           inputClass: 'max-300',
           inputValidators: [Validators.minLength(4), Validators.maxLength(4), Validators.pattern(/^[0-9]*$/)]
         }
-        return this.dialog.popup(data).afterClosed()
+        this.courtine.stopCourtine()
+        return this.dialog.popup(data).afterClosed().pipe(
+        )
       }),
       filter(pin => !!pin),
       switchMap(pin => this.profileService.loginByPin$({
@@ -129,12 +125,13 @@ export class LoginComponent {
   private loginResultObserver(): Observer<{ token: string }> {
     return {
       next: (token: { token: string }) => {
+        this.courtine.stopCourtine()
         this.store.dispatch(loggedIn(token))
         this.nav.to(PanelComponent.path)
         this.dialog.simplePopup('Logged in!')
       },
       error: (error: any) => {
-        this.store.dispatch(logout())
+        this.courtine.stopCourtine()
         this.dialog.errorPopup(error.error.message)
       },
       complete: () => noop()

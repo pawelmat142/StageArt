@@ -91,10 +91,7 @@ export class ProfileEffect {
     
     constructor(
         private actions$: Actions,
-        private profileService: ProfileService,
         private dialog: DialogService,
-        private store: Store<AppState>, 
-        private router: Router, 
         private nav: NavService,
     ){}
 

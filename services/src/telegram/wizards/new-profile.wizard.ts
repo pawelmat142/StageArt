@@ -1,4 +1,5 @@
 import { Profile } from "../../profile/model/profile.model"
+import { BotUtil } from "../util/bot.util"
 import { ServiceProvider } from "./services.provider"
 import { Wizard, WizardStep } from "./wizard"
 
@@ -57,13 +58,13 @@ export class NewProfileWizard extends Wizard {
             message: [`Select your role: `],
             buttons: [[{
                 text: `Manager`,
-                process: async () => this.createProfile('MANAGER')
+                process: async () => this.selectoRole('MANAGER')
             }], [{
                 text: `Promoter`,
-                process: async () => this.createProfile('PROMOTER')
+                process: async () => this.selectoRole('PROMOTER')
             }], [{
                 text: `Artist`,
-                process: async () => this.createProfile('ARTIST')
+                process: async () => this.selectoRole('ARTIST')
             }]]
         }, {
             order: 4,
@@ -71,17 +72,35 @@ export class NewProfileWizard extends Wizard {
             close: true
         }, {
             order: 5,
+            message: [`Profile with name ${this.profile.name} and role: ${this.profile.roles?.join(', ')} will be created`],
+            buttons: [[{
+                text: 'Cancel',
+                process: async () => 0
+            }, {
+                text: 'Confirm',
+                process: async () => this.createProfile()
+            }]], 
+        }, {
+            order: 6,
             message: ['Registered!'],
-            close: true,
+            buttons: [[{
+                text: 'Login page',
+                url: BotUtil.prepareLoginUrl()
+            }]],
+            close: true
         }
         ]
     }
 
-    private async createProfile(role: string): Promise<number> {
+    private async selectoRole(role: string): Promise<number> {
         this.profile.roles = [role]
+        return 5
+    }
+
+    private async createProfile(): Promise<number> {
         try {
             await this.services.profileTelegramService.createProfile(this.profile)
-            return 5
+            return 6
         } catch (error) {
             this.error = error
             this.logger.warn(error)

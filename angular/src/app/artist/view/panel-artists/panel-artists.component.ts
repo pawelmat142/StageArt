@@ -4,7 +4,7 @@ import { ArtistService } from '../../artist.service';
 import { AppState } from '../../../app.state';
 import { Store } from '@ngrx/store';
 import { Observable, tap } from 'rxjs';
-import { ArtistViewDto } from '../../model/artist-view.dto';
+import { ArtistStatus, ArtistViewDto } from '../../model/artist-view.dto';
 import { StatusPipe } from "../../../global/pipes/status.pipe";
 import { BtnComponent } from '../../../global/controls/btn/btn.component';
 import { NavService } from '../../../global/nav/nav.service';
@@ -13,6 +13,7 @@ import { TextareaComponent } from '../../../global/controls/textarea/textarea.co
 import { FormUtil } from '../../../global/utils/form.util';
 import { CourtineService } from '../../../global/nav/courtine.service';
 import { DialogService } from '../../../global/nav/dialog.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-panel-artists',
@@ -22,6 +23,7 @@ import { DialogService } from '../../../global/nav/dialog.service';
     ReactiveFormsModule,
     TextareaComponent,
     StatusPipe,
+    MatTooltipModule,
     BtnComponent,
 ],
   templateUrl: './panel-artists.component.html',
@@ -102,4 +104,13 @@ export class PanelArtistsComponent {
     })
   }
 
+  _artistStatusTooltip(status: ArtistStatus): string {
+    if (status === 'CREATED') {
+      return `When artist finishes editing his view, you will be able to make it public`
+    }
+    if (status === 'READY') {
+      return `Artist view is ready, you can publish it`
+    }
+    return ''
+  }
 }

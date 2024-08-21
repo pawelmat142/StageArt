@@ -1,10 +1,12 @@
-import { Body, Controller, Get, Logger, NotFoundException, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, Logger, NotFoundException, Param, Post, Put, UseInterceptors } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Form } from './form.model';
 import { Model } from 'mongoose';
 import { NotModifiedException } from '../global/exceptions/not-modified.exception';
+import { LogInterceptor } from '../global/interceptors/log.interceptor';
 
 @Controller('api/form')
+@UseInterceptors(LogInterceptor)
 export class FormController {
 
     private readonly logger = new Logger(this.constructor.name)

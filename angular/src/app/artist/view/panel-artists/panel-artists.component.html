@@ -15,7 +15,7 @@
                 
                 <div class="item-row">
                     <p>{{artist.name}}</p>
-                    <p>{{artist.status | status }}</p>
+                    <p [matTooltip]="_artistStatusTooltip(artist.status)">{{artist.status | status }}</p>
 
                     <div class="item-row-btns">
                         <app-btn

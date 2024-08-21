@@ -1,7 +1,5 @@
 import { ArtistMedia } from "../artist-medias/artist-medias.service"
 
-
-
 export interface FireImg {
     firePath: string
     url: string

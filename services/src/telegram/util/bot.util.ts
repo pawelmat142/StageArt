@@ -3,6 +3,10 @@ import { WizBtn } from "./wiz-btn"
 
 export abstract class BotUtil {
 
+    public static prepareLoginUrl(): string {
+        return `${process.env.FRONT_APP_URL}/login`
+    }
+
     public static msgFrom = (lines: string[]) => {
         return (lines || []).reduce((acc, line) => acc + line + '\n', '')
     }

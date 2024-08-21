@@ -1,4 +1,4 @@
-import { Controller, Get, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, UseGuards, UseInterceptors } from '@nestjs/common';
 import { BookingService } from './booking.service';
 import { JwtGuard } from '../profile/auth/jwt.guard';
 import { GetProfile } from '../profile/auth/profile-path-param-getter';
@@ -6,8 +6,10 @@ import { JwtPayload } from '../profile/auth/jwt-strategy';
 import { Serialize } from '../global/interceptors/serialize.interceptor';
 import { BookingListDto } from './model/booking.dto';
 import { Booking } from './model/booking.model';
+import { LogInterceptor } from '../global/interceptors/log.interceptor';
 
 @Controller('api/booking')
+@UseInterceptors(LogInterceptor)
 export class BookingController {
 
     constructor(

@@ -1,4 +1,5 @@
 import { Profile } from "../../profile/model/profile.model"
+import { BotUtil } from "../util/bot.util"
 import { ServiceProvider } from "./services.provider"
 import { Wizard, WizardStep } from "./wizard"
 
@@ -28,7 +29,7 @@ export class ProfileWizard extends Wizard {
             ],
             buttons: [[{
                 text: 'Login page',
-                url: this.prepareLoginUrl()
+                url: BotUtil.prepareLoginUrl()
             }],[{
                 text: 'Delete account',
                 process: async () => 4
@@ -59,9 +60,7 @@ export class ProfileWizard extends Wizard {
     }
 
 
-    private prepareLoginUrl(): string {
-        return `${process.env.FRONT_APP_URL}/login`
-    }
+
 
     private async deleteAccount() {
         try {

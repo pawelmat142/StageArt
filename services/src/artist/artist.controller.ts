@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Query, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ArtistService } from './artist.service';
 import { Serialize } from '../global/interceptors/serialize.interceptor';
 import { ArtistViewDto } from './model/artist-view.dto';
@@ -7,6 +7,7 @@ import { JwtPayload } from '../profile/auth/jwt-strategy';
 import { JwtGuard } from '../profile/auth/jwt.guard';
 import { RoleGuard } from '../profile/auth/role.guard';
 import { Role } from '../profile/model/role';
+import { LogInterceptor } from '../global/interceptors/log.interceptor';
 
 export interface FetchArtistQuery {
     name?: string
@@ -23,6 +24,7 @@ export interface ArtistForm {
 }
 
 @Controller('api')
+@UseInterceptors(LogInterceptor)
 export class ArtistController {
     
     constructor(

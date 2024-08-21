@@ -32,6 +32,4 @@ export class SelectorItemsComponent {
     event.preventDefault()
   }
 
-
-
 }

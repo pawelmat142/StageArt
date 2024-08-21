@@ -93,7 +93,15 @@ export class InitialInfoComponent {
       take(1),
       tap(artist => this.store.dispatch(initializedArtist(artist))),
       tap(() => this.store.dispatch(login())),
-    ).subscribe()
+    ).subscribe({
+      next: (artist) => {
+        this.courtine.stopCourtine()
+        window.location.reload()
+      },
+      error: (error) => {
+        this.dialog.errorPopup(error.error.message)
+      }
+    })
   }
 
 }

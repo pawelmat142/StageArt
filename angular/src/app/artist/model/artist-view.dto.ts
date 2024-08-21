@@ -16,7 +16,10 @@ export interface ArtistStyle extends Chip {}
 
 export interface ArtistLabel extends Chip {}
 
-export type ArtistStatus = 'CREATED' | 'READY' | 'ACTIVE'
+//status READY when all mandatory view fields are filled, 
+//status ACTIVE when manager accepts an Artist -> artist view is published
+//status INACTIVE when manager or artist deactivate account -> artist view is not published anymore
+export type ArtistStatus = 'CREATED' | 'READY' | 'ACTIVE' | 'INACTIVE'
 
 export interface ArtistViewDto {
 

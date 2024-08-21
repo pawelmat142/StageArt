@@ -3,6 +3,8 @@ import { AuthGuard } from "@nestjs/passport";
 import { Profile } from "../model/profile.model";
 import { ProfileService } from "../profile.service";
 import { AppJwtService } from "./app-jwt.service";
+import { profile } from "console";
+import { Role } from "../model/role";
 
 
 @Injectable()
@@ -43,6 +45,10 @@ export class JwtGuard extends AuthGuard('jwt') {
                 throw new ForbiddenException(`Not found uid`)
             }
             this.profile = await this.profileService.fetchForJwt(payload.uid)
+            if (this.profile.roles.includes(Role.ADMIN)) {
+                this.logger.log(`ADMIN role access`)
+                return true
+            }
             this.verifyRole()
 
             const tokenExpider = this.jwtService.isExpired(payload)

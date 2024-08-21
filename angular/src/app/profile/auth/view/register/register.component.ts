@@ -98,6 +98,7 @@ export class RegisterComponent {
       next: () => { 
         this.nav.to(LoginComponent.path)
         this.courtineService.stopCourtine()
+        this.dialog.simplePopup('Registered successfully')
       },
       error: (error) => {
         this.dialog.errorPopup(error.error.message)

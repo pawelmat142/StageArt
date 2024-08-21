@@ -14,12 +14,12 @@ export abstract class ArtistUtil {
     private static imagesReadyForView(artist: ArtistViewDto): boolean {
         const avatarSet = artist.images?.avatar
         if (avatarSet) {
-            if (avatarSet.avatar && avatarSet.mini) {
+            if (avatarSet.avatar && avatarSet.avatarMobile && avatarSet.mini) {
                 const bgImgs = artist.images?.bg
                 if (bgImgs) {
                     const bgImgSet = bgImgs[0]
                     if (bgImgSet) {
-                        return bgImgSet.bg && !!bgImgSet.miniBg
+                        return bgImgSet.bg && bgImgSet.bgMobile && !!bgImgSet.avatar
                     }
                 }
             }

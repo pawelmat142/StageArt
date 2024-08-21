@@ -27,6 +27,7 @@ export interface DialogData {
 export interface DialogBtn {
   label: string
   class?: string
+  type?: 'button' | 'submit'
   onclick?: () => any
 }
 
@@ -50,7 +51,7 @@ export class PopupComponent {
     private readonly dialogRef: MatDialogRef<PopupComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
   ) {}
-  
+
   _defaultButton = true
 
   form?: FormGroup 

@@ -5,7 +5,6 @@ import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { ArtistService } from "../../artist.service";
 import { catchError, forkJoin, map, Observable, of, switchMap, take, tap, withLatestFrom } from "rxjs";
-import { profile } from "../../../profile/profile.state";
 import { FireImgStorageService } from "../../../global/services/fire-img-storage.service";
 import { ImgSize, ImgUtil } from "../../../global/utils/img.util";
 import { DialogService } from "../../../global/nav/dialog.service";
@@ -323,12 +322,12 @@ export class ArtistViewEffect {
                 if (state.tempAvatar) {
                     uploads.push(this.fireImgStorageService.createFireImgSet$(state.tempAvatar, 
                         `artist/${state.artist?.signature}/avatar`, 
-                        [ImgSize.avatar, ImgSize.mini]
+                        [ImgSize.avatar, ImgSize.avatarMobile, ImgSize.mini]
                     ))
                 }
                 if (state.tempBgImage) {
                     uploads.push(this.fireImgStorageService.createFireImgSet$(state.tempBgImage, 
-                        `artist/${state.artist?.signature}/bg-0`, 
+                        `artist/${state.artist?.signature}/bg-0`,
                         [ImgSize.bg, ImgSize.bgMobile, ImgSize.avatar]
                     ))
                 }

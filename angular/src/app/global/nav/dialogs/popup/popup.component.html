@@ -44,19 +44,33 @@
                     ></app-selector>
                 }
             </div>
+
+            <div class="popup-buttons">
+                @if (_defaultButton) {
+                    <app-btn class="big center" label="OK" (click)="_close()" type="submit"></app-btn>
+                }
+        
+                @for(btn of data.buttons; track btn.label) {
+                    <app-btn [ngClass]="btn.class" [label]="btn.label" (click)="_onBtnClick(btn)" [type]="btn.type || 'button'"></app-btn>
+                }
+            </div>
+
         </form>
     }
 
-    <div class="popup-buttons">
-        @if (_defaultButton) {
-            <app-btn class="big center" label="OK" (click)="_close()"></app-btn>
-        }
+    @else {
 
-        @for(btn of data.buttons; track btn.label) {
-            <app-btn [ngClass]="btn.class" [label]="btn.label" (click)="_onBtnClick(btn)"></app-btn>
-        }
+        <div class="popup-buttons">
+            @if (_defaultButton) {
+                <app-btn class="big center" label="OK" (click)="_close()"></app-btn>
+            }
+    
+            @for(btn of data.buttons; track btn.label) {
+                <app-btn [ngClass]="btn.class" [label]="btn.label" (click)="_onBtnClick(btn)"></app-btn>
+            }
+        </div>
+    }
 
-    </div>
 
 
 </div>

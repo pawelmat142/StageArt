@@ -46,8 +46,12 @@ export class ProfileEmailService {
         if (!form.password) {
             throw new BadRequestException('Missing password')
         }
+        if (!form.role) {
+            throw new BadRequestException('Missing role')
+        }
 
         const profile = new this.profileModel(form)
+        profile.roles = [form.role]
 
         const salt = randomBytes(8).toString('hex')
         const hash = await scrypt(form.password, salt, this.HASH_CONSTANT) as Buffer
@@ -65,12 +69,12 @@ export class ProfileEmailService {
         }
         const profile = await this.profileModel.findOne({ email: form.email })
         if (!profile) {
-            throw new NotFoundException()
+            throw new UnauthorizedException("Wrong credentials")
         }
 
         const [salt, storedHash] = profile.passwordHash.split('.')
         const hash = (await scrypt(form.password, salt, 32)) as Buffer
-        if (storedHash !== hash.toString('hex')) throw new UnauthorizedException("Wrong password")
+        if (storedHash !== hash.toString('hex')) throw new UnauthorizedException("Wrong credentials")
         
         const token = this.jwtService.signIn(profile)
         this.logger.log(`Logged in profile ${profile.name}`)
