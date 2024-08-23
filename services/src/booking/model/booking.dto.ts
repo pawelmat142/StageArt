@@ -1,10 +1,20 @@
 import { Expose } from "class-transformer";
 import { BookingStatus } from "./booking.model";
 
-export class BookingListDto {
-    @Expose() formId: string
+export class BookingPanelDto {
+
+    @Expose()
+    formId: string
+
     @Expose() promoterUid: string
     @Expose() managerUid: string
     @Expose() status: BookingStatus
     @Expose() submitDate?: Date
+
+    @Expose() artistSignatures: string[]
+    @Expose() artistNames: string[]
+
+    @Expose() eventName: string
+    @Expose() eventStartDate: Date
+    @Expose() eventEndDate?: Date
 }

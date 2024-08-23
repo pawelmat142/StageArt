@@ -4,12 +4,19 @@ import { HttpService } from '../../global/services/http.service';
 
 export type BookingStatus = 'SUBMITTED' | 'PENDING' | 'READY' | 'CANCELED'
 
-export interface BookingListDto {
+export interface BookingPanelDto {
   formId: string
-  status: BookingStatus
-  submitDate?: Date
   promoterUid: string
   managerUid: string
+  status: BookingStatus
+  submitDate?: Date
+
+  artistSignatures: string[]
+  artistNames: string[]
+
+  eventName: string
+  eventStartDate: Date
+  eventEndDate?: Date
 }
 
 export interface Booking {
@@ -42,7 +49,7 @@ export class BookingService {
   }
 
   fetchProfileBookings$() {
-    return this.http.get<BookingListDto[]>(`/booking/list`)
+    return this.http.get<BookingPanelDto[]>(`/booking/list`)
   }
 
   fetchBooking$(formId: string) {

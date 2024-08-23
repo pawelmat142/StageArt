@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Booking } from '../booking/model/booking.model';
@@ -15,6 +15,14 @@ export class EventService {
         @InjectModel(Event.name) private eventModel: Model<Event>,
     ) {}
 
+
+    public async eventDataForBookingsList(signature: string) {
+        const event = await this.eventModel.findOne({ signature }).select(['name', 'startDate', 'endDate'])
+        if (!event) {
+            throw new NotFoundException(`Not found event by signature: ${signature}`)
+        }
+        return event
+    }
 
     public async processBookingForm(booking: Partial<Booking>) {
         const eventName = this.processEventName(booking)
@@ -57,7 +65,6 @@ export class EventService {
 
     private prepareSignature(eventName: string) {
         const now = Date.now().toString()
-        return `${eventName.replace(' ', '_').toLocaleLowerCase()}-${now.slice(-4)}`
-
+        return `${eventName.replace(/ /g, "_").toLocaleLowerCase()}-${now.slice(-4)}`
     }
 }

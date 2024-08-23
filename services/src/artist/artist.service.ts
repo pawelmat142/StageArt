@@ -67,9 +67,8 @@ export class ArtistService {
         return this.artistModel.find({ status: { $in: this.PUBLIC_VIEW_ARTIST_STATUSES } })
     }
 
-    public findName(signature: string) {
-        return this.artistModel.findOne({ signature })
-            .select({ name: true })
+    public listNamesBySignatures(signatures: string[]): Promise<string[]> {
+        return this.artistModel.distinct('name', { signature: { $in: signatures } })
     }
 
     public async updateArtistView(artist: ArtistViewDto, profile: JwtPayload) {

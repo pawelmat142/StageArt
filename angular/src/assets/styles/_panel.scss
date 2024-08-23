@@ -80,6 +80,13 @@
     &:not(.labels) {
         border-top: 0.5px solid $light-dark;
     }
+
+    &.clickable {
+        cursor: pointer;
+        &:hover {
+            background-color: $light-dark;
+        }
+    }
 }
 
 .item-row.labels {

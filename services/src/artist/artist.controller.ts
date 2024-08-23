@@ -57,12 +57,6 @@ export class ArtistController {
         return this.artistService.fetchArtists()
     }
     
-    // deprecated
-    @Get('artist/find-name/:signature')
-    findName(@Param('signature') signature: string) {
-        return this.artistService.findName(signature)
-    }
-
     @Put('artist')
     @UseGuards(JwtGuard)
     updateArtistView(@Body() artist: ArtistViewDto, @GetProfile() profile: JwtPayload) {

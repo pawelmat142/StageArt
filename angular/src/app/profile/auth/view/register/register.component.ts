@@ -11,6 +11,7 @@ import { DialogService } from '../../../../global/nav/dialog.service';
 import { NavService } from '../../../../global/nav/nav.service';
 import { LoginComponent } from '../login/login.component';
 import { InputComponent } from '../../../../global/controls/input/input.component';
+import { Role } from '../../../profile.model';
 
 function repassword(): ValidatorFn {
   const error = { mismatch: true }
@@ -69,14 +70,14 @@ export class RegisterComponent {
   })
 
   _roleSelectorItems: SelectorItem[] = [{
-    code: 'MANAGER',
+    code: Role.MANAGER,
     name: 'Manager',
   }, {
-    code: 'ARTIST',
+    code: Role.ARTIST,
     name: 'Artist'
   }, {
-    code: 'PROMOTER',
-    name: 'Promoter'
+    code: Role.PROMOTOR,
+    name: 'Promotor'
   }]
 
   @HostListener('document:keydown.enter', ['$event'])

@@ -6,10 +6,6 @@
         grid-template-columns: 1fr 1fr 1fr 1fr 2fr;
     }
 
-    .booking-header {
-        grid-template-columns: 1fr 1fr 1fr;
-    }
-
     .booking-item p:last-of-type {
         text-align: unset;
     }
@@ -29,9 +25,8 @@
 }
 
 .booking-header {
-    display: grid;
-    grid-template-columns: 1fr;
-    row-gap: $padding-standard;
+    display: flex;
+    justify-content: space-between;
 }
 
 .booking-item {

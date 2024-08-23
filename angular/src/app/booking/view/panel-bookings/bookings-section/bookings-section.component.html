@@ -1,0 +1,33 @@
+<div class="panel-section">
+        
+    <div class="panel-section-header">
+        <h2 class="fs3 light">{{header}}</h2>
+    </div>
+
+    <div class="booking-itmes-container">
+
+        <div class="item-row booking-item labels">
+            <p>Event date</p>
+            <p>Submit date</p>
+            <p>Event name</p>
+            <p>Status</p>
+            @if (DESKTOP) {
+                <p>Artists</p>
+            }
+        </div>
+        @for (booking of bookings; track booking.formId; let last = $last) {
+
+            <div class="item-row booking-item clickable" (click)="openBooking.emit(booking)">
+                <p>{{booking.eventStartDate | date : 'dd-MM-yyyy'}}</p>
+                <p>{{booking.submitDate | date : 'dd-MM-yyyy'}}</p>
+                <p>{{booking.eventName}}</p>
+                <p>{{booking.status | status}}</p>
+
+                @if (DESKTOP) {
+                    <p>{{booking.artistNames.join(', ')}}</p>
+                }
+            </div>
+
+        }
+    </div>
+</div>

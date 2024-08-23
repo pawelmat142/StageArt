@@ -5,7 +5,9 @@ import { Model } from 'mongoose';
 import { JwtPayload } from '../profile/auth/jwt-strategy';
 import { SubmitService } from './submit.service';
 import { IllegalStateException } from '../global/exceptions/illegal-state.exception';
-import { BookingListDto } from './model/booking.dto';
+import { BookingPanelDto } from './model/booking.dto';
+import { ArtistService } from '../artist/artist.service';
+import { EventService } from '../event/event.service';
 
 @Injectable()
 export class BookingService {
@@ -15,6 +17,8 @@ export class BookingService {
     constructor(
         @InjectModel(Booking.name) private bookingModel: Model<Booking>,
         private readonly submitService: SubmitService,
+        private readonly artistService: ArtistService,
+        private readonly eventService: EventService,
     ) {}
 
     public async submitForm(formId: string, profile: JwtPayload) {
@@ -28,15 +32,33 @@ export class BookingService {
     }
 
 
-    public async fetchProfileBookings(profile: JwtPayload): Promise<BookingListDto[]> {
-        // TODO pobranie bookingu z info o event i artist
+    public async fetchProfileBookings(profile: JwtPayload): Promise<BookingPanelDto[]> {
         const uid = profile.uid
-        const managerBookings = await this.bookingModel.find({ $or: [
+        const bookings = await this.bookingModel.find({ $or: [
             { promoterUid: uid },
-            { managerUid: uid }
+            { managerUid: uid },
+            { artistSignatures: profile.artistSignature }
         ] })
-        this.logger.log(`Fetch profile bookings for ${uid}`)
-        return managerBookings
+
+        const profileBookings = await Promise.all(bookings.map(b => this.bookingDtoFromBooking(b)))
+        this.logger.log(`Fetch ${profileBookings.length} profile bookings for ${uid}`)
+        return profileBookings
+    }
+
+    private async bookingDtoFromBooking(booking: Booking): Promise<BookingPanelDto> {
+        const eventData = await this.eventService.eventDataForBookingsList(booking.eventSignature)
+        return {
+            formId: booking.formId,
+            promoterUid: booking.promoterUid,
+            managerUid: booking.managerUid,
+            status: booking.status,
+            submitDate: booking.submitDate,
+            artistSignatures: booking.artistSignatures,
+            artistNames: await this.artistService.listNamesBySignatures(booking.artistSignatures),
+            eventName: eventData.name,
+            eventStartDate: eventData.startDate,
+            eventEndDate: eventData.endDate,
+        }
     }
 
     public async fetchBooking(formId: string, profile: JwtPayload): Promise<Booking> {
@@ -44,12 +66,18 @@ export class BookingService {
         if (!booking) {
             throw new NotFoundException()
         }
-        const uidsWithAccess = [
-            booking.promoterUid,
-            booking.managerUid
-        ]
-        if (!uidsWithAccess.includes(profile.uid)) {
-            throw new UnauthorizedException()
+        if (profile.artistSignature) {
+            if (!booking.artistSignatures.includes(profile.artistSignature)) {
+                throw new UnauthorizedException()
+            }
+        } else {
+            const uidsWithAccess = [
+                booking.promoterUid,
+                booking.managerUid,
+            ]
+            if (!uidsWithAccess.includes(profile.uid)) {
+                throw new UnauthorizedException()
+            }
         }
         return booking
     }

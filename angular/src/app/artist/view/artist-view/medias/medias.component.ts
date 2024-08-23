@@ -71,7 +71,6 @@ export class MediasComponent {
     }
 
     this.dialog.popup(data).afterClosed().pipe(
-      tap(console.log),
       switchMap(url => {
         if (url) {
           const media: ArtistMedia = {

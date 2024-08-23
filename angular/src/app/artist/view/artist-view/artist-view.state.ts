@@ -289,6 +289,7 @@ export class ArtistViewEffect {
                 return of(stopLoading())
             } else {
                 return this.artistService.fetchArtist$(query).pipe(
+                    take(1),
                     map(artist => initializedArtist(artist))
                 )
             }
