@@ -60,9 +60,9 @@ export class BookingFormStructure {
             ]
           },
           {
-            name: 'Promoter information',
+            name: 'Promotor information',
             controls: [{
-              name: 'Promoter Name',
+              name: 'Promotor Name',
               validators: [Validators.required]
             }, {
               name: 'Company Name',

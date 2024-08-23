@@ -68,7 +68,7 @@ export class Profile {
 
     @Prop({ type: Object })
     @Expose()
-    promoterInfo?: any
+    promotorInfo?: any
 }
 
 export const ProfileSchema = SchemaFactory.createForClass(Profile)

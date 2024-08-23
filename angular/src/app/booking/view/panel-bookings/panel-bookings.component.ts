@@ -11,7 +11,6 @@ import { FormPresentationComponent } from '../../../form-processor/presentation/
 import { BookingFormStructure } from '../../booking-form-structure';
 import { DESKTOP } from '../../../global/services/device';
 import { BookingsSectionComponent } from './bookings-section/bookings-section.component';
-import { BtnComponent } from '../../../global/controls/btn/btn.component';
 import { IconButtonComponent } from '../../../global/components/icon-button/icon-button.component';
 
 @Component({
@@ -50,9 +49,9 @@ export class PanelBookingsComponent {
     map(([bookings, uid]) => bookings.filter(b => b.managerUid === uid)),
   )
   
-  _bookingsAsPromoter$ = this._bookings$.pipe(
+  _bookingsAsPromotor$ = this._bookings$.pipe(
     withLatestFrom(this.store.select(uid)),
-    map(([bookings, uid]) => bookings.filter(b => b.promoterUid === uid)),
+    map(([bookings, uid]) => bookings.filter(b => b.promotorUid === uid)),
   )
   
   _bookingsAsArtist$ = this._bookings$.pipe(

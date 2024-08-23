@@ -5,6 +5,7 @@ import { Booking } from '../booking/model/booking.model';
 import { BookingFormProcessor, DatePeriod } from '../booking/util/booking-form-processor';
 import { Util } from '../global/utils/util';
 import { Event } from './model/event.model';
+import { JwtPayload } from '../profile/auth/jwt-strategy';
 
 @Injectable()
 export class EventService {
@@ -14,6 +15,11 @@ export class EventService {
     constructor(
         @InjectModel(Event.name) private eventModel: Model<Event>,
     ) {}
+
+
+    public fetchPromotorEvents(profile: JwtPayload) {
+        return this.eventModel.find({ promotorUid: profile.uid })
+    }
 
 
     public async eventDataForBookingsList(signature: string) {
@@ -29,12 +35,12 @@ export class EventService {
         const dates = this.processEventDates(booking)
         const event = new this.eventModel({
             signature: this.prepareSignature(eventName),
-            promoterUid: booking.promoterUid,
+            promotorUid: booking.promotorUid,
             status: 'CREATED',
             name: eventName,
             startDate: dates.startDate,
             endDate: dates.endDate,
-            eventInformationFormData: BookingFormProcessor.findEventInformation(booking.formData),
+            formData: BookingFormProcessor.findEventInformation(booking.formData),
 
             created: new Date()
         })

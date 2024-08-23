@@ -10,11 +10,11 @@
         }   
     </ng-container>
 
-    <ng-container *ngIf="(_bookingsAsPromoter$ | async) as bookingsAsPromoter">
-        @if (bookingsAsPromoter.length) {
+    <ng-container *ngIf="(_bookingsAsPromotor$ | async) as bookingsAsPromotor">
+        @if (bookingsAsPromotor.length) {
             <app-bookings-section
                 header="Sent booking requests"
-                [bookings]="bookingsAsPromoter"
+                [bookings]="bookingsAsPromotor"
                 (openBooking)="_openBooking($event)"
             ></app-bookings-section>
         }

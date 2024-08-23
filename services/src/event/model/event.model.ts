@@ -13,7 +13,7 @@ export class Event {
     signature: string
 
     @Prop({ required: true })
-    promoterUid: string
+    promotorUid: string
 
     @Prop({ required: true })
     status: EventStatus
@@ -31,7 +31,7 @@ export class Event {
     
     
     @Prop({ type: Object })
-    eventDataFromBookingFrom: any
+    formData: any
 
 
     @Prop()

@@ -1,0 +1,33 @@
+<div class="panel-container">
+    <ng-container *ngIf="_events$ | async as  events">
+
+        <div class="panel-section">
+
+            <div class="panel-section-header">
+                <h2 class="fs3 light">Events as promotor</h2>
+            </div>
+        
+            <div class="booking-itmes-container">
+    
+                <div class="item-row booking-item labels">
+                    <p>Event name</p>
+                    <p>Status</p>
+                    <p>Start date</p>
+                    <p>End date</p>
+                </div>
+
+                @for(event of events; track event.signature) {
+                    <div class="item-row booking-item clickable" (click)="_openEvent(event)">
+                        <p>{{event.name}}</p>
+                        <p>{{event.status | status}}</p>
+                        <p>{{event.startDate | date : 'dd-MM-yyyy'}}</p>
+                        <p>{{event.endDate | date : 'dd-MM-yyyy'}}</p>
+                    </div>
+                }
+        
+            </div>
+        </div>
+
+
+    </ng-container>
+</div>

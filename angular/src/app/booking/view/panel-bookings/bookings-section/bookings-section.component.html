@@ -7,10 +7,10 @@
     <div class="booking-itmes-container">
 
         <div class="item-row booking-item labels">
-            <p>Event date</p>
-            <p>Submit date</p>
-            <p>Event name</p>
             <p>Status</p>
+            <p>Submit date</p>
+            <p>Event date</p>
+            <p>Event name</p>
             @if (DESKTOP) {
                 <p>Artists</p>
             }
@@ -18,10 +18,10 @@
         @for (booking of bookings; track booking.formId; let last = $last) {
 
             <div class="item-row booking-item clickable" (click)="openBooking.emit(booking)">
-                <p>{{booking.eventStartDate | date : 'dd-MM-yyyy'}}</p>
-                <p>{{booking.submitDate | date : 'dd-MM-yyyy'}}</p>
-                <p>{{booking.eventName}}</p>
                 <p>{{booking.status | status}}</p>
+                <p>{{booking.submitDate | date : 'dd-MM-yyyy'}}</p>
+                <p>{{booking.eventStartDate | date : 'dd-MM-yyyy'}}</p>
+                <p>{{booking.eventName}}</p>
 
                 @if (DESKTOP) {
                     <p>{{booking.artistNames.join(', ')}}</p>

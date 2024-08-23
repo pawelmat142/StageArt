@@ -36,10 +36,10 @@ export class BookingController {
         return this.bookingService.fetchBooking(formId, profile)
     }
 
-    @Get('promoter-info')
+    @Get('promotor-info')
     @UseGuards(JwtGuard)
-    findPromoterInfo(@GetProfile() profile: JwtPayload) {
-        return this.bookingService.findPromoterInfo(profile.uid)
+    findPromotorInfo(@GetProfile() profile: JwtPayload) {
+        return this.bookingService.findPromotorInfo(profile.uid)
     }
 
 }

@@ -16,7 +16,7 @@ export class Booking {
     
     @Prop({ required: true })
     @Expose()
-    promoterUid: string
+    promotorUid: string
     
     @Prop({ required: true })
     @Expose()

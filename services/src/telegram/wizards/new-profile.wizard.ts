@@ -1,4 +1,5 @@
 import { Profile } from "../../profile/model/profile.model"
+import { Role } from "../../profile/model/role"
 import { BotUtil } from "../util/bot.util"
 import { ServiceProvider } from "./services.provider"
 import { Wizard, WizardStep } from "./wizard"
@@ -58,13 +59,13 @@ export class NewProfileWizard extends Wizard {
             message: [`Select your role: `],
             buttons: [[{
                 text: `Manager`,
-                process: async () => this.selectoRole('MANAGER')
+                process: async () => this.selectoRole(Role.MANAGER)
             }], [{
-                text: `Promoter`,
-                process: async () => this.selectoRole('PROMOTER')
+                text: `Promotor`,
+                process: async () => this.selectoRole(Role.PROMOTOR)
             }], [{
                 text: `Artist`,
-                process: async () => this.selectoRole('ARTIST')
+                process: async () => this.selectoRole(Role.ARTIST)
             }]]
         }, {
             order: 4,

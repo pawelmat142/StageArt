@@ -41,13 +41,13 @@ export class ProfileService {
             })
     }
 
-    public async updatePromoterInfoWhenSubmitForm(formData: any, profile: JwtPayload) {
-        const promoterInfo = formData.promoterInformation
-        if (!promoterInfo) {
-            throw new IllegalStateException('Not found promoter info')
+    public async updatePromotorInfoWhenSubmitForm(formData: any, profile: JwtPayload) {
+        const promotorInfo = formData.promotorInformation
+        if (!promotorInfo) {
+            throw new IllegalStateException('Not found promotor info')
         }
         await this.profileModel.updateOne({ uid: profile.uid }, { $set: { 
-            promoterInfo: promoterInfo,
+            promotorInfo: promotorInfo,
             modified: new Date()
         } })
     }

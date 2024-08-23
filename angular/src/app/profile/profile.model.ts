@@ -17,7 +17,7 @@ export interface Profile {
     email?: string
     firstName?: string
     lastName?: string
-    promoterInfo?: any
+    promotorInfo?: any
 }
 
 export abstract class Role {

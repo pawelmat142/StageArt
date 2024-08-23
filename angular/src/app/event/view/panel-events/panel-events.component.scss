@@ -1,0 +1,15 @@
+@import 'panel';
+
+.desktop {
+    .booking-item {
+        grid-template-columns: 1fr 1fr 1fr 1fr 2fr;
+    }
+
+    .booking-item p:last-of-type {
+        text-align: unset;
+    }
+}
+
+.event-item {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}

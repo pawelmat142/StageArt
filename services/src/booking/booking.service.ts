@@ -35,7 +35,7 @@ export class BookingService {
     public async fetchProfileBookings(profile: JwtPayload): Promise<BookingPanelDto[]> {
         const uid = profile.uid
         const bookings = await this.bookingModel.find({ $or: [
-            { promoterUid: uid },
+            { promotorUid: uid },
             { managerUid: uid },
             { artistSignatures: profile.artistSignature }
         ] })
@@ -49,7 +49,7 @@ export class BookingService {
         const eventData = await this.eventService.eventDataForBookingsList(booking.eventSignature)
         return {
             formId: booking.formId,
-            promoterUid: booking.promoterUid,
+            promotorUid: booking.promotorUid,
             managerUid: booking.managerUid,
             status: booking.status,
             submitDate: booking.submitDate,
@@ -72,7 +72,7 @@ export class BookingService {
             }
         } else {
             const uidsWithAccess = [
-                booking.promoterUid,
+                booking.promotorUid,
                 booking.managerUid,
             ]
             if (!uidsWithAccess.includes(profile.uid)) {
@@ -82,17 +82,17 @@ export class BookingService {
         return booking
     }
 
-    public async findPromoterInfo(uid: string) {
-        const booking = await this.bookingModel.findOne({ promoterUid: uid })
+    public async findPromotorInfo(uid: string) {
+        const booking = await this.bookingModel.findOne({ promotorUid: uid })
             .sort({ submitDate: -1 })
             .select({ formData: true })
 
-        const promoterInformation = booking?.formData?.promoterInformation
-        if (promoterInformation) {
-            this.logger.log(`Found promoter info for profile: ${uid}`)
-            return promoterInformation  
+        const promotorInformation = booking?.formData?.promotorInformation
+        if (promotorInformation) {
+            this.logger.log(`Found promotor info for profile: ${uid}`)
+            return promotorInformation  
         }
-        this.logger.log(`Not found promoter info for profile: ${uid}`)
+        this.logger.log(`Not found promotor info for profile: ${uid}`)
         return null
     }
     

@@ -52,6 +52,11 @@ export class SidebarComponent {
     rolesGuard: [Role.MANAGER],
     onclick: () => this.view.emit('MANAGER_ARTISTS'),
   }
+  _eventsOfPromotor: MenuButtonItem = {
+    label: `Your events`,
+    rolesGuard: [Role.PROMOTOR],
+    onclick: () => this.view.emit('PROMOTOR_EVENTS'),
+  }
   _artistViewItem: MenuButtonItem =  {
     label: `Artist view`,
     rolesGuard: [Role.ARTIST],
@@ -64,6 +69,7 @@ export class SidebarComponent {
 
   private readonly allItems = [
     this._bookingsItem,
+    this._eventsOfPromotor,
     this._artistsOfManager,
     this._artistViewItem,
     this._logoutItem,
