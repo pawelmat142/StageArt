@@ -1,4 +1,5 @@
-import { BadRequestException, Logger } from "@nestjs/common"
+import { BadRequestException } from "@nestjs/common"
+import { IllegalStateException } from "../../global/exceptions/illegal-state.exception"
 
 export interface DatePeriod {
     startDate: Date
@@ -7,23 +8,20 @@ export interface DatePeriod {
 
 export abstract class BookingFormProcessor {
 
-    public static findArtistSignatures(bookingFormData: any) {
-        const artists = bookingFormData.artists
-        if (Array.isArray(artists)) {
-            return artists.map((a) => a.artist).filter(signature => !!signature)
-        }
-        return null
-    }
-    
-    public static findEventDates(bookingFormData: any) {
+    public static findEventInformation(bookingFormData: any) {
         const eventInformation = bookingFormData['eventInformation']
         if (!eventInformation) {
-            throw new BadRequestException("Missing eventInformation")
+            throw new IllegalStateException("Missing eventInformation")
         }
+        return eventInformation
+    }
+
+    public static findEventDates(bookingFormData: any) {
+        const eventInformation = this.findEventInformation(bookingFormData)
         const start = eventInformation['performanceStartDate']
         const end = eventInformation['performanceEndDate']
         if (!start) {
-            throw new BadRequestException("Missing event date")
+            throw new IllegalStateException("Missing event date")
         }
         const startDate = new Date(start)
         if (startDate instanceof Date) {
@@ -39,11 +37,31 @@ export abstract class BookingFormProcessor {
     }
 
     public static findEventName(bookingFormData: any): string {
-        const eventInformation = bookingFormData['eventInformation']
+        const eventInformation = this.findEventInformation(bookingFormData)
         if (eventInformation) {
             const eventName = eventInformation['eventName']
+            if (!eventName) {
+                throw new IllegalStateException(`Not found event name`)
+            }
             return eventName
         }
+    }
+
+
+    public static findArtistInformation(bookingFormData: any): any {
+        const artistInformation = bookingFormData['artistInformation']
+        if (!artistInformation) {
+            throw new IllegalStateException("Missing artistInformation")
+        }
+        return artistInformation
+    }
+
+    public static findArtistSignatures(bookingFormData: any): string[] {
+        const signature = this.findArtistInformation(bookingFormData)['artist']
+        if (!signature) {
+            throw new IllegalStateException("Missing artist signature")
+        }
+        return [signature]
     }
 
 

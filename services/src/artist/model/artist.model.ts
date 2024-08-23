@@ -37,7 +37,7 @@ export interface Images {
 }
 
 
-export type DiscountDocument = HydratedDocument<Artist>
+export type ArtistDocument = HydratedDocument<Artist>
 
 //status READY when all mandatory view fields are filled, 
 //status ACTIVE when manager accepts an Artist -> artist view is published
@@ -97,7 +97,14 @@ export class Artist {
     
     @Prop()
     bookings?: Partial<Booking>[]
+    
 
+    
+    @Prop()
+    created: Date
+    
+    @Prop()
+    modified: Date
 }
 
 export const ArtistSchema = SchemaFactory.createForClass(Artist)

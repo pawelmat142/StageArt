@@ -5,7 +5,7 @@ import {
     Injectable,
 } from '@nestjs/common';
 
-import { Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { AppJwtService } from '../../profile/auth/app-jwt.service';
 
 
@@ -18,10 +18,8 @@ export class ProfileInterceptor implements NestInterceptor {
 
     intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
         const request = context.switchToHttp().getRequest()
-        const response = context.switchToHttp().getResponse()
         const token = this.jwtService.extractToken(request)
-        const secret = process.env.JWT_SECRET
-        const payload = this.jwtService.verify(token, { secret })
+        const payload = this.jwtService.getPayload(token)
         request.profile = payload
         return next
           .handle()

@@ -39,7 +39,6 @@ export class ArtistService {
             status: 'CREATED',
             images: { bg: [], avatar: {} },
             created: new Date(),
-            modified: new Date(),
             managerUid: form.manager,
         })
 
@@ -95,7 +94,11 @@ export class ArtistService {
             newArtist.status = 'READY'
         }
 
-        const update = await this.artistModel.updateOne({ signature: newArtist.signature }, { $set: newArtist })
+        newArtist.modified = new Date()
+        const update = await this.artistModel.updateOne(
+            { signature: newArtist.signature }, 
+            { $set: newArtist }
+        )
 
         if (!update?.modifiedCount) {
             this.logger.warn(`Not modified!`)
@@ -142,8 +145,6 @@ export class ArtistService {
         }
         
         booking.artistSignatures = artistSignatures
-        booking.artistNames = artists.map(a => a.name)
-
         booking.managerUid = artists[0].managerUid
 
         const artistBooking = {
@@ -161,8 +162,9 @@ export class ArtistService {
             ...booking,
             formData: null
         })
-        const update = await this.artistModel.updateOne({ signature: artist.signature }, 
-            { $set: { bookings: artist.bookings } }
+        const update = await this.artistModel.updateOne(
+            { signature: artist.signature }, 
+            { $set: { bookings: artist.bookings, modified: new Date() } }
         )
         if (!update?.matchedCount) {
             throw new IllegalStateException(`Not modified Artist ${artist.signature} when process Booking ${booking.formId}`)
@@ -195,7 +197,8 @@ export class ArtistService {
 
     public async setStatus(status: ArtistStatus, signature: string, profile: JwtPayload) {
         const update = await this.artistModel.updateOne({ signature, managerUid: profile.uid }, { $set: {
-            status: status
+            status: status,
+            modified: new Date()
         } })
         if (!update.modifiedCount) {
             this.logger.error(`Not modified status artist: ${signature}, by ${profile.uid}`)

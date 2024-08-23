@@ -20,15 +20,16 @@
                         }
                     </div>
                     @for (booking of bookingsAsManager; track booking.formId; let last = $last) {
-                        
+
+                        <!-- TODO -->
                         <div class="item-row booking-item" (click)="_openBooking(booking)">
-                            <p>{{booking.startDate | date : 'dd-MM-yyyy'}}</p>
+                            <!-- <p>{{booking.startDate | date : 'dd-MM-yyyy'}}</p> -->
                             <p>{{booking.submitDate | date : 'dd-MM-yyyy'}}</p>
-                            <p>{{booking.eventName}}</p>
+                            <!-- <p>{{booking.eventName}}</p> -->
                             <p>{{booking.status | status}}</p>
     
                             @if (DESKTOP) {
-                                <p>{{booking.artistNames.join(', ')}}</p>
+                                <!-- <p>{{booking.artistNames.join(', ')}}</p> -->
                             }
                         </div>
     
@@ -75,13 +76,14 @@
                     </div>
                     @for (booking of bookingsAsPromoter; track booking.formId; let last = $last) {
                         
+                        <!-- TODO -->
                         <div class="item-row booking-item" (click)="_openBooking(booking)">
-                            <p>{{booking.startDate | date : 'dd-MM-yyyy'}}</p>
+                            <!-- <p>{{booking.startDate | date : 'dd-MM-yyyy'}}</p> -->
                             <p>{{booking.submitDate | date : 'dd-MM-yyyy'}}</p>
-                            <p>{{booking.eventName}}</p>
+                            <!-- <p>{{booking.eventName}}</p> -->
                             <p>{{booking.status | status}}</p>
                             @if (DESKTOP) {
-                                <p>{{booking.artistNames.join(', ')}}</p>
+                                <!-- <p>{{booking.artistNames.join(', ')}}</p> -->
                             }
                         </div>
     

@@ -35,7 +35,7 @@ export class PanelBookingsComponent {
     private readonly store: Store<AppState>,
   ) {}
 
-  _bookingFormStructure = new BookingFormStructure(this.store)
+  _bookingFormStructure = new BookingFormStructure(this.store, [])
 
   _bookings$: Observable<BookingListDto[]> = this.bookingService.fetchProfileBookings$().pipe(
     shareReplay(1),

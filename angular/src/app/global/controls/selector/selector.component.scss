@@ -19,13 +19,13 @@
             border-color: $yellow;
         }
     }
+
+    padding-right: calc($padding-standard + $scroll-width);
+
 }
 
 
 .form-input {
     z-index: 3;
     @extend .pointer;
-}
-.app-selector {
-    padding-right: calc($padding-standard + $scroll-width);
 }

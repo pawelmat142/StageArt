@@ -13,6 +13,7 @@ import { ProfileModule } from './profile/profile.module';
 import { TelegramModule } from './telegram/telegram.module';
 import { BookingModule } from './booking/booking.module';
 import { FeedbackModule } from './feedback/feedback.module';
+import { EventModule } from './event/event.module';
 
 @Module({
   imports: [
@@ -35,6 +36,8 @@ import { FeedbackModule } from './feedback/feedback.module';
     BookingModule,
 
     FeedbackModule,
+
+    EventModule,
   ],
   controllers: [AppController],
   providers: [AppService]

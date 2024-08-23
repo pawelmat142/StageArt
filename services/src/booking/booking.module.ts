@@ -7,7 +7,8 @@ import { ConfigModule } from '@nestjs/config';
 import { FormModule } from '../form/form.module';
 import { ProfileModule } from '../profile/profile.module';
 import { ArtistModule } from '../artist/artist.module';
-import { SubmitService } from './util/submit.service';
+import { SubmitService } from './submit.service';
+import { EventModule } from '../event/event.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { SubmitService } from './util/submit.service';
     FormModule,
     ProfileModule,
     ArtistModule,
+    EventModule,
   ],
   providers: [BookingService, SubmitService],
   controllers: [BookingController]

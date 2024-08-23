@@ -5,7 +5,7 @@ import { FormProcessorComponent } from '../../../form-processor/form-processor/f
 import { selectFormId, submittedForm } from '../../../form-processor/form.state';
 import { Store } from '@ngrx/store';
 import { initArtists } from '../../../artist/artists.state';
-import { of, switchMap, tap, withLatestFrom } from 'rxjs';
+import { of, switchMap, withLatestFrom } from 'rxjs';
 import { loggedInChange } from '../../../profile/profile.state';
 import { BookingService } from '../../../booking/services/booking.service';
 import { DialogService } from '../../../global/nav/dialog.service';
@@ -13,6 +13,7 @@ import { NavService } from '../../../global/nav/nav.service';
 import { HeaderComponent } from '../../../global/components/header/header.component';
 import { AppState } from '../../../app.state';
 import { BookingFormStructure } from '../../booking-form-structure';
+import { CountriesService } from '../../../global/countries/countries.service';
 
 @Component({
   selector: 'app-book-form',
@@ -34,9 +35,13 @@ export class BookFormComponent {
     private readonly dialog: DialogService,
     private readonly nav: NavService,
     private readonly bookingService: BookingService,
+    private readonly countriesService: CountriesService,
   ) {}
 
-  _bookingFormStructure = new BookingFormStructure(this.store)
+  _bookingFormStructure = new BookingFormStructure(
+    this.store,
+    this.countriesService.getCountries()
+  )
 
   ngOnInit(): void {
     this.store.dispatch(initArtists())
@@ -72,12 +77,13 @@ export class BookFormComponent {
     ).subscribe({
       next: () => {
         this.store.dispatch(submittedForm())
-        this.nav.home()
+
         // TODO go to form/booking view
+        this.nav.home()
         this.dialog.simplePopup('Form submitted')
       },
       error: error => {
-        console.error(error)
+        this.dialog.errorPopup(error.error.message)
       }
     })
   }

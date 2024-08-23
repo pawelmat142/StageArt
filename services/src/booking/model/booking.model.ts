@@ -34,28 +34,23 @@ export class Booking {
     
     @Prop({ required: true })
     @Expose()
-    startDate: Date
-    
-    @Prop()
-    @Expose()
-    endDate?: Date
-    
+    artistSignatures: string[]
+   
     @Prop({ required: true })
     @Expose()
-    artistSignatures: string[]
-    
-    @Prop()
-    @Expose()
-    artistNames: string[]
-    
-    @Prop()
-    @Expose()
-    eventName: string
-    
-    
+    eventSignature: string
+
     @Prop({ type: Object })
     @Expose()
     formData?: any
+
+
+
+    @Prop()
+    created: Date
+    
+    @Prop()
+    modified: Date
 }
 
 export const BookingSchema = SchemaFactory.createForClass(Booking)

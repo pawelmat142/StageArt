@@ -23,7 +23,7 @@ export class FeedbackController {
         const feedback = new this.feedbackModel({
             created: new Date(),
             lines: body.value.split(/\r?\n/),
-            uid: profile.uid
+            uid: profile?.uid || 'anonymous'
         })
         
         this.logger.log(feedback.lines)

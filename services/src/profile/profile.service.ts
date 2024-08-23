@@ -46,31 +46,34 @@ export class ProfileService {
         if (!promoterInfo) {
             throw new IllegalStateException('Not found promoter info')
         }
-        await this.profileModel.updateOne({ uid: profile.uid }, { $set: { promoterInfo: promoterInfo } })
+        await this.profileModel.updateOne({ uid: profile.uid }, { $set: { 
+            promoterInfo: promoterInfo,
+            modified: new Date()
+        } })
     }
 
-    async createProfile(profile: Partial<Profile>, registerMode: RegisterMode) {
-        const checkName = await this.profileModel.findOne({ name: profile.name }).select({ _id: true })
+    async createProfile(_profile: Partial<Profile>, registerMode: RegisterMode) {
+        const checkName = await this.profileModel.findOne({ name: _profile.name })
+            .select({ _id: true })
         if (checkName) {
             throw new BadRequestException('Name already n use')
         }
 
-        const user = new this.profileModel({
-            uid: profile.uid,
-            name: profile.name,
-            roles: profile.roles,
+        const profile = new this.profileModel({
+            uid: _profile.uid,
+            name: _profile.name,
+            roles: _profile.roles,
 
             registerMode: registerMode,
-            telegramChannelId: profile.telegramChannelId,
-            email: profile.email,
-            passwordHash: profile.passwordHash,
+            telegramChannelId: _profile.telegramChannelId,
+            email: _profile.email,
+            passwordHash: _profile.passwordHash,
 
-            created: new Date(),
-            modified: new Date(),
+            created: new Date()
         })
 
-        await user.save()
-        this.logger.log(`Created user ${user.name}, uid: ${user.uid}`)
+        await profile.save()
+        this.logger.log(`Created user ${profile.name}, uid: ${profile.uid}`)
     }
 
     fetchManagers() {
@@ -93,7 +96,8 @@ export class ProfileService {
             lastName: form.lastName,
             contactEmail: form.email,
             phoneNumber: form.phoneNumber,
-            artistSignature: artistSignature
+            artistSignature: artistSignature,
+            modified: new Date()
         }})
         if (!update.modifiedCount) {
             throw new IllegalStateException(`Artist profile not modified, uid: ${_profile.uid},`)

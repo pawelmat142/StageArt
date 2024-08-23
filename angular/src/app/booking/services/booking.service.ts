@@ -7,13 +7,9 @@ export type BookingStatus = 'SUBMITTED' | 'PENDING' | 'READY' | 'CANCELED'
 export interface BookingListDto {
   formId: string
   status: BookingStatus
-  startDate: Date
-  endDate?: Date
   submitDate?: Date
   promoterUid: string
   managerUid: string
-  eventName: string
-  artistNames: string[]
 }
 
 export interface Booking {

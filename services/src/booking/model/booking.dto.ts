@@ -6,9 +6,5 @@ export class BookingListDto {
     @Expose() promoterUid: string
     @Expose() managerUid: string
     @Expose() status: BookingStatus
-    @Expose() startDate: Date
-    @Expose() endDate?: Date
     @Expose() submitDate?: Date
-    @Expose() eventName: string
-    @Expose() artistNames: string[]
 }

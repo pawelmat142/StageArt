@@ -3,10 +3,9 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Booking } from './model/booking.model';
 import { Model } from 'mongoose';
 import { JwtPayload } from '../profile/auth/jwt-strategy';
-import { SubmitService } from './util/submit.service';
+import { SubmitService } from './submit.service';
 import { IllegalStateException } from '../global/exceptions/illegal-state.exception';
 import { BookingListDto } from './model/booking.dto';
-import { ArtistService } from '../artist/artist.service';
 
 @Injectable()
 export class BookingService {
@@ -16,7 +15,6 @@ export class BookingService {
     constructor(
         @InjectModel(Booking.name) private bookingModel: Model<Booking>,
         private readonly submitService: SubmitService,
-        private readonly artistService: ArtistService,
     ) {}
 
     public async submitForm(formId: string, profile: JwtPayload) {
@@ -31,6 +29,7 @@ export class BookingService {
 
 
     public async fetchProfileBookings(profile: JwtPayload): Promise<BookingListDto[]> {
+        // TODO pobranie bookingu z info o event i artist
         const uid = profile.uid
         const managerBookings = await this.bookingModel.find({ $or: [
             { promoterUid: uid },
