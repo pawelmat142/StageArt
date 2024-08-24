@@ -49,12 +49,8 @@ export abstract class AbstractControlComponent<T> implements ControlValueAccesso
   @HostBinding('class.active') protected active = false
 
   ngAfterViewInit(): void {
-    this.findInput()
-
     this.elementRef.nativeElement.onclick = this.onclick
-
-    this.input!.onfocus = this.onfocus
-    this.input!.onblur = this.onblur
+    this.findInput()
   }
 
   protected onclick = ($event: MouseEvent) => {
@@ -79,6 +75,8 @@ export abstract class AbstractControlComponent<T> implements ControlValueAccesso
     if (!this.input) {
         throw new Error('Input not found')
     }
+    this.input!.onfocus = this.onfocus
+    this.input!.onblur = this.onblur
   }
 
   protected onBlur() {

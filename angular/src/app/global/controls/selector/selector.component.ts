@@ -81,7 +81,6 @@ export class SelectorComponent extends AbstractControlComponent<string> {
   _select(item: SelectorItem) {
     this._item = item
     this.updateValue(item.code)
-    this._displayValue = item.name
     this.select.emit(item)
     this.onBlur()
   }
@@ -109,6 +108,17 @@ export class SelectorComponent extends AbstractControlComponent<string> {
         this.elementRef.nativeElement.blur()
       }
     }
+  }
+
+  override writeValue(value: string): void {
+    setTimeout(() => {
+      if (value) {
+        const writeItem = this._items.find(i => i.code === value)
+        if (writeItem) {
+          this._select(writeItem)
+        }
+      }
+    })
   }
 
 }

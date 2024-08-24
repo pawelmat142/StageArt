@@ -42,9 +42,14 @@ export class DateComponent extends AbstractControlComponent<Date | null> {
   override writeValue(value: Date | null): void {
     this.value = value ? new Date(value) : null
 
-    if (this.value && this.input) {
-      this.input.value = Util.formatDate(this.value)
-    }
+    setTimeout(() => {
+      if (!this.input) {
+        console.warn("no input ref when write value")
+      }
+      if (this.value && this.input) {
+        this.input.value = Util.formatDate(this.value)
+      }
+    })
   }
 
 }

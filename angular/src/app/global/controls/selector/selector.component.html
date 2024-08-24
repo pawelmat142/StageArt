@@ -8,7 +8,7 @@
                 #selectorControl 
                 class="form-input-control"
                 [placeholder]="placeholder"
-                [value]="_displayValue"
+                [value]="_item?.name"
                 [attr.disabled]="disabled ? true : null"
                 (input)="_onInput($event)"
                 type="text"
