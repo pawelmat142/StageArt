@@ -1,14 +1,14 @@
 import { Injectable, Logger, NotFoundException } from "@nestjs/common";
-import { ArtistService } from "../artist/artist.service";
-import { FormService } from "../form/form.service";
-import { JwtPayload } from "../profile/auth/jwt-strategy";
-import { IllegalStateException } from "../global/exceptions/illegal-state.exception";
-import { Booking } from "./model/booking.model";
-import { ProfileService } from "../profile/profile.service";
-import { EventService } from "../event/event.service";
-import { TelegramService } from "../telegram/telegram.service";
-import { BotUtil } from "../telegram/util/bot.util";
-import { Event } from "../event/model/event.model";
+import { ArtistService } from "../../artist/artist.service";
+import { EventService } from "../../event/event.service";
+import { FormService } from "../../form/form.service";
+import { IllegalStateException } from "../../global/exceptions/illegal-state.exception";
+import { JwtPayload } from "../../profile/auth/jwt-strategy";
+import { ProfileService } from "../../profile/profile.service";
+import { TelegramService } from "../../telegram/telegram.service";
+import { BotUtil } from "../../telegram/util/bot.util";
+import { Booking } from "../model/booking.model";
+import { Event } from "../../event/model/event.model";
 
 @Injectable()
 export class SubmitService {

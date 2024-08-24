@@ -1,13 +1,13 @@
 import { Injectable, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Booking } from './model/booking.model';
 import { Model } from 'mongoose';
-import { JwtPayload } from '../profile/auth/jwt-strategy';
+import { ArtistService } from '../../artist/artist.service';
+import { EventService } from '../../event/event.service';
+import { IllegalStateException } from '../../global/exceptions/illegal-state.exception';
+import { JwtPayload } from '../../profile/auth/jwt-strategy';
+import { BookingPanelDto } from '../model/booking.dto';
+import { Booking } from '../model/booking.model';
 import { SubmitService } from './submit.service';
-import { IllegalStateException } from '../global/exceptions/illegal-state.exception';
-import { BookingPanelDto } from './model/booking.dto';
-import { ArtistService } from '../artist/artist.service';
-import { EventService } from '../event/event.service';
 
 @Injectable()
 export class BookingService {
