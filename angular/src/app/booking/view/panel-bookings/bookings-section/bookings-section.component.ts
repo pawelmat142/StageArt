@@ -44,7 +44,7 @@ export class BookingsSectionComponent {
   @Output() refreshBookings = new EventEmitter<BookingPanelDto>()
 
   _cancelBooking(booking: BookingPanelDto) {
-    this.dialog.yesOrNoPopup(`Cancel booking. Are you sure?`).pipe(
+    this.dialog.yesOrNoPopup(`Booking will be cancelled. Are you sure?`).pipe(
       switchMap(confirm => confirm 
         ? this.bookingService.cancelBooking$(booking.formId).pipe(
           tap(booking => {
