@@ -12,6 +12,7 @@ import { ArtistForm, FetchArtistQuery } from './artist.controller';
 import { ProfileService } from '../profile/profile.service';
 import { TelegramService } from '../telegram/telegram.service';
 import { BotUtil } from '../telegram/util/bot.util';
+import { BookingSubmitCtx } from '../booking/services/submit.service';
 
 @Injectable()
 export class ArtistService {
@@ -127,47 +128,24 @@ export class ArtistService {
         return uniqueSignature;
     }
 
-    public async processBookingForm(booking: Partial<Booking>) {
-        const artistSignatures = BookingFormProcessor.findArtistSignatures(booking.formData)
+    public async processBookingForm(ctx: BookingSubmitCtx) {
+        const artistSignatures = BookingFormProcessor.findArtistSignatures(ctx.booking.formData)
         if (!artistSignatures?.length) {
             throw new IllegalStateException("Missing artist signatures")
         }
         this.logger.log(`Found artist signatures: ${artistSignatures.join(', ')}`)
         
         const artists = await this.artistModel.find({ signature: { $in: artistSignatures }}, { 
-            signature: true, bookings: true, managerUid: true
+            signature: true, managerUid: true
         })
+
+        if (artists.length !== artistSignatures.length) {
+            throw new IllegalStateException(`Not found artists for booking ${ctx.booking.formId}`)
+        }
         
-        if (!artists?.length) {
-            throw new IllegalStateException("Artists not found")
-        }
-        
-        booking.artistSignatures = artistSignatures
-        booking.managerUid = artists[0].managerUid
-
-        const artistBooking = {
-            ...booking
-        }
-        delete artistBooking.formData
-
-        for (let artist of artists) {
-            await this.processBookingFormPerArtist(booking, artist)
-        }
-    }
-
-    private async processBookingFormPerArtist(booking: Partial<Booking>, artist: Partial<Artist>) {
-        artist.bookings.push({
-            ...booking,
-            formData: null
-        })
-        const update = await this.artistModel.updateOne(
-            { signature: artist.signature }, 
-            { $set: { bookings: artist.bookings, modified: new Date() } }
-        )
-        if (!update?.matchedCount) {
-            throw new IllegalStateException(`Not modified Artist ${artist.signature} when process Booking ${booking.formId}`)
-        }
-        this.logger.log(`Processed booking ${booking.formId} for artist ${artist.signature}`)
+        ctx.booking.artistSignatures = artistSignatures
+        ctx.booking.managerUid = artists[0].managerUid
+        ctx.artistNames = artists.map(a => a.name)
     }
 
     public async listMusicStyles(): Promise<ArtistStyle[]> {

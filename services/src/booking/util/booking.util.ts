@@ -1,9 +1,9 @@
 import { JwtPayload } from "../../profile/auth/jwt-strategy";
-import { Booking, BookingStatus, StatusHistory } from "../model/booking.model";
+import { Booking, StatusHistory } from "../model/booking.model";
 
 export abstract class BookingUtil {
 
-    public static addStatusToHistory(booking: Booking, profile: JwtPayload) {
+    public static addStatusToHistory(booking: Partial<Booking>, profile: JwtPayload) {
         const newStatus: StatusHistory = {
             status: booking.status,
             uid: profile.uid,

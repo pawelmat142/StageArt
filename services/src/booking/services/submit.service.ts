@@ -10,6 +10,13 @@ import { BotUtil } from "../../telegram/util/bot.util";
 import { Booking } from "../model/booking.model";
 import { Event } from "../../event/model/event.model";
 
+export interface BookingSubmitCtx {
+    booking: Partial<Booking>
+    profile: JwtPayload,
+    event?: Event,
+    artistNames?: string[]
+}
+
 @Injectable()
 export class SubmitService {
 
@@ -23,7 +30,7 @@ export class SubmitService {
         private readonly telegramService: TelegramService,
     ) {}
 
-    async submitForm(formId: string, profile: JwtPayload): Promise<Booking> {
+    async submitForm(formId: string, profile: JwtPayload): Promise<BookingSubmitCtx> {
         this.logger.log(`[START] submitting form ${formId}`)
         const form = await this.formService.findForm(formId)
         if (!form?.data) {
@@ -51,33 +58,35 @@ export class SubmitService {
 
         await this.formService.submitForm(formId)
 
-        const event = await this.eventService.processBookingForm(booking)
-
-        await this.artistService.processBookingForm(booking)
+        const ctx: BookingSubmitCtx = {
+            booking,
+            profile,
+        }
         
-        this.msgToManagerAboutSubmitedForm(booking, event)
+        await this.eventService.processBookingForm(ctx)
+        
+        await this.artistService.processBookingForm(ctx)
+
         this.logger.log(`[STOP] submitting form ${formId}`)
-        return booking as Booking
+        return ctx
     }
 
-
-    private async msgToManagerAboutSubmitedForm(booking: Partial<Booking>, event: Event) {
-        const telegramChannelId = await this.profileService.findTelegramChannedId(booking.managerUid)
+    public async msgToManagerAboutSubmitedForm(ctx: BookingSubmitCtx) {
+        const telegramChannelId = await this.profileService.findTelegramChannedId(ctx.booking.managerUid)
         if (telegramChannelId) {
-            const artistNames = await this.artistService.listNamesBySignatures(booking.artistSignatures)
             const chatId = Number(telegramChannelId.telegramChannelId)
             if (!isNaN(chatId)) {
                 const result = await this.telegramService.sendMessage(chatId, BotUtil.msgFrom([
                     `New booking form submitted`,
-                    `Event: ${event.name} at ${BotUtil.formatDate(event.startDate)}`,
-                    `Artist: ${artistNames.join(', ')}`
+                    `Event: ${ctx.event.name} at ${BotUtil.formatDate(ctx.event.startDate)}`,
+                    `Artist: ${ctx.artistNames.join(', ')}`
                 ]))
                 if (result) {
                     return
                 }
             }
         }
-        this.logger.warn(`Could not send telegram msg to manager ${booking.managerUid} about booking submitted ${booking.formId}`)
+        this.logger.warn(`Could not send telegram msg to manager ${ctx.booking.managerUid} about booking submitted ${ctx.booking.formId}`)
     }
 
 }

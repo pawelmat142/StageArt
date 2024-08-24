@@ -8,7 +8,6 @@ import { JwtPayload } from '../../profile/auth/jwt-strategy';
 import { BookingPanelDto } from '../model/booking.dto';
 import { Booking } from '../model/booking.model';
 import { SubmitService } from './submit.service';
-import { BookingUtil } from '../util/booking.util';
 import { Event } from '../../event/model/event.model';
 import { ProfileService } from '../../profile/profile.service';
 import { TelegramService } from '../../telegram/telegram.service';
@@ -35,19 +34,28 @@ export class BookingService {
         private readonly telegramService: TelegramService,
     ) {}
 
-
-
     public async submitForm(formId: string, profile: JwtPayload) {
         const checkFormId = await this.bookingModel.findOne({ formId: formId })
         if (checkFormId) {
             throw new IllegalStateException(`Booking for form ${formId} already exists`)
         }
-        const booking = await this.submitService.submitForm(formId, profile)
-        BookingUtil.addStatusToHistory(booking, profile)
-        await new this.bookingModel(booking).save()
-        return
+        const ctx = await this.submitService.submitForm(formId, profile)
+
+        await this.validateBookingDuplicate(ctx.booking)
+        this.submitService.msgToManagerAboutSubmitedForm(ctx)
+
+        return new this.bookingModel(ctx.booking).save()
     }
 
+    private async validateBookingDuplicate(booking: Partial<Booking>) {
+        const duplicate = await this.bookingModel.findOne({
+            artistSignatures: { $in: booking.artistSignatures },
+            eventSignature: booking.eventSignature
+        })
+        if (duplicate) {
+            throw new IllegalStateException(`Booking for this event and artist already exists!`)
+        }
+    }
 
 
     public async fetchProfileBookings(profile: JwtPayload): Promise<BookingPanelDto[]> {
@@ -61,22 +69,6 @@ export class BookingService {
         const profileBookings = await Promise.all(bookings.map(b => this.bookingDtoFromBooking(b)))
         this.logger.log(`Fetch ${profileBookings.length} profile bookings for ${uid}`)
         return profileBookings
-    }
-
-    private async bookingDtoFromBooking(booking: Booking): Promise<BookingPanelDto> {
-        const eventData = await this.eventService.eventDataForBookingsList(booking.eventSignature)
-        return {
-            formId: booking.formId,
-            promotorUid: booking.promotorUid,
-            managerUid: booking.managerUid,
-            status: booking.status,
-            submitDate: booking.submitDate,
-            artistSignatures: booking.artistSignatures,
-            artistNames: await this.artistService.listNamesBySignatures(booking.artistSignatures),
-            eventName: eventData.name,
-            eventStartDate: eventData.startDate,
-            eventEndDate: eventData.endDate,
-        }
     }
 
     
@@ -149,6 +141,22 @@ export class BookingService {
                     const result = await this.telegramService.sendMessage(chatId, BotUtil.msgFrom(msg))
                 }
             }
+        }
+    }
+
+    private async bookingDtoFromBooking(booking: Booking): Promise<BookingPanelDto> {
+        const eventData = await this.eventService.eventDataForBookingsList(booking.eventSignature)
+        return {
+            formId: booking.formId,
+            promotorUid: booking.promotorUid,
+            managerUid: booking.managerUid,
+            status: booking.status,
+            submitDate: booking.submitDate,
+            artistSignatures: booking.artistSignatures,
+            artistNames: await this.artistService.listNamesBySignatures(booking.artistSignatures),
+            eventName: eventData.name,
+            eventStartDate: eventData.startDate,
+            eventEndDate: eventData.endDate,
         }
     }
     

@@ -4,6 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { EventSchema } from './model/event.model';
 import { EventController } from './event.controller';
 import { ProfileModule } from '../profile/profile.module';
+import { EventCreationService } from './event.duplicate.service';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ProfileModule } from '../profile/profile.module';
   ],
   providers: [
     EventService,
+    EventCreationService,
   ],
   exports: [
     EventService
