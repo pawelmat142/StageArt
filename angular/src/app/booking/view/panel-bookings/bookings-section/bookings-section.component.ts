@@ -9,7 +9,6 @@ import { DialogService } from '../../../../global/nav/dialog.service';
 import { AppState } from '../../../../app.state';
 import { Store } from '@ngrx/store';
 import { uid } from '../../../../profile/profile.state';
-import { DialogData } from '../../../../global/nav/dialogs/popup/popup.component';
 import { of, switchMap, tap } from 'rxjs';
 
 @Component({
@@ -45,18 +44,7 @@ export class BookingsSectionComponent {
   @Output() refreshBookings = new EventEmitter<BookingPanelDto>()
 
   _cancelBooking(booking: BookingPanelDto) {
-    const dialg: DialogData = {
-      header: `Cancell booking. Are you sure?`,
-      buttons: [{
-        label: 'No',
-        class: 'big light'
-      }, {
-        label: 'Yes',
-        class: 'big',
-        result: true,
-      }]
-    }
-    this.dialog.popup(dialg).afterClosed().pipe(
+    this.dialog.yesOrNoPopup(`Cancel booking. Are you sure?`).pipe(
       switchMap(confirm => confirm 
         ? this.bookingService.cancelBooking$(booking.formId).pipe(
           tap(booking => {
@@ -67,7 +55,14 @@ export class BookingsSectionComponent {
   }
 
   _acceptBooking(booking: BookingPanelDto) {
-    console.log(booking)
+    this.dialog.yesOrNoPopup(`Generate documents and request sign?`).pipe(
+      switchMap(confirm => confirm 
+        ? this.bookingService.requestDocuments$(booking.formId).pipe(
+          tap(booking => {
+            this.refreshBookings.emit(booking)}))
+        : of()
+      ),
+    ).subscribe()
   }
 
 }

@@ -64,4 +64,10 @@ export class BookingService {
   cancelBooking$(formId: string) {
     return this.http.get<BookingPanelDto>(`/booking/cancel/${formId}`)
   }
+  
+  requestDocuments$(formId: string) {
+    return this.http.get<BookingPanelDto>(`/booking/request-documents/${formId}`)
+  }
+
+  
 }

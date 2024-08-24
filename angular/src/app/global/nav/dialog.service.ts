@@ -56,4 +56,19 @@ export class DialogService {
         }
         return this.popup(data)
     }
+
+    public yesOrNoPopup(msg?: string) {
+        const dialg: DialogData = {
+            header: msg || `Yes or no?`,
+            buttons: [{
+              label: 'No',
+              class: 'big light'
+            }, {
+              label: 'Yes',
+              class: 'big',
+              result: true,
+            }]
+        }
+        return this.popup(dialg).afterClosed()
+    }
 }

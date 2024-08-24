@@ -8,6 +8,7 @@ import { Booking } from './model/booking.model';
 import { LogInterceptor } from '../global/interceptors/log.interceptor';
 import { BookingService } from './services/booking.service';
 import { BookingCancelService } from './services/booking-cancel.service';
+import { BookingDocumentsService } from './services/booking-documents.service';
 
 @Controller('api/booking')
 @UseInterceptors(LogInterceptor)
@@ -16,6 +17,7 @@ export class BookingController {
     constructor(
         private readonly bookingService: BookingService,
         private readonly bookingCancelService: BookingCancelService,
+        private readonly bookingDocumentsService: BookingDocumentsService,
     ) {}
 
     @Get('submit/:id')
@@ -49,6 +51,13 @@ export class BookingController {
     @Serialize(BookingPanelDto)
     cancelBooking(@Param('id') formId: string, @GetProfile() profile: JwtPayload) {
         return this.bookingCancelService.cancelBooking(formId, profile)
+    }
+
+    @Get('request-documents/:id')
+    @UseGuards(JwtGuard)
+    @Serialize(BookingPanelDto)
+    requestDocuments(@Param('id') formId: string, @GetProfile() profile: JwtPayload) {
+        return this.bookingDocumentsService.requestDocuments(formId, profile)
     }
 
 }

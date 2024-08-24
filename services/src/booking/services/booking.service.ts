@@ -6,9 +6,20 @@ import { EventService } from '../../event/event.service';
 import { IllegalStateException } from '../../global/exceptions/illegal-state.exception';
 import { JwtPayload } from '../../profile/auth/jwt-strategy';
 import { BookingPanelDto } from '../model/booking.dto';
-import { Booking, StatusHistory } from '../model/booking.model';
+import { Booking } from '../model/booking.model';
 import { SubmitService } from './submit.service';
 import { BookingUtil } from '../util/booking.util';
+import { Event } from '../../event/model/event.model';
+import { ProfileService } from '../../profile/profile.service';
+import { TelegramService } from '../../telegram/telegram.service';
+import { BotUtil } from '../../telegram/util/bot.util';
+
+export interface BookingContext {
+    profile: JwtPayload
+    booking: Booking
+    artistNames: string[]
+    event: Event
+}
 
 @Injectable()
 export class BookingService {
@@ -20,6 +31,8 @@ export class BookingService {
         private readonly submitService: SubmitService,
         private readonly artistService: ArtistService,
         private readonly eventService: EventService,
+        private readonly profileService: ProfileService,
+        private readonly telegramService: TelegramService,
     ) {}
 
 
@@ -66,6 +79,19 @@ export class BookingService {
         }
     }
 
+    
+    public async buildContext(formId: string, profile: JwtPayload): Promise<BookingContext> {
+        const booking = await this.fetchBooking(formId, profile)
+        const event = await this.eventService.fetchEvent(booking.eventSignature)
+        const artistNames = await this.artistService.listNamesBySignatures(booking.artistSignatures)
+        return {
+            artistNames,
+            event,
+            booking,
+            profile
+        }
+    }
+
     public async fetchBooking(formId: string, profile: JwtPayload): Promise<Booking> {
         const booking = await this.bookingModel.findOne({ formId })
         if (!booking) {
@@ -107,6 +133,23 @@ export class BookingService {
         }
         this.logger.log(`Not found promotor info for profile: ${uid}`)
         return null
+    }
+
+    public async msgToPromoterOrManager(ctx: BookingContext, msg: string[]) {
+        const uidsToSend = [
+            ctx.booking.managerUid,
+            ctx.booking.promotorUid,
+        ].filter(uid => uid !== ctx.profile.uid)
+        for (let uid of uidsToSend) {
+            const profile = await this.profileService.findTelegramChannedId(uid)
+            const telegramChannelId = profile?.telegramChannelId
+            if (telegramChannelId) {
+                const chatId = Number(telegramChannelId)
+                if (!isNaN(chatId)) {
+                    const result = await this.telegramService.sendMessage(chatId, BotUtil.msgFrom(msg))
+                }
+            }
+        }
     }
     
 }
