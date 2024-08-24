@@ -1,36 +1,32 @@
 <div class="panel-container">
 
-    <ng-container *ngIf="(_bookingsAsManager$ | async) as bookingsAsManager">
-        @if (bookingsAsManager.length) {
-            <app-bookings-section
-                header="Received booking requests"
-                [bookings]="bookingsAsManager"
-                (openBooking)="_openBooking($event)"
-            ></app-bookings-section>
-        }   
-    </ng-container>
+    @if (_bookings$ | async)  {
+            @if (_bookingsAsManager.length) {
+                <app-bookings-section
+                    header="Received booking requests"
+                    [bookings]="_bookingsAsManager"
+                    (openBooking)="_openBooking($event)"
+                    (refreshBookings)="_refreshBookings($event)"
+                ></app-bookings-section>
+            }   
+            @if (_bookingsAsPromotor.length) {
+                <app-bookings-section
+                    header="Sent booking requests"
+                    [bookings]="_bookingsAsPromotor"
+                    (openBooking)="_openBooking($event)"
+                    (refreshBookings)="_refreshBookings($event)"
+                ></app-bookings-section>
+            }
+            @if (_bookingsAsArtist.length) {
+                <app-bookings-section
+                    header="Artist booking request"
+                    [bookings]="_bookingsAsArtist"
+                    (openBooking)="_openBooking($event)"
+                    (refreshBookings)="_refreshBookings($event)"
+                ></app-bookings-section>
+            }
+    }
 
-    <ng-container *ngIf="(_bookingsAsPromotor$ | async) as bookingsAsPromotor">
-        @if (bookingsAsPromotor.length) {
-            <app-bookings-section
-                header="Sent booking requests"
-                [bookings]="bookingsAsPromotor"
-                (openBooking)="_openBooking($event)"
-            ></app-bookings-section>
-        }
-    </ng-container>
-
-    <ng-container *ngIf="(_bookingsAsArtist$ | async) as bookingsAsArtist">
-        @if (bookingsAsArtist.length) {
-            <app-bookings-section
-                header="Artist booking request"
-                [bookings]="bookingsAsArtist"
-                (openBooking)="_openBooking($event)"
-            ></app-bookings-section>
-        }
-    </ng-container>
-
-        
     <div class="panel-section form-data" *ngIf="(_booking$ | async) as booking">
         <div class="panel-section-header">
             <h2 class="fs3 light booking-header">

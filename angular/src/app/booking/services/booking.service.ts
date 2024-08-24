@@ -60,4 +60,8 @@ export class BookingService {
   findPromotorInfo$() {
     return this.http.get<any>(`/booking/promotor-info`)
   }
+  
+  cancelBooking$(formId: string) {
+    return this.http.get<BookingPanelDto>(`/booking/cancel/${formId}`)
+  }
 }

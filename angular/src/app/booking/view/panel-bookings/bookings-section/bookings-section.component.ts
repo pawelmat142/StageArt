@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output, output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 import { DESKTOP } from '../../../../global/services/device';
 import { BookingPanelDto, BookingService } from '../../../services/booking.service';
 import { StatusPipe } from "../../../../global/pipes/status.pipe";
@@ -9,6 +9,8 @@ import { DialogService } from '../../../../global/nav/dialog.service';
 import { AppState } from '../../../../app.state';
 import { Store } from '@ngrx/store';
 import { uid } from '../../../../profile/profile.state';
+import { DialogData } from '../../../../global/nav/dialogs/popup/popup.component';
+import { of, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-bookings-section',
@@ -40,14 +42,32 @@ export class BookingsSectionComponent {
   @Input() bookings!: BookingPanelDto[]
 
   @Output() openBooking = new EventEmitter<BookingPanelDto>()
+  @Output() refreshBookings = new EventEmitter<BookingPanelDto>()
 
   _cancelBooking(booking: BookingPanelDto) {
-    console.log(booking)
+    const dialg: DialogData = {
+      header: `Cancell booking. Are you sure?`,
+      buttons: [{
+        label: 'No',
+        class: 'big light'
+      }, {
+        label: 'Yes',
+        class: 'big',
+        result: true,
+      }]
+    }
+    this.dialog.popup(dialg).afterClosed().pipe(
+      switchMap(confirm => confirm 
+        ? this.bookingService.cancelBooking$(booking.formId).pipe(
+          tap(booking => {
+            this.refreshBookings.emit(booking)}))
+        : of()
+      ),
+    ).subscribe()
   }
-  
+
   _acceptBooking(booking: BookingPanelDto) {
     console.log(booking)
   }
-
 
 }

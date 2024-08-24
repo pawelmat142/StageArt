@@ -20,6 +20,9 @@ export class EventService {
         return this.eventModel.find({ promotorUid: profile.uid })
     }
 
+    public fetchEvent(signature: string) {
+        return this.eventModel.findOne({ signature })
+    }
 
     public async eventDataForBookingsList(signature: string) {
         const event = await this.eventModel.findOne({ signature }).select(['name', 'startDate', 'endDate'])

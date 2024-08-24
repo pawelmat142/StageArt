@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, ViewEncapsulation } from '@angular/core';
-import { map, Observable, shareReplay, withLatestFrom } from 'rxjs';
+import { map, Observable, of, shareReplay, take, tap, withLatestFrom } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { uid } from '../../../profile/profile.state';
+import { profile, uid } from '../../../profile/profile.state';
 import { StatusPipe } from '../../../global/pipes/status.pipe';
 import { IsArrayPipe } from '../../../global/pipes/is-array.pipe';
 import { Booking, BookingPanelDto, BookingService } from '../../services/booking.service';
@@ -39,32 +39,39 @@ export class PanelBookingsComponent {
   
   _bookingFormStructure = new BookingFormStructure(this.store, [])
   
+  _bookings$: Observable<BookingPanelDto[]> = of([])
 
-  _bookings$: Observable<BookingPanelDto[]> = this.bookingService.fetchProfileBookings$().pipe(
-    shareReplay(1),
-  )
-
-  _bookingsAsManager$ = this._bookings$.pipe(
-    withLatestFrom(this.store.select(uid)),
-    map(([bookings, uid]) => bookings.filter(b => b.managerUid === uid)),
-  )
-  
-  _bookingsAsPromotor$ = this._bookings$.pipe(
-    withLatestFrom(this.store.select(uid)),
-    map(([bookings, uid]) => bookings.filter(b => b.promotorUid === uid)),
-  )
-  
-  _bookingsAsArtist$ = this._bookings$.pipe(
-    withLatestFrom(this.store.select(store => store.profileState.profile?.artistSignature)),
-    map(([bookings, artistSignature]) => bookings.filter(b => b.artistSignatures.includes(artistSignature!))),
-  )
+  _bookingsAsManager: BookingPanelDto[] = []
+  _bookingsAsPromotor: BookingPanelDto[] = []
+  _bookingsAsArtist: BookingPanelDto[] = []
 
   _booking$?: Observable<Booking>
+  
+  ngOnInit(): void {
+    this.fetchBookings()
+  }
+
+  private fetchBookings() {
+    this._bookings$ = this.bookingService.fetchProfileBookings$().pipe(
+      withLatestFrom(this.store.select(profile)),
+      map(([bookings, profile]) => {
+        this._bookingsAsManager = bookings.filter(b => b.managerUid === profile?.uid)
+        this._bookingsAsPromotor = bookings.filter(b => b.promotorUid === profile?.uid)
+        this._bookingsAsArtist = bookings.filter(b => b.artistSignatures.includes(profile?.artistSignature || ''))
+        return bookings
+      }),
+    )
+  }
+  
 
   _openBooking(booking: BookingPanelDto) {
     this._booking$ = this.bookingService.fetchBooking$(booking.formId).pipe(
       shareReplay()
     )
+  }
+
+  _refreshBookings(booking: BookingPanelDto) {
+    this.fetchBookings()
   }
 
   _closeBooking() {

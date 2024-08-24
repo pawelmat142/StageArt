@@ -10,6 +10,7 @@ import { EventModule } from '../event/event.module';
 import { TelegramModule } from '../telegram/telegram.module';
 import { BookingService } from './services/booking.service';
 import { SubmitService } from './services/submit.service';
+import { BookingCancelService } from './services/booking-cancel.service';
 
 @Module({
   imports: [
@@ -26,7 +27,7 @@ import { SubmitService } from './services/submit.service';
     EventModule,
     TelegramModule,
   ],
-  providers: [BookingService, SubmitService],
+  providers: [BookingService, SubmitService, BookingCancelService],
   controllers: [BookingController]
 })
 export class BookingModule {}

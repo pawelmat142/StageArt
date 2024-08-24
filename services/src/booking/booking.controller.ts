@@ -7,6 +7,7 @@ import { BookingPanelDto } from './model/booking.dto';
 import { Booking } from './model/booking.model';
 import { LogInterceptor } from '../global/interceptors/log.interceptor';
 import { BookingService } from './services/booking.service';
+import { BookingCancelService } from './services/booking-cancel.service';
 
 @Controller('api/booking')
 @UseInterceptors(LogInterceptor)
@@ -14,6 +15,7 @@ export class BookingController {
 
     constructor(
         private readonly bookingService: BookingService,
+        private readonly bookingCancelService: BookingCancelService,
     ) {}
 
     @Get('submit/:id')
@@ -40,6 +42,13 @@ export class BookingController {
     @UseGuards(JwtGuard)
     findPromotorInfo(@GetProfile() profile: JwtPayload) {
         return this.bookingService.findPromotorInfo(profile.uid)
+    }
+
+    @Get('cancel/:id')
+    @UseGuards(JwtGuard)
+    @Serialize(BookingPanelDto)
+    cancelBooking(@Param('id') formId: string, @GetProfile() profile: JwtPayload) {
+        return this.bookingCancelService.cancelBooking(formId, profile)
     }
 
 }

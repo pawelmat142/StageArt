@@ -27,6 +27,7 @@ export interface DialogData {
 export interface DialogBtn {
   label: string
   class?: string
+  result?: any
   type?: 'button' | 'submit'
   onclick?: () => any
 }
@@ -100,7 +101,7 @@ export class PopupComponent {
   }
 
   _onBtnClick(btn: DialogBtn) {
-    this._close()
+    this._close(btn.result)
     if (btn.onclick) {
       btn.onclick()
     }

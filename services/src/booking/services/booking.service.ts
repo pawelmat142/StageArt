@@ -6,8 +6,9 @@ import { EventService } from '../../event/event.service';
 import { IllegalStateException } from '../../global/exceptions/illegal-state.exception';
 import { JwtPayload } from '../../profile/auth/jwt-strategy';
 import { BookingPanelDto } from '../model/booking.dto';
-import { Booking } from '../model/booking.model';
+import { Booking, StatusHistory } from '../model/booking.model';
 import { SubmitService } from './submit.service';
+import { BookingUtil } from '../util/booking.util';
 
 @Injectable()
 export class BookingService {
@@ -21,15 +22,19 @@ export class BookingService {
         private readonly eventService: EventService,
     ) {}
 
+
+
     public async submitForm(formId: string, profile: JwtPayload) {
         const checkFormId = await this.bookingModel.findOne({ formId: formId })
         if (checkFormId) {
             throw new IllegalStateException(`Booking for form ${formId} already exists`)
         }
         const booking = await this.submitService.submitForm(formId, profile)
+        BookingUtil.addStatusToHistory(booking, profile)
         await new this.bookingModel(booking).save()
         return
     }
+
 
 
     public async fetchProfileBookings(profile: JwtPayload): Promise<BookingPanelDto[]> {
@@ -80,6 +85,14 @@ export class BookingService {
             }
         }
         return booking
+    }
+
+    public async update(booking: Booking) {
+        this.logger.warn(`Updated booking ${booking.formId} with status ${booking.status}`)
+        const update = await this.bookingModel.updateOne({ formId: booking.formId }, { $set: booking })
+        if (!update?.modifiedCount) {
+            throw new IllegalStateException(`Not updated booking ${booking.formId}`)
+        }
     }
 
     public async findPromotorInfo(uid: string) {

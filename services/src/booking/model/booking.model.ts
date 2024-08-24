@@ -4,8 +4,16 @@ import { HydratedDocument } from "mongoose"
 
 export type BookingDocument = HydratedDocument<Booking>
 
-export type BookingStatus = 'SUBMITTED' | 'PENDING' | 'READY' | 'CANCELED'
+export type BookingStatus = 'SUBMITTED' | 'DOCUMENTS_REQUESTED' | 'PENDING' | 'READY' | 'CANCELED'
 
+export interface StatusHistory {
+    version: number
+    status: BookingStatus
+    date: Date
+    uid: string
+    role: string
+    info?: string
+}
 
 @Schema()
 export class Booking {
@@ -45,6 +53,8 @@ export class Booking {
     formData?: any
 
 
+    @Prop({ type: Object })
+    statusHistory: StatusHistory[]
 
     @Prop()
     created: Date
