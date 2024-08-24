@@ -1,9 +1,13 @@
 import { Injectable } from "@angular/core"
 import { Actions, createEffect, ofType } from "@ngrx/effects"
 import { createAction, createReducer, createSelector, on, props, Store } from "@ngrx/store"
-import { catchError, map, of, switchMap, withLatestFrom } from "rxjs"
+import { catchError, forkJoin, map, of, switchMap, take, tap, withLatestFrom } from "rxjs"
 import { FormProcessorService } from "./form-processor.service"
 import { AppState } from "../app.state"
+import { BookingService } from "../booking/services/booking.service"
+import { EventService } from "../event/services/event.service"
+import { MatDialog } from "@angular/material/dialog"
+import { EventsFormDataComponent } from "../global/nav/dialogs/events-form-data/events-form-data.component"
 
 export enum FormType {
     BOOKING = "BOOKING"
@@ -34,7 +38,7 @@ export const formLoadingChange = createSelector(
     (state: FormState) => state.loading
 )
 
-export const dataChange = createSelector(
+export const formData = createSelector(
     selectFormState,
     (state: FormState) => state.form.data
 )
@@ -53,11 +57,13 @@ export const openedForm = createAction("[FORM PROCESSOR] Opened", props<Form>())
 
 export const newForm = createAction("[FORM PROCESSOR] New form")
 
+export const setFormData = createAction("[FORM PROCESSOR] Set data", props<any>())
+
 export const startForm = createAction("[FORM PROCESSOR] Start", props<any>())
 
 export const storeForm = createAction("[FORM PROCESSOR] Store", props<any>())
 
-export const stopLoading = createAction("[FORM PROCESSOR] Stop loading")
+export const stopFormLoading = createAction("[FORM PROCESSOR] Stop loading")
 
 export const setFormId = createAction("[FORM PROCESSOR] Set form id", props<{ id: string }>())
 
@@ -97,6 +103,14 @@ export const formReducer = createReducer(
         }
     })),
     
+    on(setFormData, (state, formData) => ({
+        ...state,
+        form: {
+            ...state.form,
+            data: formData,
+        }
+    })),
+    
     on(openedForm, (state, form) => ({
         ...state,
         loading: false,
@@ -127,7 +141,7 @@ export const formReducer = createReducer(
         }
     })),
 
-    on(stopLoading, (state) => ({
+    on(stopFormLoading, (state) => ({
         ...state,
         loading: false,
     })),
@@ -156,6 +170,10 @@ export class FormEffect {
         private actions$: Actions,
         private store: Store<AppState>, 
         private formProcessorService: FormProcessorService,
+
+        private readonly bookingService: BookingService,
+        private readonly eventService: EventService,
+        private readonly matDialog: MatDialog,
     ){}
 
     openForm$ = createEffect(() => this.actions$.pipe(
@@ -175,6 +193,7 @@ export class FormEffect {
         })
     ))
 
+
     startForm$ = createEffect(() => this.actions$.pipe(
         ofType(startForm),
 
@@ -187,7 +206,7 @@ export class FormEffect {
 
     setFormId$ = createEffect(() => this.actions$.pipe(
         ofType(setFormId),
-        map(_ => stopLoading())
+        map(_ => stopFormLoading())
     ))
 
     storeForm$ = createEffect(() => this.actions$.pipe(
@@ -196,8 +215,48 @@ export class FormEffect {
         map(arr => arr[1]),
 
         switchMap(form => this.formProcessorService.storeForm$(form)),
-        catchError(error => of(stopLoading())),
-        map(_ => stopLoading()),
+        catchError(error => of(stopFormLoading())),
+        map(_ => stopFormLoading()),
     ))
+
+
+    newForm$ = createEffect(() => this.actions$.pipe(
+        ofType(newForm),
+        switchMap(_ => this.store.select(store => store.formState.form.formType)),
+        tap(formType => localStorage.removeItem(formType)),
+        tap(formType => {
+            if (formType === FormType.BOOKING) {
+                this.setBookingFormInitialData()
+            }
+        })
+    ), { dispatch: false })
+
+
+    private setBookingFormInitialData() {
+        forkJoin([
+            this.eventInfoFromPreviosPromoterEvents$(),
+            this.bookingService.findPromotorInfo$()
+        ]).pipe(
+            tap(([eventInformation, promotorInformation]) => {
+                const data = {
+                    eventInformation,
+                    promotorInformation
+                }
+                this.store.dispatch(setFormData(data))
+            })
+        ).subscribe()
+    }
+
+    private eventInfoFromPreviosPromoterEvents$() {
+        return this.eventService.fetchPromotorEvents$().pipe(
+            take(1),
+            map(events => events.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime())),
+            switchMap(events => events?.length 
+                ? this.matDialog.open(EventsFormDataComponent, { data: events }).afterClosed()
+                : of(undefined)
+            ),
+            map(event => event?.formData)
+        )
+    }
 
 }

@@ -45,20 +45,6 @@ export class BookFormComponent {
 
   ngOnInit(): void {
     this.store.dispatch(initArtists())
-    this.findLatestBookingPromotorInfo()
-  }
-
-  _initialData?: any
-
-  private findLatestBookingPromotorInfo() {
-    this.bookingService.findPromotorInfo$().subscribe({
-      next: promotorInfo => {
-        if (promotorInfo) {
-          this._initialData = { promotorInformation: promotorInfo }
-        }
-      },
-      error: error => this.dialog.errorPopup(error)
-    })
   }
 
   _submit(data: any) {

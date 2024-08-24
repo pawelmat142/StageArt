@@ -131,7 +131,13 @@ textarea {
         }
     }
 
+}
 
+.form-header {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: $padding-standard;
 }
 
 
@@ -278,5 +284,8 @@ textarea {
         width: 100%;
     }
 
+    &.btns-row {
+        flex-direction: row;
+    }
 }
 

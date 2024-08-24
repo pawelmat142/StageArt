@@ -16,7 +16,6 @@ export class EventService {
         @InjectModel(Event.name) private eventModel: Model<Event>,
     ) {}
 
-
     public fetchPromotorEvents(profile: JwtPayload) {
         return this.eventModel.find({ promotorUid: profile.uid })
     }
@@ -42,7 +41,8 @@ export class EventService {
             endDate: dates.endDate,
             formData: BookingFormProcessor.findEventInformation(booking.formData),
 
-            created: new Date()
+            created: new Date(),
+            modified: new Date(),
         })
 
         await event.save()

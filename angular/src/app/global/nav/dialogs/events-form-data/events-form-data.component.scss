@@ -1,0 +1,17 @@
+@import 'panel';
+
+.popup-container.event-form-data {
+    background-color: $dark;
+
+    .item-row p:last-of-type {
+        text-align: unset;
+    }
+
+    .item-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        max-width: 80vw;
+        min-width: 70vw;
+    }
+}
+

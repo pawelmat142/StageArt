@@ -11,6 +11,7 @@ export interface EventPanelDto {
     name: string
     startDate: Date
     endDate?: Date
+    formData: any
 }
 
 @Injectable({

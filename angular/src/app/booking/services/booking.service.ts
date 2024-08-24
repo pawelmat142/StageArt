@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { tap } from 'rxjs';
 import { HttpService } from '../../global/services/http.service';
+import { FormType } from '../../form-processor/form.state';
 
 export type BookingStatus = 'SUBMITTED' | 'PENDING' | 'READY' | 'CANCELED'
 
@@ -45,7 +46,7 @@ export class BookingService {
 
   submitForm$(formId: string) {
     return this.http.get(`/booking/submit/${formId}`)
-      .pipe(tap(x => localStorage.removeItem('BOOKING')))
+      .pipe(tap(x => localStorage.removeItem(FormType.BOOKING)))
   }
 
   fetchProfileBookings$() {

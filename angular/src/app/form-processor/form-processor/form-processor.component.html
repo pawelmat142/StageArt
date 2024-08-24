@@ -5,7 +5,10 @@
         @if (step) {
             <div class="step">
 
-                <h1 class="dark margin-bottom-2 baron">{{step.name}}</h1>
+                <div class="form-header margin-bottom-2">
+                    <h1 class="dark baron">{{step.name}}</h1>
+                    <app-btn label="Reset form" class="light" (click)="_resetForm()"></app-btn>
+                </div>
 
                 @if (step.array) {
 
@@ -32,7 +35,7 @@
             }
         </div>
         
-        <div class="btns margin-top-2">
+        <div class="btns btns-row margin-top-2">
             <app-btn label="back" [active]="stepIndex > 0" (click)="_back()"></app-btn>
             <div></div>
             @if (stepIndex === form.steps.length-1) {

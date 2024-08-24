@@ -8,9 +8,11 @@ import { ArrayComponent } from "../array/array.component";
 import { pForm, pFormArray, pFormStep } from '../form-processor.service';
 import { Store } from '@ngrx/store';
 import { skip, Subscription, take, tap } from 'rxjs';
-import { dataChange, FormType, openForm, selectFormId, startForm, storeForm } from '../form.state';
+import { formData, FormType, newForm, openForm, selectFormId, startForm, storeForm } from '../form.state';
 import { FormUtil } from '../../global/utils/form.util';
 import { AppState } from '../../app.state';
+import { DialogService } from '../../global/nav/dialog.service';
+import { DialogData } from '../../global/nav/dialogs/popup/popup.component';
 
 @Component({
   selector: 'app-form-processor',
@@ -38,6 +40,7 @@ export class FormProcessorComponent {
   constructor(
     private readonly fb: FormBuilder,
     private readonly store: Store<AppState>,
+    private readonly dialog: DialogService,
   ) {}
 
   @Input() form!: pForm
@@ -58,7 +61,7 @@ export class FormProcessorComponent {
 
   ngOnInit(): void {
     
-    this.subscriptions.push(this.store.select(dataChange).pipe(
+    this.subscriptions.push(this.store.select(formData).pipe(
       tap(formData => this.formData = formData),
       skip(1),
     ).subscribe(formData => {
@@ -147,6 +150,27 @@ export class FormProcessorComponent {
     this.setStep()
   }
 
+  _resetForm() {
+    const data: DialogData = {
+      header: 'Are you sure you want to start new form?',
+      buttons: [{
+        label: 'No',
+        class: 'light big'
+      }, {
+        label: `Yes`,
+        class: 'big',
+        onclick: () => this.resetForm()
+      }]
+    }
+    this.dialog.popup(data).afterClosed().subscribe()
+  }
+  
+  private resetForm() {
+    this.store.dispatch(newForm())
+    this.stepIndex = 0
+    this.setStep()
+  }
+
   _addToArray(stepName: string) {
     const step = this.form.steps.find(s => s.name === stepName)
     if (!step) {
@@ -185,6 +209,7 @@ export class FormProcessorComponent {
   }
 
   _removeActive = false
+
   private setStep() {
     this.step = this.form.steps[this.stepIndex]
     if (this.step.array) {
