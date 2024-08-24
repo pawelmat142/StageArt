@@ -8,6 +8,14 @@
             ></app-icon-button>
         </div>
     }
+
+    <ng-container *ngIf="_profile$ | async as profile">
+        <p class="red sidebar-header-item">Name:</p>
+        <p class="bold sidebar-header-item margin-bottom">{{profile?.name}}</p>
+        <p class="red sidebar-header-item">Role:</p>
+        <p class="bold sidebar-header-item margin-bottom">{{profile?.roles?.join(', ')}}</p>
+    </ng-container>
+
     
     @for (item of _sidebarItems$ | async; track item.label) {
     

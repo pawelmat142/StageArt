@@ -15,19 +15,47 @@
                 <p>Artists</p>
             }
         </div>
-        @for (booking of bookings; track booking.formId; let last = $last) {
 
-            <div class="item-row booking-item clickable" (click)="openBooking.emit(booking)">
-                <p>{{booking.status | status}}</p>
-                <p>{{booking.submitDate | date : 'dd-MM-yyyy'}}</p>
-                <p>{{booking.eventStartDate | date : 'dd-MM-yyyy'}}</p>
-                <p>{{booking.eventName}}</p>
+        <ng-container *ngIf="_profileUid$ | async as uid">
 
-                @if (DESKTOP) {
-                    <p>{{booking.artistNames.join(', ')}}</p>
+
+            <p-accordion class="w-full" expandIcon="pi pi-plus" collapseIcon="pi pi-minus">
+
+                @for (booking of bookings; track booking.formId; let last = $last) {
+                    <p-accordionTab>
+                        <ng-template pTemplate="header">
+                            <div class="item-row booking-item clickable">
+                                <p>{{booking.status | status}}</p>
+                                <p>{{booking.submitDate | date : 'dd-MM-yyyy'}}</p>
+                                <p>{{booking.eventStartDate | date : 'dd-MM-yyyy'}}</p>
+                                <p>{{booking.eventName}}</p>
+    
+                                @if (DESKTOP) {
+                                    <p>{{booking.artistNames.join(', ')}}</p>
+                                }
+                            </div>
+                        </ng-template>
+    
+                        <div class="item-row-collapse-content item-row-buttons">
+
+                            <app-btn (click)="openBooking.emit(booking)" label="Form data" class="grey"></app-btn>
+
+                            @if (['SUBMITTED'].includes(booking.status) && [booking.managerUid].includes(uid)) {
+                                <app-btn (click)="_acceptBooking(booking)" label="Accept" class="green"></app-btn>
+                            }
+
+                            @if (['SUBMITTED'].includes(booking.status) && [booking.managerUid, booking.promotorUid].includes(uid)) {
+                                <app-btn (click)="_cancelBooking(booking)" label="Cancel"></app-btn>
+                            }
+                        </div>
+                    </p-accordionTab>
                 }
-            </div>
 
-        }
+            </p-accordion>
+            
+
+        </ng-container>
+
+
     </div>
 </div>

@@ -40,7 +40,7 @@
     gap: $padding-standard;
     background-color: $light-dark;
     
-    padding-top: $header-height;
+    padding-top: $header-height + $padding-standard;
 
     padding-bottom: 4*$padding-standard;
 
@@ -63,9 +63,10 @@
 
 .item-row {
     // padding: 0.8*$padding-standard $padding-standard;
-    padding: 0.8*$padding-standard 0.5*$padding-standard;
+    padding: 0.8*$padding-standard 0.5*$padding-standard;   
     display: grid;
     align-items: center;
+    width: 100%;
 
     p {
         color: $white;
@@ -89,9 +90,21 @@
     }
 }
 
+
 .item-row.labels {
     p {
         font-size: 14px;
         color: $red;
     }
+}
+
+
+.item-row-collapse-content {
+    padding: 0.5*$padding-standard $padding-standard $padding-standard;
+
+    display: flex;
+    gap: $padding-standard;
+    flex-wrap: wrap;
+
+
 }

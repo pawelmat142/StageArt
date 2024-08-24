@@ -32,6 +32,11 @@ export const uid = createSelector(
     (state: ProfileState) => state.profile?.uid
 )
 
+export const profileName = createSelector(
+    selectProfileState,
+    (state: ProfileState) => state.profile?.name
+)
+
 export const loggedInChange = createSelector(
     selectProfileState,
     (state: ProfileState) => state.loggedIn

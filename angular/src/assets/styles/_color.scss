@@ -18,6 +18,8 @@ $yellow: #f9d85d;
 $yellow-dark: #f0c418;
 $yellow-transparent: #f9d75d7e;
 $green: #5a9a5b;
+$green-light: #6db16e;
+$green-dark: #4b824c;
 
 $label-color: #aaa8ac;
 $control-bg: #f0edf2;
@@ -48,6 +50,13 @@ $placeholder-color: #757575;
 .white {
     color: $white;
     fill: $white;
+}
+.green {
+    color: $green;
+    fill: $white;
+}
+.font-color {
+    color: $font-color;
 }
 
 body {

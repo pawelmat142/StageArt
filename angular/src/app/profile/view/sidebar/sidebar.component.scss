@@ -42,6 +42,7 @@ app-profile {
     right: 0;
     bottom: 0;
     padding-top: $header-height;
+    z-index: 8;
 
     transition: $transition-standard;
     
@@ -49,6 +50,11 @@ app-profile {
     &.open {
         transform: translateX(0);
     }
+}
+
+.sidebar-header-item {
+    // padding: 0 $padding-standard 0.5*$padding-standard;
+    padding: 0 $padding-standard 0;
 }
 
 .siderbar-item {

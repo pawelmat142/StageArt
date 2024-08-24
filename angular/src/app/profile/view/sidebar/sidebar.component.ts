@@ -1,7 +1,7 @@
 import { Component, EventEmitter, HostBinding, Output, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { PanelView } from '../panel/panel.component';
-import { logout, profile } from '../../profile.state';
+import { logout, profile, profileName } from '../../profile.state';
 import { DialogService } from '../../../global/nav/dialog.service';
 import { NavService, MenuButtonItem } from '../../../global/nav/nav.service';
 import { AppState, selectArtistView } from '../../../app.state';
@@ -11,6 +11,7 @@ import { IconButtonComponent } from '../../../global/components/icon-button/icon
 import { artist, initArtist } from '../../../artist/view/artist-view/artist-view.state';
 import { CommonModule } from '@angular/common';
 import { Profile, Role } from '../../profile.model';
+import { StatusPipe } from "../../../global/pipes/status.pipe";
 
 @Component({
   selector: 'app-sidebar',
@@ -18,7 +19,8 @@ import { Profile, Role } from '../../profile.model';
   imports: [
     CommonModule,
     IconButtonComponent,
-  ],
+    StatusPipe
+],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
   encapsulation: ViewEncapsulation.None
@@ -36,6 +38,12 @@ export class SidebarComponent {
   @Output() view = new EventEmitter<PanelView>()
 
   @HostBinding('class.open') _sidebarOpened = false
+
+  _profile$ = this.store.select(profile).pipe(
+    tap(profile => this.setSidebarItemsForRole(profile)),
+    tap(profile => this.initAsArtistIfNeed(profile)),
+    tap(profile => this.setPanelViewForRole(profile))
+  )
 
   _sidebarItems$ = new BehaviorSubject<MenuButtonItem[]>([])
 
@@ -74,20 +82,6 @@ export class SidebarComponent {
     this._artistViewItem,
     this._logoutItem,
   ]
-
-  subscription?: Subscription
-
-  ngOnInit(): void {
-    this.subscription = this.store.select(profile).pipe(
-      tap(profile => this.setSidebarItemsForRole(profile)),
-      tap(profile => this.initAsArtistIfNeed(profile)),
-      tap(profile => this.setPanelViewForRole(profile)),
-    ).subscribe()
-  }
-
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe()
-  }
 
   _open() {
     if (this.DESKTOP) {
