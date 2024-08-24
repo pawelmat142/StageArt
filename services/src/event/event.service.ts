@@ -29,7 +29,7 @@ export class EventService {
         return event
     }
 
-    public async processBookingForm(booking: Partial<Booking>) {
+    public async processBookingForm(booking: Partial<Booking>): Promise<Event> {
         const eventName = this.processEventName(booking)
         const dates = this.processEventDates(booking)
         const event = new this.eventModel({
@@ -48,6 +48,7 @@ export class EventService {
         await event.save()
 
         booking.eventSignature = event.signature
+        return event
     }
 
 

@@ -9,6 +9,7 @@ import { ProfileModule } from '../profile/profile.module';
 import { ArtistModule } from '../artist/artist.module';
 import { SubmitService } from './submit.service';
 import { EventModule } from '../event/event.module';
+import { TelegramModule } from '../telegram/telegram.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { EventModule } from '../event/event.module';
     ProfileModule,
     ArtistModule,
     EventModule,
+    TelegramModule,
   ],
   providers: [BookingService, SubmitService],
   controllers: [BookingController]

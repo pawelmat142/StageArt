@@ -109,8 +109,7 @@ export class ArtistService {
         const profile = await this.profileService.findTelegramChannedId(artist.managerUid)
         if (profile?.telegramChannelId) {
             this.telegramService.sendMessage(Number(profile.telegramChannelId), BotUtil.msgFrom([
-                `View of artist ${artist.name} is ready,`,
-                `You can publish it now`
+                `View of artist ${artist.name} is ready to be published`,
             ]))
         }
     }

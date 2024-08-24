@@ -6,6 +6,9 @@ import { IllegalStateException } from "../global/exceptions/illegal-state.except
 import { Booking } from "./model/booking.model";
 import { ProfileService } from "../profile/profile.service";
 import { EventService } from "../event/event.service";
+import { TelegramService } from "../telegram/telegram.service";
+import { BotUtil } from "../telegram/util/bot.util";
+import { Event } from "../event/model/event.model";
 
 @Injectable()
 export class SubmitService {
@@ -17,6 +20,7 @@ export class SubmitService {
         private readonly formService: FormService,
         private readonly profileService: ProfileService,
         private readonly eventService: EventService,
+        private readonly telegramService: TelegramService,
     ) {}
 
     async submitForm(formId: string, profile: JwtPayload): Promise<Booking> {
@@ -47,13 +51,33 @@ export class SubmitService {
 
         await this.formService.submitForm(formId)
 
-        await this.eventService.processBookingForm(booking)
+        const event = await this.eventService.processBookingForm(booking)
 
         await this.artistService.processBookingForm(booking)
         
+        this.msgToManagerAboutSubmitedForm(booking, event)
         this.logger.log(`[STOP] submitting form ${formId}`)
         return booking as Booking
     }
 
+
+    private async msgToManagerAboutSubmitedForm(booking: Partial<Booking>, event: Event) {
+        const telegramChannelId = await this.profileService.findTelegramChannedId(booking.managerUid)
+        if (telegramChannelId) {
+            const artistNames = await this.artistService.listNamesBySignatures(booking.artistSignatures)
+            const chatId = Number(telegramChannelId.telegramChannelId)
+            if (!isNaN(chatId)) {
+                const result = await this.telegramService.sendMessage(chatId, BotUtil.msgFrom([
+                    `New booking form submitted`,
+                    `Event: ${event.name} at ${BotUtil.formatDate(event.startDate)}`,
+                    `Artist: ${artistNames.join(', ')}`
+                ]))
+                if (result) {
+                    return
+                }
+            }
+        }
+        this.logger.warn(`Could not send telegram msg to manager ${booking.managerUid} about booking submitted ${booking.formId}`)
+    }
 
 }
