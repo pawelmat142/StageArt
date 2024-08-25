@@ -7,6 +7,7 @@ import { DocumentService } from "../../document/document.service";
 import { Template } from "../../document/doc-util";
 import { BookingUtil } from "../util/booking.util";
 import { BookingContractGenerator } from "../../document/generators/booking-contract.generator";
+import { ArtistUtil } from "../../artist/artist.util";
 
 @Injectable()
 export class BookingDocumentsService {
@@ -30,7 +31,7 @@ export class BookingDocumentsService {
         this.bookingService.msgToPromoterOrManager(ctx, [
             `Requested documents step for booking at ${BotUtil.formatDate(ctx.event.startDate)}`,
             `Event name: ${ctx.event.name}`,
-            `Artist: ${ctx.artistNames.join(', ')}`,
+            `Artist: ${ArtistUtil.artistNames(ctx.artists)}`,
         ])
         this.logger.log(`Requested documents step for booking ${ctx.booking.formId}, by ${ctx.profile.uid}`)
         return ctx.booking

@@ -4,6 +4,7 @@ import { BookingService } from "./booking.service";
 import { BookingAccessUtil } from "../util/booking-access.util";
 import { BookingUtil } from "../util/booking.util";
 import { BotUtil } from "../../telegram/util/bot.util";
+import { ArtistUtil } from "../../artist/artist.util";
 
 @Injectable()
 export class BookingCancelService {
@@ -26,7 +27,7 @@ export class BookingCancelService {
         this.bookingService.msgToPromoterOrManager(ctx, [
             `Cancelled booking at ${BotUtil.formatDate(ctx.event.startDate)}`,
             `Event name: ${ctx.event.name}`,
-            `Artist: ${ctx.artistNames.join(', ')}`
+            `Artist: ${ArtistUtil.artistNames(ctx.artists)}`
         ])
 
         this.logger.log(`Cancelled booking ${ctx.booking.formId}, by ${ctx.profile.uid}`)

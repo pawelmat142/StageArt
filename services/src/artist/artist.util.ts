@@ -1,4 +1,5 @@
 import { ArtistViewDto } from "./model/artist-view.dto";
+import { Artist } from "./model/artist.model";
 
 export abstract class ArtistUtil {
 
@@ -25,5 +26,9 @@ export abstract class ArtistUtil {
             }
         }
         return false
+    }
+
+    public static artistNames(artists: Artist[]): string {
+        return artists.map(a => a.name).join(', ')
     }
 }

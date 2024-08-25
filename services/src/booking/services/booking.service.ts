@@ -17,12 +17,8 @@ import { Artist } from '../../artist/model/artist.model';
 export interface BookingContext {
     profile: JwtPayload
     booking: Booking
-    // TODO remove artistNames
-    artistNames: string[]
     event: Event
-    
-    // TODO make mandatory
-    artist?: Artist
+    artists: Artist[]
 }
 
 @Injectable()
@@ -62,7 +58,6 @@ export class BookingService {
         }
     }
 
-
     public async fetchProfileBookings(profile: JwtPayload): Promise<BookingPanelDto[]> {
         const uid = profile.uid
         const bookings = await this.bookingModel.find({ $or: [
@@ -80,15 +75,12 @@ export class BookingService {
     public async buildContext(formId: string, profile: JwtPayload): Promise<BookingContext> {
         const booking = await this.fetchBooking(formId, profile)
         const event = await this.eventService.fetchEvent(booking.eventSignature)
-        // TO remove artist names
-        const artistNames = await this.artistService.listNamesBySignatures(booking.artistSignatures)
-        const artist = await this.artistService.getArtist(booking.artistSignatures[0])
+        const artists = await this.artistService.getArtists(booking.artistSignatures)
         return {
-            artistNames,
             event,
             booking,
             profile,
-            artist
+            artists
         }
     }
 

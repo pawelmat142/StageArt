@@ -63,6 +63,10 @@ export class ArtistService {
     public getArtist(signature: string) {
         return this.artistModel.findOne({ signature })
     }
+    
+    getArtists(signatures: string[]) {
+        return this.artistModel.find({ signature: { $in: signatures } })
+    }
 
     public fetchArtists() {
         return this.artistModel.find({ status: { $in: this.PUBLIC_VIEW_ARTIST_STATUSES } })

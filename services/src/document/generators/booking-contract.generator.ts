@@ -69,6 +69,8 @@ export class BookingContractGenerator {
         const eventCountry = this.get(formData, 'eventInformation.eventCountry') //TODO country name - not code here,
         const eventAddress = this.get(formData, 'eventInformation.venueAddress')
 
+        const artist = this.ctx.artists[0]
+
         this.data = {
             year: now.getFullYear().toString(),
             promoterName: this.get(formData, 'promoterInformation.promoterName'),
@@ -77,10 +79,10 @@ export class BookingContractGenerator {
             promoterPhone: this.get(formData, 'promoterInformation.phoneNumber'),
             promoterEmail: this.get(formData, 'promoterInformation.email'),
 
-            artistName: this.ctx.artist.name,
-            artistRealName: `${this.ctx.artist.firstName} ${this.ctx.artist.lastName}`,
+            artistName: artist.name,
+            artistRealName: `${artist.firstName} ${artist.lastName}`,
             artistPerformance: `???`,//TODO
-            artistCountry: this.ctx.artist.countryCode, //TODO country name - not code here,
+            artistCountry: artist.countryCode, //TODO country name - not code here,
             artistFee: '??', // TODO skad to?
 
             eventName: this.ctx.event.name,
