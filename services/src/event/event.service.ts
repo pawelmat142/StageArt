@@ -16,8 +16,8 @@ export class EventService {
         private readonly eventCreationService: EventCreationService,
     ) {}
 
-    public fetchPromotorEvents(profile: JwtPayload) {
-        return this.eventModel.find({ promotorUid: profile.uid })
+    public fetchPromoterEvents(profile: JwtPayload) {
+        return this.eventModel.find({ promoterUid: profile.uid })
     }
 
     public fetchEvent(signature: string) {

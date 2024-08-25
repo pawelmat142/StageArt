@@ -4,5 +4,5 @@ export abstract class Role {
 
     public static readonly ARTIST = 'ARTIST'
     public static readonly MANAGER = 'MANAGER'
-    public static readonly PROMOTOR = 'PROMOTOR'
+    public static readonly PROMOTER = 'PROMOTER'
 }

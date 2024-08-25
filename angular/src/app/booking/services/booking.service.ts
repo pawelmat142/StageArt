@@ -7,7 +7,7 @@ export type BookingStatus = 'SUBMITTED' | 'DOCUMENTS_REQUESTED' | 'PENDING' | 'R
 
 export interface BookingPanelDto {
   formId: string
-  promotorUid: string
+  promoterUid: string
   managerUid: string
   status: BookingStatus
   submitDate?: Date
@@ -22,7 +22,7 @@ export interface BookingPanelDto {
 
 export interface Booking {
   formId: string
-  promotorUid: string
+  promoterUid: string
   managerUid: string
   status: BookingStatus
   submitDate?: Date
@@ -57,8 +57,8 @@ export class BookingService {
     return this.http.get<Booking>(`/booking/get/${formId}`)
   }
   
-  findPromotorInfo$() {
-    return this.http.get<any>(`/booking/promotor-info`)
+  findPromoterInfo$() {
+    return this.http.get<any>(`/booking/promoter-info`)
   }
   
   cancelBooking$(formId: string) {

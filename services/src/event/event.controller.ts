@@ -15,9 +15,9 @@ export class EventController {
     ) {}
 
     @Get('list/panel')
-    @UseGuards(RoleGuard(Role.PROMOTOR))
-    fetchPromotorEvents(@GetProfile() profile: JwtPayload) {
-        return this.eventService.fetchPromotorEvents(profile)
+    @UseGuards(RoleGuard(Role.PROMOTER))
+    fetchPromoterEvents(@GetProfile() profile: JwtPayload) {
+        return this.eventService.fetchPromoterEvents(profile)
     }
 
 }

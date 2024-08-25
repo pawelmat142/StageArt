@@ -6,7 +6,7 @@ export type EventStatus = 'CREATED' | 'ACTIVE' | 'INACTIVE'
 
 export interface EventPanelDto {
     signature: string
-    promotorUid: string
+    promoterUid: string
     status: EventStatus
     name: string
     startDate: Date
@@ -23,7 +23,7 @@ export class EventService {
       private readonly http: HttpService,
     ) { }
 
-    fetchPromotorEvents$(): Observable<EventPanelDto[]> {
+    fetchPromoterEvents$(): Observable<EventPanelDto[]> {
         return this.http.get<EventPanelDto[]>(`/event/list/panel`)
     }
 }

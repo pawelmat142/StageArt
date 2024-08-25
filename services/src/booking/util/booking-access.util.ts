@@ -6,7 +6,7 @@ export abstract class BookingAccessUtil {
 
     public static canCancelBooking(booking: Booking, profile: JwtPayload): boolean {
         if (['SUBMITTED', 'DOCUMENTS_REQUESTED'].includes(booking.status)) {
-            if ([booking.promotorUid, booking.managerUid].includes(profile.uid)) {
+            if ([booking.promoterUid, booking.managerUid].includes(profile.uid)) {
                 return true
             }
         }

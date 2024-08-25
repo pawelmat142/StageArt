@@ -45,7 +45,7 @@
                                     <app-btn (click)="_acceptBooking(booking)" label="Accept" class="green"></app-btn>
                                 }
     
-                                @if (['SUBMITTED'].includes(booking.status) && [booking.managerUid, booking.promotorUid].includes(uid)) {
+                                @if (['SUBMITTED'].includes(booking.status) && [booking.managerUid, booking.promoterUid].includes(uid)) {
                                     <app-btn (click)="_cancelBooking(booking)" label="Cancel"></app-btn>
                                 }
                             </div>

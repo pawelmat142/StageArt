@@ -46,7 +46,7 @@ export class SubmitService {
         
         const booking: Partial<Booking> = {
             formId: form.id,
-            promotorUid: profile.uid,
+            promoterUid: profile.uid,
             managerUid: 'MOCK TODO',
             status: 'SUBMITTED',
             formData: form.data,
@@ -54,7 +54,7 @@ export class SubmitService {
             created: new Date()
         }
 
-        await this.profileService.updatePromotorInfoWhenSubmitForm(booking.formData, profile)
+        await this.profileService.updatePromoterInfoWhenSubmitForm(booking.formData, profile)
 
         await this.formService.submitForm(formId)
 

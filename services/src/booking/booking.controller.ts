@@ -42,10 +42,10 @@ export class BookingController {
         return this.bookingService.fetchBooking(formId, profile)
     }
 
-    @Get('promotor-info')
+    @Get('promoter-info')
     @UseGuards(JwtGuard)
-    findPromotorInfo(@GetProfile() profile: JwtPayload) {
-        return this.bookingService.findPromotorInfo(profile.uid)
+    findPromoterInfo(@GetProfile() profile: JwtPayload) {
+        return this.bookingService.findPromoterInfo(profile.uid)
     }
 
     @Get('cancel/:id')
@@ -62,21 +62,22 @@ export class BookingController {
         return this.bookingDocumentsService.requestDocuments(formId, profile)
     }
 
-    @Get('get-pdf/:id/:template')
-    @UseGuards(JwtGuard)
-    async getPdf(
-        @Res() res: Response,
-        @Param('id') formId: string,
-        @Param('template') template: Template,
-        @GetProfile() profile: JwtPayload
-    ) {
-        const buffer = await this.bookingDocumentsService.getPdf(formId, template, profile)
-        res.set({
-            'Content-Type': 'application/pdf',
-            'Content-Disposition': `attachment; filename="${template}.pdf"`,
-            'Content-Length': buffer.length,
-        });
-        res.end(buffer);
-    }
+        @Get('get-pdf/:id/:template')
+        @UseGuards(JwtGuard)
+        async getPdf(
+            @Res() res: Response,
+            @Param('id') formId: string,
+            @Param('template') template: Template,
+            @GetProfile() profile: JwtPayload
+        ) {
+            const buffer = await this.bookingDocumentsService.getPdf(formId, template, profile)
+            res.set({
+                'Content-Type': 'application/pdf',
+                'Content-Disposition': `attachment; filename="${template}.pdf"`,
+                'Content-Length': buffer.length,
+            });
+
+            res.end(buffer);
+        }
 
 }

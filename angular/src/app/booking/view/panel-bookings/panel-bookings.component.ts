@@ -42,7 +42,7 @@ export class PanelBookingsComponent {
   _bookings$: Observable<BookingPanelDto[]> = of([])
 
   _bookingsAsManager: BookingPanelDto[] = []
-  _bookingsAsPromotor: BookingPanelDto[] = []
+  _bookingsAsPromoter: BookingPanelDto[] = []
   _bookingsAsArtist: BookingPanelDto[] = []
 
   _booking$?: Observable<Booking>
@@ -56,7 +56,7 @@ export class PanelBookingsComponent {
       withLatestFrom(this.store.select(profile)),
       map(([bookings, profile]) => {
         this._bookingsAsManager = bookings.filter(b => b.managerUid === profile?.uid)
-        this._bookingsAsPromotor = bookings.filter(b => b.promotorUid === profile?.uid)
+        this._bookingsAsPromoter = bookings.filter(b => b.promoterUid === profile?.uid)
         this._bookingsAsArtist = bookings.filter(b => b.artistSignatures.includes(profile?.artistSignature || ''))
         return bookings
       }),

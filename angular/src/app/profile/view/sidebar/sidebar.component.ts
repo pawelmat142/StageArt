@@ -52,7 +52,7 @@ export class SidebarComponent {
   
   _bookingsItem: MenuButtonItem = {
     label: `Bookings`,
-    rolesGuard: [Role.ARTIST, Role.PROMOTOR, Role.MANAGER],
+    rolesGuard: [Role.ARTIST, Role.PROMOTER, Role.MANAGER],
     onclick: () => this.view.emit('BOOKINGS'),
   }
   _artistsOfManager: MenuButtonItem = {
@@ -60,10 +60,10 @@ export class SidebarComponent {
     rolesGuard: [Role.MANAGER],
     onclick: () => this.view.emit('MANAGER_ARTISTS'),
   }
-  _eventsOfPromotor: MenuButtonItem = {
+  _eventsOfPromoter: MenuButtonItem = {
     label: `Your events`,
-    rolesGuard: [Role.PROMOTOR],
-    onclick: () => this.view.emit('PROMOTOR_EVENTS'),
+    rolesGuard: [Role.PROMOTER],
+    onclick: () => this.view.emit('PROMOTER_EVENTS'),
   }
   _artistViewItem: MenuButtonItem =  {
     label: `Artist view`,
@@ -77,7 +77,7 @@ export class SidebarComponent {
 
   private readonly allItems = [
     this._bookingsItem,
-    this._eventsOfPromotor,
+    this._eventsOfPromoter,
     this._artistsOfManager,
     this._artistViewItem,
     this._logoutItem,
@@ -102,7 +102,7 @@ export class SidebarComponent {
   }
 
   private setPanelViewForRole(profile?: Profile) {
-    const panelBookingsRolesGuard: string[] = [Role.ARTIST, Role.MANAGER, Role.PROMOTOR]
+    const panelBookingsRolesGuard: string[] = [Role.ARTIST, Role.MANAGER, Role.PROMOTER]
     if (Role.matches(profile, panelBookingsRolesGuard)) {
       this._clickItem(this._bookingsItem)
     }

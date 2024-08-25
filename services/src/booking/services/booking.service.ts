@@ -61,7 +61,7 @@ export class BookingService {
     public async fetchProfileBookings(profile: JwtPayload): Promise<BookingPanelDto[]> {
         const uid = profile.uid
         const bookings = await this.bookingModel.find({ $or: [
-            { promotorUid: uid },   
+            { promoterUid: uid },   
             { managerUid: uid },
             { artistSignatures: profile.artistSignature }
         ] })
@@ -95,7 +95,7 @@ export class BookingService {
             }
         } else {
             const uidsWithAccess = [
-                booking.promotorUid,
+                booking.promoterUid,
                 booking.managerUid,
             ]
             if (!uidsWithAccess.includes(profile.uid)) {
@@ -113,15 +113,15 @@ export class BookingService {
         }
     }
 
-    public async findPromotorInfo(uid: string) {
-        const booking = await this.bookingModel.findOne({ promotorUid: uid })
+    public async findPromoterInfo(uid: string) {
+        const booking = await this.bookingModel.findOne({ promoterUid: uid })
             .sort({ submitDate: -1 })
             .select({ formData: true })
 
-        const promotorInformation = booking?.formData?.promotorInformation
-        if (promotorInformation) {
+        const promoterInformation = booking?.formData?.promoterInformation
+        if (promoterInformation) {
             this.logger.log(`Found promotor info for profile: ${uid}`)
-            return promotorInformation  
+            return promoterInformation  
         }
         this.logger.log(`Not found promotor info for profile: ${uid}`)
         return null
@@ -130,7 +130,7 @@ export class BookingService {
     public async msgToPromoterOrManager(ctx: BookingContext, msg: string[]) {
         const uidsToSend = [
             ctx.booking.managerUid,
-            ctx.booking.promotorUid,
+            ctx.booking.promoterUid,
         ].filter(uid => uid !== ctx.profile.uid)
         for (let uid of uidsToSend) {
             const profile = await this.profileService.findTelegramChannedId(uid)
@@ -148,7 +148,7 @@ export class BookingService {
         const eventData = await this.eventService.eventDataForBookingsList(booking.eventSignature)
         return {
             formId: booking.formId,
-            promotorUid: booking.promotorUid,
+            promoterUid: booking.promoterUid,
             managerUid: booking.managerUid,
             status: booking.status,
             submitDate: booking.submitDate,

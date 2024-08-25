@@ -13,7 +13,7 @@ export class Event {
     signature: string
 
     @Prop({ required: true })
-    promotorUid: string
+    promoterUid: string
 
     @Prop({ required: true })
     status: EventStatus

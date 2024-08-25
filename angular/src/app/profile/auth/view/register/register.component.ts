@@ -76,8 +76,8 @@ export class RegisterComponent {
     code: Role.ARTIST,
     name: 'Artist'
   }, {
-    code: Role.PROMOTOR,
-    name: 'Promotor'
+    code: Role.PROMOTER,
+    name: 'Promoter'
   }]
 
   @HostListener('document:keydown.enter', ['$event'])

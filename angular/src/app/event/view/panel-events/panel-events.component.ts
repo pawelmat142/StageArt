@@ -23,7 +23,7 @@ export class PanelEventsComponent {
     private readonly store: Store<AppState>,
   ) {}
 
-  _events$ = this.eventService.fetchPromotorEvents$()
+  _events$ = this.eventService.fetchPromoterEvents$()
 
 
   _openEvent(event: EventPanelDto) {

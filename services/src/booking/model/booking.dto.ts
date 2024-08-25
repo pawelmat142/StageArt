@@ -6,7 +6,7 @@ export class BookingPanelDto {
     @Expose()
     formId: string
 
-    @Expose() promotorUid: string
+    @Expose() promoterUid: string
     @Expose() managerUid: string
     @Expose() status: BookingStatus
     @Expose() submitDate?: Date

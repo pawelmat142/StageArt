@@ -235,12 +235,12 @@ export class FormEffect {
     private setBookingFormInitialData() {
         forkJoin([
             this.eventInfoFromPreviosPromoterEvents$(),
-            this.bookingService.findPromotorInfo$()
+            this.bookingService.findPromoterInfo$()
         ]).pipe(
-            tap(([eventInformation, promotorInformation]) => {
+            tap(([eventInformation, promoterInformation]) => {
                 const data = {
                     eventInformation,
-                    promotorInformation
+                    promoterInformation
                 }
                 this.store.dispatch(setFormData(data))
             })
@@ -248,7 +248,7 @@ export class FormEffect {
     }
 
     private eventInfoFromPreviosPromoterEvents$() {
-        return this.eventService.fetchPromotorEvents$().pipe(
+        return this.eventService.fetchPromoterEvents$().pipe(
             take(1),
             map(events => events.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime())),
             switchMap(events => events?.length 

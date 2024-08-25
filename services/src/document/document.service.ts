@@ -4,25 +4,6 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { Template } from './doc-util';
 
-// @Get('get-pdf/:id/:template')
-// @UseGuards(JwtGuard)
-// async getPdf(
-//     @Res() res: Response,
-//     @Param('id') formId: string,
-//     @Param('template') template: Template,
-//     @GetProfile() profile: JwtPayload
-// ) {
-//     const buffer = await this.bookingDocumentsService.getPdf(formId, template, profile)
-//     res.set({
-//         'Content-Type': 'application/pdf',
-//         'Content-Disposition': `attachment; filename="${template}.pdf"`,
-//         'Content-Length': buffer.length,
-//     });
-
-//     res.end(buffer);
-// }
-
-
 @Injectable()
 export class DocumentService {
 
@@ -36,7 +17,9 @@ export class DocumentService {
         const templatePath = path.join(__dirname, 'templates', templateFileName)
         let htmlContent = fs.readFileSync(templatePath, 'utf8');
         const pdf = await this.generatePdf(htmlContent)
+
         this.logger.log(`Generated pdf ${template}`)
+        
         return pdf
     }
 

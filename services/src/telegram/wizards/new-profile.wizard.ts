@@ -61,8 +61,8 @@ export class NewProfileWizard extends Wizard {
                 text: `Manager`,
                 process: async () => this.selectoRole(Role.MANAGER)
             }], [{
-                text: `Promotor`,
-                process: async () => this.selectoRole(Role.PROMOTOR)
+                text: `Promoter`,
+                process: async () => this.selectoRole(Role.PROMOTER)
             }], [{
                 text: `Artist`,
                 process: async () => this.selectoRole(Role.ARTIST)

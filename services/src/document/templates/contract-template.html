@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Umowa</title>
+    <title>Contract</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -15,7 +15,6 @@
         .container {
             width: 210mm;
             min-height: 297mm;
-            padding: 20mm;
             box-sizing: border-box;
             page-break-after: always;
         }
@@ -44,6 +43,9 @@
             margin-top: 40px;
             display: flex;
             justify-content: space-between;
+        }
+        .signature,
+        .section {
             page-break-inside: avoid;
         }
         .signature div {
@@ -63,73 +65,145 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Umowa</h1>
+            <h1>Contract</h1>
             <p>między</p>
             <p><strong>{{ organizer_name }}</strong></p>
             <p>a</p>
             <p><strong>{{ artist_name }}</strong></p>
         </div>
         
-        <div class="section-title">§ 1. Przedmiot Umowy</div>
-        <div class="content">
-            <!-- Długi tekst jako przykład -->
-            Przedmiotem umowy jest występ artystyczny, który odbędzie się dnia {{ event_date }} w miejscu {{ event_location }}. 
-            <!-- Można tutaj dodać dużo więcej tekstu -->
+        <div class="section">
+            <div class="section-title">§ 1. Przedmiot Umowy</div>
+            <div class="content">
+                <!-- Długi tekst jako przykład -->
+                Przedmiotem umowy jest występ artystyczny, który odbędzie się dnia {{ event_date }} w miejscu {{ event_location }}. 
+                <!-- Można tutaj dodać dużo więcej tekstu -->
+            </div>
         </div>
         
-        <div class="section-title">§ 2. Wynagrodzenie</div>
-        <div class="content">
-            Organizator zobowiązuje się do wypłaty wynagrodzenia w wysokości {{ fee_amount }} PLN brutto, płatne przelewem na konto bankowe artysty w terminie {{ payment_terms }} od dnia występu.
-        </div>
-        
-        <div class="section-title">§ 3. Obowiązki Organizatora</div>
-        <div class="content">
-            Organizator zobowiązuje się do zapewnienia odpowiednich warunków technicznych, w tym sprzętu nagłośnieniowego, oświetlenia oraz innych niezbędnych elementów do realizacji występu artystycznego.
-        </div>
-        
-        <div class="section-title">§ 3. Obowiązki Organizatora</div>
-        <div class="content">
-            Organizator zobowiązuje się do zapewnienia odpowiednich warunków technicznych, w tym sprzętu nagłośnieniowego, oświetlenia oraz innych niezbędnych elementów do realizacji występu artystycznego.
-        </div>
-        
-        <div class="section-title">§ 3. Obowiązki Organizatora</div>
-        <div class="content">
-            Organizator zobowiązuje się do zapewnienia odpowiednich warunków technicznych, w tym sprzętu nagłośnieniowego, oświetlenia oraz innych niezbędnych elementów do realizacji występu artystycznego.
-        </div>
-        
-        <div class="section-title">§ 3. Obowiązki Organizatora</div>
-        <div class="content">
-            Organizator zobowiązuje się do zapewnienia odpowiednich warunków technicznych, w tym sprzętu nagłośnieniowego, oświetlenia oraz innych niezbędnych elementów do realizacji występu artystycznego.
-        </div>
-        
-        <div class="section-title">§ 3. Obowiązki Organizatora</div>
-        <div class="content">
-            Organizator zobowiązuje się do zapewnienia odpowiednich warunków technicznych, w tym sprzętu nagłośnieniowego, oświetlenia oraz innych niezbędnych elementów do realizacji występu artystycznego.
-        </div>
-        
-        <div class="section-title">§ 3. Obowiązki Organizatora</div>
-        <div class="content">
-            Organizator zobowiązuje się do zapewnienia odpowiednich warunków technicznych, w tym sprzętu nagłośnieniowego, oświetlenia oraz innych niezbędnych elementów do realizacji występu artystycznego.
-        </div>
-        
-        <div class="section-title">§ 3. Obowiązki Organizatora</div>
-        <div class="content">
-            Organizator zobowiązuje się do zapewnienia odpowiednich warunków technicznych, w tym sprzętu nagłośnieniowego, oświetlenia oraz innych niezbędnych elementów do realizacji występu artystycznego.
-        </div>
-        
-        <div class="section-title">§ 3. Obowiązki Organizatora</div>
-        <div class="content">
-            Organizator zobowiązuje się do zapewnienia odpowiednich warunków technicznych, w tym sprzętu nagłośnieniowego, oświetlenia oraz innych niezbędnych elementów do realizacji występu artystycznego.
+        <div class="section">
+            <div class="section-title">§ 2. Wynagrodzenie</div>
+            <div class="content">
+                Organizator zobowiązuje się do wypłaty wynagrodzenia w wysokości {{ fee_amount }} PLN brutto, płatne przelewem na konto bankowe artysty w terminie {{ payment_terms }} od dnia występu.
+            </div>
         </div>
 
-        <div class="section-title">§ 4. Obowiązki Artysty</div>
-        <div class="content">
-            Artysta zobowiązuje się do stawienia się na miejsce wydarzenia na co najmniej {{ arrival_time }} przed planowanym rozpoczęciem występu oraz do wykonania programu artystycznego zgodnie z wcześniejszymi ustaleniami.
+        <div class="section">
+            <div class="section-title">§ 3. Obowiązki Organizatora</div>
+            <div class="content">
+                Organizator zobowiązuje się do zapewnienia odpowiednich warunków technicznych, w tym sprzętu nagłośnieniowego, oświetlenia oraz innych niezbędnych elementów do realizacji występu artystycznego.
+            </div>
         </div>
-
-        <div class="section-title">§ 5. Postanowienia końcowe</div>
-        <div class="content">
-            Wszelkie zmiany umowy wymagają formy pisemnej pod rygorem nieważności. Umowa sporządzona została w dwóch jednobrzmiących egzemplarzach, po jednym dla każdej ze stron.
+        
+        <div class="section">
+            <div class="section-title">§ 3. Obowiązki Organizatora</div>
+            <div class="content">
+                Organizator zobowiązuje się do zapewnienia odpowiednich warunków technicznych, w tym sprzętu nagłośnieniowego, oświetlenia oraz innych niezbędnych elementów do realizacji występu artystycznego.
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">§ 4. Obowiązki Artysty</div>
+            <div class="content">
+                Artysta zobowiązuje się do stawienia się na miejsce wydarzenia na co najmniej {{ arrival_time }} przed planowanym rozpoczęciem występu oraz do wykonania programu artystycznego zgodnie z wcześniejszymi ustaleniami.
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">§ 4. Obowiązki Artysty</div>
+            <div class="content">
+                Artysta zobowiązuje się do stawienia się na miejsce wydarzenia na co najmniej {{ arrival_time }} przed planowanym rozpoczęciem występu oraz do wykonania programu artystycznego zgodnie z wcześniejszymi ustaleniami.
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">§ 4. Obowiązki Artysty</div>
+            <div class="content">
+                Artysta zobowiązuje się do stawienia się na miejsce wydarzenia na co najmniej {{ arrival_time }} przed planowanym rozpoczęciem występu oraz do wykonania programu artystycznego zgodnie z wcześniejszymi ustaleniami.
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">§ 4. Obowiązki Artysty</div>
+            <div class="content">
+                Artysta zobowiązuje się do stawienia się na miejsce wydarzenia na co najmniej {{ arrival_time }} przed planowanym rozpoczęciem występu oraz do wykonania programu artystycznego zgodnie z wcześniejszymi ustaleniami.
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">§ 4. Obowiązki Artysty</div>
+            <div class="content">
+                Artysta zobowiązuje się do stawienia się na miejsce wydarzenia na co najmniej {{ arrival_time }} przed planowanym rozpoczęciem występu oraz do wykonania programu artystycznego zgodnie z wcześniejszymi ustaleniami.
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">§ 4. Obowiązki Artysty</div>
+            <div class="content">
+                Artysta zobowiązuje się do stawienia się na miejsce wydarzenia na co najmniej {{ arrival_time }} przed planowanym rozpoczęciem występu oraz do wykonania programu artystycznego zgodnie z wcześniejszymi ustaleniami.
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">§ 4. Obowiązki Artysty</div>
+            <div class="content">
+                Artysta zobowiązuje się do stawienia się na miejsce wydarzenia na co najmniej {{ arrival_time }} przed planowanym rozpoczęciem występu oraz do wykonania programu artystycznego zgodnie z wcześniejszymi ustaleniami.
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">§ 4. Obowiązki Artysty</div>
+            <div class="content">
+                Artysta zobowiązuje się do stawienia się na miejsce wydarzenia na co najmniej {{ arrival_time }} przed planowanym rozpoczęciem występu oraz do wykonania programu artystycznego zgodnie z wcześniejszymi ustaleniami.
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">§ 4. Obowiązki Artysty</div>
+            <div class="content">
+                Artysta zobowiązuje się do stawienia się na miejsce wydarzenia na co najmniej {{ arrival_time }} przed planowanym rozpoczęciem występu oraz do wykonania programu artystycznego zgodnie z wcześniejszymi ustaleniami.
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">§ 4. Obowiązki Artysty</div>
+            <div class="content">
+                Artysta zobowiązuje się do stawienia się na miejsce wydarzenia na co najmniej {{ arrival_time }} przed planowanym rozpoczęciem występu oraz do wykonania programu artystycznego zgodnie z wcześniejszymi ustaleniami.
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">§ 4. Obowiązki Artysty</div>
+            <div class="content">
+                Artysta zobowiązuje się do stawienia się na miejsce wydarzenia na co najmniej {{ arrival_time }} przed planowanym rozpoczęciem występu oraz do wykonania programu artystycznego zgodnie z wcześniejszymi ustaleniami.
+                Artysta zobowiązuje się do stawienia się na miejsce wydarzenia na co najmniej {{ arrival_time }} przed planowanym rozpoczęciem występu oraz do wykonania programu artystycznego zgodnie z wcześniejszymi ustaleniami.
+                Artysta zobowiązuje się do stawienia się na miejsce wydarzenia na co najmniej {{ arrival_time }} przed planowanym rozpoczęciem występu oraz do wykonania programu artystycznego zgodnie z wcześniejszymi ustaleniami.
+                Artysta zobowiązuje się do stawienia się na miejsce wydarzenia na co najmniej {{ arrival_time }} przed planowanym rozpoczęciem występu oraz do wykonania programu artystycznego zgodnie z wcześniejszymi ustaleniami.
+                Artysta zobowiązuje się do stawienia się na miejsce wydarzenia na co najmniej {{ arrival_time }} przed planowanym rozpoczęciem występu oraz do wykonania programu artystycznego zgodnie z wcześniejszymi ustaleniami.
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">§ 4. Obowiązki Artysty</div>
+            <div class="content">
+                Artysta zobowiązuje się do stawienia się na miejsce wydarzenia na co najmniej {{ arrival_time }} przed planowanym rozpoczęciem występu oraz do wykonania programu artystycznego zgodnie z wcześniejszymi ustaleniami.
+                Artysta zobowiązuje się do stawienia się na miejsce wydarzenia na co najmniej {{ arrival_time }} przed planowanym rozpoczęciem występu oraz do wykonania programu artystycznego zgodnie z wcześniejszymi ustaleniami.
+                Artysta zobowiązuje się do stawienia się na miejsce wydarzenia na co najmniej {{ arrival_time }} przed planowanym rozpoczęciem występu oraz do wykonania programu artystycznego zgodnie z wcześniejszymi ustaleniami.
+                Artysta zobowiązuje się do stawienia się na miejsce wydarzenia na co najmniej {{ arrival_time }} przed planowanym rozpoczęciem występu oraz do wykonania programu artystycznego zgodnie z wcześniejszymi ustaleniami.
+                Artysta zobowiązuje się do stawienia się na miejsce wydarzenia na co najmniej {{ arrival_time }} przed planowanym rozpoczęciem występu oraz do wykonania programu artystycznego zgodnie z wcześniejszymi ustaleniami.
+            </div>
+        </div>
+        
+        
+        <div class="section">
+            <div class="section-title">§ 5. Postanowienia końcowe</div>
+            <div class="content">
+                Wszelkie zmiany umowy wymagają formy pisemnej pod rygorem nieważności. Umowa sporządzona została w dwóch jednobrzmiących egzemplarzach, po jednym dla każdej ze stron.
+                Wszelkie zmiany umowy wymagają formy pisemnej pod rygorem nieważności. Umowa sporządzona została w dwóch jednobrzmiących egzemplarzach, po jednym dla każdej ze stron.
+                Wszelkie zmiany umowy wymagają formy pisemnej pod rygorem nieważności. Umowa sporządzona została w dwóch jednobrzmiących egzemplarzach, po jednym dla każdej ze stron.
+                Wszelkie zmiany umowy wymagają formy pisemnej pod rygorem nieważności. Umowa sporządzona została w dwóch jednobrzmiących egzemplarzach, po jednym dla każdej ze stron.
+                Wszelkie zmiany umowy wymagają formy pisemnej pod rygorem nieważności. Umowa sporządzona została w dwóch jednobrzmiących egzemplarzach, po jednym dla każdej ze stron.
+            </div>
         </div>
         
         <div class="signature">

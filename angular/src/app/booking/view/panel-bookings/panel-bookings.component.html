@@ -9,10 +9,10 @@
                     (refreshBookings)="_refreshBookings($event)"
                 ></app-bookings-section>
             }   
-            @if (_bookingsAsPromotor.length) {
+            @if (_bookingsAsPromoter.length) {
                 <app-bookings-section
                     header="Sent booking requests"
-                    [bookings]="_bookingsAsPromotor"
+                    [bookings]="_bookingsAsPromoter"
                     (openBooking)="_openBooking($event)"
                     (refreshBookings)="_refreshBookings($event)"
                 ></app-bookings-section>

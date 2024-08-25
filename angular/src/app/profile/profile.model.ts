@@ -17,7 +17,7 @@ export interface Profile {
     email?: string
     firstName?: string
     lastName?: string
-    promotorInfo?: any
+    promoterInfo?: any
 }
 
 export abstract class Role {
@@ -26,7 +26,7 @@ export abstract class Role {
 
     public static readonly ARTIST = 'ARTIST'
     public static readonly MANAGER = 'MANAGER'
-    public static readonly PROMOTOR = 'PROMOTOR'
+    public static readonly PROMOTER = 'PROMOTER'
 
     public static matches(profile?: Profile, rolesGuard?: string[]): boolean {
         if (!profile) {

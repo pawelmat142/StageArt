@@ -20,20 +20,20 @@ export class EventCreationService {
     public async findEventDuplicateOrCreateNew(ctx: BookingSubmitCtx): Promise<Event> {
         const newEventName = this.processEventName(ctx.booking)
         
-        const promotorEvents = await this.eventModel.find({
-            promotorUid: ctx.booking.promotorUid,
+        const promoterEvents = await this.eventModel.find({
+            promoterUid: ctx.booking.promoterUid,
             startDate: { $gt: new Date() }
         })
 
-        for (let promotorEvent of promotorEvents) {
-            const nameDuplicated = this.isEventNameDuplicated(newEventName, promotorEvent.name)
+        for (let promoterEvent of promoterEvents) {
+            const nameDuplicated = this.isEventNameDuplicated(newEventName, promoterEvent.name)
             if (nameDuplicated) {
-                this.logger.log(`Found event with similar name: ${newEventName} related to promotor: ${ctx.booking.promotorUid}`)
-                return promotorEvent
+                this.logger.log(`Found event with similar name: ${newEventName} related to promoter: ${ctx.booking.promoterUid}`)
+                return promoterEvent
             }
         }
         
-        this.logger.log(`Not found event with similar name: ${newEventName}, related to promotor: ${ctx.booking.promotorUid}`)
+        this.logger.log(`Not found event with similar name: ${newEventName}, related to promoter: ${ctx.booking.promoterUid}`)
         return this.createNewEvent(newEventName, ctx.booking)
     }
 
@@ -42,7 +42,7 @@ export class EventCreationService {
         const dates = this.processEventDates(booking)
         const event = new this.eventModel({
             signature: this.prepareSignature(newEventName),
-            promotorUid: booking.promotorUid,
+            promoterUid: booking.promoterUid,
             status: 'CREATED',
             name: newEventName,
             startDate: dates.startDate,
@@ -53,14 +53,14 @@ export class EventCreationService {
             modified: new Date(),
         })
         await event.save()
-        this.logger.log(`Created new event ${newEventName}, related to promotor: ${booking.promotorUid}`)
+        this.logger.log(`Created new event ${newEventName}, related to promoter: ${booking.promoterUid}`)
         return event
     }
 
     // Funkcja do sprawdzania, czy podobne wydarzenie już istnieje w bazie
-    private isEventNameDuplicated(newEventName: string, promotorEventName: string, threshold = 5) {
-        const distance = this.levenshtein(newEventName, promotorEventName);
-        this.logger.warn(`Calculated distance ${distance} between names: ${newEventName} - ${promotorEventName}`)
+    private isEventNameDuplicated(newEventName: string, promoterEventName: string, threshold = 5) {
+        const distance = this.levenshtein(newEventName, promoterEventName);
+        this.logger.warn(`Calculated distance ${distance} between names: ${newEventName} - ${promoterEventName}`)
         
         if (distance <= threshold) {
             return true;
