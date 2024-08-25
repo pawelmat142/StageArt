@@ -11,39 +11,51 @@
                 <p>Artist name</p>
                 <p>Status</p>
             </div>
-            @for (artist of _artists$ | async; track artist.signature; let last = $last) {
+
+            <p-accordion class="w-full" expandIcon="pi pi-plus" collapseIcon="pi pi-minus">
                 
-                <div class="item-row">
-                    <p>{{artist.name}}</p>
-                    <p [matTooltip]="_artistStatusTooltip(artist.status)">{{artist.status | status }}</p>
+                @for (artist of _artists$ | async; track artist.signature; let last = $last) {
+                    
+                    <p-accordionTab>
 
-                    <div class="item-row-btns">
-                        @if (['READY', 'INACTIVE'].includes(artist.status)) {
-                            <app-btn
-                                label="activate"
-                                (click)="_activate(artist)"
-                            ></app-btn>
-                        }
-                        @if (['ACTIVE'].includes(artist.status)) {
-                            <app-btn
-                                label="deactivate"
-                                (click)="_deactivate(artist)"
-                            ></app-btn>
-                        }
-                        <app-btn
-                            class="light"
-                            label="View"
-                            (click)="_artistView(artist)"
-                        ></app-btn>
-                        <app-btn
-                            [label]="artist.managmentNotes ? 'Edit notes' : 'Add notes'"
-                            (click)="_addNotes(artist)"
-                        ></app-btn>
-                    </div>
+                        <ng-template pTemplate="header">
+                            <div class="item-row clickable">
+                                <p>{{artist.name}}</p>
+                                <p [matTooltip]="_artistStatusTooltip(artist.status)">{{artist.status | status }}</p>
+                            </div>
+                        </ng-template>
 
-                    <div></div>
-                </div>
-            }
+                        <div class="item-row-collapse-content">
+                            <div class="item-row-buttons">
+                                @if (['READY', 'INACTIVE'].includes(artist.status)) {
+                                    <app-btn
+                                        class="green"
+                                        label="activate"
+                                        (click)="_activate(artist)"
+                                    ></app-btn>
+                                }
+                                @if (['ACTIVE'].includes(artist.status)) {
+                                    <app-btn
+                                        label="deactivate"
+                                        (click)="_deactivate(artist)"
+                                    ></app-btn>
+                                }
+                                <app-btn
+                                    class="grey"
+                                    label="Artist view"
+                                    (click)="_artistView(artist)"
+                                ></app-btn>
+                                <app-btn
+                                    [label]="'Management notes'"
+                                    (click)="_addNotes(artist)"
+                                ></app-btn>
+                            </div>
+                        </div>
+
+                    </p-accordionTab>
+
+                }
+            </p-accordion>
         </div>
     </div>
     

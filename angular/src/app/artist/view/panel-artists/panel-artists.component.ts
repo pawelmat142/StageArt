@@ -14,6 +14,7 @@ import { FormUtil } from '../../../global/utils/form.util';
 import { CourtineService } from '../../../global/nav/courtine.service';
 import { DialogService } from '../../../global/nav/dialog.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { AccordionModule } from 'primeng/accordion';
 
 @Component({
   selector: 'app-panel-artists',
@@ -25,6 +26,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     StatusPipe,
     MatTooltipModule,
     BtnComponent,
+    AccordionModule,
 ],
   templateUrl: './panel-artists.component.html',
   styleUrl: './panel-artists.component.scss',
