@@ -1,5 +1,5 @@
 
-export type Template = 'contract'
+export type Template = 'contract' | 'tech-rider'
 
 export abstract class DocUtil {
 

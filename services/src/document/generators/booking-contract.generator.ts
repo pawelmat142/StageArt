@@ -1,13 +1,12 @@
-import { BookingContext } from "../../booking/services/booking.service"
 import { EventUtil } from "../../event/event-util";
 import { IllegalStateException } from "../../global/exceptions/illegal-state.exception";
-import { Template } from "../doc-util"
+import { DocUtil, Template } from "../doc-util"
 import { Util } from "../../global/utils/util";
 import { BookingUtil } from "../../booking/util/booking.util";
 import { Injectable } from "@nestjs/common";
 import { DocumentService } from "../document.service";
 import { ProfileService } from "../../profile/profile.service";
-import { FormUtil } from "../../form/form.util";
+import { AbstractDocumentGenerator } from "./abstract-document.generator";
 
 export interface BookingContractDocumentData {
     year: string
@@ -46,22 +45,20 @@ export interface BookingContractDocumentData {
 }
 
 @Injectable()
-export class BookingContractDocumentService {
-
-    private readonly template: Template = 'contract'
+export class BookingContractDocumentGenerator extends AbstractDocumentGenerator<BookingContractDocumentData> {
 
     constructor(
-        private readonly documentService: DocumentService,
+        protected readonly documentService: DocumentService,
         private readonly profileService: ProfileService,
-    ) {}
-
-    public async generate(ctx: BookingContext): Promise<Buffer> {
-        const data = await this.prepareData(ctx)
-        const pdf = await this.documentService.generatePdfOfTemplate(this.template, data)
-        return pdf
+    ) {
+        super(documentService);
     }
 
-    private async prepareData(ctx: BookingContext): Promise<BookingContractDocumentData> {
+    protected get template(): Template {
+        return 'contract'
+    }
+
+    override async prepareData(ctx: any): Promise<BookingContractDocumentData> {
         const formData = ctx.booking.formData
         if (!formData) {
             throw new IllegalStateException('Missing form data')
@@ -108,7 +105,7 @@ export class BookingContractDocumentService {
             accountSwift: managerData.accountSwift,
             agencyEmail: managerData.agencyEmail,
             agencyPhone: managerData.agencyPhone,
-            agencyFooterString: `${managerData.agencyName} / ${managerData.accountAddress} / ${managerData.agencyCountry.name}`,
+            agencyFooterString: DocUtil.footerString(managerData),
 
             depositDeadline: Util.formatDate(BookingUtil.depositDeadline(ctx.event)),
             feeDeadline: Util.formatDate(BookingUtil.feeDeadline(ctx.event)),
@@ -117,7 +114,4 @@ export class BookingContractDocumentService {
         }
     }
 
-    private get(formData: any, path: string): any {
-        return FormUtil.get(formData, path)
-    }
 }

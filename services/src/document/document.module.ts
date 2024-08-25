@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
 import { DocumentService } from './document.service';
 import { ProfileModule } from '../profile/profile.module';
-import { BookingContractDocumentService } from './generators/booking-contract.generator';
+import { BookingContractDocumentGenerator } from './generators/booking-contract.generator';
+import { TechRiderDocumentGenerator } from './generators/tech-rider.generator';
 
 @Module({
   imports: [
@@ -9,10 +10,12 @@ import { BookingContractDocumentService } from './generators/booking-contract.ge
   ],
   providers: [
     DocumentService,
-    BookingContractDocumentService,
+    BookingContractDocumentGenerator,
+    TechRiderDocumentGenerator,
   ],
   exports: [
-    BookingContractDocumentService
+    BookingContractDocumentGenerator,
+    TechRiderDocumentGenerator,
   ],
 })
 export class DocumentModule {}

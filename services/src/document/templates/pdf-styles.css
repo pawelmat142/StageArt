@@ -36,6 +36,14 @@ body {
     letter-spacing: 0.03em;
 }
 
+.subsection {
+    margin-bottom: 1em;
+}
+.subsection p {
+    margin-block-end: 0.5em;
+    margin-block-start: 0.5em;
+}
+
 
 ul ul {
     list-style-type: disc;

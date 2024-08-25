@@ -5,8 +5,9 @@ import { BookingAccessUtil } from "../util/booking-access.util";
 import { BotUtil } from "../../telegram/util/bot.util";
 import { Template } from "../../document/doc-util";
 import { BookingUtil } from "../util/booking.util";
-import { BookingContractDocumentService } from "../../document/generators/booking-contract.generator";
+import { BookingContractDocumentGenerator } from "../../document/generators/booking-contract.generator";
 import { ArtistUtil } from "../../artist/artist.util";
+import { TechRiderDocumentGenerator } from "../../document/generators/tech-rider.generator";
 
 @Injectable()
 export class BookingDocumentsService {
@@ -15,7 +16,8 @@ export class BookingDocumentsService {
 
     constructor(
         private readonly bookingService: BookingService,
-        private readonly bookingContractDocument: BookingContractDocumentService,
+        private readonly bookingContractDocument: BookingContractDocumentGenerator,
+        private readonly techRiderDocument: TechRiderDocumentGenerator,
     ) {}
 
 
@@ -39,8 +41,10 @@ export class BookingDocumentsService {
     public async getPdf(formId: string, templateName: Template, profile: JwtPayload): Promise<Buffer> {
         const ctx = await this.bookingService.buildContext(formId, profile)
         if (templateName === 'contract') {
-            const pdf = await this.bookingContractDocument.generate(ctx)
-            return pdf
+            return this.bookingContractDocument.generate(ctx)
+        }
+        if (templateName === 'tech-rider') {
+            return this.techRiderDocument.generate(ctx)
         }
         throw new BadRequestException(`Unsupported template ${templateName}`)
     }
