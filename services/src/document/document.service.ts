@@ -1,10 +1,7 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import * as puppeteer from 'puppeteer';
 import * as path from 'path';
 import * as fs from 'fs';
-import { HttpService } from '@nestjs/axios';
-import { lastValueFrom } from 'rxjs';
-import { AxiosResponse } from 'axios';
 import { IllegalStateException } from '../global/exceptions/illegal-state.exception';
 import { Template } from './doc-util';
 import Handlebars from 'handlebars';
@@ -15,7 +12,6 @@ export class DocumentService {
     private readonly logger = new Logger(this.constructor.name)
 
     constructor(
-        private readonly httpService: HttpService
     ) {}
 
 

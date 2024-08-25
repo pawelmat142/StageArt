@@ -38,6 +38,13 @@ $selector-img-height: 40px;
         padding-right: $page-padding-big;
     }
 
+    .profile-view-content {
+        .form-page {
+            padding-left: 5vw;
+            padding-right: 5vw;
+        }
+    }
+
     .form-container {
         padding: 2*$padding-standard 3/2*$padding-standard;
         

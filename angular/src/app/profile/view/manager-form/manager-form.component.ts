@@ -4,11 +4,28 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { InputComponent } from '../../../global/controls/input/input.component';
 import { SelectorComponent } from '../../../global/controls/selector/selector.component';
 import { CountriesService } from '../../../global/countries/countries.service';
-import { of } from 'rxjs';
 import { BtnComponent } from '../../../global/controls/btn/btn.component';
 import { ProfileService } from '../../profile.service';
 import { FormUtil } from '../../../global/utils/form.util';
 import { Country } from '../../../global/countries/country.model';
+import { CourtineService } from '../../../global/nav/courtine.service';
+import { DialogService } from '../../../global/nav/dialog.service';
+import { NavService } from '../../../global/nav/nav.service';
+import { PanelComponent } from '../panel/panel.component';
+import { take, tap } from 'rxjs';
+
+export interface ManagerData {
+  agencyName: string
+  agencyCompanyName: string
+  nameOfBank: string
+  accountHolder: string
+  agencyCountry: Country
+  accountAddress: string
+  accountNumber: string
+  accountSwift: string
+  agencyEmail: string
+  agencyPhone: string
+}
 
 @Component({
   selector: 'app-manager-form',
@@ -29,6 +46,9 @@ export class ManagerFormComponent {
   constructor(
     private readonly countryService: CountriesService,
     private readonly profileService: ProfileService,
+    private readonly courtine: CourtineService,
+    private readonly dialog: DialogService,
+    private readonly nav: NavService,
   ) {}
 
   _countryItems = this.countryService.getCountries()
@@ -46,13 +66,44 @@ export class ManagerFormComponent {
     agencyPhone: new FormControl('', Validators.required),
   })
 
+  ngOnInit(): void {
+    this.loadManagerDataForm()
+  }
+
   _submit() {
     if (this.form.invalid) {
       FormUtil.markForm(this.form)
       return
     }
+    this.courtine.startCourtine()
+    this.profileService.setManagerData$(this.form.value as ManagerData).pipe(
+    ).subscribe({
+      next: data => {
+        this.courtine.stopCourtine()
+        this.dialog.simplePopup('Manager data updated')
+        this.nav.to(PanelComponent.path)
+      }, 
+      error: error => {
+        this.courtine.stopCourtine()
+        this.dialog.errorPopup(error.error.message)
+      }
+    })
+  }
 
-
+  private loadManagerDataForm() {
+    this.courtine.startCourtine()
+    this.profileService.fetchManagerData$().pipe(
+      take(1),
+    ).subscribe({
+      next: data => {
+        this.courtine.stopCourtine()
+        if (data) this.form.setValue(data)
+      },
+      error: error => {
+        this.courtine.stopCourtine()
+        this.dialog.errorPopup(error.error.message)
+      } 
+    })
   }
 
 }

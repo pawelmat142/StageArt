@@ -68,6 +68,7 @@ export class BookingContractDocumentService {
         }
 
         const artistProfile = await this.profileService.findByArtistSignature(ctx.artists[0].signature)
+        const managerData = await this.profileService.fetchManagerData(ctx.booking.managerUid)
 
         const now = new Date()
 
@@ -80,10 +81,9 @@ export class BookingContractDocumentService {
         
         const artist = ctx.artists[0]
         const artistCountry = artist.country.name
-        
         return {
             year: now.getFullYear().toString(),
-            promoterName: this.get(formData, 'promoterInformation.promoterName'),
+            promoterName: `${this.get(formData, 'promoterInformation.promoterFirstName')} ${this.get(formData, 'promoterInformation.promoterLastName')}`,
             promoterCompanyName: this.get(formData, 'promoterInformation.companyName'),
             promoterAdress: `${promoterAddress}, ${promoterCountry}`,
             promoterPhone: this.get(formData, 'promoterInformation.phoneNumber'),
@@ -99,16 +99,16 @@ export class BookingContractDocumentService {
             eventDate: EventUtil.dateString(ctx.event),
             eventVenue: `${eventAddress}, ${eventCountry}`,
 
-            agencyName: 'TODO',
-            agencyCompanyName: 'TODO',
-            accountHolder: 'TODO',
-            nameOfBank: 'TODO',
-            accountAddress: 'TODO',
-            accountNumber: 'TODO',
-            accountSwift: 'TODO',
-            agencyEmail: 'TODO',
-            agencyFooterString: 'TODO',
-            agencyPhone: 'TODO',
+            agencyName: managerData.agencyName,
+            agencyCompanyName: managerData.agencyCompanyName,
+            accountHolder: managerData.accountHolder,
+            nameOfBank: managerData.nameOfBank,
+            accountAddress: managerData.accountAddress,
+            accountNumber: managerData.accountNumber,
+            accountSwift: managerData.accountSwift,
+            agencyEmail: managerData.agencyEmail,
+            agencyPhone: managerData.agencyPhone,
+            agencyFooterString: `${managerData.agencyName} / ${managerData.accountAddress} / ${managerData.agencyCountry.name}`,
 
             depositDeadline: Util.formatDate(BookingUtil.depositDeadline(ctx.event)),
             feeDeadline: Util.formatDate(BookingUtil.feeDeadline(ctx.event)),

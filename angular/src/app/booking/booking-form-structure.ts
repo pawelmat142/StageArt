@@ -76,7 +76,7 @@ export class BookingFormStructure {
               type: 'selector',
               selectorItems$: of(this.countries)
             }, {
-              name: 'Company Address',
+              name: 'Company address',
               validators: [Validators.required]
             }, {
               name: 'Company VAT Number',

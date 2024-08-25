@@ -3,6 +3,7 @@ import { Observable, tap } from "rxjs";
 import { HttpService } from "../global/services/http.service";
 import { Profile, ProfileDto, Role } from "./profile.model";
 import { SelectorItem } from "../global/controls/selector/selector.component";
+import { ManagerData } from "./view/manager-form/manager-form.component";
 
 export interface LoginToken {
     token: string
@@ -32,6 +33,15 @@ export class ProfileService {
     fetchManagers$(): Observable<ProfileDto[]> {
         return this.http.get<ProfileDto[]>(`/profile/managers`)
     }
+
+    fetchManagerData$() {
+        return this.http.get<ManagerData>(`/profile/manager-data`)
+    }
+
+    setManagerData$(form: ManagerData) {
+        return this.http.put<ManagerData>(`/profile/manager-data`, form)
+    }
+
 
     fetchTelegramBotHref$() {
         return this.http.get<{ url: string }>(`/profile/telegram`)

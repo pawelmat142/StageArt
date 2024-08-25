@@ -6,6 +6,7 @@ import { IllegalStateException } from '../global/exceptions/illegal-state.except
 import { JwtPayload } from './auth/jwt-strategy';
 import { ArtistForm } from '../artist/artist.controller';
 import { AppJwtService } from './auth/app-jwt.service';
+import { ManagerData } from './model/profile-interfaces';
 
 export interface Credentials {
     email: string
@@ -82,6 +83,17 @@ export class ProfileService {
 
     fetchManagers() {
         return this.profileModel.find({ roles: 'MANAGER' })
+    }
+
+    async fetchManagerData(uid: string): Promise<ManagerData> {
+        const managerProfile = await this.profileModel.findOne({ uid }).select('managerData')
+        if (managerProfile) {
+            return managerProfile.managerData
+        }
+    }
+
+    setManagerData(managerData: ManagerData, profile: JwtPayload) {
+        return this.profileModel.updateOne({ uid: profile.uid }, { $set: { managerData } })
     }
 
     fetchFullProfile(payload: JwtPayload) {

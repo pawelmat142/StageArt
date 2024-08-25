@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, UseGuards, UseInterceptors } from '@nestjs/common';
 import { LoginToken, ProfileTelegramService } from './profile-telegram.service';
 import { LoginForm, ProfileEmailService } from './profile-email.service';
 import { ProfileService } from './profile.service';
@@ -9,6 +9,10 @@ import { GetProfile } from './auth/profile-path-param-getter';
 import { JwtPayload } from './auth/jwt-strategy';
 import { Profile } from './model/profile.model';
 import { LogInterceptor } from '../global/interceptors/log.interceptor';
+import { profile } from 'console';
+import { ManagerData } from './model/profile-interfaces';
+import { RoleGuard } from './auth/role.guard';
+import { Role } from './model/role';
 
 @Controller('api/profile')
 @UseInterceptors(LogInterceptor)
@@ -33,6 +37,19 @@ export class ProfileController {
     @Serialize(ProfileDto)
     fetchManagers() {
         return this.profileService.fetchManagers()
+    }
+
+
+    @Get('manager-data')
+    @UseGuards(RoleGuard(Role.MANAGER))
+    fetchManagerData(@GetProfile() profile: JwtPayload) {
+        return this.profileService.fetchManagerData(profile.uid)
+    }
+
+    @Put('manager-data')
+    @UseGuards(JwtGuard)
+    setManagerData(@Body() body: ManagerData, @GetProfile() profile: JwtPayload) {
+        return this.profileService.setManagerData(body, profile)
     }
 
 

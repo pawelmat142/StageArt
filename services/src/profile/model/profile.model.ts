@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose"
 import { Expose } from "class-transformer"
 import { HydratedDocument } from "mongoose"
+import { ManagerData } from "./profile-interfaces"
 
 export type ProfileDocument = HydratedDocument<Profile>
 
@@ -64,6 +65,9 @@ export class Profile {
     
     @Prop()
     modified: Date
+    
+    @Prop({ type: Object })
+    managerData?: ManagerData
     
 
     @Prop({ type: Object })
