@@ -1,7 +1,7 @@
 import { Component, EventEmitter, HostBinding, Output, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { PanelView } from '../panel/panel.component';
-import { logout, profile, profileName } from '../../profile.state';
+import { logout, profile } from '../../profile.state';
 import { DialogService } from '../../../global/nav/dialog.service';
 import { NavService, MenuButtonItem } from '../../../global/nav/nav.service';
 import { AppState, selectArtistView } from '../../../app.state';
@@ -60,6 +60,11 @@ export class SidebarComponent {
     rolesGuard: [Role.MANAGER],
     onclick: () => this.view.emit('MANAGER_ARTISTS'),
   }
+  _managerData: MenuButtonItem = {
+    label: `Manager data`,
+    rolesGuard: [Role.MANAGER],
+    onclick: () => this.view.emit('MANAGER_DATA'),
+  }
   _eventsOfPromoter: MenuButtonItem = {
     label: `Your events`,
     rolesGuard: [Role.PROMOTER],
@@ -79,6 +84,7 @@ export class SidebarComponent {
     this._bookingsItem,
     this._eventsOfPromoter,
     this._artistsOfManager,
+    this._managerData,
     this._artistViewItem,
     this._logoutItem,
   ]

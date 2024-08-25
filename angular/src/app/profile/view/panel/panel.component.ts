@@ -6,8 +6,9 @@ import { HeaderComponent } from '../../../global/components/header/header.compon
 import { InitialInfoComponent } from '../../../artist/view/initial-info/initial-info.component';
 import { PanelArtistsComponent } from '../../../artist/view/panel-artists/panel-artists.component';
 import { PanelEventsComponent } from '../../../event/view/panel-events/panel-events.component';
+import { ManagerFormComponent } from "../manager-form/manager-form.component";
 
-export type PanelView  = 'NONE' | 'BOOKINGS' | 'MANAGER_ARTISTS' | 'PROMOTER_EVENTS' | 'ARTIST_INITIAL_INFO'
+export type PanelView  = 'NONE' | 'BOOKINGS' | 'MANAGER_ARTISTS' | 'MANAGER_DATA' | 'PROMOTER_EVENTS' | 'ARTIST_INITIAL_INFO'
 
 @Component({
   selector: 'app-profile',
@@ -20,7 +21,8 @@ export type PanelView  = 'NONE' | 'BOOKINGS' | 'MANAGER_ARTISTS' | 'PROMOTER_EVE
     PanelBookingsComponent,
     PanelArtistsComponent,
     PanelEventsComponent,
-  ],
+    ManagerFormComponent,
+],
   templateUrl: './panel.component.html',
   styleUrl: './panel.component.scss',
   encapsulation: ViewEncapsulation.None
