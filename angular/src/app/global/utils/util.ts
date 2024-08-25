@@ -1,5 +1,10 @@
+import { environment } from "../../../environments/environment";
 
 export abstract class Util {
+
+    public static readonly apiUri = ['localhost', '127.0.0.1'].includes(location.hostname) 
+        ? environment.testApiUri 
+        : environment.apiUri
 
     public static capitalizeFirstLetter(input: string = '') {
         if (input.length === 0) return input; // Return the empty string as-is

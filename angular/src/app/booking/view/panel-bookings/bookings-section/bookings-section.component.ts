@@ -10,6 +10,9 @@ import { AppState } from '../../../../app.state';
 import { Store } from '@ngrx/store';
 import { uid } from '../../../../profile/profile.state';
 import { of, switchMap, tap } from 'rxjs';
+import { IconButtonComponent } from '../../../../global/components/icon-button/icon-button.component';
+import { DocumentService } from '../../../../global/document/document.service';
+import { Template } from '../../../../global/document/doc-util';
 
 @Component({
   selector: 'app-bookings-section',
@@ -19,6 +22,7 @@ import { of, switchMap, tap } from 'rxjs';
     StatusPipe,
     AccordionModule,
     BtnComponent,
+    IconButtonComponent,
 ],
   templateUrl: './bookings-section.component.html',
   styleUrl: './bookings-section.component.scss',
@@ -31,6 +35,7 @@ export class BookingsSectionComponent {
   constructor(
     private readonly dialog: DialogService,
     private readonly bookingService: BookingService,
+    private readonly documentService: DocumentService,
     private readonly store: Store<AppState>,
   ) {}
 
@@ -63,6 +68,10 @@ export class BookingsSectionComponent {
         : of()
       ),
     ).subscribe()
+  }
+
+  _getPdf(booking: BookingPanelDto, template: Template) {
+    this.documentService.getPdf(booking.formId, template)
   }
 
 }

@@ -12,6 +12,7 @@ import { BookingService } from './services/booking.service';
 import { SubmitService } from './services/submit.service';
 import { BookingCancelService } from './services/booking-cancel.service';
 import { BookingDocumentsService } from './services/booking-documents.service';
+import { DocumentModule } from '../document/document.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { BookingDocumentsService } from './services/booking-documents.service';
     ArtistModule,
     EventModule,
     TelegramModule,
+    DocumentModule
   ],
   providers: [
     BookingService,

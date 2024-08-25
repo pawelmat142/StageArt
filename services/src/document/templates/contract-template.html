@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Umowa</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 12pt;
+            line-height: 1.5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 20mm;
+            box-sizing: border-box;
+            page-break-after: always;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            font-size: 18pt;
+            margin: 0;
+        }
+        .header p {
+            font-size: 12pt;
+            margin: 0;
+        }
+        .section-title {
+            font-weight: bold;
+            margin-top: 20px;
+            font-size: 14pt;
+        }
+        .content {
+            margin-top: 10px;
+            text-align: justify;
+        }
+        .signature {
+            margin-top: 40px;
+            display: flex;
+            justify-content: space-between;
+            page-break-inside: avoid;
+        }
+        .signature div {
+            width: 45%;
+            text-align: center;
+        }
+        .signature p {
+            margin: 80px 0 0 0;
+        }
+
+        @page {
+            size: A4;
+            margin: 20mm;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Umowa</h1>
+            <p>między</p>
+            <p><strong>{{ organizer_name }}</strong></p>
+            <p>a</p>
+            <p><strong>{{ artist_name }}</strong></p>
+        </div>
+        
+        <div class="section-title">§ 1. Przedmiot Umowy</div>
+        <div class="content">
+            <!-- Długi tekst jako przykład -->
+            Przedmiotem umowy jest występ artystyczny, który odbędzie się dnia {{ event_date }} w miejscu {{ event_location }}. 
+            <!-- Można tutaj dodać dużo więcej tekstu -->
+        </div>
+        
+        <div class="section-title">§ 2. Wynagrodzenie</div>
+        <div class="content">
+            Organizator zobowiązuje się do wypłaty wynagrodzenia w wysokości {{ fee_amount }} PLN brutto, płatne przelewem na konto bankowe artysty w terminie {{ payment_terms }} od dnia występu.
+        </div>
+        
+        <div class="section-title">§ 3. Obowiązki Organizatora</div>
+        <div class="content">
+            Organizator zobowiązuje się do zapewnienia odpowiednich warunków technicznych, w tym sprzętu nagłośnieniowego, oświetlenia oraz innych niezbędnych elementów do realizacji występu artystycznego.
+        </div>
+        
+        <div class="section-title">§ 3. Obowiązki Organizatora</div>
+        <div class="content">
+            Organizator zobowiązuje się do zapewnienia odpowiednich warunków technicznych, w tym sprzętu nagłośnieniowego, oświetlenia oraz innych niezbędnych elementów do realizacji występu artystycznego.
+        </div>
+        
+        <div class="section-title">§ 3. Obowiązki Organizatora</div>
+        <div class="content">
+            Organizator zobowiązuje się do zapewnienia odpowiednich warunków technicznych, w tym sprzętu nagłośnieniowego, oświetlenia oraz innych niezbędnych elementów do realizacji występu artystycznego.
+        </div>
+        
+        <div class="section-title">§ 3. Obowiązki Organizatora</div>
+        <div class="content">
+            Organizator zobowiązuje się do zapewnienia odpowiednich warunków technicznych, w tym sprzętu nagłośnieniowego, oświetlenia oraz innych niezbędnych elementów do realizacji występu artystycznego.
+        </div>
+        
+        <div class="section-title">§ 3. Obowiązki Organizatora</div>
+        <div class="content">
+            Organizator zobowiązuje się do zapewnienia odpowiednich warunków technicznych, w tym sprzętu nagłośnieniowego, oświetlenia oraz innych niezbędnych elementów do realizacji występu artystycznego.
+        </div>
+        
+        <div class="section-title">§ 3. Obowiązki Organizatora</div>
+        <div class="content">
+            Organizator zobowiązuje się do zapewnienia odpowiednich warunków technicznych, w tym sprzętu nagłośnieniowego, oświetlenia oraz innych niezbędnych elementów do realizacji występu artystycznego.
+        </div>
+        
+        <div class="section-title">§ 3. Obowiązki Organizatora</div>
+        <div class="content">
+            Organizator zobowiązuje się do zapewnienia odpowiednich warunków technicznych, w tym sprzętu nagłośnieniowego, oświetlenia oraz innych niezbędnych elementów do realizacji występu artystycznego.
+        </div>
+        
+        <div class="section-title">§ 3. Obowiązki Organizatora</div>
+        <div class="content">
+            Organizator zobowiązuje się do zapewnienia odpowiednich warunków technicznych, w tym sprzętu nagłośnieniowego, oświetlenia oraz innych niezbędnych elementów do realizacji występu artystycznego.
+        </div>
+
+        <div class="section-title">§ 4. Obowiązki Artysty</div>
+        <div class="content">
+            Artysta zobowiązuje się do stawienia się na miejsce wydarzenia na co najmniej {{ arrival_time }} przed planowanym rozpoczęciem występu oraz do wykonania programu artystycznego zgodnie z wcześniejszymi ustaleniami.
+        </div>
+
+        <div class="section-title">§ 5. Postanowienia końcowe</div>
+        <div class="content">
+            Wszelkie zmiany umowy wymagają formy pisemnej pod rygorem nieważności. Umowa sporządzona została w dwóch jednobrzmiących egzemplarzach, po jednym dla każdej ze stron.
+        </div>
+        
+        <div class="signature">
+            <div>
+                <p>_________________________</p>
+                <p>{{ organizer_name }}</p>
+            </div>
+            <div>
+                <p>_________________________</p>
+                <p>{{ artist_name }}</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

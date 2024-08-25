@@ -98,13 +98,17 @@
     }
 }
 
-
 .item-row-collapse-content {
     padding: 0.5*$padding-standard $padding-standard $padding-standard;
+    display: block;
+}
 
+.item-row-buttons {
     display: flex;
     gap: $padding-standard;
     flex-wrap: wrap;
+}
 
-
+.item-row-files {
+    @extend .item-row-buttons;
 }

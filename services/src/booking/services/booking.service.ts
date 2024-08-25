@@ -61,7 +61,7 @@ export class BookingService {
     public async fetchProfileBookings(profile: JwtPayload): Promise<BookingPanelDto[]> {
         const uid = profile.uid
         const bookings = await this.bookingModel.find({ $or: [
-            { promotorUid: uid },
+            { promotorUid: uid },   
             { managerUid: uid },
             { artistSignatures: profile.artistSignature }
         ] })

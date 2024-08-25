@@ -3,7 +3,7 @@ import { tap } from 'rxjs';
 import { HttpService } from '../../global/services/http.service';
 import { FormType } from '../../form-processor/form.state';
 
-export type BookingStatus = 'SUBMITTED' | 'PENDING' | 'READY' | 'CANCELED'
+export type BookingStatus = 'SUBMITTED' | 'DOCUMENTS_REQUESTED' | 'PENDING' | 'READY' | 'CANCELED'
 
 export interface BookingPanelDto {
   formId: string

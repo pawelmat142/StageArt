@@ -4,7 +4,13 @@
   "sourceRoot": "src",
   "entryFile": "book-agency",
   "compilerOptions": {
-    "deleteOutDir": true
+    "deleteOutDir": true,
+    "assets": [
+      {
+        "include": "document/templates/*",
+        "outDir": "dist"
+      }
+    ]
   },
   "assets": [
     "src/**/*.json"

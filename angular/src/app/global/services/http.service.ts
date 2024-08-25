@@ -1,6 +1,6 @@
 import { HttpClient, HttpContext, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment';
+import { Util } from '../utils/util';
 
 export interface HttpRequestOptions {
   // skipAuth?: boolean
@@ -19,7 +19,7 @@ export interface HttpRequestOptions {
 })
 export class HttpService {
 
-  private readonly apiUri = ['localhost', '127.0.0.1'].includes(location.hostname) ? environment.testApiUri : environment.apiUri
+  private readonly apiUri = Util.apiUri
 
   constructor(
     private readonly httpClient: HttpClient,

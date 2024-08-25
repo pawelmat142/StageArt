@@ -14,6 +14,7 @@ import { TelegramModule } from './telegram/telegram.module';
 import { BookingModule } from './booking/booking.module';
 import { FeedbackModule } from './feedback/feedback.module';
 import { EventModule } from './event/event.module';
+import { DocumentModule } from './document/document.module';
 
 @Module({
   imports: [
@@ -38,6 +39,8 @@ import { EventModule } from './event/event.module';
     FeedbackModule,
 
     EventModule,
+
+    DocumentModule,
   ],
   controllers: [AppController],
   providers: [AppService]
@@ -52,6 +55,7 @@ export class AppModule implements NestModule {
           methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
           credentials: true,
           allowedHeaders: 'Content-Type, Accept, Authorization',
+          exposedHeaders: 'Content-Disposition'
         }))
         .forRoutes('*');
     }

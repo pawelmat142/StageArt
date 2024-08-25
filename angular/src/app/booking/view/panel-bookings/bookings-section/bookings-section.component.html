@@ -36,17 +36,32 @@
                             </div>
                         </ng-template>
     
-                        <div class="item-row-collapse-content item-row-buttons">
+                        <div class="item-row-collapse-content">
 
-                            <app-btn (click)="openBooking.emit(booking)" label="Form data" class="grey"></app-btn>
+                            <div class="item-row-buttons">
+                                <app-btn (click)="openBooking.emit(booking)" label="Form data" class="grey"></app-btn>
+    
+                                @if (['SUBMITTED'].includes(booking.status) && [booking.managerUid].includes(uid)) {
+                                    <app-btn (click)="_acceptBooking(booking)" label="Accept" class="green"></app-btn>
+                                }
+    
+                                @if (['SUBMITTED'].includes(booking.status) && [booking.managerUid, booking.promotorUid].includes(uid)) {
+                                    <app-btn (click)="_cancelBooking(booking)" label="Cancel"></app-btn>
+                                }
+                            </div>
 
-                            @if (['SUBMITTED'].includes(booking.status) && [booking.managerUid].includes(uid)) {
-                                <app-btn (click)="_acceptBooking(booking)" label="Accept" class="green"></app-btn>
+                            @if (['DOCUMENTS_REQUESTED'].includes(booking.status)) {
+                                <div class="item-row-files margin-top-2">
+                                    <app-btn
+                                        class="grey" 
+                                        icon="description"
+                                        label="contract"
+                                        (click)="_getPdf(booking, 'contract')"
+                                    ></app-btn>
+                                </div>
                             }
 
-                            @if (['SUBMITTED'].includes(booking.status) && [booking.managerUid, booking.promotorUid].includes(uid)) {
-                                <app-btn (click)="_cancelBooking(booking)" label="Cancel"></app-btn>
-                            }
+
                         </div>
                     </p-accordionTab>
                 }
