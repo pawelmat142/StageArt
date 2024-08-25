@@ -12,11 +12,15 @@
 
             @if (control.value) {
                 <app-textarea-element 
-                class="value"
-                [value]="control.value" 
-                [disabled]="true"
+                    class="value"
+                    [value]="control.value" 
+                    [disabled]="true"
                 ></app-textarea-element>
             }
+        }
+
+        @case ('selector') {
+            <span class="value">{{control.value.name}}</span>
         }
         
         @default {

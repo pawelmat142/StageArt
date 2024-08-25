@@ -23,7 +23,7 @@ export interface Images {
 export interface ArtistForm {
     signature: string
     name: string
-    countryCode: string
+    country: string
     firstName?: string
     lastName?: string
     email: string

@@ -6,9 +6,17 @@ export interface Chip {
     id: string
 }
 
+export interface SelectorItem {
+    code: string
+    name: string
+}
+
+
 export interface ArtistStyle extends Chip {}
 
 export interface ArtistLabel extends Chip {}
+
+export interface Country extends SelectorItem {}
 
 export interface ArtistMedia {
     code: string,
@@ -59,8 +67,8 @@ export class Artist {
     @Prop({ required: true })
     name: string
     
-    @Prop()
-    countryCode: string
+    @Prop({ type: Object })
+    country: Country
 
     @Prop()
     styles: ArtistStyle[]

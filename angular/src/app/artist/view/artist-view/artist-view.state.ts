@@ -11,6 +11,7 @@ import { DialogService } from "../../../global/nav/dialog.service";
 import { Images } from "../../model/artist-form";
 import { ArtistMedia } from "../../artist-medias/artist-medias.service";
 import { NavService } from "../../../global/nav/nav.service";
+import { Country } from "../../../global/countries/country.model";
 
 export interface ArtistViewState {
     artist?: ArtistViewDto
@@ -62,7 +63,7 @@ export const artistName = createSelector(
 
 export const artistCountry = createSelector(
     selectArtistView,
-    (state: ArtistViewState) => state.artist?.countryCode
+    (state: ArtistViewState) => state.artist?.country
 )
 
 export const artistMedias = createSelector(
@@ -92,7 +93,7 @@ export const updateBio = createAction("[ArtistViewState] update bio", props<{ va
 
 export const updateName = createAction("[ArtistViewState] update name", props<{ value: string }>())
 
-export const updateCountry = createAction("[ArtistViewState] update country", props<{ value: string }>())
+export const updateCountry = createAction("[ArtistViewState] update country", props<{ value: Country }>())
 
 export const updateMedias = createAction("[ArtistViewState] update medias", props<{ value: ArtistMedia[] }>())
 
@@ -193,7 +194,7 @@ export const artistViewReducer = createReducer(
                 ...state,
                 artist: {
                     ...state.artist,
-                    countryCode: value.value
+                    country: value.value
                 }
             }
         } else {

@@ -1,4 +1,4 @@
-import { Component, Input, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { ArtistViewDto } from '../../../artist/model/artist-view.dto';
 import { MatChipsModule} from '@angular/material/chips';
 import { CommonModule } from '@angular/common';

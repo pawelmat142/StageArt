@@ -8,6 +8,7 @@ import { of } from 'rxjs';
 import { BtnComponent } from '../../../global/controls/btn/btn.component';
 import { ProfileService } from '../../profile.service';
 import { FormUtil } from '../../../global/utils/form.util';
+import { Country } from '../../../global/countries/country.model';
 
 @Component({
   selector: 'app-manager-form',
@@ -37,7 +38,7 @@ export class ManagerFormComponent {
     agencyCompanyName: new FormControl('', Validators.required),
     nameOfBank: new FormControl('', Validators.required),
     accountHolder: new FormControl('', Validators.required),
-    agencyCountry: new FormControl('', Validators.required),
+    agencyCountry: new FormControl<Country | undefined>(undefined, Validators.required),
     accountAddress: new FormControl('', Validators.required),
     accountNumber: new FormControl('', Validators.required),
     accountSwift: new FormControl('', Validators.required),
@@ -51,7 +52,7 @@ export class ManagerFormComponent {
       return
     }
 
-    
+
   }
 
 }

@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { Observable, tap } from "rxjs";
 import { HttpService } from "../global/services/http.service";
 import { Profile, ProfileDto, Role } from "./profile.model";
+import { SelectorItem } from "../global/controls/selector/selector.component";
 
 export interface LoginToken {
     token: string
@@ -10,7 +11,7 @@ export interface LoginToken {
 
 export interface LoginForm {
     name: string
-    role: Role
+    role: SelectorItem
     email: string
     password: string
 }

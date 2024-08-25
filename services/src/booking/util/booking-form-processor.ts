@@ -56,14 +56,4 @@ export abstract class BookingFormProcessor {
         return artistInformation
     }
 
-    public static findArtistSignatures(bookingFormData: any): string[] {
-        const signature = this.findArtistInformation(bookingFormData)['artist']
-        if (!signature) {
-            throw new IllegalStateException("Missing artist signature")
-        }
-        return [signature]
-    }
-
-
-
 }

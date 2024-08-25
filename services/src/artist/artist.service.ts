@@ -13,6 +13,7 @@ import { ProfileService } from '../profile/profile.service';
 import { TelegramService } from '../telegram/telegram.service';
 import { BotUtil } from '../telegram/util/bot.util';
 import { BookingSubmitCtx } from '../booking/services/submit.service';
+import { FormUtil } from '../form/form.util';
 
 @Injectable()
 export class ArtistService {
@@ -40,7 +41,7 @@ export class ArtistService {
             status: 'CREATED',
             images: { bg: [], avatar: {} },
             created: new Date(),
-            managerUid: form.manager,
+            managerUid: form.manager.code,
         })
 
         await this.profileService.updateArtistProfile(form, profile, newArtist.signature)
@@ -133,14 +134,14 @@ export class ArtistService {
     }
 
     public async processBookingForm(ctx: BookingSubmitCtx) {
-        const artistSignatures = BookingFormProcessor.findArtistSignatures(ctx.booking.formData)
+        const artistSignatures = [FormUtil.get(ctx.booking.formData, 'artistInformation.artist.code')]
         if (!artistSignatures?.length) {
             throw new IllegalStateException("Missing artist signatures")
         }
         this.logger.log(`Found artist signatures: ${artistSignatures.join(', ')}`)
         
         const artists = await this.artistModel.find({ signature: { $in: artistSignatures }}, { 
-            signature: true, managerUid: true
+            signature: true, managerUid: true, name: true
         })
 
         if (artists.length !== artistSignatures.length) {

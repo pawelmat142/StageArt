@@ -33,21 +33,23 @@ export interface SelectorItem {
     }
   ]
 })
-export class SelectorComponent extends AbstractControlComponent<string> {
+export class SelectorComponent extends AbstractControlComponent<SelectorItem | undefined> {
+  
+  override get _EMPTY_VALUE() { return undefined }
 
   _displayValue: string = ''
 
   override ngOnInit(): void {
     super.ngOnInit()
     if (this.value) {
-      this._item = this.items.find(i => i.code === this.value) || null
+      this._item = this.items.find(i => i.code === this.value?.code) || null
     }
     this.filterItems()
   }
 
   _onInput($event: Event) {
     const input = $event.target as HTMLInputElement;
-    this.value = input.value
+    // this.value = input.value
     this.filterItems(input.value)
     if (this.allowWriteItem) {
       this.updateValue(this.value)
@@ -80,7 +82,7 @@ export class SelectorComponent extends AbstractControlComponent<string> {
 
   _select(item: SelectorItem) {
     this._item = item
-    this.updateValue(item.code)
+    this.updateValue(item)
     this.select.emit(item)
     this.onBlur()
   }
@@ -110,10 +112,10 @@ export class SelectorComponent extends AbstractControlComponent<string> {
     }
   }
 
-  override writeValue(value: string): void {
+  override writeValue(value: SelectorItem | undefined): void {
     setTimeout(() => {
       if (value) {
-        const writeItem = this._items.find(i => i.code === value)
+        const writeItem = this._items.find(i => i.code === value.code)
         if (writeItem) {
           this._select(writeItem)
         }

@@ -41,7 +41,7 @@ export class InitialInfoComponent {
   ) {}
 
   form = new FormGroup({
-    manager: new FormControl('', Validators.required),
+    manager: new FormControl<SelectorItem | undefined>(undefined, Validators.required),
     artistName: new FormControl('', [Validators.required]),
     firstName: new FormControl('', Validators.required),
     lastName: new FormControl('', Validators.required),

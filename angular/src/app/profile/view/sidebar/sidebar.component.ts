@@ -5,7 +5,7 @@ import { logout, profile } from '../../profile.state';
 import { DialogService } from '../../../global/nav/dialog.service';
 import { NavService, MenuButtonItem } from '../../../global/nav/nav.service';
 import { AppState, selectArtistView } from '../../../app.state';
-import { BehaviorSubject, Subscription, take, tap } from 'rxjs';
+import { BehaviorSubject, take, tap } from 'rxjs';
 import { DESKTOP } from '../../../global/services/device';
 import { IconButtonComponent } from '../../../global/components/icon-button/icon-button.component';
 import { artist, initArtist } from '../../../artist/view/artist-view/artist-view.state';
@@ -41,8 +41,8 @@ export class SidebarComponent {
 
   _profile$ = this.store.select(profile).pipe(
     tap(profile => this.setSidebarItemsForRole(profile)),
+    tap(profile => this.setPanelViewForRole(profile)),
     tap(profile => this.initAsArtistIfNeed(profile)),
-    tap(profile => this.setPanelViewForRole(profile))
   )
 
   _sidebarItems$ = new BehaviorSubject<MenuButtonItem[]>([])

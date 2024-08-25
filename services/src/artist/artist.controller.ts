@@ -15,8 +15,13 @@ export interface FetchArtistQuery {
     signature?: string
 }
 
+export interface SelectorItem {
+    code: string
+    name: string
+}
+
 export interface ArtistForm {
-    manager: string,
+    manager: SelectorItem,
     artistName: string
     firstName: string
     lastName: string

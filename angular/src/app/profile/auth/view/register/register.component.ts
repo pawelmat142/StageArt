@@ -63,7 +63,7 @@ export class RegisterComponent {
 
   form = new FormGroup({
     name: new FormControl('', [Validators.required]),
-    role: new FormControl('', [Validators.required]),
+    role: new FormControl<SelectorItem | undefined>(undefined, [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.minLength(6), Validators.required, password()]),
     repassword: new FormControl('', [Validators.required, repassword()]),

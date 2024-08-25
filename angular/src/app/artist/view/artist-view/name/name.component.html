@@ -27,8 +27,8 @@
         </div>
 
         <div class="d-flex">
-            <app-country *ngIf="(_countryCode$ | async) as countryCode; else countryMock"
-                [countryCode]="countryCode"
+            <app-country *ngIf="(_country$ | async) as country; else countryMock"
+                [countryCode]="country.code"
             ></app-country>
             <ng-template #countryMock>
                 @if (_editable$ | async) {

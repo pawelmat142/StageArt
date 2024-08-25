@@ -50,21 +50,6 @@ export class DocumentService {
         return Buffer.from(pdfBuffer);
     }
 
-    public async findCountryName(countryCode: string) {
-        const url = `https://restcountries.com/v3.1/alpha/${countryCode}`;
-        console.log(url)
-        try {
-            const response: AxiosResponse<any> = await lastValueFrom(this.httpService.get(url));
-            const countryName = response.data[0]?.name?.common;
-            if (!countryName) {
-                throw new Error(`missing name`)
-            }
-            return countryName;
-          } catch (error) {
-            throw new NotFoundException(`Not found country name by code: ${countryCode}`)
-        }
-    } 
-
     private getTemplate(template: Template): string {
         const templateFileName = `${template}-template.html`
         const templatePath = path.join(__dirname, 'templates', templateFileName)

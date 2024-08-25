@@ -1,8 +1,9 @@
+import { Country } from "./artist.model"
 
 export class ArtistForm {
     signature: string
     name: string
-    countryCode: string
+    country: Country
     firstName?: string
     lastName?: string
     email: string

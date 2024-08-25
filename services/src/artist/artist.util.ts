@@ -5,7 +5,7 @@ export abstract class ArtistUtil {
 
     public static isViewReady(artist: ArtistViewDto): boolean {
         return !!artist.name
-            && !!artist.countryCode
+            && !!artist.country.code
             && !!artist.bio
             && !!artist.medias?.length
             && this.imagesReadyForView(artist)

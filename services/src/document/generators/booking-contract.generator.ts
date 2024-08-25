@@ -71,18 +71,16 @@ export class BookingContractDocumentService {
 
         const now = new Date()
 
-        const promoterCountryCode = this.get(formData, 'promoterInformation.companyCountry')
-        const promoterCountry = await this.documentService.findCountryName(promoterCountryCode)
+        const promoterCountry = this.get(formData, 'promoterInformation.companyCountry.name')
         const promoterAddress = this.get(formData, 'promoterInformation.companyAddress') 
         
-        const eventCountryCode = this.get(formData, 'eventInformation.eventCountry')
-        const eventCountry = await this.documentService.findCountryName(eventCountryCode)
+        const eventCountry = this.get(formData, 'eventInformation.eventCountry.name')
         
         const eventAddress = this.get(formData, 'eventInformation.venueAddress')
         
         const artist = ctx.artists[0]
-        const artistCountry = await this.documentService.findCountryName(artist.countryCode)
-
+        const artistCountry = artist.country.name
+        
         return {
             year: now.getFullYear().toString(),
             promoterName: this.get(formData, 'promoterInformation.promoterName'),

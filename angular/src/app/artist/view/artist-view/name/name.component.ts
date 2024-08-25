@@ -64,7 +64,7 @@ export class NameComponent {
   _name$ = this.store.select(artistName).pipe(
   )
 
-  _countryCode$ = this.store.select(artistCountry).pipe(
+  _country$ = this.store.select(artistCountry).pipe(
   )
 
 
@@ -84,7 +84,7 @@ export class NameComponent {
   }
 
   _selectCountry(item: SelectorItem) {
-    this.store.dispatch(updateCountry({ value: item.code }))
+    this.store.dispatch(updateCountry({ value: item }))
     this._editCountry = false
   }
 

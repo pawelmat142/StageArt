@@ -1,3 +1,4 @@
+import { Country } from "../../global/countries/country.model"
 import { ArtistMedia } from "../artist-medias/artist-medias.service"
 import { Images } from "./artist-form"
 
@@ -29,7 +30,7 @@ export interface ArtistViewDto {
 
     status: ArtistStatus
     
-    countryCode: string
+    country: Country
     
     medias?: ArtistMedia[]
     

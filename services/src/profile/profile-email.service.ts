@@ -7,11 +7,12 @@ import { randomBytes } from "crypto";
 import { scrypt as _scrypt }  from 'crypto';
 import { promisify } from "util";
 import { ProfileService } from "./profile.service";
+import { SelectorItem } from "../artist/artist.controller";
 const scrypt = promisify(_scrypt);
 
 export interface LoginForm {
     name: string
-    role: string
+    role: SelectorItem
     email: string
     password: string
 }
@@ -51,7 +52,7 @@ export class ProfileEmailService {
         }
 
         const profile = new this.profileModel(form)
-        profile.roles = [form.role]
+        profile.roles = [form.role.code]
 
         const salt = randomBytes(8).toString('hex')
         const hash = await scrypt(form.password, salt, this.HASH_CONSTANT) as Buffer

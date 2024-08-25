@@ -1,5 +1,5 @@
 import { Expose } from "class-transformer"
-import { ArtistLabel, ArtistMedia, ArtistStatus, ArtistStyle, Images } from "./artist.model"
+import { ArtistLabel, ArtistMedia, ArtistStatus, ArtistStyle, Country, Images } from "./artist.model"
 
 export class ArtistViewDto {
 
@@ -13,7 +13,7 @@ export class ArtistViewDto {
     name: string
     
     @Expose()
-    countryCode: string
+    country: Country
 
     @Expose()
     styles: ArtistStyle[]

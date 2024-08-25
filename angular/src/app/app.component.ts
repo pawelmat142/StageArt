@@ -12,6 +12,7 @@ import { ProfileService } from './profile/profile.service';
 import { NavService } from './global/nav/nav.service';
 import { LoginComponent } from './profile/auth/view/login/login.component';
 import { RegisterComponent } from './profile/auth/view/register/register.component';
+import { Token } from './profile/auth/view/token';
 
 @Component({
   selector: 'app-root',
@@ -50,6 +51,9 @@ export class AppComponent {
 
   private autoLogin() {
     if (this.skipAutoLogin()) {
+      return
+    }
+    if (!Token.token) {
       return
     }
     this.store.dispatch(login())
