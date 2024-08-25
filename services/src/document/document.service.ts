@@ -1,23 +1,34 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import * as puppeteer from 'puppeteer';
 import * as path from 'path';
+import * as fs from 'fs';
+import { HttpService } from '@nestjs/axios';
+import { lastValueFrom } from 'rxjs';
+import { AxiosResponse } from 'axios';
+import { IllegalStateException } from '../global/exceptions/illegal-state.exception';
+import { Template } from './doc-util';
+import Handlebars from 'handlebars';
 
 @Injectable()
 export class DocumentService {
 
     private readonly logger = new Logger(this.constructor.name)
 
-    constructor() {}
+    constructor(
+        private readonly httpService: HttpService
+    ) {}
 
 
-    public async getPdf(html: string): Promise<Buffer> {
-        const pdf = await this.generatePdf(html)
-        this.logger.log(`Generated pdf`)
+    public async generatePdfOfTemplate(template: Template, data: any): Promise<Buffer> {
+        const html = this.getTemplate(template)
+        const filledTemplate = this.fillTemplateData(html, data)
+        const pdf = await this.generatePdf(filledTemplate)
+        this.logger.log(`Generated PDF of template: ${template}`)
         return pdf
     }
 
 
-    async generatePdf(htmlContent: string): Promise<Buffer> {
+    private async generatePdf(htmlContent: string): Promise<Buffer> {
         // Uruchomienie Puppeteer
         const browser = await puppeteer.launch({ headless: true });
         const page = await browser.newPage();
@@ -37,5 +48,36 @@ export class DocumentService {
     
         await browser.close();
         return Buffer.from(pdfBuffer);
+    }
+
+    public async findCountryName(countryCode: string) {
+        const url = `https://restcountries.com/v3.1/alpha/${countryCode}`;
+        console.log(url)
+        try {
+            const response: AxiosResponse<any> = await lastValueFrom(this.httpService.get(url));
+            const countryName = response.data[0]?.name?.common;
+            if (!countryName) {
+                throw new Error(`missing name`)
+            }
+            return countryName;
+          } catch (error) {
+            throw new NotFoundException(`Not found country name by code: ${countryCode}`)
+        }
+    } 
+
+    private getTemplate(template: Template): string {
+        const templateFileName = `${template}-template.html`
+        const templatePath = path.join(__dirname, 'templates', templateFileName)
+        let htmlTemplate = fs.readFileSync(templatePath, 'utf8');
+        if (!template) {
+            throw new IllegalStateException(`Template loading error`)
+        }
+        return htmlTemplate
+    }
+
+    private fillTemplateData(template: string, data: any): string {
+        const templateToFill = Handlebars.compile(template);
+        const filledTemplate = templateToFill(data)
+        return filledTemplate
     }
 }

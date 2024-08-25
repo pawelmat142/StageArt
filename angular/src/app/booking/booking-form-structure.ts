@@ -41,6 +41,7 @@ export class BookingFormStructure {
                 name: 'Venue Name',
               }, {
                 name: 'Venue Address',
+                validators: [Validators.required],
               }, {
                 name: 'Nearest Airport',
                 validators: [Validators.required]
@@ -62,11 +63,18 @@ export class BookingFormStructure {
           {
             name: 'Promoter information',
             controls: [{
-              name: 'Promoter Name',
+              name: 'Promoter first name',
+              validators: [Validators.required]
+            }, {
+              name: 'Promoter last name',
               validators: [Validators.required]
             }, {
               name: 'Company Name',
               validators: [Validators.required]
+            }, {
+              name: `Company country`,
+              type: 'selector',
+              selectorItems$: of(this.countries)
             }, {
               name: 'Company Address',
               validators: [Validators.required]

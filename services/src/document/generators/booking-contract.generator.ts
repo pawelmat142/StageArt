@@ -2,11 +2,12 @@ import { BookingContext } from "../../booking/services/booking.service"
 import { EventUtil } from "../../event/event-util";
 import { IllegalStateException } from "../../global/exceptions/illegal-state.exception";
 import { Template } from "../doc-util"
-import * as fs from 'fs';
-import * as path from 'path';
 import { Util } from "../../global/utils/util";
 import { BookingUtil } from "../../booking/util/booking.util";
-import Handlebars from "handlebars";
+import { Injectable } from "@nestjs/common";
+import { DocumentService } from "../document.service";
+import { ProfileService } from "../../profile/profile.service";
+import { FormUtil } from "../../form/form.util";
 
 export interface BookingContractDocumentData {
     year: string
@@ -44,49 +45,60 @@ export interface BookingContractDocumentData {
     contractDate: string
 }
 
-export class BookingContractGenerator {
+@Injectable()
+export class BookingContractDocumentService {
 
     private readonly template: Template = 'contract'
 
-    constructor(private ctx: BookingContext) {}
+    constructor(
+        private readonly documentService: DocumentService,
+        private readonly profileService: ProfileService,
+    ) {}
 
-    data?: BookingContractDocumentData
-
-    generate(): string {
-        this.prepareData()
-        const template = this.getTemplate()
-        const document = this.fillTemplateData(template)
-        return document
+    public async generate(ctx: BookingContext): Promise<Buffer> {
+        const data = await this.prepareData(ctx)
+        const pdf = await this.documentService.generatePdfOfTemplate(this.template, data)
+        return pdf
     }
 
-    private prepareData() {
-        const formData = this.ctx.booking.formData
+    private async prepareData(ctx: BookingContext): Promise<BookingContractDocumentData> {
+        const formData = ctx.booking.formData
         if (!formData) {
             throw new IllegalStateException('Missing form data')
         }
+
+        const artistProfile = await this.profileService.findByArtistSignature(ctx.artists[0].signature)
+
         const now = new Date()
 
-        const eventCountry = this.get(formData, 'eventInformation.eventCountry') //TODO country name - not code here,
+        const promoterCountryCode = this.get(formData, 'promoterInformation.companyCountry')
+        const promoterCountry = await this.documentService.findCountryName(promoterCountryCode)
+        const promoterAddress = this.get(formData, 'promoterInformation.companyAddress') 
+        
+        const eventCountryCode = this.get(formData, 'eventInformation.eventCountry')
+        const eventCountry = await this.documentService.findCountryName(eventCountryCode)
+        
         const eventAddress = this.get(formData, 'eventInformation.venueAddress')
+        
+        const artist = ctx.artists[0]
+        const artistCountry = await this.documentService.findCountryName(artist.countryCode)
 
-        const artist = this.ctx.artists[0]
-
-        this.data = {
+        return {
             year: now.getFullYear().toString(),
             promoterName: this.get(formData, 'promoterInformation.promoterName'),
             promoterCompanyName: this.get(formData, 'promoterInformation.companyName'),
-            promoterAdress: this.get(formData, 'promoterInformation.companyAddress'),
+            promoterAdress: `${promoterAddress}, ${promoterCountry}`,
             promoterPhone: this.get(formData, 'promoterInformation.phoneNumber'),
             promoterEmail: this.get(formData, 'promoterInformation.email'),
 
             artistName: artist.name,
-            artistRealName: `${artist.firstName} ${artist.lastName}`,
+            artistRealName: `${artistProfile.firstName} ${artistProfile.lastName}`,
             artistPerformance: `???`,//TODO
-            artistCountry: artist.countryCode, //TODO country name - not code here,
+            artistCountry: artistCountry,
             artistFee: '??', // TODO skad to?
 
-            eventName: this.ctx.event.name,
-            eventDate: EventUtil.dateString(this.ctx.event),
+            eventName: ctx.event.name,
+            eventDate: EventUtil.dateString(ctx.event),
             eventVenue: `${eventAddress}, ${eventCountry}`,
 
             agencyName: 'TODO',
@@ -100,40 +112,14 @@ export class BookingContractGenerator {
             agencyFooterString: 'TODO',
             agencyPhone: 'TODO',
 
-            depositDeadline: Util.formatDate(BookingUtil.depositDeadline(this.ctx.event)),
-            feeDeadline: Util.formatDate(BookingUtil.feeDeadline(this.ctx.event)),
+            depositDeadline: Util.formatDate(BookingUtil.depositDeadline(ctx.event)),
+            feeDeadline: Util.formatDate(BookingUtil.feeDeadline(ctx.event)),
         
             contractDate: Util.formatDate(now)
         }
     }
 
-    private getTemplate(): string {
-        const templateFileName = `${this.template}-template.html`
-        const templatePath = path.join(__dirname, '..', 'templates', templateFileName)
-        let template = fs.readFileSync(templatePath, 'utf8');
-        if (!template) {
-            throw new IllegalStateException(`Template loading error`)
-        }
-        return template
-    }
-
-    private fillTemplateData(template: string): string {
-        const templateToFill = Handlebars.compile(template);
-        const filledTemplate = templateToFill(this.data)
-        return filledTemplate
-    }
-
-    private get(obj: any, path: string): any {
-        const properties = path.split('.');
-        let current: any = obj;
-    
-        for (const prop of properties) {
-            if (current == null || !current.hasOwnProperty(prop)) {
-                throw new IllegalStateException(`Property "${prop}" is missing in path "${path}"`);
-            }
-            current = current[prop];
-        }
-    
-        return current;
+    private get(formData: any, path: string): any {
+        return FormUtil.get(formData, path)
     }
 }

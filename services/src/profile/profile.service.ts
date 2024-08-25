@@ -26,6 +26,10 @@ export class ProfileService {
         return this.profileModel.findOne({ uid })
     }
 
+    public findByArtistSignature(artistSignature: string) {
+        return this.profileModel.findOne({ artistSignature })
+    }
+
     public findTelegramChannedId(uid: string) {
         return this.profileModel.findOne({ uid }).select('telegramChannelId')
     }

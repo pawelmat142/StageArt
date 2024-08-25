@@ -5,7 +5,7 @@ export abstract class EventUtil {
 
     public static dateString(event: Event): string {
         if (event.endDate) {
-            return `${BotUtil.formatDate(event.startDate)} - ${BotUtil.formatDate(event.endDate)}`
+            return `${BotUtil.formatDate(event.startDate)} to ${BotUtil.formatDate(event.endDate)}`
         }
         return BotUtil.formatDate(event.startDate)
     }

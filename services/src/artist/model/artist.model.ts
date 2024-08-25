@@ -94,7 +94,6 @@ export class Artist {
     @Prop()
     managmentNotes: string
     
-
     
     @Prop()
     created: Date
