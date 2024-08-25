@@ -1,0 +1,61 @@
+body {
+    font-family: ui-sans-serif,-apple-system,system-ui,Segoe UI,Helvetica,Apple Color Emoji,Arial,sans-serif,Segoe UI Emoji,Segoe UI Symbol;
+    font-size: 13px;
+    line-height: 1.75;
+    margin: 0;
+    padding: 0;
+}
+.container {
+    box-sizing: border-box;
+    page-break-after: always;
+}
+
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+.header h1 {
+    font-size: 20px;
+}
+
+.section {
+    margin-bottom: 30px;
+}
+.signature,
+.section {
+    text-align: justify;
+    page-break-inside: avoid;
+}
+
+.section-title {
+    font-weight: 600;
+    margin-top: 16px;
+    margin-bottom: 8px;
+    font-size: 18px;
+    letter-spacing: 0.03em;
+}
+
+
+ul ul {
+    list-style-type: disc;
+}
+.list-with-title p {
+    text-indent: unset;
+    margin-block-end: 0.5em;
+}
+.list-with-title ul {
+    margin-block-start: 0.5em;
+} 
+
+p.text-indent {
+    text-indent: 40px;
+}
+.no-indent {
+    text-indent: unset;
+}
+
+@page {
+    size: A4;
+    margin: 20mm;
+}

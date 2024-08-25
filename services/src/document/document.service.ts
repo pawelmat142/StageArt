@@ -1,8 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import * as puppeteer from 'puppeteer';
-import * as fs from 'fs';
 import * as path from 'path';
-import { Template } from './doc-util';
 
 @Injectable()
 export class DocumentService {
@@ -12,14 +10,9 @@ export class DocumentService {
     constructor() {}
 
 
-    public async getPdf(template: Template): Promise<Buffer> {
-        const templateFileName = `${template}-template.html`
-        const templatePath = path.join(__dirname, 'templates', templateFileName)
-        let htmlContent = fs.readFileSync(templatePath, 'utf8');
-        const pdf = await this.generatePdf(htmlContent)
-
-        this.logger.log(`Generated pdf ${template}`)
-        
+    public async getPdf(html: string): Promise<Buffer> {
+        const pdf = await this.generatePdf(html)
+        this.logger.log(`Generated pdf`)
         return pdf
     }
 
@@ -29,8 +22,12 @@ export class DocumentService {
         const browser = await puppeteer.launch({ headless: true });
         const page = await browser.newPage();
     
+        
         // Ustawienie zawartości strony HTML
         await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
+
+        const cssPath = path.join(__dirname, 'templates', 'pdf-styles.css')
+        await page.addStyleTag({ path: cssPath });
     
         // Generowanie PDF
         const pdfBuffer = await page.pdf({

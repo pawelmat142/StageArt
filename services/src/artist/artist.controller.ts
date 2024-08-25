@@ -45,12 +45,6 @@ export class ArtistController {
         return this.artistService.fetchArtist(query)
     }
 
-    @Get('artist/get/:signature')
-    @Serialize(ArtistViewDto)
-    getArtist(@Param('signature') signature: string) {
-        return this.artistService.getArtist(signature)
-    }
-    
     @Get('artists')
     @Serialize(ArtistViewDto)
     fetchArtists() {

@@ -12,12 +12,17 @@ import { Event } from '../../event/model/event.model';
 import { ProfileService } from '../../profile/profile.service';
 import { TelegramService } from '../../telegram/telegram.service';
 import { BotUtil } from '../../telegram/util/bot.util';
+import { Artist } from '../../artist/model/artist.model';
 
 export interface BookingContext {
     profile: JwtPayload
     booking: Booking
+    // TODO remove artistNames
     artistNames: string[]
     event: Event
+    
+    // TODO make mandatory
+    artist?: Artist
 }
 
 @Injectable()
@@ -75,12 +80,15 @@ export class BookingService {
     public async buildContext(formId: string, profile: JwtPayload): Promise<BookingContext> {
         const booking = await this.fetchBooking(formId, profile)
         const event = await this.eventService.fetchEvent(booking.eventSignature)
+        // TO remove artist names
         const artistNames = await this.artistService.listNamesBySignatures(booking.artistSignatures)
+        const artist = await this.artistService.getArtist(booking.artistSignatures[0])
         return {
             artistNames,
             event,
             booking,
-            profile
+            profile,
+            artist
         }
     }
 
@@ -120,10 +128,10 @@ export class BookingService {
 
         const promoterInformation = booking?.formData?.promoterInformation
         if (promoterInformation) {
-            this.logger.log(`Found promotor info for profile: ${uid}`)
+            this.logger.log(`Found promoter info for profile: ${uid}`)
             return promoterInformation  
         }
-        this.logger.log(`Not found promotor info for profile: ${uid}`)
+        this.logger.log(`Not found promoter info for profile: ${uid}`)
         return null
     }
 

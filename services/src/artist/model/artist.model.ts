@@ -71,10 +71,10 @@ export class Artist {
 
 
     @Prop()
-    firstName?: string
+    firstName: string
     
     @Prop()
-    lastName?: string
+    lastName: string
     
     @Prop()
     email: string

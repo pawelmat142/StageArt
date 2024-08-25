@@ -5,7 +5,7 @@ export class EventPanelDto {
     @Expose()
     signature: string
     @Expose()
-    promotorUid: string
+    promoterUid: string
     @Expose()
     status: EventStatus
     @Expose()
