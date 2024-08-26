@@ -6,7 +6,7 @@ import { IllegalStateException } from '../global/exceptions/illegal-state.except
 import { JwtPayload } from './auth/jwt-strategy';
 import { ArtistForm } from '../artist/artist.controller';
 import { AppJwtService } from './auth/app-jwt.service';
-import { ManagerData } from './model/profile-interfaces';
+import { HandSignature, ManagerData } from './model/profile-interfaces';
 
 export interface Credentials {
     email: string
@@ -120,6 +120,18 @@ export class ProfileService {
         }
         this.logger.log(`Updated profile via created Artist entity`)
         return update
+    }
+
+
+    public setSignature(signature: HandSignature, profile: JwtPayload) {
+        return this.profileModel.updateOne({ uid: profile.uid }, { $set: {
+            signature: signature
+        } })
+    }
+
+    public async fetchSignature(profile: JwtPayload): Promise<HandSignature> {
+        const signatureProfile = await this.profileModel.findOne({ uid: profile.uid })
+        return signatureProfile?.signature
     }
 
 }

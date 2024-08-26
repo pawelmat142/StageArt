@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, ViewEncapsulation } from '@angular/core';
-import { map, Observable, of, shareReplay, take, tap, withLatestFrom } from 'rxjs';
+import { map, Observable, of, shareReplay, withLatestFrom } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { profile, uid } from '../../../profile/profile.state';
 import { StatusPipe } from '../../../global/pipes/status.pipe';
@@ -12,6 +12,7 @@ import { BookingFormStructure } from '../../booking-form-structure';
 import { DESKTOP } from '../../../global/services/device';
 import { BookingsSectionComponent } from './bookings-section/bookings-section.component';
 import { IconButtonComponent } from '../../../global/components/icon-button/icon-button.component';
+import { SignComponent } from '../../../global/components/sign/sign.component';
 
 @Component({
   selector: 'app-panel-bookings',
@@ -23,6 +24,7 @@ import { IconButtonComponent } from '../../../global/components/icon-button/icon
     BookingsSectionComponent,
     StatusPipe,
     IconButtonComponent,
+    SignComponent,
 ],
   templateUrl: './panel-bookings.component.html',
   styleUrl: './panel-bookings.component.scss',

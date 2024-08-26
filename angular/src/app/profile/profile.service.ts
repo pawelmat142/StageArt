@@ -1,9 +1,10 @@
 import { Injectable } from "@angular/core";
-import { Observable, tap } from "rxjs";
+import { Observable } from "rxjs";
 import { HttpService } from "../global/services/http.service";
-import { Profile, ProfileDto, Role } from "./profile.model";
+import { Profile, ProfileDto } from "./profile.model";
 import { SelectorItem } from "../global/controls/selector/selector.component";
 import { ManagerData } from "./view/manager-form/manager-form.component";
+import { Size } from "../global/utils/img.util";
 
 export interface LoginToken {
     token: string
@@ -16,6 +17,12 @@ export interface LoginForm {
     email: string
     password: string
 }
+
+export interface HandSignature {
+    date: Date
+    base64data: string
+    size: Size
+  }
 
 @Injectable({
     providedIn: 'root'
@@ -40,6 +47,14 @@ export class ProfileService {
 
     setManagerData$(form: ManagerData) {
         return this.http.put<ManagerData>(`/profile/manager-data`, form)
+    }
+
+    fetchSignature$(): Observable<HandSignature> {
+        return this.http.get<HandSignature>(`/profile/signature`)
+    }
+
+    setSignature$(signature: HandSignature): Observable<HandSignature> {
+        return this.http.put<HandSignature>(`/profile/signature`, signature)
     }
 
 
@@ -67,5 +82,6 @@ export class ProfileService {
     loginByEmail$(loginForm: Partial<LoginForm>) {
         return this.http.post<{ token: string }>(`/profile/email/login`, loginForm)
     }
+
 
 }

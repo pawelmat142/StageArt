@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpResponse } from "@angular/common/http";
 import { Util } from "../utils/util";
-import { map, tap } from "rxjs";
+import { map } from "rxjs";
 import { Template } from "./doc-util";
 
 interface Pdf {

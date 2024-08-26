@@ -18,7 +18,6 @@
 
         <ng-container *ngIf="_profileUid$ | async as uid">
 
-
             <p-accordion class="w-full" expandIcon="pi pi-plus" collapseIcon="pi pi-minus">
 
                 @for (booking of bookings; track booking.formId; let last = $last) {
@@ -58,6 +57,7 @@
                                         label="Contract"
                                         (click)="_getPdf(booking, 'contract')"
                                     ></app-btn>
+
                                     <app-btn
                                         class="grey" 
                                         icon="description"
