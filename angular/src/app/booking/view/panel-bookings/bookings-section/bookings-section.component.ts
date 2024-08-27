@@ -8,7 +8,7 @@ import { BtnComponent } from '../../../../global/controls/btn/btn.component';
 import { DialogService } from '../../../../global/nav/dialog.service';
 import { AppState } from '../../../../app.state';
 import { Store } from '@ngrx/store';
-import { uid } from '../../../../profile/profile.state';
+import { selectBooking, uid, unselectBooking } from '../../../../profile/profile.state';
 import { of, switchMap, tap } from 'rxjs';
 import { IconButtonComponent } from '../../../../global/components/icon-button/icon-button.component';
 import { DocumentService } from '../../../../global/document/document.service';
@@ -49,6 +49,15 @@ export class BookingsSectionComponent {
 
   @Output() openBooking = new EventEmitter<BookingDto>()
   @Output() refreshBookings = new EventEmitter<BookingDto>()
+
+  _selectBooking(index: number | number[]) {
+    if (typeof index === 'number') {
+      const selectedBooking = this.bookings[index]
+      this.store.dispatch(selectBooking(selectedBooking))
+    } else {
+        this.store.dispatch(unselectBooking())
+    }
+  }
 
   _cancelBooking(booking: BookingDto) {
     this.dialog.yesOrNoPopup(`Booking will be cancelled. Are you sure?`).pipe(

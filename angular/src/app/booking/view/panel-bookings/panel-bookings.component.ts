@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, ViewEncapsulation } from '@angular/core';
 import { map, Observable, of, shareReplay, withLatestFrom } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { profile, uid } from '../../../profile/profile.state';
+import { loadBookings, profile, profileBookings } from '../../../profile/profile.state';
 import { StatusPipe } from '../../../global/pipes/status.pipe';
 import { IsArrayPipe } from '../../../global/pipes/is-array.pipe';
 import { BookingDto, BookingService } from '../../services/booking.service';
@@ -41,7 +41,15 @@ export class PanelBookingsComponent {
   
   _bookingFormStructure = new BookingFormStructure(this.store, [])
   
-  _bookings$: Observable<BookingDto[]> = of([])
+  _bookings$ = this.store.select(profileBookings).pipe(
+    withLatestFrom(this.store.select(profile)),
+    map(([bookings, profile]) => {
+      this._bookingsAsManager = bookings?.filter(b => b.managerUid === profile?.uid) || []
+      this._bookingsAsPromoter = bookings?.filter(b => b.promoterUid === profile?.uid) || []
+      this._bookingsAsArtist = bookings?.filter(b => b.artists.map(a => a.code).includes(profile?.artistSignature || '')) || []
+      return bookings
+    }),
+  )
 
   _bookingsAsManager: BookingDto[] = []
   _bookingsAsPromoter: BookingDto[] = []
@@ -50,21 +58,9 @@ export class PanelBookingsComponent {
   _formData$?: Observable<any>
   
   ngOnInit(): void {
-    this.fetchBookings()
+    this.store.dispatch(loadBookings())
   }
 
-  private fetchBookings() {
-    this._bookings$ = this.bookingService.fetchProfileBookings$().pipe(
-      withLatestFrom(this.store.select(profile)),
-      map(([bookings, profile]) => {
-        this._bookingsAsManager = bookings.filter(b => b.managerUid === profile?.uid)
-        this._bookingsAsPromoter = bookings.filter(b => b.promoterUid === profile?.uid)
-        this._bookingsAsArtist = bookings.filter(b => b.artists.map(a => a.code).includes(profile?.artistSignature || ''))
-        return bookings
-      }),
-    )
-  }
-  
 
   _openFormData(booking: BookingDto) {
     this._formData$ = this.bookingService.fetchFormData$(booking.formId).pipe(
@@ -73,7 +69,7 @@ export class PanelBookingsComponent {
   }
 
   _refreshBookings(booking: BookingDto) {
-    this.fetchBookings()
+    this.store.dispatch(loadBookings())
   }
 
   _closeBooking() {

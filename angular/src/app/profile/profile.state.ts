@@ -1,14 +1,14 @@
 import { createAction, createReducer, createSelector, on, props } from "@ngrx/store"
 import { Injectable } from "@angular/core"
 import { Actions, createEffect, ofType } from "@ngrx/effects"
-import { map, tap } from "rxjs"
+import { map, switchMap, tap } from "rxjs"
 import { Token } from "./auth/view/token"
 import { selectProfileState } from "../app.state"
 import { Profile } from "./profile.model"
 import { DialogService } from "../global/nav/dialog.service"
 import { NavService } from "../global/nav/nav.service"
 import { HandSignature } from "./profile.service"
-import { BookingDto } from "../booking/services/booking.service"
+import { BookingDto, BookingService } from "../booking/services/booking.service"
 
 export interface ProfileState {
     loading: boolean
@@ -18,6 +18,7 @@ export interface ProfileState {
 
     signature?: HandSignature
     bookings?: BookingDto[]
+    singleBooking?: BookingDto
 }
 
 
@@ -53,6 +54,19 @@ export const handSignature = createSelector(
 )
 
 
+
+
+export const profileBookings = createSelector(
+    selectProfileState,
+    (state: ProfileState) => state.bookings
+)
+
+export const profileSingleBooking = createSelector(
+    selectProfileState,
+    (state: ProfileState) => state.singleBooking
+)
+
+
 // ACTIONS
 
 export const login = createAction("[PROFILE] login")
@@ -64,10 +78,16 @@ export const setProfile = createAction("[PROFILE] set profile", props<Profile>()
 export const logout = createAction("[PROFILE] logout")
 
 
-
 export const setHandSignature = createAction("[PROFILE] [SIGNATURE] set", props<HandSignature>())
-
 export const remvoeHandSignature = createAction("[PROFILE] [SIGNATURE] remove")
+
+export const loadBookings = createAction("[PROFILE] [BOOKINGS] init")
+export const setBookings = createAction("[PROFILE] [BOOKINGS] set", props<{ value: BookingDto[] }>())
+
+export const selectBooking = createAction("[PROFILE] [BOOKINGS] select", props<BookingDto>())
+export const unselectBooking = createAction("[PROFILE] [BOOKINGS] unselect")
+
+export const updateBooking = createAction("[PROFILE] [BOOKINGS] update", props<BookingDto>())
 
 
 const initialState: ProfileState = {
@@ -112,6 +132,41 @@ export const profileReducer = createReducer(
         ...state,
         signature: undefined
     })),
+
+
+
+    on(loadBookings, (state) => ({
+        ...state,
+        loading: true
+    })),
+
+    on(setBookings, (state, bookings) => ({
+        ...state,
+        loading: false,
+        bookings: bookings.value
+    })),
+
+
+    on(selectBooking, (state, booking) => ({
+        ...state,
+        loading: false,
+        singleBooking: booking
+    })),
+
+    on(unselectBooking, (state) => ({
+        ...state,
+        loading: false,
+        singleBooking: undefined
+    })),
+
+
+    on(updateBooking, (state, booking) => {
+        const bookings = state.bookings?.map(b => booking.formId === b.formId ? booking : b)
+        return {
+            ...state,
+            bookings
+        }
+    })
 )
 
 
@@ -122,6 +177,7 @@ export class ProfileEffect {
         private actions$: Actions,
         private dialog: DialogService,
         private nav: NavService,
+        private bookingService: BookingService,
     ){}
 
     loggedIn$ = createEffect(() => this.actions$.pipe(
@@ -143,5 +199,15 @@ export class ProfileEffect {
             }
         }),
     ), { dispatch: false })
+
+
+
+
+    loadBookings$ = createEffect(() => this.actions$.pipe(
+        ofType(loadBookings),
+        switchMap(() => this.bookingService.fetchProfileBookings$()),
+        tap(console.log),
+        map(bookings => setBookings({ value: bookings }))
+    ))
 
 }

@@ -1,6 +1,7 @@
 <div class="panel-container">
 
     @if (_bookings$ | async)  {
+        <div></div>
             @if (_bookingsAsManager.length) {
                 <app-bookings-section
                     header="Received booking requests"

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { HttpService } from '../../global/services/http.service';
 import { FormType } from '../../form-processor/form.state';
 import { SelectorItem } from '../../global/controls/selector/selector.component';
@@ -43,7 +43,7 @@ export class BookingService {
       .pipe(tap(x => localStorage.removeItem(FormType.BOOKING)))
   }
 
-  fetchProfileBookings$() {
+  fetchProfileBookings$(): Observable<BookingDto[]> {
     return this.http.get<BookingDto[]>(`/booking/list`)
   }
 

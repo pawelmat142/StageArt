@@ -17,7 +17,7 @@
 
         <ng-container *ngIf="_profileUid$ | async as uid">
 
-            <p-accordion class="w-full" expandIcon="pi pi-plus" collapseIcon="pi pi-minus">
+            <p-accordion class="w-full" expandIcon="pi pi-plus" collapseIcon="pi pi-minus" (activeIndexChange)="_selectBooking($event)">
 
                 @for (booking of bookings; track booking.formId; let last = $last) {
                     <p-accordionTab>
