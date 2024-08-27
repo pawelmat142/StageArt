@@ -56,7 +56,6 @@ export class SignatureService {
             },
             error: error => {
                 this.courtine.stopCourtine()
-                this.dialog.simplePopup(`Signature uploaded`)
                 this.dialog.errorPopup(error.error.message)
             },
             complete: noop

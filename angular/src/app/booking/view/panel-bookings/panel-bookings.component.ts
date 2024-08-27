@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { profile, uid } from '../../../profile/profile.state';
 import { StatusPipe } from '../../../global/pipes/status.pipe';
 import { IsArrayPipe } from '../../../global/pipes/is-array.pipe';
-import { Booking, BookingPanelDto, BookingService } from '../../services/booking.service';
+import { BookingDto, BookingService } from '../../services/booking.service';
 import { AppState } from '../../../app.state';
 import { FormPresentationComponent } from '../../../form-processor/presentation/form-presentation/form-presentation.component';
 import { BookingFormStructure } from '../../booking-form-structure';
@@ -41,13 +41,13 @@ export class PanelBookingsComponent {
   
   _bookingFormStructure = new BookingFormStructure(this.store, [])
   
-  _bookings$: Observable<BookingPanelDto[]> = of([])
+  _bookings$: Observable<BookingDto[]> = of([])
 
-  _bookingsAsManager: BookingPanelDto[] = []
-  _bookingsAsPromoter: BookingPanelDto[] = []
-  _bookingsAsArtist: BookingPanelDto[] = []
+  _bookingsAsManager: BookingDto[] = []
+  _bookingsAsPromoter: BookingDto[] = []
+  _bookingsAsArtist: BookingDto[] = []
 
-  _booking$?: Observable<Booking>
+  _formData$?: Observable<any>
   
   ngOnInit(): void {
     this.fetchBookings()
@@ -59,25 +59,25 @@ export class PanelBookingsComponent {
       map(([bookings, profile]) => {
         this._bookingsAsManager = bookings.filter(b => b.managerUid === profile?.uid)
         this._bookingsAsPromoter = bookings.filter(b => b.promoterUid === profile?.uid)
-        this._bookingsAsArtist = bookings.filter(b => b.artistSignatures.includes(profile?.artistSignature || ''))
+        this._bookingsAsArtist = bookings.filter(b => b.artists.map(a => a.code).includes(profile?.artistSignature || ''))
         return bookings
       }),
     )
   }
   
 
-  _openBooking(booking: BookingPanelDto) {
-    this._booking$ = this.bookingService.fetchBooking$(booking.formId).pipe(
+  _openFormData(booking: BookingDto) {
+    this._formData$ = this.bookingService.fetchFormData$(booking.formId).pipe(
       shareReplay()
     )
   }
 
-  _refreshBookings(booking: BookingPanelDto) {
+  _refreshBookings(booking: BookingDto) {
     this.fetchBookings()
   }
 
   _closeBooking() {
-    this._booking$ = undefined
+    this._formData$ = undefined
   }
 
 }

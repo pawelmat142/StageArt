@@ -50,7 +50,6 @@ export class SignComponent {
       this.width = innerWidth - 2*standardPadding
     }
     this.subscription = this.store.select(handSignature).pipe(
-      tap(console.log),
       tap(signature => signature 
         ? this.printSignatureInPad(signature)
         : this.signaturePad?.clear()

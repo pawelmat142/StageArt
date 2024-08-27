@@ -2,36 +2,30 @@ import { Injectable } from '@angular/core';
 import { tap } from 'rxjs';
 import { HttpService } from '../../global/services/http.service';
 import { FormType } from '../../form-processor/form.state';
+import { SelectorItem } from '../../global/controls/selector/selector.component';
+import { EventDto } from '../../event/services/event.service';
 
 export type BookingStatus = 'SUBMITTED' | 'DOCUMENTS_REQUESTED' | 'PENDING' | 'READY' | 'CANCELED'
 
-export interface BookingPanelDto {
-  formId: string
-  promoterUid: string
-  managerUid: string
+
+export interface StatusHistory {
+  version: number
   status: BookingStatus
-  submitDate?: Date
-
-  artistSignatures: string[]
-  artistNames: string[]
-
-  eventName: string
-  eventStartDate: Date
-  eventEndDate?: Date
+  date: Date
+  uid: string
+  role: string
+  info?: string
 }
 
-export interface Booking {
+export interface BookingDto {
   formId: string
   promoterUid: string
   managerUid: string
   status: BookingStatus
-  submitDate?: Date
-  startDate: Date
-  endDate?: Date
-  artistSignatures: string[]
-  artistNames: string[]
-  eventName: string
-  formData?: any
+  artists: SelectorItem[]
+  eventSignature: string
+  statusHistory: StatusHistory[]
+  event: EventDto
 }
 
 
@@ -50,11 +44,11 @@ export class BookingService {
   }
 
   fetchProfileBookings$() {
-    return this.http.get<BookingPanelDto[]>(`/booking/list`)
+    return this.http.get<BookingDto[]>(`/booking/list`)
   }
 
-  fetchBooking$(formId: string) {
-    return this.http.get<Booking>(`/booking/get/${formId}`)
+  fetchFormData$(formId: string) {
+    return this.http.get<any>(`/booking/form-data/${formId}`)
   }
   
   findPromoterInfo$() {
@@ -62,11 +56,11 @@ export class BookingService {
   }
   
   cancelBooking$(formId: string) {
-    return this.http.get<BookingPanelDto>(`/booking/cancel/${formId}`)
+    return this.http.get<BookingDto>(`/booking/cancel/${formId}`)
   }
   
   requestDocuments$(formId: string) {
-    return this.http.get<BookingPanelDto>(`/booking/request-documents/${formId}`)
+    return this.http.get<BookingDto>(`/booking/request-documents/${formId}`)
   }
 
   signContract$(formId: string) {

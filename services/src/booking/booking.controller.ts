@@ -2,8 +2,8 @@ import { Controller, Get, Param, Res, UseGuards, UseInterceptors } from '@nestjs
 import { JwtGuard } from '../profile/auth/jwt.guard';
 import { GetProfile } from '../profile/auth/profile-path-param-getter';
 import { JwtPayload } from '../profile/auth/jwt-strategy';
-import { Serialize } from '../global/interceptors/serialize.interceptor';
-import { BookingPanelDto } from './model/booking.dto';
+import { Serialize, SerializeBookingDto } from '../global/interceptors/serialize.interceptor';
+import { BookingDto } from './model/booking.dto';
 import { Booking } from './model/booking.model';
 import { LogInterceptor } from '../global/interceptors/log.interceptor';
 import { BookingService } from './services/booking.service';
@@ -32,16 +32,15 @@ export class BookingController {
 
     @Get('list')
     @UseGuards(JwtGuard)
-    @Serialize(BookingPanelDto)
+    @UseInterceptors(SerializeBookingDto)
     fetchProfileBookings(@GetProfile() profile: JwtPayload) {
         return this.bookingService.fetchProfileBookings(profile)
     }
 
-    @Get('get/:id')
+    @Get('form-data/:id')
     @UseGuards(JwtGuard)
-    @Serialize(Booking)
-    fetchBooking(@Param('id') formId: string, @GetProfile() profile: JwtPayload) {
-        return this.bookingService.fetchBooking(formId, profile)
+    fetchFormData(@Param('id') formId: string, @GetProfile() profile: JwtPayload) {
+        return this.bookingService.fetchFormData(formId, profile)
     }
 
     @Get('promoter-info')
@@ -52,14 +51,14 @@ export class BookingController {
 
     @Get('cancel/:id')
     @UseGuards(JwtGuard)
-    @Serialize(BookingPanelDto)
+    @Serialize(BookingDto)
     cancelBooking(@Param('id') formId: string, @GetProfile() profile: JwtPayload) {
         return this.bookingCancelService.cancelBooking(formId, profile)
     }
 
     @Get('request-documents/:id')
     @UseGuards(JwtGuard)
-    @Serialize(BookingPanelDto)
+    @Serialize(BookingDto)
     requestDocuments(@Param('id') formId: string, @GetProfile() profile: JwtPayload) {
         return this.bookingDocumentsService.requestDocuments(formId, profile)
     }

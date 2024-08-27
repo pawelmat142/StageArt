@@ -21,7 +21,7 @@ export class EventService {
     }
 
     public fetchEvent(signature: string) {
-        return this.eventModel.findOne({ signature })
+        return this.eventModel.findOne({ signature }).lean().exec()
     }
 
     public async eventDataForBookingsList(signature: string) {

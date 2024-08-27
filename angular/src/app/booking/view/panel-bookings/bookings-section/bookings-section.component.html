@@ -8,7 +8,6 @@
 
         <div class="item-row booking-item labels">
             <p>Status</p>
-            <p>Submit date</p>
             <p>Event date</p>
             <p>Event name</p>
             @if (DESKTOP) {
@@ -25,12 +24,11 @@
                         <ng-template pTemplate="header">
                             <div class="item-row booking-item clickable">
                                 <p>{{booking.status | status}}</p>
-                                <p>{{booking.submitDate | date : 'dd-MM-yyyy'}}</p>
-                                <p>{{booking.eventStartDate | date : 'dd-MM-yyyy'}}</p>
-                                <p>{{booking.eventName}}</p>
+                                <p>{{booking.event.startDate| date : 'dd-MM-yyyy'}}</p>
+                                <p>{{booking.event.name}}</p>
     
                                 @if (DESKTOP) {
-                                    <p>{{booking.artistNames.join(', ')}}</p>
+                                    <p>{{booking.artists | names}}</p>
                                 }
                             </div>
                         </ng-template>

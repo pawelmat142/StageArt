@@ -16,7 +16,7 @@ export class SignatureService {
 
     public async fetchSignature(uid: string): Promise<HandSignature> {
         const signatureProfile = await this.profileModel.findOne({ uid })
-        return signatureProfile?.signature
+        return signatureProfile?.signature 
     }
 
     public async setSignature(signature: HandSignature, profile: JwtPayload) {

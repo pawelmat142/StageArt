@@ -9,12 +9,12 @@ import { TelegramService } from "../../telegram/telegram.service";
 import { BotUtil } from "../../telegram/util/bot.util";
 import { Booking } from "../model/booking.model";
 import { Event } from "../../event/model/event.model";
+import { BookingUtil } from "../util/booking.util";
 
 export interface BookingSubmitCtx {
     booking: Partial<Booking>
     profile: JwtPayload,
     event?: Event,
-    artistNames?: string[]
 }
 
 @Injectable()
@@ -47,10 +47,7 @@ export class SubmitService {
         const booking: Partial<Booking> = {
             formId: form.id,
             promoterUid: profile.uid,
-            managerUid: 'MOCK TODO',
-            status: 'SUBMITTED',
             formData: form.data,
-            submitDate: new Date(),
             created: new Date()
         }
 
@@ -62,7 +59,10 @@ export class SubmitService {
             booking,
             profile,
         }
-        
+
+        ctx.booking.status = 'SUBMITTED'
+        BookingUtil.addStatusToHistory(ctx.booking, ctx.profile)
+
         await this.eventService.processBookingForm(ctx)
         
         await this.artistService.processBookingForm(ctx)
@@ -79,7 +79,7 @@ export class SubmitService {
                 const result = await this.telegramService.sendMessage(chatId, BotUtil.msgFrom([
                     `New booking form submitted`,
                     `Event: ${ctx.event.name} at ${BotUtil.formatDate(ctx.event.startDate)}`,
-                    `Artist: ${ctx.artistNames.join(', ')}`
+                    `Artist: ${ctx.booking.artists.map(a => a.name).join(', ')}`
                 ]))
                 if (result) {
                     return

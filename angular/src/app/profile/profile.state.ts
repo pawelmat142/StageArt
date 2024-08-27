@@ -8,6 +8,7 @@ import { Profile } from "./profile.model"
 import { DialogService } from "../global/nav/dialog.service"
 import { NavService } from "../global/nav/nav.service"
 import { HandSignature } from "./profile.service"
+import { BookingDto } from "../booking/services/booking.service"
 
 export interface ProfileState {
     loading: boolean
@@ -16,6 +17,7 @@ export interface ProfileState {
     uuid: string
 
     signature?: HandSignature
+    bookings?: BookingDto[]
 }
 
 

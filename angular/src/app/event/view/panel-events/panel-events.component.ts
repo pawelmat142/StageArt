@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { EventPanelDto, EventService } from '../../services/event.service';
+import { EventDto, EventService } from '../../services/event.service';
 import { AppState } from '../../../app.state';
 import { Store } from '@ngrx/store';
 import { CommonModule } from '@angular/common';
@@ -26,7 +26,7 @@ export class PanelEventsComponent {
   _events$ = this.eventService.fetchPromoterEvents$()
 
 
-  _openEvent(event: EventPanelDto) {
+  _openEvent(event: EventDto) {
     console.log('TODO _openEvent')
     console.log(event)
   }

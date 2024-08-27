@@ -4,7 +4,7 @@ import { Observable } from "rxjs";
 
 export type EventStatus = 'CREATED' | 'ACTIVE' | 'INACTIVE'
 
-export interface EventPanelDto {
+export interface EventDto {
     signature: string
     promoterUid: string
     status: EventStatus
@@ -23,7 +23,7 @@ export class EventService {
       private readonly http: HttpService,
     ) { }
 
-    fetchPromoterEvents$(): Observable<EventPanelDto[]> {
-        return this.http.get<EventPanelDto[]>(`/event/list/panel`)
+    fetchPromoterEvents$(): Observable<EventDto[]> {
+        return this.http.get<EventDto[]>(`/event/list/panel`)
     }
 }

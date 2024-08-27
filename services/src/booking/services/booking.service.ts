@@ -5,7 +5,7 @@ import { ArtistService } from '../../artist/artist.service';
 import { EventService } from '../../event/event.service';
 import { IllegalStateException } from '../../global/exceptions/illegal-state.exception';
 import { JwtPayload } from '../../profile/auth/jwt-strategy';
-import { BookingPanelDto } from '../model/booking.dto';
+import { BookingDto } from '../model/booking.dto';
 import { Booking } from '../model/booking.model';
 import { SubmitService } from './submit.service';
 import { Event } from '../../event/model/event.model';
@@ -50,7 +50,7 @@ export class BookingService {
 
     private async validateBookingDuplicate(booking: Partial<Booking>) {
         const duplicate = await this.bookingModel.findOne({
-            artistSignatures: { $in: booking.artistSignatures },
+            "artists.code": { $in: booking.artists.map(a => a.code) },
             eventSignature: booking.eventSignature
         })
         if (duplicate) {
@@ -58,24 +58,31 @@ export class BookingService {
         }
     }
 
-    public async fetchProfileBookings(profile: JwtPayload): Promise<BookingPanelDto[]> {
+    public async fetchProfileBookings(profile: JwtPayload): Promise<BookingDto[]> {
         const uid = profile.uid
         const bookings = await this.bookingModel.find({ $or: [
             { promoterUid: uid },   
             { managerUid: uid },
-            { artistSignatures: profile.artistSignature }
-        ] })
-
-        const profileBookings = await Promise.all(bookings.map(b => this.bookingDtoFromBooking(b)))
+            { "artists.code": profile.artistSignature }
+        ] }).lean().exec()
+        
+        const profileBookings = await Promise.all(bookings.map((b: Booking) => this.bookingDtoFromBooking(b)))
         this.logger.log(`Fetch ${profileBookings.length} profile bookings for ${uid}`)
         return profileBookings
+    }
+
+    private async bookingDtoFromBooking(booking: Booking): Promise<BookingDto> {
+        const eventData = await this.eventService.eventDataForBookingsList(booking.eventSignature)
+        const result = booking as BookingDto
+        result.event = eventData
+        return result
     }
 
     
     public async buildContext(formId: string, profile: JwtPayload): Promise<BookingContext> {
         const booking = await this.fetchBooking(formId, profile)
         const event = await this.eventService.fetchEvent(booking.eventSignature)
-        const artists = await this.artistService.getArtists(booking.artistSignatures)
+        const artists = await this.artistService.getArtists(booking.artists.map(a => a.code))
         return {
             event,
             booking,
@@ -84,13 +91,19 @@ export class BookingService {
         }
     }
 
+    public async fetchFormData(formId: string, profile: JwtPayload): Promise<any> {
+        const booking = await this.fetchBooking(formId, profile)
+        return booking.formData
+    }
+
     public async fetchBooking(formId: string, profile: JwtPayload): Promise<Booking> {
         const booking = await this.bookingModel.findOne({ formId })
         if (!booking) {
             throw new NotFoundException()
         }
         if (profile.artistSignature) {
-            if (!booking.artistSignatures.includes(profile.artistSignature)) {
+            const artistSignatures = booking.artists.map(a => a.code)
+            if (!artistSignatures.includes(profile.artistSignature)) {
                 throw new UnauthorizedException()
             }
         } else {
@@ -115,7 +128,7 @@ export class BookingService {
 
     public async findPromoterInfo(uid: string) {
         const booking = await this.bookingModel.findOne({ promoterUid: uid })
-            .sort({ submitDate: -1 })
+            .sort({ created: -1 })
             .select({ formData: true })
 
         const promoterInformation = booking?.formData?.promoterInformation
@@ -144,20 +157,6 @@ export class BookingService {
         }
     }
 
-    private async bookingDtoFromBooking(booking: Booking): Promise<BookingPanelDto> {
-        const eventData = await this.eventService.eventDataForBookingsList(booking.eventSignature)
-        return {
-            formId: booking.formId,
-            promoterUid: booking.promoterUid,
-            managerUid: booking.managerUid,
-            status: booking.status,
-            submitDate: booking.submitDate,
-            artistSignatures: booking.artistSignatures,
-            artistNames: await this.artistService.listNamesBySignatures(booking.artistSignatures),
-            eventName: eventData.name,
-            eventStartDate: eventData.startDate,
-            eventEndDate: eventData.endDate,
-        }
-    }
+
     
 }

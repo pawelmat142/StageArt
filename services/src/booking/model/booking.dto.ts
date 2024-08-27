@@ -1,20 +1,34 @@
 import { Expose } from "class-transformer";
-import { BookingStatus } from "./booking.model";
+import { BookingStatus, StatusHistory } from "./booking.model";
+import { SelectorItem } from "../../artist/model/artist.model";
+import { Event } from "../../event/model/event.model";
 
-export class BookingPanelDto {
+export class BookingDto {
 
     @Expose()
     formId: string
+    
+    @Expose()
+    promoterUid: string
+    
+    @Expose()
+    managerUid: string
+    
+    
+    @Expose()
+    status: BookingStatus
+    
+    
+    @Expose()
+    artists: SelectorItem[]
+   
 
-    @Expose() promoterUid: string
-    @Expose() managerUid: string
-    @Expose() status: BookingStatus
-    @Expose() submitDate?: Date
-
-    @Expose() artistSignatures: string[]
-    @Expose() artistNames: string[]
-
-    @Expose() eventName: string
-    @Expose() eventStartDate: Date
-    @Expose() eventEndDate?: Date
+    @Expose()
+    eventSignature: string
+    
+    @Expose()
+    statusHistory: StatusHistory[]
+    
+    @Expose()
+    event?: Event
 }

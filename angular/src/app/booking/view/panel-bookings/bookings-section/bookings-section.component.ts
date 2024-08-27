@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 import { DESKTOP } from '../../../../global/services/device';
-import { BookingPanelDto, BookingService } from '../../../services/booking.service';
+import { BookingDto, BookingService } from '../../../services/booking.service';
 import { StatusPipe } from "../../../../global/pipes/status.pipe";
 import { AccordionModule } from 'primeng/accordion';
 import { BtnComponent } from '../../../../global/controls/btn/btn.component';
@@ -13,6 +13,7 @@ import { of, switchMap, tap } from 'rxjs';
 import { IconButtonComponent } from '../../../../global/components/icon-button/icon-button.component';
 import { DocumentService } from '../../../../global/document/document.service';
 import { Template } from '../../../../global/document/doc-util';
+import { NamesPipe } from "../../../../global/pipes/names.pipe";
 
 @Component({
   selector: 'app-bookings-section',
@@ -23,6 +24,7 @@ import { Template } from '../../../../global/document/doc-util';
     AccordionModule,
     BtnComponent,
     IconButtonComponent,
+    NamesPipe
 ],
   templateUrl: './bookings-section.component.html',
   styleUrl: './bookings-section.component.scss',
@@ -43,12 +45,12 @@ export class BookingsSectionComponent {
 
   @Input() header: string = 'header'
 
-  @Input() bookings!: BookingPanelDto[]
+  @Input() bookings!: BookingDto[]
 
-  @Output() openBooking = new EventEmitter<BookingPanelDto>()
-  @Output() refreshBookings = new EventEmitter<BookingPanelDto>()
+  @Output() openBooking = new EventEmitter<BookingDto>()
+  @Output() refreshBookings = new EventEmitter<BookingDto>()
 
-  _cancelBooking(booking: BookingPanelDto) {
+  _cancelBooking(booking: BookingDto) {
     this.dialog.yesOrNoPopup(`Booking will be cancelled. Are you sure?`).pipe(
       switchMap(confirm => confirm 
         ? this.bookingService.cancelBooking$(booking.formId).pipe(
@@ -59,7 +61,7 @@ export class BookingsSectionComponent {
     ).subscribe()
   }
 
-  _acceptBooking(booking: BookingPanelDto) {
+  _acceptBooking(booking: BookingDto) {
     this.dialog.yesOrNoPopup(`Generate documents and request sign?`).pipe(
       switchMap(confirm => confirm 
         ? this.bookingService.requestDocuments$(booking.formId).pipe(
@@ -70,11 +72,11 @@ export class BookingsSectionComponent {
     ).subscribe()
   }
 
-  _getPdf(booking: BookingPanelDto, template: Template) {
+  _getPdf(booking: BookingDto, template: Template) {
     this.documentService.getPdf(booking.formId, template)
   }
 
-  _signContract(booking: BookingPanelDto) {
+  _signContract(booking: BookingDto) {
     this.documentService.signContract(booking.formId)
   }
 

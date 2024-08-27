@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose"
 import { Expose } from "class-transformer"
 import { HydratedDocument } from "mongoose"
+import { SelectorItem } from "../../artist/model/artist.model"
 
 export type BookingDocument = HydratedDocument<Booking>
 
@@ -35,15 +36,12 @@ export class Booking {
     @Expose()
     status: BookingStatus
     
-    @Prop()
-    @Expose()
-    submitDate?: Date
     
-    
-    @Prop({ required: true })
     @Expose()
-    artistSignatures: string[]
+    @Prop({ type: Object, required: true })
+    artists: SelectorItem[]
    
+
     @Prop({ required: true })
     @Expose()
     eventSignature: string

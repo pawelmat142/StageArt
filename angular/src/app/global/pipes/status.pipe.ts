@@ -9,7 +9,8 @@ export class StatusPipe implements PipeTransform {
 
   transform(value: string): string {
     if (!value) return value;
-    return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+    const splitted = value.split('_').join(' ')
+    return splitted.charAt(0).toUpperCase() + splitted.slice(1).toLowerCase();
   }
 
 }

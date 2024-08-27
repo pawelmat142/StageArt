@@ -5,7 +5,7 @@
                 <app-bookings-section
                     header="Received booking requests"
                     [bookings]="_bookingsAsManager"
-                    (openBooking)="_openBooking($event)"
+                    (openBooking)="_openFormData($event)"
                     (refreshBookings)="_refreshBookings($event)"
                 ></app-bookings-section>
             }   
@@ -13,7 +13,7 @@
                 <app-bookings-section
                     header="Sent booking requests"
                     [bookings]="_bookingsAsPromoter"
-                    (openBooking)="_openBooking($event)"
+                    (openBooking)="_openFormData($event)"
                     (refreshBookings)="_refreshBookings($event)"
                 ></app-bookings-section>
             }
@@ -21,17 +21,16 @@
                 <app-bookings-section
                     header="Artist booking request"
                     [bookings]="_bookingsAsArtist"
-                    (openBooking)="_openBooking($event)"
+                    (openBooking)="_openFormData($event)"
                     (refreshBookings)="_refreshBookings($event)"
                 ></app-bookings-section>
             }
     }
 
-    <div class="panel-section form-data" *ngIf="(_booking$ | async) as booking">
+    <div class="panel-section form-data" *ngIf="(_formData$ | async) as formData">
         <div class="panel-section-header">
             <h2 class="fs3 light booking-header">
-                <span>{{booking.status | status}}</span>
-
+                <div></div>
                 <app-icon-button
                     class="red"
                     (click)="_closeBooking()"
@@ -40,7 +39,7 @@
             </h2>
         </div>
         <app-form-presentation 
-            [data]="booking.formData"
+            [data]="formData"
             [structure]="_bookingFormStructure.form"
         ></app-form-presentation>
     </div>

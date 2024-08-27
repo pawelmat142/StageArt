@@ -2,13 +2,11 @@ import { BadRequestException, Injectable, Logger, NotFoundException, Unauthorize
 import { Artist, ArtistLabel, ArtistStatus, ArtistStyle } from './model/artist.model';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { Booking } from '../booking/model/booking.model';
-import { BookingFormProcessor } from '../booking/util/booking-form-processor';
 import { IllegalStateException } from '../global/exceptions/illegal-state.exception';
 import { ArtistViewDto } from './model/artist-view.dto';
 import { JwtPayload } from '../profile/auth/jwt-strategy';
 import { ArtistUtil } from './artist.util';
-import { ArtistForm, FetchArtistQuery } from './artist.controller';
+import { ArtistForm, FetchArtistQuery, SelectorItem } from './artist.controller';
 import { ProfileService } from '../profile/profile.service';
 import { TelegramService } from '../telegram/telegram.service';
 import { BotUtil } from '../telegram/util/bot.util';
@@ -134,7 +132,8 @@ export class ArtistService {
     }
 
     public async processBookingForm(ctx: BookingSubmitCtx) {
-        const artistSignatures = [FormUtil.get(ctx.booking.formData, 'artistInformation.artist.code')]
+        const artist: SelectorItem = FormUtil.get(ctx.booking.formData, 'artistInformation.artist')
+        const artistSignatures = [artist.code]
         if (!artistSignatures?.length) {
             throw new IllegalStateException("Missing artist signatures")
         }
@@ -148,9 +147,8 @@ export class ArtistService {
             throw new IllegalStateException(`Not found artists for booking ${ctx.booking.formId}`)
         }
         
-        ctx.booking.artistSignatures = artistSignatures
+        ctx.booking.artists = [artist]
         ctx.booking.managerUid = artists[0].managerUid
-        ctx.artistNames = artists.map(a => a.name)
     }
 
     public async listMusicStyles(): Promise<ArtistStyle[]> {
