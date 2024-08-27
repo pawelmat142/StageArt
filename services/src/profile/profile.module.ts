@@ -1,4 +1,4 @@
-import { forwardRef, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ProfileService } from './profile.service';
 import { ProfileController } from './profile.controller';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -7,8 +7,9 @@ import { ConfigModule } from '@nestjs/config';
 import { ProfileTelegramService } from './profile-telegram.service';
 import { ProfileEmailService } from './profile-email.service';
 import { JwtGuard } from './auth/jwt.guard';
-import { ArtistModule } from '../artist/artist.module';
 import { AppJwtService } from './auth/app-jwt.service';
+import { SignatureService } from './services/signature.service';
+import { SignatureController } from './services/signature.controller';
 
 @Module({
   imports: [
@@ -24,14 +25,16 @@ import { AppJwtService } from './auth/app-jwt.service';
     ProfileTelegramService,
     ProfileEmailService,
     JwtGuard,
-    AppJwtService
+    AppJwtService,
+    SignatureService,
   ],
-  controllers: [ProfileController],
+  controllers: [ProfileController, SignatureController],
   exports: [
     ProfileTelegramService,
     ProfileService,
     JwtGuard,
-    AppJwtService
+    AppJwtService,
+    SignatureService,
   ]
 })
 export class ProfileModule {}

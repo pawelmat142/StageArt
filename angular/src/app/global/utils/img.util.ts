@@ -175,32 +175,6 @@ export abstract class ImgUtil {
     }
 
 
-    public static saveBlobAsJpg(blobData: Blob, fileName: string) {
-        // Create a new Blob object using the data
-        const blob = new Blob([blobData], { type: 'image/jpeg' });
-    
-        // Create a link element
-        const link = document.createElement('a');
-        
-        // Create a URL for the Blob and set it as the href attribute
-        const url = window.URL.createObjectURL(blob);
-        link.href = url;
-        
-        // Set the download attribute with a filename
-        link.download = fileName;
-        
-        // Append the link to the body
-        document.body.appendChild(link);
-        
-        // Programmatically click the link to trigger the download
-        link.click();
-        
-        // Remove the link from the document
-        document.body.removeChild(link);
-        
-        // Release the Blob URL
-        window.URL.revokeObjectURL(url);
-      }
 
       public static prepareImages(fireImgSets: FireImgSet[]): Images {
         const images: Images = {
@@ -225,4 +199,28 @@ export abstract class ImgUtil {
       private static isBg(fireImg: FireImgSet): boolean {
         return fireImg.name.includes('bg-')
       }
+
+
+  public static downloadImgFromBase64(base64Data: string, fileName: string) {
+    const byteCharacters = atob(base64Data.split(',')[1]);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    const blob = new Blob([byteArray], { type: 'image/png' });
+    return this.downloadImgFromBlob(blob, fileName)
+  }
+
+  public static downloadImgFromBlob(blobData: Blob, fileName: string) {
+    const blob = new Blob([blobData], { type: 'image/jpeg' });
+    const link = document.createElement('a');
+    const url = window.URL.createObjectURL(blob);
+    link.href = url;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+  }
 }

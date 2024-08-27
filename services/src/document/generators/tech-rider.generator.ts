@@ -4,14 +4,12 @@ import { DocumentService } from "../document.service";
 import { ProfileService } from "../../profile/profile.service";
 import { AbstractDocumentGenerator } from "./abstract-document.generator";
 
-
 export interface TechRiderDocumentData {
     agencyName: string
     agencyPhone: string
     agencyEmail: string
     agencyFooterString: string
 }
-
 
 @Injectable()
 export class TechRiderDocumentGenerator extends AbstractDocumentGenerator<TechRiderDocumentData> {
@@ -35,7 +33,7 @@ export class TechRiderDocumentGenerator extends AbstractDocumentGenerator<TechRi
             agencyName: managerData.agencyName,
             agencyPhone: managerData.agencyPhone,
             agencyEmail: managerData.agencyEmail,
-            agencyFooterString: DocUtil.footerString(managerData),
+            agencyFooterString: DocUtil.agencyString(managerData),
         }
     }
 }

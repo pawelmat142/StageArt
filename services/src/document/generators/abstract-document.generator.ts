@@ -1,11 +1,7 @@
 import { Injectable } from "@nestjs/common";
-import { DocumentService } from "../document.service";
+import { DocumentGenerateOptions, DocumentService } from "../document.service";
 import { Template } from "../doc-util"
 import { FormUtil } from "../../form/form.util";
-
-export interface AbstractDocumentInterface {
-    template: Template
-}
 
 @Injectable()
 export abstract class AbstractDocumentGenerator<T> {
@@ -18,16 +14,15 @@ export abstract class AbstractDocumentGenerator<T> {
         throw new Error('Not implemented')
     }
     
-    protected async prepareData(ctx: any): Promise<T> {
+    protected async prepareData(ctx: any, options?: DocumentGenerateOptions): Promise<T> {
         throw new Error("not implemented")
     }
 
-    public async generate(ctx: any): Promise<Buffer> {
-        const data = await this.prepareData(ctx)
-        const pdf = await this.documentService.generatePdfOfTemplate(this.template, data)
+    public async generate(ctx: any, options?: DocumentGenerateOptions): Promise<Buffer> {
+        const data = await this.prepareData(ctx, options)
+        const pdf = await this.documentService.generatePdf(this.template, data, options)
         return pdf
     }
-
 
     protected get(formData: any, path: string): any {
         return FormUtil.get(formData, path)

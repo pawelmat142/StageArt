@@ -66,6 +66,7 @@ export class Profile {
     @Prop()
     modified: Date
     
+    
     @Prop({ type: Object })
     managerData?: ManagerData
     

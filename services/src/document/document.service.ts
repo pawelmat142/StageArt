@@ -3,8 +3,15 @@ import * as puppeteer from 'puppeteer';
 import * as path from 'path';
 import * as fs from 'fs';
 import { IllegalStateException } from '../global/exceptions/illegal-state.exception';
-import { Template } from './doc-util';
+import { DocUtil, Template } from './doc-util';
 import Handlebars from 'handlebars';
+
+export interface DocumentGenerateOptions {
+    addSignature?: boolean
+    headerTemplate?: string
+    footerTemplate?: string,
+    displayHeaderFooter?: boolean,
+}
 
 @Injectable()
 export class DocumentService {
@@ -14,36 +21,41 @@ export class DocumentService {
     constructor(
     ) {}
 
-
-    public async generatePdfOfTemplate(template: Template, data: any): Promise<Buffer> {
+    public async generatePdf(template: Template, data: any, options?: DocumentGenerateOptions): Promise<Buffer> {
         const html = this.getTemplate(template)
         const filledTemplate = this.fillTemplateData(html, data)
-        const pdf = await this.generatePdf(filledTemplate)
+        if (options?.addSignature && data.signature && typeof data.signature === 'string') {
+            DocUtil.addSignatureFooterToEveryPage(options, data.signature as string)
+        }
+        const pdf = await this.generate(filledTemplate, options)
         this.logger.log(`Generated PDF of template: ${template}`)
         return pdf
     }
 
-
-    private async generatePdf(htmlContent: string): Promise<Buffer> {
-        // Uruchomienie Puppeteer
+    private async generate(htmlContent: string, options?: DocumentGenerateOptions): Promise<Buffer> {
         const browser = await puppeteer.launch({ headless: true });
         const page = await browser.newPage();
-    
-        
-        // Ustawienie zawartości strony HTML
-        await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
 
-        const cssPath = path.join(__dirname, 'templates', 'pdf-styles.css')
-        await page.addStyleTag({ path: cssPath });
-    
+        await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
+        await this.addCssStyles(page)
+
         // Generowanie PDF
         const pdfBuffer = await page.pdf({
           format: 'A4',
-          printBackground: true,
+          headerTemplate: options?.headerTemplate || undefined,
+          footerTemplate: options?.footerTemplate || undefined,
+          displayHeaderFooter: options?.displayHeaderFooter || false,
+          printBackground: false,
         });
+
     
         await browser.close();
         return Buffer.from(pdfBuffer);
+    }
+
+    private async addCssStyles(puppeteerPage: puppeteer.Page) {
+        const cssPath = path.join(__dirname, 'templates', 'pdf-styles.css')
+        await puppeteerPage.addStyleTag({ path: cssPath });
     }
 
     private getTemplate(template: Template): string {
@@ -61,4 +73,5 @@ export class DocumentService {
         const filledTemplate = templateToFill(data)
         return filledTemplate
     }
+
 }

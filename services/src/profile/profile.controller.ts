@@ -9,8 +9,7 @@ import { GetProfile } from './auth/profile-path-param-getter';
 import { JwtPayload } from './auth/jwt-strategy';
 import { Profile } from './model/profile.model';
 import { LogInterceptor } from '../global/interceptors/log.interceptor';
-import { profile } from 'console';
-import { HandSignature, ManagerData } from './model/profile-interfaces';
+import { ManagerData } from './model/profile-interfaces';
 import { RoleGuard } from './auth/role.guard';
 import { Role } from './model/role';
 
@@ -52,18 +51,6 @@ export class ProfileController {
         return this.profileService.setManagerData(body, profile)
     }
 
-
-    @Get('signature')
-    @UseGuards(JwtGuard)
-    fetchSignature( @GetProfile() profile: JwtPayload) {
-        return this.profileService.fetchSignature(profile)
-    }
-
-    @Put('signature')
-    @UseGuards(JwtGuard)
-    setSignature(@Body() body: HandSignature, @GetProfile() profile: JwtPayload) {
-        return this.profileService.setSignature(body, profile)
-    }
 
 
     // TELEGRAM

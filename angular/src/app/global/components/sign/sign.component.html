@@ -1,11 +1,32 @@
+<div class="panel-section">
+  <div class="panel-section-header sign-pad-container">
+      <canvas
+        class="canvas"
+        #canvas
+        [width]="width"
+      ></canvas>
+  </div>
 
-<div class="sign-pad-container">
-    <canvas
-      class="canvas"
-      #canvas
-      [width]="width"
-    ></canvas>
-    
-    <button (click)="clearPad()">Clear</button>
-    <button (click)="setSignature()">Submit the signature</button>
+  <div class="btns btns-row no-margin panel-section-header">
+
+    <app-btn
+      label="Clear"
+      (click)="_clearPad()"
+    ></app-btn>
+
+    <app-btn
+      [active]="!this.signaturePad?.isEmpty()"
+      label="Download"
+      (click)="_downloadSignature()"
+      class="grey"
+    ></app-btn>
+
+    <app-btn
+      label="Submit"
+      (click)="_submit()"
+      class="green"
+    ></app-btn>
+
+  </div>
+
 </div>

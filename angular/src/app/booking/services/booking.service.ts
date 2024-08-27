@@ -69,5 +69,9 @@ export class BookingService {
     return this.http.get<BookingPanelDto>(`/booking/request-documents/${formId}`)
   }
 
+  signContract$(formId: string) {
+    return this.http.get<any>(`/booking/sign-contract/${formId}`)
+  }
+
   
 }

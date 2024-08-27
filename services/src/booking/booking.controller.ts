@@ -11,6 +11,8 @@ import { BookingCancelService } from './services/booking-cancel.service';
 import { BookingDocumentsService } from './services/booking-documents.service';
 import { Response } from 'express';
 import { Template } from '../document/doc-util';
+import { RoleGuard } from '../profile/auth/role.guard';
+import { Role } from '../profile/model/role';
 
 @Controller('api/booking')
 @UseInterceptors(LogInterceptor)
@@ -62,22 +64,36 @@ export class BookingController {
         return this.bookingDocumentsService.requestDocuments(formId, profile)
     }
 
-        @Get('get-pdf/:id/:template')
-        @UseGuards(JwtGuard)
-        async getPdf(
-            @Res() res: Response,
-            @Param('id') formId: string,
-            @Param('template') template: Template,
-            @GetProfile() profile: JwtPayload
-        ) {
-            const buffer = await this.bookingDocumentsService.getPdf(formId, template, profile)
-            res.set({
-                'Content-Type': 'application/pdf',
-                'Content-Disposition': `attachment; filename="${template}.pdf"`,
-                'Content-Length': buffer.length,
-            });
+    @Get('get-pdf/:id/:template')
+    @UseGuards(JwtGuard)
+    async getPdf(
+        @Res() res: Response,
+        @Param('id') formId: string,
+        @Param('template') template: Template,
+        @GetProfile() profile: JwtPayload
+    ) {
+        const buffer = await this.bookingDocumentsService.getPdf(formId, template, profile)
+        this.pdfResponse(res, buffer, template)
+    }
 
-            res.end(buffer);
-        }
+    @Get('sign-contract/:id')
+    @UseGuards(RoleGuard(Role.PROMOTER))
+    async signContract(
+        @Res() res: Response,
+        @Param('id') formId: string,
+        @GetProfile() profile: JwtPayload
+    ) {
+        const buffer = await this.bookingDocumentsService.signContract(formId, profile)
+        this.pdfResponse(res, buffer, 'contract')
+    }
+
+    private pdfResponse(res: Response, buffer: Buffer, filename: string) {
+        res.set({
+            'Content-Type': 'application/pdf',
+            'Content-Disposition': `attachment; filename="${filename}.pdf"`,
+            'Content-Length': buffer.length,
+        });
+        res.end(buffer);
+    }
 
 }

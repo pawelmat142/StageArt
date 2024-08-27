@@ -3,10 +3,13 @@ import { IllegalStateException } from "../../global/exceptions/illegal-state.exc
 import { DocUtil, Template } from "../doc-util"
 import { Util } from "../../global/utils/util";
 import { BookingUtil } from "../../booking/util/booking.util";
-import { Injectable } from "@nestjs/common";
-import { DocumentService } from "../document.service";
+import { Injectable, NotFoundException } from "@nestjs/common";
+import { DocumentGenerateOptions, DocumentService } from "../document.service";
 import { ProfileService } from "../../profile/profile.service";
 import { AbstractDocumentGenerator } from "./abstract-document.generator";
+import { BookingContext } from "../../booking/services/booking.service";
+import { HandSignature } from "../../profile/model/profile-interfaces";
+import { SignatureService } from "../../profile/services/signature.service";
 
 export interface BookingContractDocumentData {
     year: string
@@ -42,6 +45,7 @@ export interface BookingContractDocumentData {
     feeDeadline: string
 
     contractDate: string
+    signature?: string
 }
 
 @Injectable()
@@ -50,6 +54,7 @@ export class BookingContractDocumentGenerator extends AbstractDocumentGenerator<
     constructor(
         protected readonly documentService: DocumentService,
         private readonly profileService: ProfileService,
+        private readonly signatureService: SignatureService,
     ) {
         super(documentService);
     }
@@ -58,10 +63,24 @@ export class BookingContractDocumentGenerator extends AbstractDocumentGenerator<
         return 'contract'
     }
 
-    override async prepareData(ctx: any): Promise<BookingContractDocumentData> {
+    public async signDocument(bookingContext: BookingContext, signature: HandSignature) {
+
+    }
+
+    override async prepareData(ctx: BookingContext, options?: DocumentGenerateOptions): Promise<BookingContractDocumentData> {
         const formData = ctx.booking.formData
         if (!formData) {
             throw new IllegalStateException('Missing form data')
+        }
+
+        let signature: string
+
+        if (options?.addSignature) {
+            const handSignature = await this.signatureService.fetchSignature(ctx.booking.promoterUid)
+            if (!handSignature) {
+                throw new NotFoundException(`Not found promoter signature for booking ${ctx.booking.formId}`)
+            }
+            signature = handSignature.base64data
         }
 
         const artistProfile = await this.profileService.findByArtistSignature(ctx.artists[0].signature)
@@ -105,12 +124,14 @@ export class BookingContractDocumentGenerator extends AbstractDocumentGenerator<
             accountSwift: managerData.accountSwift,
             agencyEmail: managerData.agencyEmail,
             agencyPhone: managerData.agencyPhone,
-            agencyFooterString: DocUtil.footerString(managerData),
+            agencyFooterString: DocUtil.agencyString(managerData),
 
             depositDeadline: Util.formatDate(BookingUtil.depositDeadline(ctx.event)),
             feeDeadline: Util.formatDate(BookingUtil.feeDeadline(ctx.event)),
         
-            contractDate: Util.formatDate(now)
+            contractDate: Util.formatDate(now),
+
+            signature: signature
         }
     }
 

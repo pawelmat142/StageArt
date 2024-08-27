@@ -3,6 +3,7 @@ import { HttpClient, HttpResponse } from "@angular/common/http";
 import { Util } from "../utils/util";
 import { map } from "rxjs";
 import { Template } from "./doc-util";
+import { CourtineService } from "../nav/courtine.service";
 
 interface Pdf {
     blob: Blob
@@ -18,11 +19,20 @@ export class DocumentService {
   
     constructor(
       private readonly httpClient: HttpClient,
+      private readonly courtine: CourtineService,
     ) { }
 
-
     public getPdf(formId: string, template: Template) {
-        this.httpClient.get<Blob>(`${this.apiUri}/booking/get-pdf/${formId}/${template}`,  { 
+        this.documentRequest(`${this.apiUri}/booking/get-pdf/${formId}/${template}`)
+    }
+
+    public signContract(formId: string) {
+        this.documentRequest(`${this.apiUri}/booking/sign-contract/${formId}`)
+    }
+
+    private documentRequest(url: string) {
+        this.courtine.startCourtine()
+        this.httpClient.get<Blob>(url, {
             observe: 'response',
             responseType: 'blob' as 'json',
         }).pipe(
@@ -36,8 +46,14 @@ export class DocumentService {
                 return { filename, blob: response.body };
             }),
         ).subscribe({
-          next: pdf => this.downloadPdf(pdf),
-          error: error => console.error(error)
+          next: pdf => {
+            this.downloadPdf(pdf),
+            this.courtine.stopCourtine()
+          },
+          error: error => {
+            console.error(error.error.message)
+            this.courtine.stopCourtine()
+          }
         })
     }
 

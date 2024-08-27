@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Util } from '../utils/util';
 
 export interface HttpRequestOptions {
-  // skipAuth?: boolean
   headers?: HttpHeaders | { [header: string]: string | string[] };
   context?: HttpContext;
   observe?: 'body';
@@ -37,6 +36,10 @@ export class HttpService {
 
   public put<T>(uri: string, data?: any) {
     return this.httpClient.put<T>(`${this.apiUri}${uri}`, data)
+  }
+
+  public delete<T>(uri: string) {
+    return this.httpClient.delete<T>(`${this.apiUri}${uri}`)
   }
 
 }

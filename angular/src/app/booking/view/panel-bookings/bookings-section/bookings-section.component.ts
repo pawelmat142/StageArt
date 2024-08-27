@@ -74,4 +74,8 @@ export class BookingsSectionComponent {
     this.documentService.getPdf(booking.formId, template)
   }
 
+  _signContract(booking: BookingPanelDto) {
+    this.documentService.signContract(booking.formId)
+  }
+
 }

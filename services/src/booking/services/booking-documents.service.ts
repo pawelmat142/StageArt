@@ -8,6 +8,7 @@ import { BookingUtil } from "../util/booking.util";
 import { BookingContractDocumentGenerator } from "../../document/generators/booking-contract.generator";
 import { ArtistUtil } from "../../artist/artist.util";
 import { TechRiderDocumentGenerator } from "../../document/generators/tech-rider.generator";
+import { ProfileService } from "../../profile/profile.service";
 
 @Injectable()
 export class BookingDocumentsService {
@@ -18,6 +19,7 @@ export class BookingDocumentsService {
         private readonly bookingService: BookingService,
         private readonly bookingContractDocument: BookingContractDocumentGenerator,
         private readonly techRiderDocument: TechRiderDocumentGenerator,
+        private readonly profileService: ProfileService,
     ) {}
 
 
@@ -47,6 +49,14 @@ export class BookingDocumentsService {
             return this.techRiderDocument.generate(ctx)
         }
         throw new BadRequestException(`Unsupported template ${templateName}`)
+    }
+
+    public async signContract(formId: string, profile: JwtPayload) {
+        const ctx = await this.bookingService.buildContext(formId, profile)
+        // TODO store signed document!!
+        // TODO delete signed document option
+        // TODO option to upload signed document
+        return this.bookingContractDocument.generate(ctx, { addSignature: true })
     }
 
 }

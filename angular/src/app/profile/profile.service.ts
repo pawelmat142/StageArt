@@ -49,14 +49,6 @@ export class ProfileService {
         return this.http.put<ManagerData>(`/profile/manager-data`, form)
     }
 
-    fetchSignature$(): Observable<HandSignature> {
-        return this.http.get<HandSignature>(`/profile/signature`)
-    }
-
-    setSignature$(signature: HandSignature): Observable<HandSignature> {
-        return this.http.put<HandSignature>(`/profile/signature`, signature)
-    }
-
 
     fetchTelegramBotHref$() {
         return this.http.get<{ url: string }>(`/profile/telegram`)

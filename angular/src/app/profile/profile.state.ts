@@ -7,12 +7,15 @@ import { selectProfileState } from "../app.state"
 import { Profile } from "./profile.model"
 import { DialogService } from "../global/nav/dialog.service"
 import { NavService } from "../global/nav/nav.service"
+import { HandSignature } from "./profile.service"
 
 export interface ProfileState {
     loading: boolean
     loggedIn: boolean
     profile?: Profile
     uuid: string
+
+    signature?: HandSignature
 }
 
 
@@ -42,6 +45,11 @@ export const loggedInChange = createSelector(
     (state: ProfileState) => state.loggedIn
 )
 
+export const handSignature = createSelector(
+    selectProfileState,
+    (state: ProfileState) => state.signature
+)
+
 
 // ACTIONS
 
@@ -52,6 +60,12 @@ export const loggedIn = createAction("[PROFILE] logged in", props<{ token: strin
 export const setProfile = createAction("[PROFILE] set profile", props<Profile>())
 
 export const logout = createAction("[PROFILE] logout")
+
+
+
+export const setHandSignature = createAction("[PROFILE] [SIGNATURE] set", props<HandSignature>())
+
+export const remvoeHandSignature = createAction("[PROFILE] [SIGNATURE] remove")
 
 
 const initialState: ProfileState = {
@@ -85,6 +99,16 @@ export const profileReducer = createReducer(
         loggedIn: false,
         loading: false,
         profile: undefined,
+    })),
+
+    on(setHandSignature, (state, handSignature) => ({
+        ...state,
+        signature: handSignature
+    })),
+
+    on(remvoeHandSignature, (state) => ({
+        ...state,
+        signature: undefined
     })),
 )
 
