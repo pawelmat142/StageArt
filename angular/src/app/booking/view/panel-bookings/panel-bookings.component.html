@@ -6,7 +6,6 @@
                 <app-bookings-section
                     header="Received booking requests"
                     [bookings]="_bookingsAsManager"
-                    (openBooking)="_openFormData($event)"
                     (refreshBookings)="_refreshBookings($event)"
                 ></app-bookings-section>
             }   
@@ -14,7 +13,6 @@
                 <app-bookings-section
                     header="Sent booking requests"
                     [bookings]="_bookingsAsPromoter"
-                    (openBooking)="_openFormData($event)"
                     (refreshBookings)="_refreshBookings($event)"
                 ></app-bookings-section>
             }
@@ -22,7 +20,6 @@
                 <app-bookings-section
                     header="Artist booking request"
                     [bookings]="_bookingsAsArtist"
-                    (openBooking)="_openFormData($event)"
                     (refreshBookings)="_refreshBookings($event)"
                 ></app-bookings-section>
             }

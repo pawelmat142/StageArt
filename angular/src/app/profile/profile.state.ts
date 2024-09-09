@@ -19,6 +19,7 @@ export interface ProfileState {
     signature?: HandSignature
     bookings?: BookingDto[]
     singleBooking?: BookingDto
+    formData?: any
 }
 
 
@@ -66,6 +67,11 @@ export const profileSingleBooking = createSelector(
     (state: ProfileState) => state.singleBooking
 )
 
+export const bookingFormData = createSelector(
+    selectProfileState,
+    (state: ProfileState) => state.formData
+)
+
 
 // ACTIONS
 
@@ -88,6 +94,10 @@ export const selectBooking = createAction("[PROFILE] [BOOKINGS] select", props<B
 export const unselectBooking = createAction("[PROFILE] [BOOKINGS] unselect")
 
 export const updateBooking = createAction("[PROFILE] [BOOKINGS] update", props<BookingDto>())
+
+
+export const setBookingFormData = createAction("[PROFILE] [formData] set", props<any>())
+export const removeBookingFormData = createAction("[PROFILE] [formData] remove")
 
 
 const initialState: ProfileState = {
@@ -166,7 +176,17 @@ export const profileReducer = createReducer(
             ...state,
             bookings
         }
-    })
+    }),
+
+    on(setBookingFormData, (state, formData) => ({
+        ...state,
+        formData
+    })),
+
+    on(removeBookingFormData, (state) => ({
+        ...state,
+        formData: undefined
+    })),
 )
 
 

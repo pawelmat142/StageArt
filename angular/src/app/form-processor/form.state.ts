@@ -8,6 +8,7 @@ import { BookingService } from "../booking/services/booking.service"
 import { EventService } from "../event/services/event.service"
 import { MatDialog } from "@angular/material/dialog"
 import { EventsFormDataComponent } from "../global/nav/dialogs/events-form-data/events-form-data.component"
+import { setBookingFormData } from "../profile/profile.state"
 
 export enum FormType {
     BOOKING = "BOOKING"

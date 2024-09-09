@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, ViewEncapsulation } from '@angular/core';
-import { map, Observable, of, shareReplay, withLatestFrom } from 'rxjs';
+import { map, withLatestFrom } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { loadBookings, profile, profileBookings } from '../../../profile/profile.state';
+import { bookingFormData, loadBookings, profile, profileBookings, removeBookingFormData } from '../../../profile/profile.state';
 import { StatusPipe } from '../../../global/pipes/status.pipe';
 import { IsArrayPipe } from '../../../global/pipes/is-array.pipe';
-import { BookingDto, BookingService } from '../../services/booking.service';
+import { BookingDto } from '../../services/booking.service';
 import { AppState } from '../../../app.state';
 import { FormPresentationComponent } from '../../../form-processor/presentation/form-presentation/form-presentation.component';
 import { BookingFormStructure } from '../../booking-form-structure';
@@ -35,11 +35,12 @@ export class PanelBookingsComponent {
   readonly DESKTOP = DESKTOP
 
   constructor(
-    private readonly bookingService: BookingService,
     private readonly store: Store<AppState>,
   ) {}
   
   _bookingFormStructure = new BookingFormStructure(this.store, [])
+
+  _formData$ = this.store.select(bookingFormData)
   
   _bookings$ = this.store.select(profileBookings).pipe(
     withLatestFrom(this.store.select(profile)),
@@ -55,25 +56,18 @@ export class PanelBookingsComponent {
   _bookingsAsPromoter: BookingDto[] = []
   _bookingsAsArtist: BookingDto[] = []
 
-  _formData$?: Observable<any>
   
   ngOnInit(): void {
     this.store.dispatch(loadBookings())
   }
 
 
-  _openFormData(booking: BookingDto) {
-    this._formData$ = this.bookingService.fetchFormData$(booking.formId).pipe(
-      shareReplay()
-    )
-  }
-
   _refreshBookings(booking: BookingDto) {
     this.store.dispatch(loadBookings())
   }
 
   _closeBooking() {
-    this._formData$ = undefined
+    this.store.dispatch(removeBookingFormData())
   }
 
 }

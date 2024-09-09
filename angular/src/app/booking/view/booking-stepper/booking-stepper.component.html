@@ -1,0 +1,86 @@
+
+<p-stepper orientation="vertical" [(activeStep)]="activeStep">
+
+    <!-- #1 STEP - FORM -->
+    <p-stepperPanel header="Submit form">
+        <ng-template pTemplate="content" let-index="index">
+
+            <div class="substep-buttons">
+                <app-btn (click)="_showFormData(booking)" label="Show form data" class="grey margin-bottom"></app-btn>
+            </div>
+
+            <app-substep [mode]="'ready'" header="Form submitted by promoter"></app-substep>
+
+            @if (booking.status === 'SUBMITTED') {
+                <app-substep [mode]="_manager ? 'available' : 'blank'" header="Form is waiting for varification by manager"></app-substep>
+            } @else {
+                <app-substep mode="ready" header="Form verified by manager"></app-substep>
+            }
+
+        </ng-template>
+    </p-stepperPanel>
+
+    <!-- #2 STEP - DOCUMENT FORMALITIES -->
+    <p-stepperPanel header="Documents">
+        <ng-template pTemplate="content" let-index="index">
+
+            <p-stepper orientation="vertical" [(activeStep)]="activeDocumentStep">
+                <!-- CONTRACT -->
+                <p-stepperPanel>
+                    <ng-template pTemplate="header" let-onClick="onClick" let-index="index">
+                        <app-contract-substep [booking]="booking" class="w100" (click)="onClick.emit()"></app-contract-substep>
+                    </ng-template>
+
+                    <ng-template pTemplate="content" let-index="index">
+                        <div class="substep-buttons">
+                            <app-btn
+                                class="grey" 
+                                icon="description"
+                                label="Generate"
+                                (click)="_getPdf(booking, 'contract')"
+                            ></app-btn>
+                        </div>
+                    </ng-template>
+                </p-stepperPanel>
+
+                <p-stepperPanel>
+                    <ng-template pTemplate="header" let-onClick="onClick" let-index="index">
+                        <app-substep [mode]="'available'" header="Tech rider" (click)="onClick.emit()"></app-substep>
+                    </ng-template>
+
+                    <ng-template pTemplate="content" let-index="index">
+                        <div class="substep-buttons">
+                            <app-btn
+                                class="grey" 
+                                icon="description"
+                                label="Generate"
+                                (click)="_getPdf(booking, 'contract')"
+                            ></app-btn>
+    
+                            <app-btn
+                                class="green" 
+                                icon="description"
+                                label="Download signed contract"
+                                (click)="_signContract(booking)"
+                            ></app-btn>
+                        </div>
+                    </ng-template>
+                </p-stepperPanel>
+
+
+            </p-stepper>
+
+        </ng-template>
+    </p-stepperPanel>
+
+
+    <p-stepperPanel header="Header III">
+        <ng-template pTemplate="content" let-index="index">
+            <div class="flex flex-column h-12rem">
+                <div class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
+                    Content III
+                </div>
+            </div>
+        </ng-template>
+    </p-stepperPanel>
+</p-stepper>

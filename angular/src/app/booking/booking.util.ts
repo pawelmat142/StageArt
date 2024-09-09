@@ -9,4 +9,8 @@ export abstract class BookingUtil {
     public static artistNames(booking: BookingDto): string[] {
         return booking.artists.map(a => a.name)
     }
+
+    public static artistSignatures(booking: BookingDto): string[] {
+        return booking.artists.map(a => a.code)
+    }
 }

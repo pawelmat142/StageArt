@@ -35,9 +35,9 @@
     
                         <div class="item-row-collapse-content">
 
+                            <app-booking-stepper [booking]="booking" [uid]="uid"></app-booking-stepper>
+
                             <div class="item-row-buttons">
-                                <app-btn (click)="openBooking.emit(booking)" label="Form data" class="grey"></app-btn>
-    
                                 @if (['SUBMITTED'].includes(booking.status) && [booking.managerUid].includes(uid)) {
                                     <app-btn (click)="_acceptBooking(booking)" label="Accept" class="green"></app-btn>
                                 }

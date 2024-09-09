@@ -14,6 +14,7 @@ import { IconButtonComponent } from '../../../../global/components/icon-button/i
 import { DocumentService } from '../../../../global/document/document.service';
 import { Template } from '../../../../global/document/doc-util';
 import { NamesPipe } from "../../../../global/pipes/names.pipe";
+import { BookingStepperComponent } from '../../booking-stepper/booking-stepper.component';
 
 @Component({
   selector: 'app-bookings-section',
@@ -24,7 +25,8 @@ import { NamesPipe } from "../../../../global/pipes/names.pipe";
     AccordionModule,
     BtnComponent,
     IconButtonComponent,
-    NamesPipe
+    NamesPipe,
+    BookingStepperComponent,
 ],
   templateUrl: './bookings-section.component.html',
   styleUrl: './bookings-section.component.scss',
@@ -47,7 +49,6 @@ export class BookingsSectionComponent {
 
   @Input() bookings!: BookingDto[]
 
-  @Output() openBooking = new EventEmitter<BookingDto>()
   @Output() refreshBookings = new EventEmitter<BookingDto>()
 
   _selectBooking(index: number | number[]) {
