@@ -1,15 +1,15 @@
 import { EventUtil } from "../../event/event-util";
 import { IllegalStateException } from "../../global/exceptions/illegal-state.exception";
-import { DocUtil, Template } from "../doc-util"
+import { PaperUtil, Template } from "../paper-util"
 import { Util } from "../../global/utils/util";
 import { BookingUtil } from "../../booking/util/booking.util";
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { DocumentGenerateOptions, DocumentService } from "../document.service";
 import { ProfileService } from "../../profile/profile.service";
 import { AbstractDocumentGenerator } from "./abstract-document.generator";
-import { BookingContext } from "../../booking/services/booking.service";
 import { HandSignature } from "../../profile/model/profile-interfaces";
 import { SignatureService } from "../../profile/services/signature.service";
+import { BookingContext } from "../../booking/model/interfaces";
 
 export interface BookingContractDocumentData {
     year: string
@@ -124,7 +124,7 @@ export class BookingContractDocumentGenerator extends AbstractDocumentGenerator<
             accountSwift: managerData.accountSwift,
             agencyEmail: managerData.agencyEmail,
             agencyPhone: managerData.agencyPhone,
-            agencyFooterString: DocUtil.agencyString(managerData),
+            agencyFooterString: PaperUtil.agencyString(managerData),
 
             depositDeadline: Util.formatDate(BookingUtil.depositDeadline(ctx.event)),
             feeDeadline: Util.formatDate(BookingUtil.feeDeadline(ctx.event)),

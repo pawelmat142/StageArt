@@ -4,9 +4,9 @@ import { HttpService } from '../../global/services/http.service';
 import { FormType } from '../../form-processor/form.state';
 import { SelectorItem } from '../../global/controls/selector/selector.component';
 import { EventDto } from '../../event/services/event.service';
+import { ChecklistItem } from '../interface/checklist.interface';
 
-export type BookingStatus = 'SUBMITTED' | 'DOCUMENTS_REQUESTED' | 'PENDING' | 'READY' | 'CANCELED'
-
+export type BookingStatus = 'SUBMITTED' | 'DOCUMENTS' | 'CHECKLIST_COMPLETE' | 'PENDING' | 'READY' | 'CANCELED'
 
 export interface StatusHistory {
   version: number
@@ -26,6 +26,7 @@ export interface BookingDto {
   eventSignature: string
   statusHistory: StatusHistory[]
   event: EventDto
+  checklist: ChecklistItem[]
 }
 
 
@@ -63,9 +64,4 @@ export class BookingService {
     return this.http.get<BookingDto>(`/booking/request-documents/${formId}`)
   }
 
-  signContract$(formId: string) {
-    return this.http.get<any>(`/booking/sign-contract/${formId}`)
-  }
-
-  
 }

@@ -62,10 +62,10 @@ export class DialogService {
             header: msg || `Yes or no?`,
             buttons: [{
               label: 'No',
-              class: 'big light'
+              class: 'big'
             }, {
               label: 'Yes',
-              class: 'big',
+              class: 'big light',
               result: true,
             }]
         }

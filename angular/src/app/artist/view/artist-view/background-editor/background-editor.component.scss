@@ -1,3 +1,5 @@
+@import 'font';
+
 .desktop {
     .edit-background {
         .edit-button {
@@ -12,7 +14,7 @@
     .edit-button {
         top: 13%;
         right: 33%;
-        font-size: 12px;
+        @extend .fs5;
     }
 
     .img-wrapper img {

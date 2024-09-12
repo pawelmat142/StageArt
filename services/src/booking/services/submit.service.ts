@@ -10,6 +10,7 @@ import { BotUtil } from "../../telegram/util/bot.util";
 import { Booking } from "../model/booking.model";
 import { Event } from "../../event/model/event.model";
 import { BookingUtil } from "../util/booking.util";
+import { ChecklistGenerator } from "../../document/generators/checklist.generator";
 
 export interface BookingSubmitCtx {
     booking: Partial<Booking>
@@ -48,7 +49,8 @@ export class SubmitService {
             formId: form.id,
             promoterUid: profile.uid,
             formData: form.data,
-            created: new Date()
+            created: new Date(),
+            checklist: ChecklistGenerator.prepareBookingChecklist()
         }
 
         await this.profileService.updatePromoterInfoWhenSubmitForm(booking.formData, profile)

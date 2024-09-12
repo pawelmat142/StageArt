@@ -1,3 +1,4 @@
+import { Role } from "../profile/profile.model"
 import { BookingDto } from "./services/booking.service"
 
 export abstract class BookingUtil {
@@ -12,5 +13,19 @@ export abstract class BookingUtil {
 
     public static artistSignatures(booking: BookingDto): string[] {
         return booking.artists.map(a => a.code)
+    }
+
+    public static bookingRoles(booking: BookingDto, profileUid: string): string[] {
+        let result = []
+        if (booking.promoterUid === profileUid) {
+            result.push(Role.PROMOTER)
+        }
+        if (booking.managerUid === profileUid) {
+            result.push(Role.MANAGER)
+        }
+        if (BookingUtil.artistSignatures(booking).includes(profileUid)) {
+            result.push(Role.ARTIST)
+        }
+        return result
     }
 }

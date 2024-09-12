@@ -1,3 +1,6 @@
+@import 'color';
+@import 'variables';
+
 @font-face {
     font-family: 'Baron'; /* Name you choose for the font */
     src: url('../fonts/baron.otf') format('opentype');
@@ -70,6 +73,10 @@ a {
     font-weight: 600;
     font-size: 16px;
     text-transform: uppercase;
+}
+
+.fs5 {
+    font-size: 12px;
 }
 
 .btn-font {

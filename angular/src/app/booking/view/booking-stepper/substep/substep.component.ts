@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-
-export type StepMode = 'blank' | 'available' | 'ready' | 'error' 
+import { StepMode } from '../../../interface/checklist.interface';
 
 @Component({
   selector: 'app-substep',

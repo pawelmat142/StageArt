@@ -6,21 +6,18 @@
                 <app-bookings-section
                     header="Received booking requests"
                     [bookings]="_bookingsAsManager"
-                    (refreshBookings)="_refreshBookings($event)"
                 ></app-bookings-section>
             }   
             @if (_bookingsAsPromoter.length) {
                 <app-bookings-section
                     header="Sent booking requests"
                     [bookings]="_bookingsAsPromoter"
-                    (refreshBookings)="_refreshBookings($event)"
                 ></app-bookings-section>
             }
             @if (_bookingsAsArtist.length) {
                 <app-bookings-section
                     header="Artist booking request"
                     [bookings]="_bookingsAsArtist"
-                    (refreshBookings)="_refreshBookings($event)"
                 ></app-bookings-section>
             }
     }

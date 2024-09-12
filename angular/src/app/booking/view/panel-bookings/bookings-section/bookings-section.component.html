@@ -35,43 +35,7 @@
     
                         <div class="item-row-collapse-content">
 
-                            <app-booking-stepper [booking]="booking" [uid]="uid"></app-booking-stepper>
-
-                            <div class="item-row-buttons">
-                                @if (['SUBMITTED'].includes(booking.status) && [booking.managerUid].includes(uid)) {
-                                    <app-btn (click)="_acceptBooking(booking)" label="Accept" class="green"></app-btn>
-                                }
-    
-                                @if (['SUBMITTED'].includes(booking.status) && [booking.managerUid, booking.promoterUid].includes(uid)) {
-                                    <app-btn (click)="_cancelBooking(booking)" label="Cancel"></app-btn>
-                                }
-                            </div>
-
-                            @if (['DOCUMENTS_REQUESTED'].includes(booking.status)) {
-                                <div class="item-row-files margin-top-2">
-                                    <app-btn
-                                        class="grey" 
-                                        icon="description"
-                                        label="Contract"
-                                        (click)="_getPdf(booking, 'contract')"
-                                    ></app-btn>
-
-                                    <app-btn
-                                        class="green" 
-                                        icon="description"
-                                        label="sign contract"
-                                        (click)="_signContract(booking)"
-                                    ></app-btn>
-
-                                    <app-btn
-                                        class="grey" 
-                                        icon="description"
-                                        label="Tech rider"
-                                        (click)="_getPdf(booking, 'tech-rider')"
-                                    ></app-btn>
-                                </div>
-                            }
-
+                            <app-booking-stepper></app-booking-stepper>
 
                         </div>
                     </p-accordionTab>

@@ -2,6 +2,7 @@ import { Expose } from "class-transformer";
 import { BookingStatus, StatusHistory } from "./booking.model";
 import { SelectorItem } from "../../artist/model/artist.model";
 import { Event } from "../../event/model/event.model";
+import { ChecklistItem } from "./checklist.interface";
 
 export class BookingDto {
 
@@ -31,4 +32,7 @@ export class BookingDto {
     
     @Expose()
     event?: Event
+    
+    @Expose()
+    checklist: ChecklistItem[]
 }

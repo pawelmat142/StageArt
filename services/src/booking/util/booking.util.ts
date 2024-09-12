@@ -27,4 +27,5 @@ export abstract class BookingUtil {
         date.setMonth(event.startDate.getMonth() - 1)
         return date
     }
+
 }

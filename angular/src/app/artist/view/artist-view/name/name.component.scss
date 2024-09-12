@@ -69,7 +69,7 @@
     }
 
     .country-txt {
-        font-size: 12px;
+        @extend .fs5;
         color: $white;
         text-shadow: $shadow-standard;
     }

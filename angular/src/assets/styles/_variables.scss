@@ -85,9 +85,14 @@ $border-shadow: 0 3px 5px $red;
 }
 
 .highlight {
+    transition: $transition-standard;
     cursor: pointer;
     &:hover {
         background-color: $red-transparent;
+    }
+    
+    &.light:hover {
+        background-color: $light-dark;
     }
 }
 

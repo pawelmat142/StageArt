@@ -61,11 +61,6 @@ export class PanelBookingsComponent {
     this.store.dispatch(loadBookings())
   }
 
-
-  _refreshBookings(booking: BookingDto) {
-    this.store.dispatch(loadBookings())
-  }
-
   _closeBooking() {
     this.store.dispatch(removeBookingFormData())
   }

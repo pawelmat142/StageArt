@@ -1,20 +1,19 @@
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { AppState } from '../../../app.state';
 import { Store } from '@ngrx/store';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { ButtonModule } from 'primeng/button';
 import { StepperModule } from 'primeng/stepper';
 import { BtnComponent } from '../../../global/controls/btn/btn.component';
 import { BookingDto, BookingService } from '../../services/booking.service';
-import { Template } from '../../../global/document/doc-util';
-import { DocumentService } from '../../../global/document/document.service';
-import { tap } from 'rxjs';
-import { setBookingFormData } from '../../../profile/profile.state';
+import { map, Observable, of, switchMap, tap, withLatestFrom } from 'rxjs';
+import { loadBookings, setBookingFormData } from '../../../profile/profile.state';
 import { SubstepComponent } from './substep/substep.component';
-import { BookingUtil } from '../../booking.util';
 import { CommonModule } from '@angular/common';
-import { ContractSubstepComponent } from './contract-substep/contract-substep.component';
+import { PaperTileComponent } from '../../../global/components/paper-tile/paper-tile.component';
+import { DialogService } from '../../../global/nav/dialog.service';
+import { ChecklistTile } from '../../interface/checklist.interface';
+import { ChecklistUtil } from '../../checklist.util';
 
 @Component({
   selector: 'app-booking-stepper',
@@ -23,10 +22,8 @@ import { ContractSubstepComponent } from './contract-substep/contract-substep.co
     CommonModule,
     ButtonModule, StepperModule,
     BtnComponent,
-    MatIconModule,
-    MatTooltipModule,
     SubstepComponent,
-    ContractSubstepComponent,
+    PaperTileComponent,
   ],
   templateUrl: './booking-stepper.component.html',
   styleUrl: './booking-stepper.component.scss',
@@ -37,30 +34,33 @@ export class BookingStepperComponent {
   constructor(
     private readonly store: Store<AppState>,
     private readonly bookingService: BookingService,
-    private readonly documentService: DocumentService,
-  ) {
-  }
-
-  @Input() booking!: BookingDto
-  @Input() uid!: string
+    private readonly dialog: DialogService,
+  ) {}
 
   activeStep = 0;
-  activeDocumentStep = 0;
 
-  _promoter = false
-  _manager = false
-  _artist = false
+  _uid?: string
+  _checklistTiles: ChecklistTile[] = []
 
-  ngOnInit(): void {
-    this._promoter = this.booking.promoterUid === this.uid
-    this._manager = this.booking.managerUid === this.uid
-    this._artist = this.booking && BookingUtil.artistSignatures(this.booking).includes(this.uid)
+  _booking$: Observable<BookingDto | undefined> = this.store.select(state => state.profileState.singleBooking).pipe(
+    tap(booking => {
+      if (booking?.status !== 'SUBMITTED') {
+        this.activeStep = 1
+      }
+    }),
+    withLatestFrom(this.store.select(state => state.profileState.profile?.uid)),
+    tap(console.log),
+    map(([booking, uid]) => {
+      this._uid = uid
+      this._checklistTiles = booking?.checklist.length && this._uid 
+        ? ChecklistUtil.prepareTiles(booking, this._uid)
+        : []
+      return booking
+    }),
+  )
 
-    if (this.booking.status !== 'SUBMITTED') {
-      this.activeStep = 1
-    }
-  }
-
+  
+  // STEP 1#
   _showFormData(booking: BookingDto) {
     this.bookingService.fetchFormData$(booking.formId).pipe(
       tap(formData => {
@@ -71,12 +71,28 @@ export class BookingStepperComponent {
     ).subscribe()
   }
 
-  _getPdf(booking: BookingDto, template: Template) {
-    this.documentService.getPdf(booking.formId, template)
+  _cancelBooking(booking: BookingDto) {
+    this.dialog.yesOrNoPopup(`Booking will be cancelled. Are you sure?`).pipe(
+      switchMap(confirm => confirm 
+        ? this.bookingService.cancelBooking$(booking.formId).pipe(
+          tap(booking => {
+            this.store.dispatch(loadBookings())
+          }))
+        : of()
+      ),
+    ).subscribe()
   }
 
-  _signContract(booking: BookingDto) {
-    this.documentService.signContract(booking.formId)
+  _acceptBooking(booking: BookingDto) {
+    this.dialog.yesOrNoPopup(`Booking request will be accepted, documents step will be started. Sure?`).pipe(
+      switchMap(confirm => confirm 
+        ? this.bookingService.requestDocuments$(booking.formId).pipe(
+          tap(booking => {
+            this.store.dispatch(loadBookings())
+          }))
+        : of()
+      ),
+    ).subscribe()
   }
-
+  
 }

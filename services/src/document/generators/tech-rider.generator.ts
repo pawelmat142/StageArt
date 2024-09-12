@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { DocUtil, Template } from "../doc-util"
+import { PaperUtil, Template } from "../paper-util"
 import { DocumentService } from "../document.service";
 import { ProfileService } from "../../profile/profile.service";
 import { AbstractDocumentGenerator } from "./abstract-document.generator";
@@ -33,7 +33,7 @@ export class TechRiderDocumentGenerator extends AbstractDocumentGenerator<TechRi
             agencyName: managerData.agencyName,
             agencyPhone: managerData.agencyPhone,
             agencyEmail: managerData.agencyEmail,
-            agencyFooterString: DocUtil.agencyString(managerData),
+            agencyFooterString: PaperUtil.agencyString(managerData),
         }
     }
 }

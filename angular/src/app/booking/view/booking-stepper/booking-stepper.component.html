@@ -1,18 +1,27 @@
 
-<p-stepper orientation="vertical" [(activeStep)]="activeStep">
+<p-stepper orientation="vertical" [(activeStep)]="activeStep" *ngIf="_booking$ | async as booking">
 
     <!-- #1 STEP - FORM -->
-    <p-stepperPanel header="Submit form">
+    <p-stepperPanel header="Submit form" >
         <ng-template pTemplate="content" let-index="index">
 
-            <div class="substep-buttons">
-                <app-btn (click)="_showFormData(booking)" label="Show form data" class="grey margin-bottom"></app-btn>
+            <div class="item-row-buttons margin-bottom">
+                <app-btn (click)="_showFormData(booking)" label="Show form data" class="grey"></app-btn>
+
+                @if (_uid) {
+                    @if (['SUBMITTED'].includes(booking.status) && [booking.managerUid].includes(_uid)) {
+                        <app-btn (click)="_acceptBooking(booking)" label="Accept" class="green"></app-btn>
+                    }
+                    @if (['SUBMITTED'].includes(booking.status) && [booking.managerUid, booking.promoterUid].includes(_uid)) {
+                        <app-btn (click)="_cancelBooking(booking)" label="Cancel"></app-btn>
+                    }
+                }
             </div>
 
             <app-substep [mode]="'ready'" header="Form submitted by promoter"></app-substep>
 
             @if (booking.status === 'SUBMITTED') {
-                <app-substep [mode]="_manager ? 'available' : 'blank'" header="Form is waiting for varification by manager"></app-substep>
+                <app-substep [mode]="booking.managerUid === _uid ? 'available' : 'blank'" header="Form is waiting for verification by manager"></app-substep>
             } @else {
                 <app-substep mode="ready" header="Form verified by manager"></app-substep>
             }
@@ -20,55 +29,18 @@
         </ng-template>
     </p-stepperPanel>
 
-    <!-- #2 STEP - DOCUMENT FORMALITIES -->
+    <!-- #2 STEP - DOCUMENTS/PAPERS CHECKLIST -->
     <p-stepperPanel header="Documents">
         <ng-template pTemplate="content" let-index="index">
 
-            <p-stepper orientation="vertical" [(activeStep)]="activeDocumentStep">
-                <!-- CONTRACT -->
-                <p-stepperPanel>
-                    <ng-template pTemplate="header" let-onClick="onClick" let-index="index">
-                        <app-contract-substep [booking]="booking" class="w100" (click)="onClick.emit()"></app-contract-substep>
-                    </ng-template>
-
-                    <ng-template pTemplate="content" let-index="index">
-                        <div class="substep-buttons">
-                            <app-btn
-                                class="grey" 
-                                icon="description"
-                                label="Generate"
-                                (click)="_getPdf(booking, 'contract')"
-                            ></app-btn>
-                        </div>
-                    </ng-template>
-                </p-stepperPanel>
-
-                <p-stepperPanel>
-                    <ng-template pTemplate="header" let-onClick="onClick" let-index="index">
-                        <app-substep [mode]="'available'" header="Tech rider" (click)="onClick.emit()"></app-substep>
-                    </ng-template>
-
-                    <ng-template pTemplate="content" let-index="index">
-                        <div class="substep-buttons">
-                            <app-btn
-                                class="grey" 
-                                icon="description"
-                                label="Generate"
-                                (click)="_getPdf(booking, 'contract')"
-                            ></app-btn>
-    
-                            <app-btn
-                                class="green" 
-                                icon="description"
-                                label="Download signed contract"
-                                (click)="_signContract(booking)"
-                            ></app-btn>
-                        </div>
-                    </ng-template>
-                </p-stepperPanel>
-
-
-            </p-stepper>
+            <div class="paper-tiles">
+                @for (tile of _checklistTiles; track tile.name) {
+                    <app-paper-tile
+                        [tile]="tile"
+                        [booking]="booking"
+                    ></app-paper-tile>
+                }
+            </div>
 
         </ng-template>
     </p-stepperPanel>

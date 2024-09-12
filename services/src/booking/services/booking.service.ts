@@ -8,18 +8,11 @@ import { JwtPayload } from '../../profile/auth/jwt-strategy';
 import { BookingDto } from '../model/booking.dto';
 import { Booking } from '../model/booking.model';
 import { SubmitService } from './submit.service';
-import { Event } from '../../event/model/event.model';
 import { ProfileService } from '../../profile/profile.service';
 import { TelegramService } from '../../telegram/telegram.service';
 import { BotUtil } from '../../telegram/util/bot.util';
-import { Artist } from '../../artist/model/artist.model';
+import { BookingContext, SimpleBookingContext } from '../model/interfaces';
 
-export interface BookingContext {
-    profile: JwtPayload
-    booking: Booking
-    event: Event
-    artists: Artist[]
-}
 
 @Injectable()
 export class BookingService {
@@ -78,15 +71,22 @@ export class BookingService {
         return result
     }
 
+
+    public async buildSimpleContext(formId: string, profile: JwtPayload): Promise<SimpleBookingContext> {
+        const booking = await this.fetchBooking(formId, profile)
+        return {
+            booking,
+            profile
+        }
+    }
     
     public async buildContext(formId: string, profile: JwtPayload): Promise<BookingContext> {
-        const booking = await this.fetchBooking(formId, profile)
-        const event = await this.eventService.fetchEvent(booking.eventSignature)
-        const artists = await this.artistService.getArtists(booking.artists.map(a => a.code))
+        let simpleCtx = await this.buildSimpleContext(formId, profile)
+        const event = await this.eventService.fetchEvent(simpleCtx.booking.eventSignature)
+        const artists = await this.artistService.getArtists(simpleCtx.booking.artists.map(a => a.code))
         return {
+            ...simpleCtx,
             event,
-            booking,
-            profile,
             artists
         }
     }
@@ -119,8 +119,8 @@ export class BookingService {
     }
 
     public async update(booking: Booking) {
-        this.logger.warn(`Updated booking ${booking.formId} with status ${booking.status}`)
         const update = await this.bookingModel.updateOne({ formId: booking.formId }, { $set: booking })
+        this.logger.warn(`Updated booking ${booking.formId} with status ${booking.status}`)
         if (!update?.modifiedCount) {
             throw new IllegalStateException(`Not updated booking ${booking.formId}`)
         }

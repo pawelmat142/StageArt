@@ -22,16 +22,15 @@ export class IconButtonComponent {
   @Input() mediaIcon?: ArtistMediaCode
   @Input() src?: string
   @Input() chachedImg = false
-  
 
   @Input() button: boolean = true
   @Input() active = true
   @Input() show = true
 
-  @Output() click = new EventEmitter<void>()
+  @Output() click = new EventEmitter<Event | void>()
 
   _click(event: MouseEvent) {
-    this.click.emit()
+    this.click.emit(event)
     event.preventDefault()
     event.stopPropagation()
   }

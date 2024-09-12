@@ -9,6 +9,7 @@ import { DialogService } from "../global/nav/dialog.service"
 import { NavService } from "../global/nav/nav.service"
 import { HandSignature } from "./profile.service"
 import { BookingDto, BookingService } from "../booking/services/booking.service"
+import { ChecklistUtil } from "../booking/checklist.util"
 
 export interface ProfileState {
     loading: boolean
@@ -90,11 +91,9 @@ export const remvoeHandSignature = createAction("[PROFILE] [SIGNATURE] remove")
 export const loadBookings = createAction("[PROFILE] [BOOKINGS] init")
 export const setBookings = createAction("[PROFILE] [BOOKINGS] set", props<{ value: BookingDto[] }>())
 
-export const selectBooking = createAction("[PROFILE] [BOOKINGS] select", props<BookingDto>())
-export const unselectBooking = createAction("[PROFILE] [BOOKINGS] unselect")
-
-export const updateBooking = createAction("[PROFILE] [BOOKINGS] update", props<BookingDto>())
-
+export const selectBooking = createAction("[PROFILE] [BOOKING] select", props<BookingDto>())
+export const unselectBooking = createAction("[PROFILE] [BOOKING] unselect")
+export const updateBooking = createAction("[PROFILE] [BOOKING] update", props<BookingDto>())
 
 export const setBookingFormData = createAction("[PROFILE] [formData] set", props<any>())
 export const removeBookingFormData = createAction("[PROFILE] [formData] remove")
@@ -160,24 +159,22 @@ export const profileReducer = createReducer(
     on(selectBooking, (state, booking) => ({
         ...state,
         loading: false,
-        singleBooking: booking
+        singleBooking: booking,
+        checklist: ChecklistUtil.prepareTiles(booking, state.profile!.uid)
     })),
-
     on(unselectBooking, (state) => ({
         ...state,
         loading: false,
-        singleBooking: undefined
+        singleBooking: undefined,
+        checklist: undefined
+    })),
+    on(updateBooking, (state, booking) => ({
+        ...state,
+        loading: false,
+        singleBooking: booking,
     })),
 
-
-    on(updateBooking, (state, booking) => {
-        const bookings = state.bookings?.map(b => booking.formId === b.formId ? booking : b)
-        return {
-            ...state,
-            bookings
-        }
-    }),
-
+    
     on(setBookingFormData, (state, formData) => ({
         ...state,
         formData

@@ -1,2 +1,8 @@
 @import 'stepper';
 
+.paper-tiles {
+    display: grid;
+    grid-template-columns: 1fr;
+
+    gap: $padding-standard;
+}

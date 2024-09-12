@@ -71,7 +71,7 @@
     p {
         color: $white;
         font-weight: 100;
-        font-size: 12px;
+        @extend .fs5;
 
         &:last-of-type {
             text-align: right;

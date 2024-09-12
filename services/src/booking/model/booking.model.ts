@@ -2,10 +2,11 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose"
 import { Expose } from "class-transformer"
 import { HydratedDocument } from "mongoose"
 import { SelectorItem } from "../../artist/model/artist.model"
+import { ChecklistItem } from "./checklist.interface"
 
 export type BookingDocument = HydratedDocument<Booking>
 
-export type BookingStatus = 'SUBMITTED' | 'DOCUMENTS_REQUESTED' | 'PENDING' | 'READY' | 'CANCELED'
+export type BookingStatus = 'SUBMITTED' | 'DOCUMENTS' | 'CHECKLIST_COMPLETE' | 'PENDING' | 'READY' | 'CANCELED'
 
 export interface StatusHistory {
     version: number
@@ -49,7 +50,10 @@ export class Booking {
     @Prop({ type: Object })
     @Expose()
     formData?: any
-
+    
+    @Prop({ type: Object, required: true })
+    @Expose()
+    checklist: ChecklistItem[]
 
     @Prop({ type: Object })
     statusHistory: StatusHistory[]

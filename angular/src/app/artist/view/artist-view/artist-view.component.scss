@@ -130,8 +130,7 @@ $view-padding: 4*$padding-standard;
     justify-content: center;
     background-color: $white;
     border: 1px solid $dark;
-    font-size: 12px;
-    
+    @extend .fs5;
     z-index: 5;
 
     position: absolute;

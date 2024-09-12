@@ -3,7 +3,7 @@ import { DocumentGenerateOptions } from "./document.service"
 
 export type Template = 'contract' | 'tech-rider'
 
-export abstract class DocUtil {
+export abstract class PaperUtil {
 
     public static agencyString(managerData: ManagerData): string {
         return `${managerData.agencyName} / ${managerData.accountAddress} / ${managerData.agencyCountry.name}`
