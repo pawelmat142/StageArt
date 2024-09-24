@@ -8,8 +8,6 @@ import { ProfileTelegramService } from './profile-telegram.service';
 import { ProfileEmailService } from './profile-email.service';
 import { JwtGuard } from './auth/jwt.guard';
 import { AppJwtService } from './auth/app-jwt.service';
-import { SignatureService } from './services/signature.service';
-import { SignatureController } from './services/signature.controller';
 
 @Module({
   imports: [
@@ -17,7 +15,6 @@ import { SignatureController } from './services/signature.controller';
       name: Profile.name,
       schema: ProfileSchema
     }]),
-
     ConfigModule,
   ],
   providers: [
@@ -26,15 +23,13 @@ import { SignatureController } from './services/signature.controller';
     ProfileEmailService,
     JwtGuard,
     AppJwtService,
-    SignatureService,
   ],
-  controllers: [ProfileController, SignatureController],
+  controllers: [ProfileController],
   exports: [
     ProfileTelegramService,
     ProfileService,
     JwtGuard,
     AppJwtService,
-    SignatureService,
   ]
 })
 export class ProfileModule {}

@@ -1,8 +1,27 @@
 import { Event } from "../../event/model/event.model";
 import { JwtPayload } from "../../profile/auth/jwt-strategy";
+import { Role } from "../../profile/model/role";
 import { Booking, StatusHistory } from "../model/booking.model";
 
 export abstract class BookingUtil {
+
+    public static bookingRoles(booking: Booking, profileUid: string): string[] {
+        let result = []
+        if (booking.promoterUid === profileUid) {
+            result.push(Role.PROMOTER)
+        }
+        if (booking.managerUid === profileUid) {
+            result.push(Role.MANAGER)
+        }
+        if (BookingUtil.artistSignatures(booking).includes(profileUid)) {
+            result.push(Role.ARTIST)
+        }
+        return result
+    }
+
+    public static artistSignatures(booking: Booking): string[] {
+        return booking.artists.map(a => a.code)
+    }
 
     public static addStatusToHistory(booking: Partial<Booking>, profile: JwtPayload) {
         const newStatus: StatusHistory = {

@@ -24,15 +24,14 @@
 
     <div class="panel-section form-data" *ngIf="(_formData$ | async) as formData">
         <div class="panel-section-header">
-            <h2 class="fs3 light booking-header">
-                <div></div>
-                <app-icon-button
-                    class="red"
-                    (click)="_closeBooking()"
-                    icon="close"
-                ></app-icon-button>
-            </h2>
+          <h2 class="fs3 light">Booking request form data</h2>
+          <app-icon-button
+              class="red"
+              (click)="_closeBooking()"
+              icon="close"
+          ></app-icon-button>
         </div>
+
         <app-form-presentation 
             [data]="formData"
             [structure]="_bookingFormStructure.form"

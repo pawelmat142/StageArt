@@ -8,12 +8,17 @@ import { Paper, PaperSchema } from './paper-model';
 import { DocumentController } from './document.controller';
 import { BookingModule } from '../booking/booking.module';
 import { ChecklistService } from './checklist.service';
+import { SignatureService } from './signature.service';
+import { Signature, SignatureSchema } from './signature.model';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{
       name: Paper.name,
       schema: PaperSchema
+    }, {
+      name: Signature.name,
+      schema: SignatureSchema
     }]),
     ProfileModule,
     BookingModule,
@@ -25,7 +30,8 @@ import { ChecklistService } from './checklist.service';
     DocumentService,
     BookingContractDocumentGenerator,
     TechRiderDocumentGenerator,
-    ChecklistService
+    ChecklistService,
+    SignatureService,
   ],
 })
 export class DocumentModule {}

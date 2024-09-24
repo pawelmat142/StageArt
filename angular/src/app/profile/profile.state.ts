@@ -1,13 +1,12 @@
-import { createAction, createReducer, createSelector, on, props } from "@ngrx/store"
+import { createAction, createReducer, createSelector, on, props, Store } from "@ngrx/store"
 import { Injectable } from "@angular/core"
 import { Actions, createEffect, ofType } from "@ngrx/effects"
 import { map, switchMap, tap } from "rxjs"
 import { Token } from "./auth/view/token"
-import { selectProfileState } from "../app.state"
+import { AppState, selectProfileState } from "../app.state"
 import { Profile } from "./profile.model"
 import { DialogService } from "../global/nav/dialog.service"
 import { NavService } from "../global/nav/nav.service"
-import { HandSignature } from "./profile.service"
 import { BookingDto, BookingService } from "../booking/services/booking.service"
 import { ChecklistUtil } from "../booking/checklist.util"
 
@@ -17,7 +16,6 @@ export interface ProfileState {
     profile?: Profile
     uuid: string
 
-    signature?: HandSignature
     bookings?: BookingDto[]
     singleBooking?: BookingDto
     formData?: any
@@ -50,11 +48,6 @@ export const loggedInChange = createSelector(
     (state: ProfileState) => state.loggedIn
 )
 
-export const handSignature = createSelector(
-    selectProfileState,
-    (state: ProfileState) => state.signature
-)
-
 
 
 
@@ -84,9 +77,6 @@ export const setProfile = createAction("[PROFILE] set profile", props<Profile>()
 
 export const logout = createAction("[PROFILE] logout")
 
-
-export const setHandSignature = createAction("[PROFILE] [SIGNATURE] set", props<HandSignature>())
-export const remvoeHandSignature = createAction("[PROFILE] [SIGNATURE] remove")
 
 export const loadBookings = createAction("[PROFILE] [BOOKINGS] init")
 export const setBookings = createAction("[PROFILE] [BOOKINGS] set", props<{ value: BookingDto[] }>())
@@ -130,16 +120,6 @@ export const profileReducer = createReducer(
         loggedIn: false,
         loading: false,
         profile: undefined,
-    })),
-
-    on(setHandSignature, (state, handSignature) => ({
-        ...state,
-        signature: handSignature
-    })),
-
-    on(remvoeHandSignature, (state) => ({
-        ...state,
-        signature: undefined
     })),
 
 
@@ -195,6 +175,7 @@ export class ProfileEffect {
         private dialog: DialogService,
         private nav: NavService,
         private bookingService: BookingService,
+        private store: Store<AppState>,
     ){}
 
     loggedIn$ = createEffect(() => this.actions$.pipe(
@@ -223,8 +204,13 @@ export class ProfileEffect {
     loadBookings$ = createEffect(() => this.actions$.pipe(
         ofType(loadBookings),
         switchMap(() => this.bookingService.fetchProfileBookings$()),
-        tap(console.log),
-        map(bookings => setBookings({ value: bookings }))
+        // TODO remove
+        tap(bookings => {
+            setTimeout(() => {
+                this.store.dispatch(selectBooking(bookings[0]))
+            },200)
+        }),
+        map(bookings => setBookings({ value: bookings })),
     ))
 
 }

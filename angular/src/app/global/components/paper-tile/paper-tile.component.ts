@@ -8,6 +8,7 @@ import { IconButtonComponent } from '../icon-button/icon-button.component';
 import { BookingDto } from '../../../booking/services/booking.service';
 import { DocumentService } from '../../document/document.service';
 import { ChecklistUtil } from '../../../booking/checklist.util';
+import { SignatureService } from '../sign/signature.service';
 
 @Component({
   selector: 'app-paper-tile',
@@ -25,7 +26,8 @@ import { ChecklistUtil } from '../../../booking/checklist.util';
 export class PaperTileComponent {
 
   constructor(
-    private readonly documentService: DocumentService
+    private readonly documentService: DocumentService,
+    private readonly signatureService: SignatureService,
   ) {}
 
   @Input() tile!: ChecklistTile
@@ -33,6 +35,9 @@ export class PaperTileComponent {
 
   @ViewChild('menu') menuRef!: Menu
 
+  private signDocument() {
+    this.signatureService.showSection()
+  }
 
   tileOptions: MenuItem[] = []
 
@@ -50,11 +55,12 @@ export class PaperTileComponent {
     if (ChecklistUtil.canSign(this.tile)) {
       this.tileOptions.push({
         label: 'Sign document',
-        command: () => this.documentService.sign(this.tile.paperId!)
+        command: () => this.signDocument()
       }),
       this.tileOptions.push({
         label: 'Upload signed',
-        command: () => this.documentService.sign(this.tile.paperId!)
+        // TODO
+        // command: () => this.documentService.sign(this.tile.paperId!)
       })
     }
     if (ChecklistUtil.canDownload(this.tile)) {

@@ -14,15 +14,6 @@
 
     .item-row {
         padding: 0.8*$padding-standard $padding-standard;
-
-        // TODO 
-        // &:not(.labels) {
-        //     cursor: pointer;
-        //     &:hover {
-        //         background-color: $light-dark;
-        //         box-shadow: 5px 5px 5px 5px $dark;
-        //     }
-        // }
     }
 
     .booking-item {
@@ -59,10 +50,11 @@
 .panel-section-content,
 .panel-section-header {
     padding: $padding-standard;
+    display: flex;
+    justify-content: space-between;
 }
 
 .item-row {
-    // padding: 0.8*$padding-standard $padding-standard;
     padding: 0.8*$padding-standard 0.5*$padding-standard;   
     display: grid;
     align-items: center;
@@ -87,6 +79,9 @@
         &:hover {
             background-color: $light-dark;
         }
+    }
+    &.selected {
+        background-color: $light-dark;
     }
 }
 

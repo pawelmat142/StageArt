@@ -57,6 +57,7 @@ $paper-step-size: 18px;
     border-radius: $radius;
     background: $dark;
     min-width: 150px;
+    box-shadow: $shadow-standard;
     
     .p-submenu-header {
         color: $red;

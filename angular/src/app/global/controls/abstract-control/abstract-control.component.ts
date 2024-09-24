@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostBinding, HostListener, Injector, Input, QueryList, Renderer2, ViewChildren } from '@angular/core';
+import { Component, ElementRef, HostBinding, HostListener, Injector, Input } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 
 @Component({

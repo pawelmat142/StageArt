@@ -1,4 +1,4 @@
-import { BadRequestException, Controller, Get, NotFoundException, Param, Res, UseGuards, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, NotFoundException, Param, Post, Put, Res, UseGuards, UseInterceptors } from '@nestjs/common';
 import { JwtGuard } from '../profile/auth/jwt.guard';
 import { Serialize } from '../global/interceptors/serialize.interceptor';
 import { LogInterceptor } from '../global/interceptors/log.interceptor';
@@ -12,9 +12,12 @@ import { BookingContractDocumentGenerator } from './generators/booking-contract.
 import { TechRiderDocumentGenerator } from './generators/tech-rider.generator';
 import { BookingService } from '../booking/services/booking.service';
 import { ChecklistService } from './checklist.service';
+import { PutSignatureDto, Signature } from './signature.model';
+import { SignatureService } from './signature.service';
 
 @Controller('api/document')
 @UseInterceptors(LogInterceptor)
+@UseGuards(JwtGuard)
 export class DocumentController {
 
     constructor(
@@ -23,16 +26,15 @@ export class DocumentController {
         private readonly techRiderDocument: TechRiderDocumentGenerator,
         private readonly bookingService: BookingService,
         private readonly checklistService: ChecklistService,
+        private readonly signatureService: SignatureService,
     ) {}
 
-    @Get('refresh-checklist/:id')
-    @UseGuards(JwtGuard)
+    @Get('/refresh-checklist/:id')
     refreshChecklist(@Param('id') formId: string, @GetProfile() profile: JwtPayload) {
         return this.checklistService.refreshChecklist(formId, profile)
     }
 
-    @Get('download/:id')
-    @UseGuards(JwtGuard)
+    @Get('/download/:id')
     @Serialize(Paper)
     async downloadPaper(
         @Res() res: Response,
@@ -45,8 +47,7 @@ export class DocumentController {
         this.pdfResponse(res, paper)
     }
 
-    @Get('generate/:id/:template')
-    @UseGuards(JwtGuard)
+    @Get('/generate/:id/:template')
     async generate(
         @Res() res: Response,
         @Param('id') formId: string,
@@ -57,15 +58,14 @@ export class DocumentController {
         this.pdfResponse(res, paper)
     }
 
-    @Get('sign/:id/')
-    @UseGuards(JwtGuard)
+    @Get('/sign/:paperid/:signatureid')
     async signPaper(
         @Res() res: Response,
-        @Param('id') id: string,
+        @Param('paperid') paperId: string,
+        @Param('signatureid') signatureId: string,
         @GetProfile() profile: JwtPayload
     ) {
-        const paper = await this.documentService.fetchPaper(id)
-        // TODO sign contract
+        const paper = await this.documentService.signPaper(paperId, signatureId, profile)
         this.pdfResponse(res, paper)
     }
 
@@ -80,7 +80,7 @@ export class DocumentController {
     }
 
 
-    public async generatePaper(formId: string, templateName: Template, profile: JwtPayload): Promise<Paper> {
+    private async generatePaper(formId: string, templateName: Template, profile: JwtPayload): Promise<Paper> {
         const ctx = await this.bookingService.buildContext(formId, profile)
         if (templateName === 'contract') {
             const paper = await this.bookingContractDocument.generatePdf(ctx)
@@ -93,6 +93,21 @@ export class DocumentController {
     }
 
 
+    @Get('/signatures')
+    @Serialize(Signature)
+    listSignatures(@GetProfile() profile: JwtPayload) {
+        return this.signatureService.listSignatures(profile.uid)
+    }
 
+    @Put('/signature')
+    putSignature(@Body() dto: PutSignatureDto, @GetProfile() profile: JwtPayload) {
+        return this.signatureService.putSignature(dto, profile)
+    }
+
+    @Delete('/signature/:id')
+    @UseGuards(JwtGuard)
+    cancelSignature(@Param('id') id: string, @GetProfile() profile: JwtPayload) {
+        return this.signatureService.cancelSignature(id, profile.uid)
+    }
 
 }

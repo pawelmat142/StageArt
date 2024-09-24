@@ -17,9 +17,3 @@ export interface Size {
   width: number
   height: number
 }
-
-export interface HandSignature {
-  date: Date
-  base64data: string
-  size: Size
-}

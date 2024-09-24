@@ -4,7 +4,6 @@ import { HttpService } from "../global/services/http.service";
 import { Profile, ProfileDto } from "./profile.model";
 import { SelectorItem } from "../global/controls/selector/selector.component";
 import { ManagerData } from "./view/manager-form/manager-form.component";
-import { Size } from "../global/utils/img.util";
 
 export interface LoginToken {
     token: string
@@ -18,11 +17,6 @@ export interface LoginForm {
     password: string
 }
 
-export interface HandSignature {
-    date: Date
-    base64data: string
-    size: Size
-  }
 
 @Injectable({
     providedIn: 'root'

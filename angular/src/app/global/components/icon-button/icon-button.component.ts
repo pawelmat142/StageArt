@@ -27,11 +27,15 @@ export class IconButtonComponent {
   @Input() active = true
   @Input() show = true
 
+  @Input() skipEvent = true
+
   @Output() click = new EventEmitter<Event | void>()
 
   _click(event: MouseEvent) {
     this.click.emit(event)
-    event.preventDefault()
-    event.stopPropagation()
+    if (this.skipEvent) {
+      event.preventDefault()
+      event.stopPropagation()
+    }
   }
 }

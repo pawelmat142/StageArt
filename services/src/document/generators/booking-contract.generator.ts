@@ -3,12 +3,10 @@ import { IllegalStateException } from "../../global/exceptions/illegal-state.exc
 import { PaperUtil, Template } from "../paper-util"
 import { Util } from "../../global/utils/util";
 import { BookingUtil } from "../../booking/util/booking.util";
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { DocumentGenerateOptions, DocumentService } from "../document.service";
 import { ProfileService } from "../../profile/profile.service";
 import { AbstractDocumentGenerator } from "./abstract-document.generator";
-import { HandSignature } from "../../profile/model/profile-interfaces";
-import { SignatureService } from "../../profile/services/signature.service";
 import { BookingContext } from "../../booking/model/interfaces";
 
 export interface BookingContractDocumentData {
@@ -54,7 +52,6 @@ export class BookingContractDocumentGenerator extends AbstractDocumentGenerator<
     constructor(
         protected readonly documentService: DocumentService,
         private readonly profileService: ProfileService,
-        private readonly signatureService: SignatureService,
     ) {
         super(documentService);
     }
@@ -63,9 +60,6 @@ export class BookingContractDocumentGenerator extends AbstractDocumentGenerator<
         return 'contract'
     }
 
-    public async signDocument(bookingContext: BookingContext, signature: HandSignature) {
-
-    }
 
     override async prepareData(ctx: BookingContext, options?: DocumentGenerateOptions): Promise<BookingContractDocumentData> {
         const formData = ctx.booking.formData
@@ -76,11 +70,13 @@ export class BookingContractDocumentGenerator extends AbstractDocumentGenerator<
         let signature: string
 
         if (options?.addSignature) {
-            const handSignature = await this.signatureService.fetchSignature(ctx.booking.promoterUid)
-            if (!handSignature) {
-                throw new NotFoundException(`Not found promoter signature for booking ${ctx.booking.formId}`)
-            }
-            signature = handSignature.base64data
+
+            // TODO signature
+            // const handSignature = await this.signatureService.fetchSignature(ctx.booking.promoterUid)
+            // if (!handSignature) {
+            //     throw new NotFoundException(`Not found promoter signature for booking ${ctx.booking.formId}`)
+            // }
+            // signature = handSignature.base64data
         }
 
         const artistProfile = await this.profileService.findByArtistSignature(ctx.artists[0].signature)

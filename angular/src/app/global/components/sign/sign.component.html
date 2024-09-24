@@ -1,32 +1,78 @@
-<div class="panel-section">
-  <div class="panel-section-header sign-pad-container">
-      <canvas
-        class="canvas"
-        #canvas
-        [width]="width"
-      ></canvas>
+@if (_showSection$ | async) {
+  <div class="panel-section sign-section" #signatureSection>
+  
+    <div class="panel-section-header">
+      <h2 class="fs3 light">Document signature pad</h2>
+      <div class="menu">
+        <p-menu #menu [model]="_menuItems" [popup]="true" />
+        <app-icon-button (click)="_menuToggle($event!)" icon="more_vert"></app-icon-button>
+      </div>
+    </div>
+  
+    <div class="sign-pad-container">
+      <div class="pad-wrapper">
+        <div class="canvas-container"
+        >
+          <canvas
+            class="canvas"
+            #canvas
+            [width]="width"
+            [height]="height"
+          ></canvas>
+        </div>
+
+        <div class="pad-controls">
+          <app-btn *ngIf="!_clean && !_selected"
+            label="Clear pad"
+            (click)="_clearPad()"
+          ></app-btn>
+          <app-btn *ngIf="!_clean && !_selected"
+            class="green"
+            label="Save"
+            (click)="_save()"
+          ></app-btn>
+
+          <ng-container *ngIf="_selectedBooking$ | async as selectedBooking">
+            <app-btn *ngIf="_paperIdToSign$ | async"
+              class="green"
+              label="Sign contract"
+              (click)="_sign(selectedBooking)"
+            ></app-btn>
+          </ng-container>
+
+        </div>
+      </div>
+    </div>
+
+    <ng-container *ngIf="_signatures$ | async as signatures">
+      <div class="signatures-container" *ngIf="signatures.length">
+
+        <div class="item-row labels">
+          <p>Date</p>
+          <p>Time</p>
+          <p></p>
+        </div>
+
+        @for (signature of signatures; track signature.id; let index = $index) {
+          <div class="item-row item-row-signature clickable" (click)="_select(signature)" [class.selected]="signature.id === _selected?.id">
+            <div>{{signature.modified || signature.created | date : 'dd-MM-yyyy'}}</div>
+            <div>{{signature.modified || signature.created | date : 'HH:mm'}}</div>
+
+            <div></div>
+
+            <div class="menu">
+              <app-icon-button (click)="_remove(signature)" icon="delete_forever"></app-icon-button>
+            </div>
+
+          </div>
+        }
+
+
+      </div>
+    </ng-container>
+
+
+  
   </div>
+} 
 
-  <div class="btns btns-row no-margin panel-section-header">
-
-    <app-btn
-      label="Clear"
-      (click)="_clearPad()"
-    ></app-btn>
-
-    <app-btn
-      [active]="!this.signaturePad?.isEmpty()"
-      label="Download"
-      (click)="_downloadSignature()"
-      class="grey"
-    ></app-btn>
-
-    <app-btn
-      label="Submit"
-      (click)="_submit()"
-      class="green"
-    ></app-btn>
-
-  </div>
-
-</div>

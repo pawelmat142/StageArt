@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose"
 import { Expose } from "class-transformer"
 import { HydratedDocument } from "mongoose"
-import { HandSignature, ManagerData } from "./profile-interfaces"
+import { ManagerData } from "./profile-interfaces"
 
 export type ProfileDocument = HydratedDocument<Profile>
 
@@ -73,9 +73,6 @@ export class Profile {
     @Prop({ type: Object })
     @Expose()
     promoterInfo?: any
-
-    @Prop({ type: Object })
-    signature?: HandSignature
 }
 
 export const ProfileSchema = SchemaFactory.createForClass(Profile)

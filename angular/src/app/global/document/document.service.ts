@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpResponse } from "@angular/common/http";
 import { Util } from "../utils/util";
-import { map, Observable, take, tap } from "rxjs";
+import { map, take, tap } from "rxjs";
 import { Template } from "./doc-util";
 import { CourtineService } from "../nav/courtine.service";
 import { HttpService } from "../services/http.service";
@@ -62,9 +62,8 @@ export class DocumentService {
         this.documentRequest(`${this.apiUri}/document/download/${paperId}`)
     }
 
-    // TODO
-    public sign(paperId: string) {
-        this.documentRequest(`${this.apiUri}/document/sign/${paperId}`)
+    public signPaper(paperId: string, signatureId: string, booking: BookingDto) {
+        this.documentRequest(`${this.apiUri}/document/sign/${paperId}/${signatureId}`, booking)
     }
 
     public uploadSigned(paperId: string) {

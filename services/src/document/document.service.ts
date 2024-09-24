@@ -1,4 +1,4 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import * as puppeteer from 'puppeteer';
 import * as path from 'path';
 import * as fs from 'fs';
@@ -6,10 +6,14 @@ import { IllegalStateException } from '../global/exceptions/illegal-state.except
 import { PaperUtil, Template } from './paper-util';
 import Handlebars from 'handlebars';
 import { InjectModel } from '@nestjs/mongoose';
-import { Paper } from './paper-model';
+import { Paper, PaperSignature } from './paper-model';
 import { Model } from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
 import { BookingContext } from '../booking/model/interfaces';
+import { BookingService } from '../booking/services/booking.service';
+import { JwtPayload } from '../profile/auth/jwt-strategy';
+import { BookingUtil } from '../booking/util/booking.util';
+import { SignatureService } from './signature.service';
 
 export interface DocumentGenerateOptions {
     addSignature?: boolean
@@ -25,16 +29,20 @@ export class DocumentService {
 
     constructor(
         @InjectModel(Paper.name) private paperModel: Model<Paper>,
+        private readonly bookingService: BookingService,
+        private readonly signatureService: SignatureService,
     ) {}
 
     public fetchBookingPapers(formId: string) {
         return this.paperModel.find({ formId: formId }).select({
-            content: false
+            content: false,
         }).exec()
     }
 
     public fetchPaper(id: string) {
-        return this.paperModel.findOne({ id }).exec()
+        return this.paperModel.findOne({ id }).select({
+            contentWithSignatures: false,
+        }).exec()
     }
 
     public async storeBookingPaper(buffer: Buffer, ctx: BookingContext, template: Template): Promise<Paper> {
@@ -116,13 +124,52 @@ export class DocumentService {
     }
 
 
+    public async signPaper(paperId: string, signatureId: string, profile: JwtPayload): Promise<Paper> {
+        const template: Template = 'contract'
+        const paper = await this.paperModel
+            .findOne({ id: paperId, uid: profile.uid, template })
+            .select({ formId: true, id: true })
+            .exec()
+        if (!paper) {
+            throw new NotFoundException(`Not found paper ${paperId}`)
+        }
+        const ctx = await this.bookingService.buildSimpleContext(paper.formId, profile)
 
-    // public async signContract(formId: string, profile: JwtPayload) {
-    //     const ctx = await this.bookingService.buildContext(formId, profile)
-    //     // TODO store signed document!!
-    //     // TODO delete signed document option
-    //     // TODO option to upload signed document
-    //     return this.bookingContractDocument.generatePdf(ctx, { addSignature: true })
-    // }
+        const bookingRoles = BookingUtil.bookingRoles(ctx.booking, profile.uid)
+        if (!bookingRoles.length) {
+            throw new UnauthorizedException(`Profile ${profile.uid} has no access to Booking ${ctx.booking.formId} -> Paper ${paper.formId}`)
+        }
+
+        const signature = await this.signatureService.fetch(signatureId, profile.uid)
+        if (!signature.base64data) {
+            throw new IllegalStateException(`Missing signature data`)
+        }
+
+        const signatures: PaperSignature[] = bookingRoles.map(r => ({
+            base64: signature.base64data,
+            role: r
+        }))
+
+        const update = await this.paperModel.updateOne({ id: paper.id }, { 
+            $set: { signatures: signatures } }).exec()
+
+        if (!update.modifiedCount) {
+            throw new NotFoundException(`Not updated paper ${paper.id} when signing`)
+        }
+
+        return this.generateSigned(paper.id)
+    }
+
+
+    private async generateSigned(id: string): Promise<Paper> {
+        const paper = await this.paperModel.findOne({ id }).exec()
+
+        // TODO generate pdf with signatures
+        paper.contentWithSignatures = paper.content
+
+        await this.paperModel.updateOne({ id }, { $set: { contentWithSignatures: paper.content } } ).exec()
+        this.logger.warn(`TODO Generated PDF Paper ${paper.id} with signatures`)
+        return paper 
+    }
 
 }

@@ -1,12 +1,27 @@
 import { Injectable } from "@angular/core";
-import { CourtineService } from "../../nav/courtine.service";
 import { HttpService } from "../../services/http.service";
-import { HandSignature } from "../../../profile/profile.service";
-import { noop, Observer, tap } from "rxjs";
-import { AppState } from "../../../app.state";
-import { Store } from "@ngrx/store";
-import { remvoeHandSignature, setHandSignature } from "../../../profile/profile.state";
-import { DialogService } from "../../nav/dialog.service";
+import { BehaviorSubject, map, Observable } from "rxjs";
+import { Size } from "../../utils/img.util";
+import { Status } from "../../status";
+
+export type SignatureStatus = Status.DRAFT | Status.READY
+
+
+export interface Signature {
+    id: string
+    uid: string
+    status: SignatureStatus
+    created: Date
+    modified?: Date
+    base64data: string
+    size: Size
+}
+
+export interface PutSignatureDto {
+    base64data: string
+    size: Size
+    id?: string
+}
 
 @Injectable({
     providedIn: 'root'
@@ -15,50 +30,37 @@ export class SignatureService {
   
     constructor(
       private readonly http: HttpService,
-      private readonly courtine: CourtineService,
-      private readonly dialog: DialogService,
-      private readonly store: Store<AppState>,
     ) { }
 
 
-    fetchSignature$() {
-        this.courtine.startCourtine()
-        this.http.get<HandSignature>(`/profile/signature`)
-        .subscribe(this.signatureObserver())
+    // TODO
+    // showSection$ = new BehaviorSubject(false)
+    showSection$ = new BehaviorSubject(true)
+
+    public showSection() {
+        this.showSection$.next(true)
     }
-    
-    setSignature$(signature: HandSignature) {
-        this.courtine.startCourtine()
-        this.http.put<HandSignature>(`/profile/signature`, signature).pipe(
-            tap(() => this.dialog.simplePopup(`Signature uploaded`))
-        )
-        .subscribe(this.signatureObserver())
-    }
-    
-    removeSignature$() {
-        this.courtine.startCourtine()
-        return this.http.delete<{ result: boolean }>(`/profile/signature`).subscribe(result => {
-            this.courtine.stopCourtine()
-            this.store.dispatch(remvoeHandSignature())
-            if (result.result) {
-                this.dialog.simplePopup(`Signature deleted`)
-            }
-        })
+    public closeSection() {
+        this.showSection$.next(false)
     }
 
-    private signatureObserver(): Observer<HandSignature> {
-        return {
-            next: signature => {
-                this.courtine.stopCourtine()
-                if (signature) {
-                    this.store.dispatch(setHandSignature(signature))
-                }
-            },
-            error: error => {
-                this.courtine.stopCourtine()
-                this.dialog.errorPopup(error.error.message)
-            },
-            complete: noop
-        }
+// TODO toasty
+    listSignatures$(): Observable<Signature[]> {
+        return this.http.get<Signature[]>(`/document/signatures`).pipe(
+            map(s => this.sortSignatures(s)),
+        )
     }
+
+    private sortSignatures = (signatures: Signature[]): Signature[] => {
+        return signatures.sort((b, a) => new Date(a.modified || a.created).getTime() - new Date(b.modified || b.created).getTime())
+    }
+
+    putSignature$(dto: PutSignatureDto): Observable<{ id: string }> {
+        return this.http.put<{ id: string }>(`/document/signature`, dto)
+    }
+
+    cancelSignature$(id: string): Observable<void> {
+        return this.http.delete<void>(`/document/signature/${id}`)
+    }
+
 }
