@@ -158,5 +158,20 @@ export class BookingService {
     }
 
 
+    public async hasPermissionToBooking(formId: string, uid: string): Promise<boolean> {
+        const result = await this.bookingModel.exists({ formId: formId, $or: [
+            { promoterUid: uid },
+            { managerUid: uid },
+            { "artists.code": uid }
+        ] }).exec()
+        if (result) {
+            this.logger.log(`User ${uid} has permission to Booking ${formId}`)
+            return true
+        } else {
+            throw new UnauthorizedException(`User ${uid} has no permission to Booking ${formId}`)
+        }
+    }
+
+
     
 }

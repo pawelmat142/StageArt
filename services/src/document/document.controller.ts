@@ -8,12 +8,10 @@ import { Response } from 'express';
 import { GetProfile } from '../profile/auth/profile-path-param-getter';
 import { Template } from './paper-util';
 import { JwtPayload } from '../profile/auth/jwt-strategy';
-import { BookingContractDocumentGenerator } from './generators/booking-contract.generator';
-import { TechRiderDocumentGenerator } from './generators/tech-rider.generator';
-import { BookingService } from '../booking/services/booking.service';
 import { ChecklistService } from './checklist.service';
 import { PutSignatureDto, Signature } from './signature.model';
 import { SignatureService } from './signature.service';
+import { PaperGenerator } from './generators/paper-generator';
 
 @Controller('api/document')
 @UseInterceptors(LogInterceptor)
@@ -22,11 +20,9 @@ export class DocumentController {
 
     constructor(
         private readonly documentService: DocumentService,
-        private readonly bookingContractDocument: BookingContractDocumentGenerator,
-        private readonly techRiderDocument: TechRiderDocumentGenerator,
-        private readonly bookingService: BookingService,
         private readonly checklistService: ChecklistService,
         private readonly signatureService: SignatureService,
+        private readonly paperGenerator: PaperGenerator,
     ) {}
 
     @Get('/refresh-checklist/:id')
@@ -39,12 +35,13 @@ export class DocumentController {
     async downloadPaper(
         @Res() res: Response,
         @Param('id') id: string,
+        @GetProfile() profile: JwtPayload
     ) {
-        const paper = await this.documentService.fetchPaper(id)
+        const paper = await this.documentService.downloadPaper(id, profile)
         if (!paper) {
             throw new NotFoundException()
         }
-        this.pdfResponse(res, paper)
+        this.pdfResponse(res, paper.content, `${paper.template}.${paper.extension}`)
     }
 
     @Get('/generate/:id/:template')
@@ -54,8 +51,8 @@ export class DocumentController {
         @Param('template') template: Template,
         @GetProfile() profile: JwtPayload
     ) {
-        const paper = await this.generatePaper(formId, template, profile)
-        this.pdfResponse(res, paper)
+        const paper = await this.paperGenerator.generatePaper(formId, template, profile)
+        this.pdfResponse(res, paper.content, `${paper.template}.${paper.extension}`)
     }
 
     @Get('/sign/:paperid/:signatureid')
@@ -65,34 +62,33 @@ export class DocumentController {
         @Param('signatureid') signatureId: string,
         @GetProfile() profile: JwtPayload
     ) {
-        const paper = await this.documentService.signPaper(paperId, signatureId, profile)
-        this.pdfResponse(res, paper)
+        const paper = await this.paperGenerator.generateSignedPaper(paperId, signatureId, profile)
+        this.pdfResponse(res, paper.contentWithSignatures, `${paper.template}-signed.${paper.extension}`)
+    }
+
+    @Get('/download-signed/:id')
+    @Serialize(Paper)
+    async downloadSignedPaper(
+        @Res() res: Response,
+        @Param('id') id: string,
+        @GetProfile() profile: JwtPayload
+    ) {
+        const paper = await this.documentService.downloadSignedPaper(id, profile)
+        this.pdfResponse(res, paper.contentWithSignatures, `${paper.template}-signed.${paper.extension}`)
     }
 
 
-    private pdfResponse(res: Response, paper: Paper) {
+    private pdfResponse(res: Response, buffer: Buffer, filename: string) {
         res.set({
             'Content-Type': 'application/pdf',
-            'Content-Disposition': `attachment; filename="${paper.template}.${paper.extension}"`,
-            'Content-Length': paper.content.length,
+            'Content-Disposition': `attachment; filename="${filename}"`,
+            'Content-Length': buffer.length,
         });
-        res.end(paper.content);
+        res.end(buffer);
     }
 
 
-    private async generatePaper(formId: string, templateName: Template, profile: JwtPayload): Promise<Paper> {
-        const ctx = await this.bookingService.buildContext(formId, profile)
-        if (templateName === 'contract') {
-            const paper = await this.bookingContractDocument.generatePdf(ctx)
-            return paper
-        }
-        if (templateName === 'tech-rider') {
-            return this.techRiderDocument.generatePdf(ctx)
-        }
-        throw new BadRequestException(`Unsupported template ${templateName}`)
-    }
-
-
+    // SIGNATURES
     @Get('/signatures')
     @Serialize(Signature)
     listSignatures(@GetProfile() profile: JwtPayload) {

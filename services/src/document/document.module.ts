@@ -1,8 +1,6 @@
 import { Module } from '@nestjs/common';
 import { DocumentService } from './document.service';
 import { ProfileModule } from '../profile/profile.module';
-import { BookingContractDocumentGenerator } from './generators/booking-contract.generator';
-import { TechRiderDocumentGenerator } from './generators/tech-rider.generator';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Paper, PaperSchema } from './paper-model';
 import { DocumentController } from './document.controller';
@@ -10,6 +8,9 @@ import { BookingModule } from '../booking/booking.module';
 import { ChecklistService } from './checklist.service';
 import { SignatureService } from './signature.service';
 import { Signature, SignatureSchema } from './signature.model';
+import { ContractPaperDataProvider } from './generators/contract-paper-data-povider';
+import { PaperGenerator } from './generators/paper-generator';
+import { TechRiderDataProvider } from './generators/tech-rider-data.provider';
 
 @Module({
   imports: [
@@ -28,10 +29,11 @@ import { Signature, SignatureSchema } from './signature.model';
   ],
   providers: [
     DocumentService,
-    BookingContractDocumentGenerator,
-    TechRiderDocumentGenerator,
     ChecklistService,
     SignatureService,
+    ContractPaperDataProvider,
+    TechRiderDataProvider,
+    PaperGenerator
   ],
 })
 export class DocumentModule {}

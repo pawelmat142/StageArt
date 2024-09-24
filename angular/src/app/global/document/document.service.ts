@@ -78,7 +78,7 @@ export class DocumentService {
         this.documentRequest(`${this.apiUri}/document/verify/${paperId}`)
     }
 
-    public downloadSigned(paperId: string) {
+    public downloadSignedPaper(paperId: string) {
         this.documentRequest(`${this.apiUri}/document/download-signed/${paperId}`)
     }
     // END TODO

@@ -22,18 +22,18 @@
         </div>
 
         <div class="pad-controls">
-          <app-btn *ngIf="!_clean && !_selected"
+          <app-btn *ngIf="!_clean && !_selectedSignature"
             label="Clear pad"
             (click)="_clearPad()"
           ></app-btn>
-          <app-btn *ngIf="!_clean && !_selected"
+          <app-btn *ngIf="!_clean && !_selectedSignature"
             class="green"
             label="Save"
             (click)="_save()"
           ></app-btn>
 
           <ng-container *ngIf="_selectedBooking$ | async as selectedBooking">
-            <app-btn *ngIf="_paperIdToSign$ | async"
+            <app-btn *ngIf="(_paperIdToSign$ | async) && _selectedSignature"
               class="green"
               label="Sign contract"
               (click)="_sign(selectedBooking)"
@@ -54,7 +54,7 @@
         </div>
 
         @for (signature of signatures; track signature.id; let index = $index) {
-          <div class="item-row item-row-signature clickable" (click)="_select(signature)" [class.selected]="signature.id === _selected?.id">
+          <div class="item-row item-row-signature clickable" (click)="_select(signature)" [class.selected]="signature.id === _selectedSignature?.id">
             <div>{{signature.modified || signature.created | date : 'dd-MM-yyyy'}}</div>
             <div>{{signature.modified || signature.created | date : 'HH:mm'}}</div>
 

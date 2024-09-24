@@ -1,83 +1,28 @@
-import { EventUtil } from "../../event/event-util";
-import { IllegalStateException } from "../../global/exceptions/illegal-state.exception";
-import { PaperUtil, Template } from "../paper-util"
-import { Util } from "../../global/utils/util";
-import { BookingUtil } from "../../booking/util/booking.util";
 import { Injectable } from "@nestjs/common";
-import { DocumentGenerateOptions, DocumentService } from "../document.service";
 import { ProfileService } from "../../profile/profile.service";
-import { AbstractDocumentGenerator } from "./abstract-document.generator";
 import { BookingContext } from "../../booking/model/interfaces";
-
-export interface BookingContractDocumentData {
-    year: string
-
-    promoterName: string
-    promoterCompanyName: string
-    promoterAdress: string
-    promoterPhone: string
-    promoterEmail: string
-
-    artistName: string
-    artistRealName: string
-    artistPerformance: string
-    artistCountry: string
-    artistFee: string
-
-    eventName: string
-    eventDate: string
-    eventVenue: string
-
-    agencyName: string
-    agencyCompanyName: string
-    accountHolder: string
-    nameOfBank: string
-    accountAddress: string
-    accountNumber: string
-    accountSwift: string
-    agencyEmail: string
-    agencyFooterString: string
-    agencyPhone: string
-
-    depositDeadline: string
-    feeDeadline: string
-
-    contractDate: string
-    signature?: string
-}
+import { IllegalStateException } from "../../global/exceptions/illegal-state.exception";
+import { PaperUtil } from "../paper-util";
+import { BookingUtil } from "../../booking/util/booking.util";
+import { Util } from "../../global/utils/util";
+import { FormUtil } from "../../form/form.util";
+import { EventUtil } from "../../event/event-util";
 
 @Injectable()
-export class BookingContractDocumentGenerator extends AbstractDocumentGenerator<BookingContractDocumentData> {
+export class ContractPaperDataProvider {
 
     constructor(
-        protected readonly documentService: DocumentService,
         private readonly profileService: ProfileService,
-    ) {
-        super(documentService);
-    }
-
-    protected get template(): Template {
-        return 'contract'
-    }
+    ) {}
 
 
-    override async prepareData(ctx: BookingContext, options?: DocumentGenerateOptions): Promise<BookingContractDocumentData> {
+    public async prepareData(ctx: BookingContext): Promise<any> {
+
         const formData = ctx.booking.formData
         if (!formData) {
             throw new IllegalStateException('Missing form data')
         }
 
-        let signature: string
-
-        if (options?.addSignature) {
-
-            // TODO signature
-            // const handSignature = await this.signatureService.fetchSignature(ctx.booking.promoterUid)
-            // if (!handSignature) {
-            //     throw new NotFoundException(`Not found promoter signature for booking ${ctx.booking.formId}`)
-            // }
-            // signature = handSignature.base64data
-        }
 
         const artistProfile = await this.profileService.findByArtistSignature(ctx.artists[0].signature)
         const managerData = await this.profileService.fetchManagerData(ctx.booking.managerUid)
@@ -126,9 +71,12 @@ export class BookingContractDocumentGenerator extends AbstractDocumentGenerator<
             feeDeadline: Util.formatDate(BookingUtil.feeDeadline(ctx.event)),
         
             contractDate: Util.formatDate(now),
-
-            signature: signature
         }
+
+    }
+
+    private get(formData: any, path: string): any {
+        return FormUtil.get(formData, path)
     }
 
 }

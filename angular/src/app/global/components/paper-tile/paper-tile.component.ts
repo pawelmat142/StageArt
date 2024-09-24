@@ -84,7 +84,7 @@ export class PaperTileComponent {
     if (ChecklistUtil.canDownloadSigned(this.tile)) {
       this.tileOptions.push({
         label: 'Download signed document',
-        command: () => this.documentService.downloadSigned(this.tile.paperId!)
+        command: () => this.documentService.downloadSignedPaper(this.tile.paperId!)
       })
     }
 

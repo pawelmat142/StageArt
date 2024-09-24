@@ -1,7 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { AppState } from '../../../app.state';
 import { Store } from '@ngrx/store';
-import { MatIconModule } from '@angular/material/icon';
 import { ButtonModule } from 'primeng/button';
 import { StepperModule } from 'primeng/stepper';
 import { BtnComponent } from '../../../global/controls/btn/btn.component';
@@ -49,7 +48,6 @@ export class BookingStepperComponent {
       }
     }),
     withLatestFrom(this.store.select(state => state.profileState.profile?.uid)),
-    tap(console.log),
     map(([booking, uid]) => {
       this._uid = uid
       this._checklistTiles = booking?.checklist.length && this._uid 

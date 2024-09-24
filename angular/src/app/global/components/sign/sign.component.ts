@@ -133,17 +133,17 @@ export class SignComponent {
     })
   )
 
-  _selected?: Signature
+  _selectedSignature?: Signature
 
   _select = (signature: Signature) => {
-    this._selected = signature
+    this._selectedSignature = signature
     this.printSignatureInPad(signature)
     this.refreshMenuItems()
     this._off()
   }
   
   _unselect() {
-    this._selected = undefined
+    this._selectedSignature = undefined
     this._clearPad()
     this.refreshMenuItems()
     this._on()
@@ -213,12 +213,12 @@ export class SignComponent {
 
   _sign(booking: BookingDto) {
     const paperId = this.contractPaperIdToSign(booking)
-    if (!paperId || !this._selected?.id) {
+    if (!paperId || !this._selectedSignature?.id) {
       return
     }
     this.dialog.yesOrNoPopup(`Sure?`).pipe(
       filter(confirm => !!confirm),
-      tap(() => this.documentService.signPaper(paperId, this._selected!.id, booking))
+      tap(() => this.documentService.signPaper(paperId, this._selectedSignature!.id, booking))
     ).subscribe()
   }
 
@@ -230,32 +230,13 @@ export class SignComponent {
     })?.paperId
   }
 
+
+  
   // MENU
 
   _menuToggle(event: Event) {
     this.menuRef?.toggle(event)
   }
-
-  _signatureRowMenuToggle(event: Event, index: number) {
-    this.signatureRowMenu.get(index)?.toggle(event!)
-  }
-
-  _signatureRowMenuItems = (signature: Signature): MenuItem[] => [{
-    label: 'Remove',
-    command: (e: MenuItemCommandEvent) => {
-      console.log(e)
-      this._remove(signature)
-      // e.originalEvent?.preventDefault()
-      // e.originalEvent?.stopPropagation()
-    }
-  }, {
-    label: `Select`,
-    command: (e: MenuItemCommandEvent) => {
-      // e.originalEvent?.preventDefault()
-      // e.originalEvent?.stopPropagation()
-    }
-  }]
-
 
   private readonly closeMenuItem: MenuItem = {
     label: 'Close',
@@ -268,13 +249,11 @@ export class SignComponent {
 
   refreshMenuItems() {
     this._menuItems = []
-    if (this._selected) {
+    if (this._selectedSignature) {
       this._menuItems.push({
         label: 'Start new',
         command: (e) => {
           this._unselect()
-          // e.originalEvent?.preventDefault()
-          // e.originalEvent?.stopPropagation()
         }
       })
     }
