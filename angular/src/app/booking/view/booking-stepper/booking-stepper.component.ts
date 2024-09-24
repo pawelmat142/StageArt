@@ -41,7 +41,7 @@ export class BookingStepperComponent {
   _uid?: string
   _checklistTiles: ChecklistTile[] = []
 
-  _booking$: Observable<BookingDto | undefined> = this.store.select(state => state.profileState.singleBooking).pipe(
+  _booking$: Observable<BookingDto | undefined> = this.store.select(state => state.profileState.selectedBooking).pipe(
     tap(booking => {
       if (booking?.status !== 'SUBMITTED') {
         this.activeStep = 1

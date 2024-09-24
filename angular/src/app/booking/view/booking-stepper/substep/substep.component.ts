@@ -28,12 +28,12 @@ export class SubstepComponent {
     switch(this.mode) {
       case 'blank': return 'radio_button_unchecked'
       case 'available': return 'radio_button_checked'
+      // case 'available': return 'pending_outlined'
       case 'ready': return 'check_circle'
       case 'error': return 'block'
       default: return 'block'
     }
   }
-
 
 }
 

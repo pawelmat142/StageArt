@@ -66,16 +66,16 @@ export class DocumentService {
         this.documentRequest(`${this.apiUri}/document/sign/${paperId}/${signatureId}`, booking)
     }
 
+    public verify(paperId: string, signatureId: string, booking: BookingDto) {
+        this.documentRequest(`${this.apiUri}/document/verify/${paperId}/signatureId`, booking)
+    }
+
     public uploadSigned(paperId: string) {
         this.documentRequest(`${this.apiUri}/document/upload-signed/${paperId}`)
     }
 
     public upload(paperId: string) {
         this.documentRequest(`${this.apiUri}/document/upload/${paperId}`)
-    }
-
-    public verify(paperId: string) {
-        this.documentRequest(`${this.apiUri}/document/verify/${paperId}`)
     }
 
     public downloadSignedPaper(paperId: string) {

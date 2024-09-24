@@ -1,17 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { DESKTOP } from '../../../../global/services/device';
-import { BookingDto, BookingService } from '../../../services/booking.service';
+import { BookingDto } from '../../../services/booking.service';
 import { StatusPipe } from "../../../../global/pipes/status.pipe";
 import { AccordionModule } from 'primeng/accordion';
 import { BtnComponent } from '../../../../global/controls/btn/btn.component';
-import { DialogService } from '../../../../global/nav/dialog.service';
 import { AppState } from '../../../../app.state';
 import { Store } from '@ngrx/store';
 import { selectBooking, uid, unselectBooking } from '../../../../profile/profile.state';
 import { IconButtonComponent } from '../../../../global/components/icon-button/icon-button.component';
-import { DocumentService } from '../../../../global/document/document.service';
-import { Template } from '../../../../global/document/doc-util';
 import { NamesPipe } from "../../../../global/pipes/names.pipe";
 import { BookingStepperComponent } from '../../booking-stepper/booking-stepper.component';
 

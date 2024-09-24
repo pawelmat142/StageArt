@@ -33,10 +33,10 @@
           ></app-btn>
 
           <ng-container *ngIf="_selectedBooking$ | async as selectedBooking">
-            <app-btn *ngIf="(_paperIdToSign$ | async) && _selectedSignature"
+            <app-btn *ngIf="_selectedSignature && (_paperIdToSign$ | async) as paperIdToSign"
               class="green"
               label="Sign contract"
-              (click)="_sign(selectedBooking)"
+              (click)="_signPaper(selectedBooking, paperIdToSign)"
             ></app-btn>
           </ng-container>
 

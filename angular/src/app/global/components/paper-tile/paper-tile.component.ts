@@ -55,12 +55,18 @@ export class PaperTileComponent {
     if (ChecklistUtil.canSign(this.tile)) {
       this.tileOptions.push({
         label: 'Sign document',
-        command: () => this.signDocument()
+        command: () => this.signatureService.showSection()
       }),
       this.tileOptions.push({
         label: 'Upload signed',
         // TODO
         // command: () => this.documentService.sign(this.tile.paperId!)
+      })
+    }
+    if (ChecklistUtil.canVerify(this.tile)) {
+      this.tileOptions.push({
+        label: 'Sign and verify document',
+        command: () => this.signatureService.showSection()
       })
     }
     if (ChecklistUtil.canDownload(this.tile)) {
@@ -75,12 +81,7 @@ export class PaperTileComponent {
         command: () => this.documentService.upload(this.tile.paperId!)
       })
     }
-    if (ChecklistUtil.canVerify(this.tile)) {
-      this.tileOptions.push({
-        label: 'Verify document',
-        command: () => this.documentService.verify(this.tile.paperId!)
-      })
-    }
+
     if (ChecklistUtil.canDownloadSigned(this.tile)) {
       this.tileOptions.push({
         label: 'Download signed document',

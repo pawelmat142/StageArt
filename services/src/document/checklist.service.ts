@@ -82,7 +82,6 @@ export class ChecklistService {
         const managerSigned = !!paper?.signatures?.find(s => s.role === Role.MANAGER)
         switch (step.type) {
             case 'generate': return this.updateStep(item.name, step, !!paper)
-            // TODO - status signed ma być zamieniony na relacje do sygnatury
             case 'sign': return this.updateStep(item.name, step, promoterSigned)
             case 'verify': return this.updateStep(item.name, step, promoterSigned && managerSigned)
             case 'upload': return this.updateStep(item.name, step, !!paper)

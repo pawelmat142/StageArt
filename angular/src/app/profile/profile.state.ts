@@ -1,7 +1,7 @@
 import { createAction, createReducer, createSelector, on, props, Store } from "@ngrx/store"
 import { Injectable } from "@angular/core"
 import { Actions, createEffect, ofType } from "@ngrx/effects"
-import { map, switchMap, tap } from "rxjs"
+import { map, switchMap, tap, withLatestFrom } from "rxjs"
 import { Token } from "./auth/view/token"
 import { AppState, selectProfileState } from "../app.state"
 import { Profile } from "./profile.model"
@@ -17,7 +17,7 @@ export interface ProfileState {
     uuid: string
 
     bookings?: BookingDto[]
-    singleBooking?: BookingDto
+    selectedBooking?: BookingDto
     formData?: any
 }
 
@@ -58,7 +58,7 @@ export const profileBookings = createSelector(
 
 export const profileSingleBooking = createSelector(
     selectProfileState,
-    (state: ProfileState) => state.singleBooking
+    (state: ProfileState) => state.selectedBooking
 )
 
 export const bookingFormData = createSelector(
@@ -139,19 +139,19 @@ export const profileReducer = createReducer(
     on(selectBooking, (state, booking) => ({
         ...state,
         loading: false,
-        singleBooking: booking,
+        selectedBooking: booking,
         checklist: ChecklistUtil.prepareTiles(booking, state.profile!.uid)
     })),
     on(unselectBooking, (state) => ({
         ...state,
         loading: false,
-        singleBooking: undefined,
+        selectedBooking: undefined,
         checklist: undefined
     })),
     on(updateBooking, (state, booking) => ({
         ...state,
         loading: false,
-        singleBooking: booking,
+        selectedBooking: booking,
     })),
 
     
@@ -199,8 +199,6 @@ export class ProfileEffect {
     ), { dispatch: false })
 
 
-
-
     loadBookings$ = createEffect(() => this.actions$.pipe(
         ofType(loadBookings),
         switchMap(() => this.bookingService.fetchProfileBookings$()),
@@ -212,5 +210,16 @@ export class ProfileEffect {
         }),
         map(bookings => setBookings({ value: bookings })),
     ))
+
+    updateBooking$ = createEffect(() => this.actions$.pipe(
+        ofType(updateBooking),
+        withLatestFrom(this.store.select(profileBookings)),
+        tap(([selectedBooking, profileBookings]) => {
+            if (selectedBooking && profileBookings?.length) {
+                const newProfileBookingsState = profileBookings.map(b => b.formId === selectedBooking.formId ? selectedBooking : b)
+                this.store.dispatch(setBookings({ value: newProfileBookingsState }))
+            }
+        }),
+    ), { dispatch: false })
 
 }

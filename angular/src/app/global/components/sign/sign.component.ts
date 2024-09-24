@@ -4,7 +4,7 @@ import { DESKTOP } from '../../services/device';
 import { BtnComponent } from '../../controls/btn/btn.component';
 import { ImgUtil } from '../../utils/img.util';
 import {  Signature, SignatureService } from './signature.service';
-import {  filter, map, Observable, of, switchMap, tap } from 'rxjs';
+import {  filter, map, Observable, of, switchMap, tap, withLatestFrom } from 'rxjs';
 import { AppState } from '../../../app.state';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../nav/dialog.service';
@@ -15,6 +15,9 @@ import { MenuItem, MenuItemCommandEvent } from 'primeng/api';
 import { CourtineService } from '../../nav/courtine.service';
 import { DocumentService } from '../../document/document.service';
 import { BookingDto } from '../../../booking/services/booking.service';
+import { BookingUtil } from '../../../booking/booking.util';
+import { uid } from '../../../profile/profile.state';
+import { Role } from '../../../profile/profile.model';
 
 
 @Component({
@@ -54,14 +57,31 @@ export class SignComponent {
   @ViewChildren('signatureRowMenu') signatureRowMenu!: QueryList<Menu>;
 
 
-  _selectedBooking$: Observable<BookingDto | undefined> = this.store.select(state => state.profileState.singleBooking)
+  _selectedBooking$: Observable<BookingDto | undefined> = this.store.select(state => state.profileState.selectedBooking)
 
   _paperIdToSign$ = this._selectedBooking$.pipe(
-    map(booking => booking?.checklist.find(c => {
-      return c.template === 'contract'
-        && c.steps.find(s => s.type === 'generate')?.ready
-        && !c.steps.find(s => s.type === 'sign')?.ready
-    })?.paperId),
+    withLatestFrom(this.store.select(uid)),
+    map(([booking, uid]) => {
+      if (!booking || !uid) {
+        return
+      }
+      const roles = BookingUtil.bookingRoles(booking, uid)
+      if (roles.includes(Role.PROMOTER)) {
+        return booking?.checklist.find(c => {
+          return c.template === 'contract'
+            && c.steps.find(s => s.type === 'generate')?.ready
+            && !c.steps.find(s => s.type === 'sign')?.ready
+        })?.paperId
+      }
+      if (roles.includes(Role.MANAGER)) {
+        return booking?.checklist.find(c => {
+          return c.template === 'contract'
+            && c.steps.find(s => s.type === 'sign')?.ready
+            && !c.steps.find(s => s.type === 'verify')?.ready
+        })?.paperId
+      }
+      return
+    })
   )
 
   _showSection$ = this.signatureService.showSection$.asObservable().pipe(
@@ -200,7 +220,6 @@ export class SignComponent {
   private reloadSignatures = (params?: { signatureIdToSelect: string }) => {
     this._signatures$ = this.signatureService.listSignatures$().pipe(
       tap((signatures) => {
-        this.courtine.stopCourtine()
         if (params?.signatureIdToSelect) {
           const signature = signatures.find(s => s.id === params.signatureIdToSelect)
           if (signature) {
@@ -211,23 +230,15 @@ export class SignComponent {
     )
   }
 
-  _sign(booking: BookingDto) {
-    const paperId = this.contractPaperIdToSign(booking)
-    if (!paperId || !this._selectedSignature?.id) {
+  _signPaper(booking: BookingDto, paperIdToSign: string) {
+    if (!paperIdToSign || !this._selectedSignature?.id) {
       return
     }
     this.dialog.yesOrNoPopup(`Sure?`).pipe(
       filter(confirm => !!confirm),
-      tap(() => this.documentService.signPaper(paperId, this._selectedSignature!.id, booking))
+      tap(() => this.documentService.signPaper(paperIdToSign, this._selectedSignature!.id, booking)),
+      tap(() => this.signatureService.closeSection()),
     ).subscribe()
-  }
-
-  private contractPaperIdToSign(booking: BookingDto): string | undefined {
-    return booking.checklist.find(c => {
-      return c.template === 'contract'
-        && c.steps.find(s => s.type === 'generate')?.ready
-        && !c.steps.find(s => s.type === 'sign')?.ready
-    })?.paperId
   }
 
 

@@ -1,8 +1,9 @@
 import { Injectable } from "@angular/core";
 import { HttpService } from "../../services/http.service";
-import { BehaviorSubject, map, Observable } from "rxjs";
+import { BehaviorSubject, map, Observable, tap } from "rxjs";
 import { Size } from "../../utils/img.util";
 import { Status } from "../../status";
+import { CourtineService } from "../../nav/courtine.service";
 
 export type SignatureStatus = Status.DRAFT | Status.READY
 
@@ -30,12 +31,11 @@ export class SignatureService {
   
     constructor(
       private readonly http: HttpService,
+      private readonly courtine: CourtineService,
     ) { }
 
 
-    // TODO
-    // showSection$ = new BehaviorSubject(false)
-    showSection$ = new BehaviorSubject(true)
+    showSection$ = new BehaviorSubject(false)
 
     public showSection() {
         this.showSection$.next(true)
@@ -46,8 +46,10 @@ export class SignatureService {
 
 // TODO toasty
     listSignatures$(): Observable<Signature[]> {
+        this.courtine.startCourtine()
         return this.http.get<Signature[]>(`/document/signatures`).pipe(
             map(s => this.sortSignatures(s)),
+            tap(() => this.courtine.stopCourtine())
         )
     }
 

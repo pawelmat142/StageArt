@@ -1,5 +1,11 @@
 @import 'variables';
 
+.desktop {
+    .sign-pad-container {
+        padding-top: $padding-standard;
+    }
+}
+
 .sign-section {
     .menu {
         color: $red;
@@ -8,7 +14,7 @@
 
 .sign-pad-container {
 
-    padding-top: $padding-standard;
+    padding-top: 0;
     padding-bottom: $padding-standard;
     padding-left: $padding-standard;
     padding-right: $padding-standard;

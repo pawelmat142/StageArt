@@ -34,10 +34,10 @@ export abstract class ChecklistUtil {
 
     private static tileStepName(step: ChecklistStep): string {
         switch (step.type) {
-            case 'generate': return step.ready ? 'Generated' : 'Generated'
+            case 'generate': return step.ready ? 'Generated' : 'Generate'
             case 'sign': return step.ready ? 'Signed' : 'Sign'
             case 'upload': return step.ready ? 'Uploaded' : 'Upload'
-            case 'verify': return step.ready ? 'Verification' : 'Verify'
+            case 'verify': return step.ready ? 'Verified' : 'Verify'
         }
     }
 
