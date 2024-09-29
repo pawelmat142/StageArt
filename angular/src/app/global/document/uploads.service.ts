@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Util } from "../utils/util";
-import { catchError, filter, Observable, of, switchMap } from "rxjs";
+import { filter, Observable, switchMap } from "rxjs";
 import { Paper } from "./document.service";
 import { DialogService } from "../nav/dialog.service";
 import { BookingDto } from "../../booking/services/booking.service";

@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpResponse } from "@angular/common/http";
 import { Util } from "../utils/util";
-import { map, take, tap } from "rxjs";
+import { map, Observable, take, tap } from "rxjs";
 import { Template } from "./doc-util";
 import { CourtineService } from "../nav/courtine.service";
 import { HttpService } from "../services/http.service";
@@ -46,9 +46,8 @@ export class DocumentService {
       private readonly store: Store<AppState>,
     ) { }
 
-    public refreshChecklist$(booking: BookingDto)    {
+    public refreshChecklist$(booking: BookingDto): Observable<ChecklistItem[]> {
         return this.http.get<ChecklistItem[]>(`/document/refresh-checklist/${booking.formId}`).pipe(
-            take(1),
             tap(checklist => {
                 if (checklist) {
                     this.store.dispatch(updateBooking({
@@ -82,6 +81,10 @@ export class DocumentService {
 
     public downloadSignedPaper(paperId: string) {
         this.documentRequest(`/download-signed/${paperId}`)
+    }
+
+    public deletePaper$(paperId: string): Observable<{ deleted: boolean }> {
+        return this.http.delete<{ deleted: boolean }>(`/document/${paperId}`)
     }
 
 

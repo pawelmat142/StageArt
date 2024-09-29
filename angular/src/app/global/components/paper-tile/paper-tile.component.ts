@@ -14,6 +14,8 @@ import { catchError, filter, of, switchMap, tap } from 'rxjs';
 import { Template } from '../../document/doc-util';
 import { DialogService } from '../../nav/dialog.service';
 import { CourtineService } from '../../nav/courtine.service';
+import { BookingUtil } from '../../../booking/booking.util';
+import { Role } from '../../../profile/profile.model';
 
 @Component({
   selector: 'app-paper-tile',
@@ -40,6 +42,7 @@ export class PaperTileComponent {
 
   @Input() tile!: ChecklistTile
   @Input() booking!: BookingDto
+  @Input() uid?: string
 
   @ViewChild('menu') menuRef!: Menu
 
@@ -91,6 +94,12 @@ export class PaperTileComponent {
         command: () => this.uploadFile('rental-proof')
       })
     }
+    if (this.forRole(Role.PROMOTER) && ChecklistUtil.canDelete(this.tile)) {
+      this.tileOptions.push({
+        label: 'Delete file',
+        command: () => this.deleteFile(this.tile.paperId)
+      })
+    }
 
     if (ChecklistUtil.canDownloadSigned(this.tile)) {
       this.tileOptions.push({
@@ -118,15 +127,15 @@ export class PaperTileComponent {
 
 
   private uploadFile(template: Template) {
+    this.courtine.startCourtine()
     this.uploadsService.uploadFile(this.booking, template).pipe(
       filter(paper => !!paper),
       switchMap(paper => this.documentService.refreshChecklist$(this.booking)),
-      tap(() => this.courtine.stopCourtine()),
       catchError(error => {
         this.dialog.errorPopup(error.error.message)
-        this.courtine.stopCourtine()
         return of(null)
-      })
+      }),
+      tap(() => this.courtine.stopCourtine()),
     ).subscribe()
   }
 
@@ -137,5 +146,35 @@ export class PaperTileComponent {
     }
     this.documentService.documentRequest(`/upload/${paperId}`)
   }
+
+  private deleteFile(paperId?: string) {
+    if (!paperId) {
+      // TODO toast
+      return
+    }
+    this.dialog.yesOrNoPopup(`Are you sure you want to delete this file?`).pipe(
+      tap((confirmed) => this.courtine.startCourtine() ),
+      switchMap(confirmed => confirmed ? this.documentService.deletePaper$(paperId) : of(null)),
+      switchMap((deleted) => {
+        if (deleted?.deleted) {
+          return this.documentService.refreshChecklist$(this.booking)
+        }
+        return of(null)
+      }),
+      catchError(error => {
+        this.dialog.errorPopup(error.error.message)
+        return of()
+      }),
+      tap(() => this.courtine.stopCourtine()),
+    ).subscribe()
+  }
+
+  private forRole(role: string): boolean {
+    if (!this.uid || !this.booking) {
+      return false
+    }
+    return BookingUtil.bookingRoles(this.booking, this.uid).includes(role)
+  }
+
 
 }

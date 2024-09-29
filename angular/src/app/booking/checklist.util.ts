@@ -60,9 +60,23 @@ export abstract class ChecklistUtil {
     public static canUpload(tile: ChecklistTile): boolean {
         return tile.tileSteps.some(step => step.type === 'upload' && step.mode === 'available')
     }
+    
+    public static canDelete(tile: ChecklistTile): boolean {
+        if (!tile.tileSteps.find(step => step.type === 'verify')?.ready) {
+            const generateStep = tile.tileSteps.find(step => step.type === 'generate')
+            if (generateStep?.ready) {
+                return true
+            }
+            const uploadStep = tile.tileSteps.find(step => step.type === 'upload')
+            if (uploadStep?.ready) {
+                return true
+            }
+        }
+        return false
+    }
 
     public static canVerify(tile: ChecklistTile): boolean {
-        return tile.tileSteps.some(step => step.type === 'verify' && step.mode === 'available')
+        return tile.tileSteps.some(step => step.type === 'upload' && step.ready)
     }
 
     public static canDownloadSigned(tile: ChecklistTile): boolean {
