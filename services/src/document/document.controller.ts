@@ -80,6 +80,15 @@ export class DocumentController {
         this.fileResponse(res, paper.contentWithSignatures, `${paper.template}-signed.${paper.extension}`)
     }
 
+    @Delete('/:id')
+    @UseGuards(JwtGuard)
+    deletePaper(
+        @Param('id') id: string,
+        @GetProfile() profile: JwtPayload
+    ) {
+        return this.uploadsService.deletePaper(id, profile)
+    }
+
 
     // UPLOADS
     @Post('/upload/:id/:template')

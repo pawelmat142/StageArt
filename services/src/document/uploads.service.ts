@@ -22,7 +22,7 @@ export class UploadsService {
 
 
     private readonly EPLOAD_EXTENSIONS: string[] = ['jpg', 'jpeg', 'pdf']
-    public readonly MAX_FILE_BYTES = 1100
+    public readonly MAX_FILE_BYTES = 1100000
 
     constructor(
         @InjectConnection() private readonly connection: Connection,
@@ -90,6 +90,36 @@ export class UploadsService {
         }
         const downloadStream = this.bucket.openDownloadStream(new ObjectId(paper.fileObjectId))
         return { paper, downloadStream }
+    }
+
+    public async deletePaper(id: string, profile: JwtPayload): Promise<{ deleted: boolean }> {
+        const paper = await this.documentService.fetchPaper(id)
+        if (!paper) {
+            throw new NotFoundException(`Paper ${id} not found`)
+        }
+        await this.bookingService.hasPermissionToBooking(paper.formId, profile.uid)
+
+        if (paper.fileObjectId) {
+            try {
+                await this.deleteBucketFile(paper.fileObjectId)
+                this.logger.log(`Deleted file ${paper.fileObjectId} related to Paper ${paper.id}`)
+            } catch (error) {
+                this.logger.error(error)
+                return { deleted: false }
+            }
+        }
+
+        const update = await this.documentService.deletePaper(id)
+        if (update.deletedCount) {
+            this.logger.log(`Deleter Paper ${paper.id}`)
+        } else {
+            this.logger.warn(`Counld not delete Paper ${paper.id}`)
+        }
+        return { deleted: !!update.deletedCount }
+    }
+
+    private async deleteBucketFile(objectId: string) {
+        return this.bucket.delete(new ObjectId(objectId))
     }
 
 }

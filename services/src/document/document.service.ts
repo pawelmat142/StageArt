@@ -87,10 +87,14 @@ export class DocumentService {
         return paper
     }
 
+    public deletePaper(id: string) {
+        return this.paperModel.deleteOne({ id })
+    }
+
     public async downloadSignedPaper(id: string, profile: JwtPayload): Promise<Paper> {
         const paper = await this.paperModel.findOne({ id })
-        .select({ content: false })
-        .exec()
+            .select({ content: false })
+            .exec()
         if (!paper) {
             throw new NotFoundException(`Not found Paper ${id}`)
         }
