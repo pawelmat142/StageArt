@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Delete, Get, NotFoundException, Param, Post, Put, Res, UseGuards, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, NotFoundException, Param, Post, Put, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { JwtGuard } from '../profile/auth/jwt.guard';
 import { Serialize } from '../global/interceptors/serialize.interceptor';
 import { LogInterceptor } from '../global/interceptors/log.interceptor';
@@ -6,12 +6,14 @@ import { Paper } from './paper-model';
 import { DocumentService } from './document.service';
 import { Response } from 'express';
 import { GetProfile } from '../profile/auth/profile-path-param-getter';
-import { Template } from './paper-util';
+import { PaperUtil, Template } from './paper-util';
 import { JwtPayload } from '../profile/auth/jwt-strategy';
 import { ChecklistService } from './checklist.service';
 import { PutSignatureDto, Signature } from './signature.model';
 import { SignatureService } from './signature.service';
 import { PaperGenerator } from './generators/paper-generator';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { UploadsService } from './uploads.service';
 
 @Controller('api/document')
 @UseInterceptors(LogInterceptor)
@@ -23,6 +25,7 @@ export class DocumentController {
         private readonly checklistService: ChecklistService,
         private readonly signatureService: SignatureService,
         private readonly paperGenerator: PaperGenerator,
+        private readonly uploadsService: UploadsService,
     ) {}
 
     @Get('/refresh-checklist/:id')
@@ -41,7 +44,7 @@ export class DocumentController {
         if (!paper) {
             throw new NotFoundException()
         }
-        this.pdfResponse(res, paper.content, `${paper.template}.${paper.extension}`)
+        this.fileResponse(res, paper.content, `${paper.template}.${paper.extension}`)
     }
 
     @Get('/generate/:id/:template')
@@ -52,7 +55,7 @@ export class DocumentController {
         @GetProfile() profile: JwtPayload
     ) {
         const paper = await this.paperGenerator.generatePaper(formId, template, profile)
-        this.pdfResponse(res, paper.content, `${paper.template}.${paper.extension}`)
+        this.fileResponse(res, paper.content, `${paper.template}.${paper.extension}`)
     }
 
     @Get('/sign/:paperid/:signatureid')
@@ -63,7 +66,7 @@ export class DocumentController {
         @GetProfile() profile: JwtPayload
     ) {
         const paper = await this.paperGenerator.generateSignedPaper(paperId, signatureId, profile)
-        this.pdfResponse(res, paper.contentWithSignatures, `${paper.template}-signed.${paper.extension}`)
+        this.fileResponse(res, paper.contentWithSignatures, `${paper.template}-signed.${paper.extension}`)
     }
 
     @Get('/download-signed/:id')
@@ -74,13 +77,46 @@ export class DocumentController {
         @GetProfile() profile: JwtPayload
     ) {
         const paper = await this.documentService.downloadSignedPaper(id, profile)
-        this.pdfResponse(res, paper.contentWithSignatures, `${paper.template}-signed.${paper.extension}`)
+        this.fileResponse(res, paper.contentWithSignatures, `${paper.template}-signed.${paper.extension}`)
     }
 
 
-    private pdfResponse(res: Response, buffer: Buffer, filename: string) {
+    // UPLOADS
+    @Post('/upload/:id/:template')
+    @UseGuards(JwtGuard)
+    @UseInterceptors(FileInterceptor('file'))
+    async uploadFile(
+        @Param('id') formId: string,
+        @Param('template') template: Template,
+        @GetProfile() profile: JwtPayload,
+        @UploadedFile() file: Express.Multer.File,
+    ) {
+        if (file.size > this.uploadsService.MAX_FILE_BYTES) {
+            throw new BadRequestException(`Max file size 1 MB`)
+        }
+        return this.uploadsService.uploadPaperFile(formId, template, profile, file)
+    }
+
+    @Get('/upload/:paperId')
+    @UseGuards(JwtGuard)
+    public async downloadFile(
+        @Param('paperId') paperId: string, 
+        @Res() res: Response, 
+        @GetProfile() profile: JwtPayload
+    ) {
+        const { paper, downloadStream } = await this.uploadsService.downloadFile(paperId, profile)
+        const filename = `${paper.template}.${paper.extension}`
         res.set({
-            'Content-Type': 'application/pdf',
+            'Content-Type': PaperUtil.getContentType(filename),
+            'Content-Disposition': `attachment; filename="${filename}"`,
+        })
+        downloadStream.pipe(res)
+    }
+
+
+    private fileResponse(res: Response, buffer: Buffer, filename: string) {
+        res.set({
+            'Content-Type': PaperUtil.getContentType(filename),
             'Content-Disposition': `attachment; filename="${filename}"`,
             'Content-Length': buffer.length,
         });

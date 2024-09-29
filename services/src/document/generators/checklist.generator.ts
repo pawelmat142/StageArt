@@ -34,6 +34,7 @@ export abstract class ChecklistGenerator {
     public static prepareSpotProof(): ChecklistItem {
         return {
             name: 'Rental agreement',
+            template: 'rental-proof',
             subName: "Legal issues of event's spot",
             steps: [
                 this.uploadStep(),

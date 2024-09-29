@@ -5,10 +5,9 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Paper } from './paper-model';
 import { Model } from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
-import { BookingContext } from '../booking/model/interfaces';
+import { BookingContext, SimpleBookingContext } from '../booking/model/interfaces';
 import { BookingService } from '../booking/services/booking.service';
 import { JwtPayload } from '../profile/auth/jwt-strategy';
-import { SignatureService } from './signature.service';
 
 @Injectable()
 export class DocumentService {
@@ -48,7 +47,23 @@ export class DocumentService {
             status: 'GENERATED'
         })
         await paper.save()
-        this.logger.log(`Saved paper: ${paper.template} with status: ${paper.status} by ${paper.uid}`)
+        this.logger.log(`Paper saved: ${paper.template} with status: ${paper.status} by ${paper.uid}`)
+        return paper
+    }
+
+    public async storeUploadPaper(fileObjectId: string, ctx: SimpleBookingContext, template: Template, extension: string) {
+        const paper = new this.paperModel({
+            id: uuidv4(),
+            formId: ctx.booking.formId,
+            template: template,
+            fileObjectId: fileObjectId,
+            extension: extension,
+            uid: ctx.profile.uid,
+            generationTime: new Date(),
+            status: 'UPLOADED'
+        })
+        await paper.save()
+        this.logger.log(`Paper saved: ${paper.template} with status: ${paper.status} by ${paper.uid}`)
         return paper
     }
 
@@ -62,8 +77,8 @@ export class DocumentService {
 
     public async downloadPaper(id: string, profile: JwtPayload) {
         const paper = await this.paperModel.findOne({ id })
-        .select({ contentWithSignatures: false })
-        .exec()
+            .select({ contentWithSignatures: false })
+            .exec()
         if (!paper) {
             throw new NotFoundException(`Paper ${id} not found`)
         }
@@ -85,6 +100,5 @@ export class DocumentService {
         await this.bookingService.hasPermissionToBooking(paper.formId, profile.uid)
         return paper
     }
-
 
 }

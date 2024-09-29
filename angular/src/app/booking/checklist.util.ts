@@ -49,6 +49,10 @@ export abstract class ChecklistUtil {
         return !!tile.paperId && tile.steps.some(step => step.type === 'generate' && step.ready)
     }
 
+    public static canDownloadUploaded(tile: ChecklistTile): boolean {
+        return !!tile.paperId && tile.steps.some(step => step.type === 'upload' && step.ready)
+    }
+
     public static canSign(tile: ChecklistTile): boolean {
         return tile.tileSteps.some(step => step.type === 'sign' && step.mode === 'available')
     }

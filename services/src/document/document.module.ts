@@ -11,6 +11,8 @@ import { Signature, SignatureSchema } from './signature.model';
 import { ContractPaperDataProvider } from './generators/contract-paper-data-povider';
 import { PaperGenerator } from './generators/paper-generator';
 import { TechRiderDataProvider } from './generators/tech-rider-data.provider';
+import { MulterModule } from '@nestjs/platform-express';
+import { UploadsService } from './uploads.service';
 
 @Module({
   imports: [
@@ -21,6 +23,9 @@ import { TechRiderDataProvider } from './generators/tech-rider-data.provider';
       name: Signature.name,
       schema: SignatureSchema
     }]),
+    MulterModule.register({
+      dest: './uploads',
+    }),
     ProfileModule,
     BookingModule,
   ],
@@ -33,7 +38,8 @@ import { TechRiderDataProvider } from './generators/tech-rider-data.provider';
     SignatureService,
     ContractPaperDataProvider,
     TechRiderDataProvider,
-    PaperGenerator
+    PaperGenerator,
+    UploadsService
   ],
 })
 export class DocumentModule {}

@@ -84,7 +84,7 @@ export class ChecklistService {
             case 'generate': return this.updateStep(item.name, step, !!paper)
             case 'sign': return this.updateStep(item.name, step, promoterSigned)
             case 'verify': return this.updateStep(item.name, step, promoterSigned && managerSigned)
-            case 'upload': return this.updateStep(item.name, step, !!paper)
+            case 'upload': return this.updateStep(item.name, step, !!paper?.fileObjectId)
             default: return false
         }
     }

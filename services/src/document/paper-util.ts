@@ -1,6 +1,6 @@
 import { ManagerData } from "../profile/model/profile-interfaces"
 
-export type Template = 'contract' | 'tech-rider'
+export type Template = 'contract' | 'tech-rider' | 'rental-proof'
 
 export interface PaperGenerateParameters {
     headerTemplate?: string
@@ -27,6 +27,17 @@ export abstract class PaperUtil {
             result.footerTemplate += `</div>`
         }
         return result
+    }
+
+    public static getContentType(filename: string): string {
+        const extension = filename.split('.').pop() 
+        switch(extension) {
+            case 'png':
+            case 'jpeg':
+            case 'jpg': return 'image/jpeg'
+            case 'pdf': return 'application/pdf'
+        }
+        throw new Error(`Unprocessable file extension ${extension}`)
     }
 
 }

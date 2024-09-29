@@ -6,7 +6,7 @@ import { Role } from "../profile/model/role"
 
 export type PaperDocument = HydratedDocument<Paper>
 
-export type PaperStatus = 'GENERATED' | 'SIGNED' | 'VERIFIED' | 'ERROR'
+export type PaperStatus = 'GENERATED' | 'SIGNED' | 'VERIFIED' | 'ERROR' | 'UPLOADED'
 
 export interface PaperSignature {
     role: Role,
@@ -22,14 +22,18 @@ export class Paper {
 
     @Expose()
     @Prop()
+    fileObjectId?: string
+
+    @Expose()
+    @Prop()
     formId: string
 
     @Expose()
     @Prop({ required: true })
     template: Template
     
-    @Prop({ required: true })
-    content: Buffer
+    @Prop()
+    content?: Buffer
     
     @Prop()
     contentWithSignatures?: Buffer

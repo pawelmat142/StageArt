@@ -5,9 +5,6 @@ import { Model } from "mongoose";
 import { JwtPayload } from "../profile/auth/jwt-strategy";
 import { v4 as uuidv4 } from 'uuid';
 import { Status } from "../global/status";
-import { Booking } from "../booking/model/booking.model";
-import { Role } from "../profile/model/role";
-import { SimpleBookingContext } from "../booking/model/interfaces";
 
 @Injectable()
 export class SignatureService {

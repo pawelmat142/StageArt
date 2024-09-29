@@ -9,6 +9,11 @@ import { BookingDto } from '../../../booking/services/booking.service';
 import { DocumentService } from '../../document/document.service';
 import { ChecklistUtil } from '../../../booking/checklist.util';
 import { SignatureService } from '../sign/signature.service';
+import { UploadsService } from '../../document/uploads.service';
+import { catchError, filter, of, switchMap, tap } from 'rxjs';
+import { Template } from '../../document/doc-util';
+import { DialogService } from '../../nav/dialog.service';
+import { CourtineService } from '../../nav/courtine.service';
 
 @Component({
   selector: 'app-paper-tile',
@@ -28,16 +33,15 @@ export class PaperTileComponent {
   constructor(
     private readonly documentService: DocumentService,
     private readonly signatureService: SignatureService,
+    private readonly uploadsService: UploadsService,
+    private readonly dialog: DialogService,
+    private readonly courtine: CourtineService,
   ) {}
 
   @Input() tile!: ChecklistTile
   @Input() booking!: BookingDto
 
   @ViewChild('menu') menuRef!: Menu
-
-  private signDocument() {
-    this.signatureService.showSection()
-  }
 
   tileOptions: MenuItem[] = []
 
@@ -75,10 +79,16 @@ export class PaperTileComponent {
         command: () => this.documentService.download(this.tile.paperId!)
       })
     }
+    if (ChecklistUtil.canDownloadUploaded(this.tile)) {
+      this.tileOptions.push({
+        label: 'Download file',
+        command: () => this.downloadFile(this.tile.paperId)
+      })
+    }
     if (ChecklistUtil.canUpload(this.tile)) {
       this.tileOptions.push({
-        label: 'Upload document',
-        command: () => this.documentService.upload(this.tile.paperId!)
+        label: 'Upload file',
+        command: () => this.uploadFile('rental-proof')
       })
     }
 
@@ -91,7 +101,7 @@ export class PaperTileComponent {
 
     this.tileOptions.push({
       label: 'Refresh',
-      command: () => this.documentService.refreshChecklist$(this.booking)
+      command: () => this.documentService.refreshChecklist$(this.booking).subscribe()
     })
 
     this.items = [{
@@ -104,6 +114,28 @@ export class PaperTileComponent {
 
   _toggle(event: Event) {
     this.menuRef?.toggle(event)
+  }
+
+
+  private uploadFile(template: Template) {
+    this.uploadsService.uploadFile(this.booking, template).pipe(
+      filter(paper => !!paper),
+      switchMap(paper => this.documentService.refreshChecklist$(this.booking)),
+      tap(() => this.courtine.stopCourtine()),
+      catchError(error => {
+        this.dialog.errorPopup(error.error.message)
+        this.courtine.stopCourtine()
+        return of(null)
+      })
+    ).subscribe()
+  }
+
+  private downloadFile(paperId?: string) {
+    if (!paperId) {
+      // TODO toast
+      return
+    }
+    this.documentService.documentRequest(`/upload/${paperId}`)
   }
 
 }

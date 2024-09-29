@@ -13,6 +13,11 @@ import { updateBooking } from "../../profile/profile.state";
 
 export type PaperStatus = 'GENERATED' | 'SIGNED' | 'VERIFIED' | 'ERROR'
 
+export interface PaperRequestParams {
+    refreshBookingChecklist?: BookingDto
+    extension?: string
+}
+
 export interface Paper {
     id: string
     formId: string
@@ -21,9 +26,10 @@ export interface Paper {
     status: PaperStatus
 }
 
-interface Pdf {
+interface DownloadFile {
     blob: Blob
     filename: Template
+    contentType?: string
 }
 
 @Injectable({
@@ -31,7 +37,7 @@ interface Pdf {
 })
 export class DocumentService {
   
-    private readonly apiUri = Util.apiUri
+    private readonly apiUri = `${Util.apiUri}/document`
   
     constructor(
       private readonly httpClient: HttpClient,
@@ -41,7 +47,7 @@ export class DocumentService {
     ) { }
 
     public refreshChecklist$(booking: BookingDto)    {
-        this.http.get<ChecklistItem[]>(`/document/refresh-checklist/${booking.formId}`).pipe(
+        return this.http.get<ChecklistItem[]>(`/document/refresh-checklist/${booking.formId}`).pipe(
             take(1),
             tap(checklist => {
                 if (checklist) {
@@ -51,42 +57,37 @@ export class DocumentService {
                     }))
                 }
             })
-        ).subscribe()
+        )
     }
 
     public generate(booking: BookingDto, template: Template) {
-        this.documentRequest(`${this.apiUri}/document/generate/${booking.formId}/${template}`, booking)
+        this.documentRequest(`/generate/${booking.formId}/${template}`, booking)
     }
     
     public download(paperId: string) {
-        this.documentRequest(`${this.apiUri}/document/download/${paperId}`)
+        this.documentRequest(`/download/${paperId}`)
     }
 
     public signPaper(paperId: string, signatureId: string, booking: BookingDto) {
-        this.documentRequest(`${this.apiUri}/document/sign/${paperId}/${signatureId}`, booking)
+        this.documentRequest(`/sign/${paperId}/${signatureId}`, booking)
     }
 
-    public verify(paperId: string, signatureId: string, booking: BookingDto) {
-        this.documentRequest(`${this.apiUri}/document/verify/${paperId}/signatureId`, booking)
+    public verify(paperId: string, booking: BookingDto) {
+        this.documentRequest(`/verify/${paperId}`, booking)
     }
 
     public uploadSigned(paperId: string) {
-        this.documentRequest(`${this.apiUri}/document/upload-signed/${paperId}`)
-    }
-
-    public upload(paperId: string) {
-        this.documentRequest(`${this.apiUri}/document/upload/${paperId}`)
+        this.documentRequest(`/upload-signed/${paperId}`)
     }
 
     public downloadSignedPaper(paperId: string) {
-        this.documentRequest(`${this.apiUri}/document/download-signed/${paperId}`)
+        this.documentRequest(`/download-signed/${paperId}`)
     }
-    // END TODO
 
 
-    private documentRequest(url: string, refreshBookingChecklist?: BookingDto) {
+    public documentRequest(url: string, refreshBookingChecklist?: BookingDto) {
         this.courtine.startCourtine()
-        this.httpClient.get<Blob>(url, {
+        this.httpClient.get<Blob>(`${this.apiUri}${url}`, {
             observe: 'response',
             responseType: 'blob' as 'json',
         }).pipe(
@@ -95,16 +96,17 @@ export class DocumentService {
                 if (!body) {
                     throw new Error('Missing file')
                 }
-                const contentDisposition = response.headers.get('content-disposition');
-                const filename = this.getFilenameFromContentDisposition(contentDisposition) as Template;
-                return { filename, blob: response.body };
+                const contentDisposition = response.headers.get('content-disposition')
+                const contentType = response.headers.get('content-type') || undefined
+                const filename = this.getFilenameFromContentDisposition(contentDisposition) as Template
+                return { filename, blob: response.body, contentType }
             }),
         ).subscribe({
-          next: pdf => {
-            this.downloadPdf(pdf)
+          next: downloadFile => {
+            this.downloadFile(downloadFile)
             this.courtine.stopCourtine()
             if (refreshBookingChecklist) {
-                this.refreshChecklist$(refreshBookingChecklist)
+                this.refreshChecklist$(refreshBookingChecklist).subscribe()
             }
           },
           error: error => {
@@ -114,12 +116,12 @@ export class DocumentService {
         })
     }
 
-    private downloadPdf(pdf: Pdf) {
-        const blob = new Blob([pdf.blob], { type: 'application/pdf' });
+    private downloadFile(downloadFile: DownloadFile) {
+        const blob = new Blob([downloadFile.blob], { type: downloadFile.contentType || 'application/pdf' });
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = pdf.filename;
+        a.download = downloadFile.filename;
         a.click();
         window.URL.revokeObjectURL(url);
     }
