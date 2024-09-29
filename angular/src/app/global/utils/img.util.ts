@@ -1,5 +1,6 @@
-import { map, Observable, of, switchMap } from "rxjs"
+import { from, map, Observable, of, switchMap } from "rxjs"
 import { FireImgSet, Images } from "../../artist/model/artist-form"
+import heic2any from 'heic2any';
 
 export abstract class ImgSize {
     public static readonly bg: Size = { width: 1200, height: 800 }
@@ -223,4 +224,15 @@ export abstract class ImgUtil {
     document.body.removeChild(link);
     window.URL.revokeObjectURL(url);
   }
+
+
+  public static heicToJpg(file: File): Observable<File> {
+    return from(heic2any({
+      blob: file,
+      toType: "image/jpeg",
+    })).pipe(
+      map(jpgBlob => new File([Array.isArray(jpgBlob) ? jpgBlob[0] : jpgBlob], file.name.replace(/\..+$/, '.jpg'), { type: 'image/jpeg' }))
+    )
+  }
+
 }

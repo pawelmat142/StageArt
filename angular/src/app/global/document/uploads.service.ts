@@ -1,16 +1,29 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Util } from "../utils/util";
-import { filter, Observable, switchMap } from "rxjs";
+import { filter, Observable, of, switchMap } from "rxjs";
 import { Paper } from "./document.service";
 import { DialogService } from "../nav/dialog.service";
 import { BookingDto } from "../../booking/services/booking.service";
+import { ImgUtil, Size } from "../utils/img.util";
 
 @Injectable({
     providedIn: 'root'
 })
 export class UploadsService {
     
+    private readonly A4_FORMAT_SIZE = {
+        MINI: {
+            width: 595,
+            height: 842
+        } as Size,
+        MID: {
+            width: 1240,
+            height: 1754
+        } as Size
+    }
+
+
     constructor(
         private readonly httpClient: HttpClient,
         private readonly dialog: DialogService,
@@ -29,10 +42,9 @@ export class UploadsService {
     private readonly EXTENSIONS = ['jpg', 'jpeg', 'png', 'webp', this.HEIC, this.PDF]
 
     public uploadFile(booking: BookingDto, template: string): Observable<Paper | undefined> {
-        // TODO osobno PDF obsluzyc
-        // TODO osobno HEIC obsluzyc
         const fileInput = document.createElement('input');
         fileInput.type = 'file';
+        let extension = ''
         return new Observable<File>((observer) => {
             fileInput.onchange = () => {
                 const file = fileInput.files?.[0];
@@ -41,8 +53,7 @@ export class UploadsService {
                     observer.complete()
                     return
                 }
-                const extension = this.getExtension(file!)
-
+                extension = this.getExtension(file!)
                 if (!this.EXTENSIONS.includes(extension)) {
                     observer.error(`Wrong extension`)
                     observer.complete()
@@ -54,6 +65,19 @@ export class UploadsService {
             fileInput.click()
         }).pipe(
             filter(file => !!file),
+            switchMap(file => {
+                if (this.HEIC === extension) {
+                    return ImgUtil.heicToJpg(file)
+                }
+                return of(file)
+            }),
+            switchMap(file => {
+                if (this.MAY_CONVERT_TO_JPG_EXTENSIONS.includes(this.getExtension(file))) {
+                    return ImgUtil.resizeImgFile$(file, undefined, this.A4_FORMAT_SIZE.MID)
+                }
+                return of(file)
+            }),
+  
             switchMap(file => this.uploadFile$(booking.formId, template, file)),
         )
     }
