@@ -24,9 +24,9 @@ $page-padding-big: 14vw;
 $radius: 3px;
 $radius-standard: 10px;
 
-$shadow-standard: 1px 1px 3px $dark;
+$shadow-standard: 1px 1px 3px $bgOne;
 $transition-standard: all 0.16s ease-in-out;
-$text-shadow: 0px 2px 1px $dark;
+$text-shadow: 0px 2px 1px $bgOne;
 $text-shadow-red: 0px 2px 1px $red;
 $card-shadow: 0 0 16px $red;
 
@@ -88,11 +88,11 @@ $border-shadow: 0 3px 5px $red;
     transition: $transition-standard;
     cursor: pointer;
     &:hover {
-        background-color: $red-transparent;
+        background-color: $redTransparent;
     }
     
     &.light:hover {
-        background-color: $light-dark;
+        background-color: $bgTwo;
     }
 }
 
@@ -125,7 +125,7 @@ $border-shadow: 0 3px 5px $red;
 
 
 .section {
-    background-color: $dark;
+    background-color: $bgOne;
     padding: $view-margin-1;
 }
 
@@ -160,7 +160,7 @@ $border-shadow: 0 3px 5px $red;
     top: 0;
     right: 0;
     bottom: 0;
-    background-color: $dark-courtine;
+    background-color: $bgOneCourtine;
 
     z-index: 9999;
 
@@ -177,7 +177,7 @@ $border-shadow: 0 3px 5px $red;
 .edit-toggle-style {
     min-width: 40px;
     height: 40px;
-    color: $dark;
+    color: $bgOne;
     display: flex;
     align-items: center;
     justify-content: center;

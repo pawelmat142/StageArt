@@ -13,6 +13,8 @@ import { NavService } from './global/nav/nav.service';
 import { LoginComponent } from './profile/auth/view/login/login.component';
 import { RegisterComponent } from './profile/auth/view/register/register.component';
 import { Token } from './profile/auth/view/token';
+import { Theme } from './global/theme/theme';
+import { UnityTheme } from './global/theme/unity.theme';
 
 @Component({
   selector: 'app-root',
@@ -72,7 +74,9 @@ export class AppComponent {
 
   private initScssVariables() {
     const avatarSize = DESKTOP ? ImgSize.avatar.height : ImgSize.avatarMobile.height
-    document.documentElement.style.setProperty('--avatar-size', `${avatarSize}px`);
+    Theme.cssVar('avatar-size',`${avatarSize}px`)
+    Theme.setTheme(UnityTheme)
   }
+
 }
 

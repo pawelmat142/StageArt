@@ -5,7 +5,7 @@
 $border: 1px solid $red; 
 
 app-profile {
-    background-color: $light-dark;
+    background-color: $bgTwo;
 }
 
 .desktop {
@@ -34,7 +34,7 @@ app-profile {
 
 
 .sidebar {
-    background-color: $dark;
+    background-color: $bgOne;
     width: $sidebar-width;
     position: fixed;
     top: 0;
@@ -68,7 +68,7 @@ app-profile {
     margin-bottom: 0.2*$padding-standard;
 
     &.active {
-        background: $red-transparent;
+        background: $redTransparent;
     }
 }
 

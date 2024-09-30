@@ -11,6 +11,9 @@ import { combineLatest, filter, map, Observable, shareReplay, startWith } from "
 import { HomepageComponent } from "../view/homepage/homepage.component";
 import { ResolveEnd, Router } from "@angular/router";
 import { Path } from "./path";
+import { Theme } from "../theme/theme";
+import { UnityTheme } from "../theme/unity.theme";
+import { DefaultTheme } from "../theme/default.theme";
 
 @Injectable({
     providedIn: 'root'
@@ -77,12 +80,28 @@ export class MenuService {
         filter: (profile?: Profile) => !profile, 
     }
 
+    private flag = true
+
+    private readonly testThemeButton: MenuButtonItem  = {
+        label: 'Test',
+        onclick: () => {
+            if (this.flag) {
+                this.flag = false
+                Theme.setTheme(DefaultTheme)
+            } else {
+                this.flag = true
+                Theme.setTheme(UnityTheme)
+            }
+        }
+    }
+
     private allButtons: MenuButtonItem[] = [
         this.homeButton,
         this.artistsButton,
         this.bookNowButton,
         this.panelButton,
         this.loginButton,
+        this.testThemeButton
     ]
 
 }

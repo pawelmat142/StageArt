@@ -68,7 +68,7 @@ $view-padding: 4*$padding-standard;
     width: 100vw;
     max-height: 100vh;
     white-space: nowrap;
-    background-color: $light-dark;
+    background-color: $bgTwo;
     opacity: 0.7;
 }
 
@@ -122,14 +122,14 @@ $view-padding: 4*$padding-standard;
 
 .edit-button {
     @extend .hovergrow;
-    color: $dark;
+    color: $bgOne;
     padding: 0.2*$padding-standard 0.5*$padding-standard;
     border-radius: $radius;
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: $white;
-    border: 1px solid $dark;
+    border: 1px solid $bgOne;
     @extend .fs5;
     z-index: 5;
 

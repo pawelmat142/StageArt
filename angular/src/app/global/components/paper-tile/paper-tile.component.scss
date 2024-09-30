@@ -10,7 +10,7 @@ $paper-step-size: 18px;
 
     box-shadow: $shadow-standard;
     border-radius: $radius;
-    background-color: $light-dark;
+    background-color: $bgTwo;
 
 
     .tile-wrapper-row {
@@ -55,7 +55,7 @@ $paper-step-size: 18px;
 
 .p-menu-overlay {
     border-radius: $radius;
-    background: $dark;
+    background: $bgOne;
     min-width: 150px;
     box-shadow: $shadow-standard;
     

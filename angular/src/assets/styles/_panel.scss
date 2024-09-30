@@ -29,7 +29,7 @@
     display: grid;
     grid-template-columns: 1fr;
     gap: $padding-standard;
-    background-color: $light-dark;
+    background-color: $bgTwo;
     
     padding-top: $header-height + $padding-standard;
 
@@ -37,14 +37,14 @@
 
     .separate-line {
         margin: 0 $padding-standard;
-        border-top: 0.5px solid $light-dark;
+        border-top: 0.5px solid $bgTwo;
     }
 }
 
 .panel-section {
     @extend .tile;
     padding: 0;
-    border: 1px solid $dark;
+    border: 1px solid $bgOne;
 }
 
 .panel-section-content,
@@ -71,17 +71,17 @@
     }
 
     &:not(.labels) {
-        border-top: 0.5px solid $light-dark;
+        border-top: 0.5px solid $bgTwo;
     }
 
     &.clickable {
         cursor: pointer;
         &:hover {
-            background-color: $light-dark;
+            background-color: $bgTwo;
         }
     }
     &.selected {
-        background-color: $light-dark;
+        background-color: $bgTwo;
     }
 }
 

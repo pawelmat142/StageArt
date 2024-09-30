@@ -1,39 +1,12 @@
-
-$dark: #141919;
-$dark-transparent: #141919f0;
-$dark-courtine: #141919af;
-$light-dark: #333333;
-
-$red: #d44127;
-$active-red: #ff5733;
-$red-transparent: #d4412737;
-$red-border: #ff573350;
-$light: #84b6b9;
-$grey: #577483;
-$white: #fff;
-$font-color: #7c7c7c;
-$input-bg: #f0edf2;
-
-$yellow: #f9d85d;
-$yellow-dark: #f0c418;
-$yellow-transparent: #f9d75d7e;
-$green: #5a9a5b;
-$green-light: #6db16e;
-$green-dark: #4b824c;
-
-$label-color: #aaa8ac;
-$control-bg: #f0edf2;
-$border-color: #d3d3d3;
-
-$placeholder-color: #757575;
+@import 'color-theme';
 
 .dark {
-    color: $dark;
-    fill: $dark;
+    color: $bgOne;
+    fill: $bgOne;
 }
 .light-dark {
-    color: $light-dark;
-    fill: $light-dark;
+    color: $bgTwo;
+    fill: $bgTwo;
 }
 .red {
     color: $red;
@@ -56,9 +29,9 @@ $placeholder-color: #757575;
     fill: $white;
 }
 .font-color {
-    color: $font-color;
+    color: $fontColor;
 }
 
 body {
-    background-color: $dark;
+    background-color: $bgOne;
 }

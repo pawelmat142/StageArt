@@ -21,7 +21,7 @@
     right: -1px;
 
     padding-top: $padding-standard;
-    background-color: $control-bg;
+    background-color: $controlBg;
     border-bottom-left-radius: $form-radius;
     border-bottom-right-radius: $form-radius;
     border: $input-border;
@@ -50,7 +50,7 @@
         cursor: pointer;
         transition: $transition-standard;
         &:hover {
-            background-color: $yellow-transparent;
+            background-color: $yellowTransparent;
         }
 
     }

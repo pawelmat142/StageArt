@@ -6,7 +6,7 @@
 
 .menu-button-container {
     background-color: $red;
-    color: $dark;
+    color: $bgOne;
     overflow: hidden;
     border-radius: $radius-standard;
     box-shadow: $shadow-standard;
@@ -65,14 +65,14 @@
         white-space: normal;
         
         &:hover {
-            background-color: $active-red;
+            background-color: $redActive;
         }
     }
 }
 
 .menu-button-open {
     .menu-button-children {
-        color: $dark;
+        color: $bgOne;
     }
 
     .menu-button-child {

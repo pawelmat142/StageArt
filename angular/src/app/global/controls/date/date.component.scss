@@ -3,12 +3,12 @@
 
 .active {
     .form-input.app-selector {
-        background-color: $control-bg;
+        background-color: $controlBg;
     }
     .form-input.dates {
-        background-color: $control-bg;
+        background-color: $controlBg;
         box-shadow: none;
-        border-color: $border-color;
+        border-color: $borderColor;
 
         p-calendar {
             .p-datepicker {
@@ -45,7 +45,7 @@
         }
 
         .p-datepicker {
-            background-color: $control-bg!important;
+            background-color: $controlBg!important;
             padding: $control-padding;
             border-radius: $input-radius;
             @extend .form-input;
@@ -67,7 +67,7 @@
                     transition: $transition-standard;
                     &.p-highlight {
                         font-weight: 700;
-                        background-color: $red-transparent;
+                        background-color: $redTransparent;
                         border-radius: 50%;
                     }
 

@@ -7,7 +7,7 @@
         .btn {
             &:hover {
                 transform: scale(1.05);
-                background-color: $active-red;
+                background-color: $redActive;
             }
         }
         &.light {
@@ -21,7 +21,7 @@
 
     .yellow {
         .btn:hover {
-            background-color: $yellow-dark;
+            background-color: $yellowDark;
             
         }
     }
@@ -33,7 +33,7 @@
     }
     .green {
         .btn:hover {
-            background-color: $green-light;
+            background-color: $greenLight;
         }
     }
 }
@@ -52,7 +52,7 @@
 }
 .yellow {
     .btn {
-        background-color: $yellow-dark;
+        background-color: $yellowDark;
     } 
 }
 .grey {
@@ -103,7 +103,7 @@
     opacity: 0.6;
 
     background-color: $red;
-    color: $dark;
+    color: $bgOne;
 
     @extend .btn-font;
     
