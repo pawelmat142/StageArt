@@ -29,8 +29,6 @@ export type PanelView  = 'NONE' | 'BOOKINGS' | 'MANAGER_ARTISTS' | 'MANAGER_DATA
 })
 export class PanelComponent {
 
-  public static readonly path = 'panel'
-
   _profileView: PanelView = 'NONE' 
 
   _setView(view: PanelView) {

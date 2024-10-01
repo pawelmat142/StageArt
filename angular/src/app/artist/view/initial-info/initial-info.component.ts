@@ -13,7 +13,7 @@ import { ArtistService } from '../../artist.service';
 import { BtnComponent } from '../../../global/controls/btn/btn.component';
 import { FormUtil } from '../../../global/utils/form.util';
 import { CourtineService } from '../../../global/nav/courtine.service';
-import { DialogService } from '../../../global/nav/dialog.service';
+import { Dialog } from '../../../global/nav/dialog.service';
 import { initializedArtist } from '../artist-view/artist-view.state';
 
 @Component({
@@ -36,7 +36,7 @@ export class InitialInfoComponent {
     private readonly store: Store<AppState>,
     private readonly profileService: ProfileService,
     private readonly artistService: ArtistService,
-    private readonly dialog: DialogService,
+    private readonly dialog: Dialog,
     private readonly courtine: CourtineService,
   ) {}
 

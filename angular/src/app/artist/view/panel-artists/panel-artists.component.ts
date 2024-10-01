@@ -12,7 +12,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { TextareaComponent } from '../../../global/controls/textarea/textarea.component';
 import { FormUtil } from '../../../global/utils/form.util';
 import { CourtineService } from '../../../global/nav/courtine.service';
-import { DialogService } from '../../../global/nav/dialog.service';
+import { Dialog } from '../../../global/nav/dialog.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AccordionModule } from 'primeng/accordion';
 
@@ -37,7 +37,7 @@ export class PanelArtistsComponent {
   constructor(
     private readonly artistService: ArtistService,
     private readonly courtineService: CourtineService,
-    private readonly dialog: DialogService,
+    private readonly dialog: Dialog,
     private readonly nav: NavService,
     private readonly store: Store<AppState>,
   ) {}

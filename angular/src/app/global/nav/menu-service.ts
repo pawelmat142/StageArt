@@ -1,7 +1,5 @@
 import { Injectable } from "@angular/core";
 import { MenuButtonItem, NavService } from "./nav.service";
-import { PanelComponent } from "../../profile/view/panel/panel.component";
-import { LoginComponent } from "../../profile/auth/view/login/login.component";
 import { profile } from "../../profile/profile.state";
 import { AppState } from "../../app.state";
 import { Store } from "@ngrx/store";
@@ -14,7 +12,6 @@ import { Path } from "./path";
 import { Theme } from "../theme/theme";
 import { UnityTheme } from "../theme/unity.theme";
 import { DefaultTheme } from "../theme/default.theme";
-import { DialogService } from "./dialog.service";
 
 
 @Injectable({
@@ -27,7 +24,6 @@ export class MenuService {
         private readonly router: Router,
         private readonly nav: NavService,
         private readonly location: Location,
-        private readonly dialog: DialogService,
     ) {
     }
 
@@ -66,7 +62,7 @@ export class MenuService {
     }
     private readonly panelButton: MenuButtonItem  = {
         label: 'Panel',
-        path: PanelComponent.path,
+        path: Path.PANEL,
         filter: (profile?: Profile) => !!profile, 
     }
     private readonly bookNowButton: MenuButtonItem  = {
@@ -79,7 +75,7 @@ export class MenuService {
     }
     private readonly loginButton: MenuButtonItem  = {
         label: 'Login',
-        path: LoginComponent.path,
+        path: Path.LOGIN,
         filter: (profile?: Profile) => !profile, 
     }
 
@@ -88,13 +84,14 @@ export class MenuService {
     private readonly testThemeButton: MenuButtonItem  = {
         label: 'Test',
         onclick: () => {
-            // if (this.flag) {
-            //     this.flag = false
-            //     Theme.setTheme(DefaultTheme)
-            // } else {
-            //     this.flag = true
-            //     Theme.setTheme(UnityTheme)
-            // }
+
+            if (this.flag) {
+                this.flag = false
+                Theme.setTheme(DefaultTheme)
+            } else {
+                this.flag = true
+                Theme.setTheme(UnityTheme)
+            }
         }
     }
 

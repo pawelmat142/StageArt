@@ -4,9 +4,10 @@ import { BtnComponent } from '../../../controls/btn/btn.component';
 import { TextareaElementComponent } from '../../../controls/textarea-element/textarea-element.component';
 import { FeedbackService } from './feedback-service';
 import { take } from 'rxjs';
-import { DialogService } from '../../../nav/dialog.service';
+import { Dialog } from '../../../nav/dialog.service';
 import { CourtineService } from '../../../nav/courtine.service';
 import { DESKTOP } from '../../../services/device';
+import { PopupComponent } from '../../../nav/dialogs/popup/popup.component';
 
 @Component({
   selector: 'app-feedback',
@@ -18,7 +19,7 @@ import { DESKTOP } from '../../../services/device';
   ],
   templateUrl: './feedback.component.html',
   styleUrl: './feedback.component.scss',
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class FeedbackComponent {
 
@@ -26,7 +27,7 @@ export class FeedbackComponent {
 
   constructor(
     private readonly feedbackService: FeedbackService,
-    private readonly dialog: DialogService,
+    private readonly dialog: Dialog,
     private readonly courtine: CourtineService,
   ) {}
 
@@ -56,6 +57,5 @@ export class FeedbackComponent {
       }
     })
   }
-
 
 }

@@ -9,10 +9,10 @@ import { ProfileService } from '../../profile.service';
 import { FormUtil } from '../../../global/utils/form.util';
 import { Country } from '../../../global/countries/country.model';
 import { CourtineService } from '../../../global/nav/courtine.service';
-import { DialogService } from '../../../global/nav/dialog.service';
+import { Dialog } from '../../../global/nav/dialog.service';
 import { NavService } from '../../../global/nav/nav.service';
-import { PanelComponent } from '../panel/panel.component';
 import { take, tap } from 'rxjs';
+import { Path } from '../../../global/nav/path';
 
 export interface ManagerData {
   agencyName: string
@@ -47,7 +47,7 @@ export class ManagerFormComponent {
     private readonly countryService: CountriesService,
     private readonly profileService: ProfileService,
     private readonly courtine: CourtineService,
-    private readonly dialog: DialogService,
+    private readonly dialog: Dialog,
     private readonly nav: NavService,
   ) {}
 
@@ -81,7 +81,7 @@ export class ManagerFormComponent {
       next: data => {
         this.courtine.stopCourtine()
         this.dialog.simplePopup('Manager data updated')
-        this.nav.to(PanelComponent.path)
+        this.nav.to(Path.PANEL)
       }, 
       error: error => {
         this.courtine.stopCourtine()

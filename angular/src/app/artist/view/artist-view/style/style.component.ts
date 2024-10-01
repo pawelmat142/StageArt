@@ -6,8 +6,7 @@ import { editMode, updateLabels, updateStyle } from '../artist-view.state';
 import { TextareaElementComponent } from '../../../../global/controls/textarea-element/textarea-element.component';
 import { filter, map, take, tap, withLatestFrom } from 'rxjs';
 import { ArtistService } from '../../../artist.service';
-import { DialogService } from '../../../../global/nav/dialog.service';
-import { DialogData } from '../../../../global/nav/dialogs/popup/popup.component';
+import { Dialog, DialogData } from '../../../../global/nav/dialog.service';
 import { ArtistLabel, ArtistStyle } from '../../../model/artist-view.dto';
 import { Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
@@ -33,7 +32,7 @@ export class StyleComponent {
   
   constructor(
     private readonly store: Store<AppState>,
-    private readonly dialog: DialogService,
+    private readonly dialog: Dialog,
     private readonly artistService: ArtistService,
   ) {}
 
@@ -71,7 +70,7 @@ export class StyleComponent {
           input: 'style',
           inputValidators: [Validators.required]
         }
-        this.dialog.popup(data).afterClosed() .pipe(
+        this.dialog.popup(data).onClose.pipe(
           filter(name => !!name && typeof name === 'string'),
           map((styleName) => {
             let artistStyles = _artistStyles || []
@@ -119,7 +118,7 @@ export class StyleComponent {
           input: 'label',
           inputValidators: [Validators.required]
         }
-        this.dialog.popup(data).afterClosed() .pipe(
+        this.dialog.popup(data).onClose.pipe(
           filter(name => !!name && typeof name === 'string'),
           map((labelName) => {
             const foundLabel = allLabels.find(s => s.name === labelName)

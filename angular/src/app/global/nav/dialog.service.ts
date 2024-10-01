@@ -1,23 +1,42 @@
 import { Injectable } from "@angular/core";
-import { MatDialog } from "@angular/material/dialog";
-import { Store } from "@ngrx/store";
-import { LoginComponent } from "../../profile/auth/view/login/login.component";
-import { DialogData, PopupComponent } from "./dialogs/popup/popup.component";
-import { NavService } from "./nav.service";
-import { AppState } from "../../app.state";
 import { Observable, Subject } from "rxjs";
 import { Message } from "primeng/api";
+import { DialogService } from "primeng/dynamicdialog";
+import { PopupComponent } from "./dialogs/popup/popup.component";
+import { ValidatorFn } from "@angular/forms";
+import { SelectorItem } from "../controls/selector/selector.component";
+import { Chip } from "../../artist/model/artist-view.dto";
+
+export interface DialogData {
+    header: string
+    content?: string[]
+    isError?: boolean
+    error?: Error
+    buttons?: DialogBtn[]
+    input?: string
+    inputValidators?: ValidatorFn[]
+    inputClass?: string
+    inputValue?: string
+    select?: string
+    chips?: Chip[]
+    items?: Observable<SelectorItem[]>
+  }
+  
+  export interface DialogBtn {
+    label: string
+    severity?: Severity
+    result?: any
+    type?: 'button' | 'submit'
+    onclick?: () => any
+  }
+
+  export type Severity = 'success' | 'info' | 'warning' | 'danger' | 'help' | 'primary' | 'secondary' | 'contrast' | null | undefined
+
 
 @Injectable({
     providedIn: 'root'
 })
-export class DialogService {
-
-    constructor(
-        private readonly dialog: MatDialog,
-        private readonly store: Store<AppState>,
-        private readonly nav: NavService,
-    ) {}
+export class Dialog extends DialogService {
 
     /*
         TOASTS
@@ -42,15 +61,19 @@ export class DialogService {
     /*
         POPUPS
     */
+    public popup(data: DialogData) {
+        return this.open(PopupComponent, {
+            closable: false,
+            header: data.header, 
+            data
+        })
+    }
+
     public simplePopup(header: string) {
         const data = { header }
         return this.popup(data)
       }
     
-    public popup(data: DialogData) {
-        return this.dialog.open(PopupComponent, { data })
-    }
-      
     public async errorPopup(msg: string, content: string[] = []) {
         const data: DialogData = {
           header: msg,
@@ -68,33 +91,18 @@ export class DialogService {
         return this.popup(data)
     }
 
-    public loginPopup(msg?: string) {
-        const data: DialogData = {
-            header: msg || 'You neeed to log in before submitting the form',
-            buttons: [{
-                label: 'Close',
-            }, {
-                label: 'To login',
-                class: 'grey',
-                onclick: () => this.nav.to(LoginComponent.path)
-            }]
-        }
-        return this.popup(data)
-    }
-
     public yesOrNoPopup(msg?: string) {
         const dialg: DialogData = {
             header: msg || `Yes or no?`,
             buttons: [{
               label: 'No',
-              class: 'big'
+              severity: 'secondary'
             }, {
               label: 'Yes',
-              class: 'big light',
               result: true,
             }]
         }
-        return this.popup(dialg).afterClosed()
+        return this.popup(dialg).onClose
     }
 
 }

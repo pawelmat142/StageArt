@@ -7,7 +7,7 @@ import { ArtistService } from "../../artist.service";
 import { catchError, forkJoin, map, Observable, of, switchMap, take, tap, withLatestFrom } from "rxjs";
 import { FireImgStorageService } from "../../../global/services/fire-img-storage.service";
 import { ImgSize, ImgUtil } from "../../../global/utils/img.util";
-import { DialogService } from "../../../global/nav/dialog.service";
+import { Dialog } from "../../../global/nav/dialog.service";
 import { Images } from "../../model/artist-form";
 import { ArtistMedia } from "../../artist-medias/artist-medias.service";
 import { NavService } from "../../../global/nav/nav.service";
@@ -277,7 +277,7 @@ export class ArtistViewEffect {
         private readonly actions$: Actions,
         private readonly store: Store<AppState>,
         private readonly artistService: ArtistService,
-        private readonly dialog: DialogService,
+        private readonly dialog: Dialog,
         private readonly fireImgStorageService: FireImgStorageService,
         private nav: NavService,
     ){}

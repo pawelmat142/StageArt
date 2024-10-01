@@ -2,7 +2,7 @@ import { Component, EventEmitter, HostBinding, Output, ViewEncapsulation } from 
 import { Store } from '@ngrx/store';
 import { PanelView } from '../panel/panel.component';
 import { logout, profile } from '../../profile.state';
-import { DialogService } from '../../../global/nav/dialog.service';
+import { Dialog } from '../../../global/nav/dialog.service';
 import { NavService, MenuButtonItem } from '../../../global/nav/nav.service';
 import { AppState, selectArtistView } from '../../../app.state';
 import { BehaviorSubject, take, tap } from 'rxjs';
@@ -32,7 +32,7 @@ export class SidebarComponent {
   constructor(
     private readonly store: Store<AppState>,
     private readonly nav: NavService,
-    private readonly dialog: DialogService,
+    private readonly dialog: Dialog,
   ) {}
 
   @Output() view = new EventEmitter<PanelView>()

@@ -11,8 +11,7 @@ import { skip, Subscription, take, tap } from 'rxjs';
 import { formData, FormType, newForm, openForm, selectFormId, startForm, storeForm } from '../form.state';
 import { FormUtil } from '../../global/utils/form.util';
 import { AppState } from '../../app.state';
-import { DialogService } from '../../global/nav/dialog.service';
-import { DialogData } from '../../global/nav/dialogs/popup/popup.component';
+import { Dialog, DialogData } from '../../global/nav/dialog.service';
 
 @Component({
   selector: 'app-form-processor',
@@ -40,7 +39,7 @@ export class FormProcessorComponent {
   constructor(
     private readonly fb: FormBuilder,
     private readonly store: Store<AppState>,
-    private readonly dialog: DialogService,
+    private readonly dialog: Dialog,
   ) {}
 
   @Input() form!: pForm
@@ -155,14 +154,13 @@ export class FormProcessorComponent {
       header: 'Are you sure you want to start new form?',
       buttons: [{
         label: 'No',
-        class: 'light big'
+        severity: 'secondary',
       }, {
         label: `Yes`,
-        class: 'big',
         onclick: () => this.resetForm()
       }]
     }
-    this.dialog.popup(data).afterClosed().subscribe()
+    this.dialog.popup(data).onClose.subscribe()
   }
   
   private resetForm() {

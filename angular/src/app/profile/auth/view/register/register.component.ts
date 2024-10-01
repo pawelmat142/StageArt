@@ -7,11 +7,11 @@ import { CourtineService } from '../../../../global/nav/courtine.service';
 import { FormUtil } from '../../../../global/utils/form.util';
 import { LoginForm, ProfileService } from '../../../profile.service';
 import { HeaderComponent } from '../../../../global/components/header/header.component';
-import { DialogService } from '../../../../global/nav/dialog.service';
+import { Dialog } from '../../../../global/nav/dialog.service';
 import { NavService } from '../../../../global/nav/nav.service';
-import { LoginComponent } from '../login/login.component';
 import { InputComponent } from '../../../../global/controls/input/input.component';
 import { Role } from '../../../profile.model';
+import { Path } from '../../../../global/nav/path';
 
 function repassword(): ValidatorFn {
   const error = { mismatch: true }
@@ -58,7 +58,7 @@ export class RegisterComponent {
     private profileService: ProfileService,
     private courtineService: CourtineService,
     private nav: NavService,
-    private dialog: DialogService,
+    private dialog: Dialog,
   ) {}
 
   form = new FormGroup({
@@ -97,7 +97,7 @@ export class RegisterComponent {
 
     this.profileService.createProfileEmail$(form as LoginForm).subscribe({
       next: () => { 
-        this.nav.to(LoginComponent.path)
+        this.nav.to(Path.LOGIN)
         this.courtineService.stopCourtine()
         this.dialog.simplePopup('Registered successfully')
       },

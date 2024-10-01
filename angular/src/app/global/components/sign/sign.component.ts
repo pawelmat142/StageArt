@@ -7,11 +7,11 @@ import {  Signature, SignatureService } from './signature.service';
 import {  filter, map, Observable, of, switchMap, tap, withLatestFrom } from 'rxjs';
 import { AppState } from '../../../app.state';
 import { Store } from '@ngrx/store';
-import { DialogService } from '../../nav/dialog.service';
+import { Dialog } from '../../nav/dialog.service';
 import { IconButtonComponent } from '../icon-button/icon-button.component';
 import { CommonModule } from '@angular/common';
 import { Menu, MenuModule } from 'primeng/menu';
-import { MenuItem, MenuItemCommandEvent } from 'primeng/api';
+import { MenuItem } from 'primeng/api';
 import { CourtineService } from '../../nav/courtine.service';
 import { DocumentService } from '../../document/document.service';
 import { BookingDto } from '../../../booking/services/booking.service';
@@ -40,7 +40,7 @@ export class SignComponent {
   constructor (
     private readonly signatureService: SignatureService,
     private readonly documentService: DocumentService,
-    private readonly dialog: DialogService,
+    private readonly dialog: Dialog,
     private readonly store: Store<AppState>,
     private readonly courtine: CourtineService,
   ) {}

@@ -10,14 +10,14 @@ import { AppState } from './app.state';
 import { ImgSize } from './global/utils/img.util';
 import { ProfileService } from './profile/profile.service';
 import { NavService } from './global/nav/nav.service';
-import { LoginComponent } from './profile/auth/view/login/login.component';
 import { RegisterComponent } from './profile/auth/view/register/register.component';
 import { Token } from './profile/auth/view/token';
 import { Theme } from './global/theme/theme';
 import { UnityTheme } from './global/theme/unity.theme';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
-import { DialogService } from './global/nav/dialog.service';
+import { Dialog } from './global/nav/dialog.service';
+import { Path } from './global/nav/path';
 
 @Component({
   selector: 'app-root',
@@ -25,7 +25,7 @@ import { DialogService } from './global/nav/dialog.service';
   imports: [CommonModule, RouterOutlet, ProgressSpinnerModule, ToastModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  providers: [MessageService]
+  providers: [MessageService],
 })
 export class AppComponent {
   
@@ -40,7 +40,7 @@ export class AppComponent {
     private readonly profileService: ProfileService,
     private readonly nav: NavService,
     private readonly messageService: MessageService,
-    private readonly dialog: DialogService,
+    private readonly dialog: Dialog,
   ) {}
 
   courtine$ = this.courtineService.courtine$.pipe(
@@ -79,7 +79,7 @@ export class AppComponent {
   }
 
   private skipAutoLogin(): boolean {
-    return [LoginComponent.path, RegisterComponent.path].some(path => this.nav.path.includes(path))
+    return [Path.LOGIN, RegisterComponent.path].some(path => this.nav.path.includes(path))
   }
 
   private initScssVariables() {

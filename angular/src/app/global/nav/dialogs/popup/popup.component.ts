@@ -1,66 +1,48 @@
-import { CommonModule } from '@angular/common';
-import { Component, Inject, ViewEncapsulation } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { BtnComponent } from '../../../controls/btn/btn.component';
-import { FormControl, FormGroup, ReactiveFormsModule, ValidatorFn } from '@angular/forms';
-import { InputComponent } from '../../../controls/input/input.component';
-import { FormUtil } from '../../../utils/form.util';
-import { SelectorItem, SelectorComponent } from '../../../controls/selector/selector.component';
-import { Observable } from 'rxjs';
+import { Component } from '@angular/core';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Chip } from '../../../../artist/model/artist-view.dto';
-
-export interface DialogData {
-  header: string
-  content?: string[]
-  isError?: boolean
-  error?: Error
-  buttons?: DialogBtn[]
-  input?: string
-  inputValidators?: ValidatorFn[]
-  inputClass?: string
-  inputValue?: string
-  select?: string
-  chips?: Chip[]
-  items?: Observable<SelectorItem[]>
-}
-
-export interface DialogBtn {
-  label: string
-  class?: string
-  result?: any
-  type?: 'button' | 'submit'
-  onclick?: () => any
-}
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormUtil } from '../../../utils/form.util';
+import { CommonModule } from '@angular/common';
+import { BtnComponent } from '../../../controls/btn/btn.component';
+import { InputComponent } from '../../../controls/input/input.component';
+import { SelectorComponent } from '../../../controls/selector/selector.component';
+import { ButtonModule } from 'primeng/button';
+import { DialogBtn, DialogData } from '../../dialog.service';
 
 @Component({
   selector: 'app-popup',
   standalone: true,
   imports: [
     CommonModule,
-    BtnComponent,
     ReactiveFormsModule,
+    BtnComponent,
     InputComponent,
-    SelectorComponent
-],
+    SelectorComponent,
+    ButtonModule,
+  ],
   templateUrl: './popup.component.html',
   styleUrl: './popup.component.scss',
-  encapsulation: ViewEncapsulation.None
 })
 export class PopupComponent {
 
   constructor(
-    private readonly dialogRef: MatDialogRef<PopupComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    private ref: DynamicDialogRef,
+    private config: DynamicDialogConfig<DialogData>
   ) {}
 
   _defaultButton = true
 
+  get data(): DialogData {
+    return this.config.data as DialogData;
+  }
+
   form?: FormGroup 
 
-  private readonly closeButton: DialogBtn = { label: 'Close', class: 'big' }
+  private readonly closeButton: DialogBtn = { label: 'Close', severity: 'danger' }
 
   ngOnInit(): void {
-    this.dialogRef.afterClosed().subscribe(() => {
+    this.ref.onClose.subscribe(() => {
       if (this.data.error) {
         console.error(this.data.error)
       }
@@ -74,7 +56,6 @@ export class PopupComponent {
 
       const submit: DialogBtn = {
         label: 'Submit',
-        class: 'grey big',
         onclick: () => this._submit()
       } 
       
@@ -93,12 +74,13 @@ export class PopupComponent {
   }
 
   _onChip(chip: Chip) {
-    this.dialogRef.close(chip.name)
+    this.ref.close(chip.name)
   }
 
   _close(result?: any) {
-    this.dialogRef.close(result)
+    this.ref.close(result)
   }
+
 
   _onBtnClick(btn: DialogBtn) {
     this._close(btn.result)
@@ -113,7 +95,7 @@ export class PopupComponent {
       return
     }
     const value = this.form?.controls['control']?.value
-    this.dialogRef.close(value)
+    this.ref.close(value)
   }
 
 }

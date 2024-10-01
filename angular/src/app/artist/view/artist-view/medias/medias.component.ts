@@ -8,8 +8,7 @@ import { SelectorItemsComponent } from '../../../../global/controls/selector/sel
 import { SelectorItem } from '../../../../global/controls/selector/selector.component';
 import { ArtistMedia, ArtistMediaCode, ArtistMediasService } from '../../../artist-medias/artist-medias.service';
 import { Util } from '../../../../global/utils/util';
-import { DialogService } from '../../../../global/nav/dialog.service';
-import { DialogData } from '../../../../global/nav/dialogs/popup/popup.component';
+import { Dialog, DialogData } from '../../../../global/nav/dialog.service';
 import { Validators } from '@angular/forms';
 import { noop, of, switchMap, take, tap } from 'rxjs';
 
@@ -30,7 +29,7 @@ export class MediasComponent {
   constructor(
     private readonly store: Store<AppState>,
     private readonly artistMediasService: ArtistMediasService,
-    private readonly dialog: DialogService,
+    private readonly dialog: Dialog,
   ) {}
 
   ngOnInit(): void {
@@ -70,7 +69,7 @@ export class MediasComponent {
       inputValidators: [Validators.required],
     }
 
-    this.dialog.popup(data).afterClosed().pipe(
+    this.dialog.popup(data).onClose.pipe(
       switchMap(url => {
         if (url) {
           const media: ArtistMedia = {

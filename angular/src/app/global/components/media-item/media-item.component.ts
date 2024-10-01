@@ -7,8 +7,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../../app.state';
 import { artistMedias, editMode, updateMedias } from '../../../artist/view/artist-view/artist-view.state';
 import { map, noop, of, switchMap, take, tap } from 'rxjs';
-import { DialogData } from '../../nav/dialogs/popup/popup.component';
-import { DialogService } from '../../nav/dialog.service';
+import { Dialog, DialogData } from '../../nav/dialog.service';
 import { FromSnakeCasePipe } from "../../pipes/from-snake-case.pipe";
 
 @Component({
@@ -27,7 +26,7 @@ export class MediaItemComponent {
 
   constructor(
     private readonly store: Store<AppState>,
-    private readonly dialog: DialogService,
+    private readonly dialog: Dialog,
   ) {}
 
   @Input() media!: ArtistMedia
@@ -58,7 +57,7 @@ export class MediaItemComponent {
       inputValue: this.media.url
     }
 
-    this.dialog.popup(data).afterClosed().pipe(
+    this.dialog.popup(data).onClose.pipe(
       switchMap(url => {
         if (url) {
           return this._medias$.pipe(

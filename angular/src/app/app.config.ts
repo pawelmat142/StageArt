@@ -67,3 +67,4 @@ export const appConfig: ApplicationConfig = {
 
     ]
 }
+

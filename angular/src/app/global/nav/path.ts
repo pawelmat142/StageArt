@@ -7,4 +7,8 @@ export abstract class Path {
     
     public static readonly BOOK_FORM_VIEW = 'book-form'
 
+    public static readonly LOGIN = 'login'
+    
+    public static readonly PANEL = 'panel'
+
 }

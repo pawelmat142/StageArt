@@ -12,7 +12,7 @@ import { SignatureService } from '../sign/signature.service';
 import { UploadsService } from '../../document/uploads.service';
 import { catchError, filter, of, switchMap, tap } from 'rxjs';
 import { Template } from '../../document/doc-util';
-import { DialogService } from '../../nav/dialog.service';
+import { Dialog } from '../../nav/dialog.service';
 import { CourtineService } from '../../nav/courtine.service';
 import { BookingUtil } from '../../../booking/booking.util';
 import { Role } from '../../../profile/profile.model';
@@ -36,7 +36,7 @@ export class PaperTileComponent {
     private readonly documentService: DocumentService,
     private readonly signatureService: SignatureService,
     private readonly uploadsService: UploadsService,
-    private readonly dialog: DialogService,
+    private readonly dialog: Dialog,
     private readonly courtine: CourtineService,
   ) {}
 
