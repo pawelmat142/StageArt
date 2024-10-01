@@ -134,6 +134,7 @@ export class SignComponent {
       },
     }).pipe(
       tap(signatureId => {
+        this.dialog.succesToast(`Signature saved!`)
         if (signatureId?.id) {
           this.reloadSignatures({ signatureIdToSelect: signatureId.id })
         }
@@ -209,7 +210,10 @@ export class SignComponent {
         if (confirm) {
           this.courtine.startCourtine()
           return this.signatureService.cancelSignature$(signature.id).pipe(
-            tap(() => this.reloadSignatures())
+            tap(() => {
+              this.reloadSignatures()
+              this.dialog.succesToast(`Signature removed`)
+            })
           )
         }
         return of()

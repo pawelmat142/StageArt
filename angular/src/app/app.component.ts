@@ -15,13 +15,17 @@ import { RegisterComponent } from './profile/auth/view/register/register.compone
 import { Token } from './profile/auth/view/token';
 import { Theme } from './global/theme/theme';
 import { UnityTheme } from './global/theme/unity.theme';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+import { DialogService } from './global/nav/dialog.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, ProgressSpinnerModule],
+  imports: [CommonModule, RouterOutlet, ProgressSpinnerModule, ToastModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
+  providers: [MessageService]
 })
 export class AppComponent {
   
@@ -35,6 +39,8 @@ export class AppComponent {
     private readonly courtineService: CourtineService,
     private readonly profileService: ProfileService,
     private readonly nav: NavService,
+    private readonly messageService: MessageService,
+    private readonly dialog: DialogService,
   ) {}
 
   courtine$ = this.courtineService.courtine$.pipe(
@@ -48,6 +54,10 @@ export class AppComponent {
 
     this.autoLogin()
     this.initScssVariables()
+
+    this.dialog.toast$.subscribe(message => {
+      this.messageService.add(message)
+    })
   }
 
 

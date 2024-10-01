@@ -5,6 +5,8 @@ import { LoginComponent } from "../../profile/auth/view/login/login.component";
 import { DialogData, PopupComponent } from "./dialogs/popup/popup.component";
 import { NavService } from "./nav.service";
 import { AppState } from "../../app.state";
+import { Observable, Subject } from "rxjs";
+import { Message } from "primeng/api";
 
 @Injectable({
     providedIn: 'root'
@@ -17,6 +19,29 @@ export class DialogService {
         private readonly nav: NavService,
     ) {}
 
+    /*
+        TOASTS
+    */
+    private tostSubject$ = new Subject<Message>()
+    public get toast$(): Observable<Message> {
+        return this.tostSubject$.asObservable()
+    }
+
+    public toast(message: Message) {
+        message.key = 'br'
+        this.tostSubject$.next(message)
+    }
+
+    succesToast = (detail: string, summary = 'Success') => this.toast({ severity: 'success', summary, detail })
+    infoToast = (detail: string, summary = 'Info') => this.toast({ severity: 'info', summary, detail })
+    warnToast = (detail: string, summary = 'Warn') => this.toast({ severity: 'warn', summary, detail })
+    errorToast = (detail: string, summary = 'Error') => this.toast({ severity: 'error', summary, detail })
+
+
+
+    /*
+        POPUPS
+    */
     public simplePopup(header: string) {
         const data = { header }
         return this.popup(data)

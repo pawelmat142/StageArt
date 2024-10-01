@@ -28,7 +28,7 @@ export class ArtistsListViewComponent {
 
   constructor(
     private readonly nav: NavService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
   ) {}
 
   artists$ = this.store.select(selectArtists).pipe(

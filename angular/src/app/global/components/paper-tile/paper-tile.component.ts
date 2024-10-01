@@ -141,7 +141,7 @@ export class PaperTileComponent {
 
   private downloadFile(paperId?: string) {
     if (!paperId) {
-      // TODO toast
+      this.dialog.errorToast(`No such file!`)
       return
     }
     this.documentService.documentRequest(`/upload/${paperId}`)
@@ -149,7 +149,7 @@ export class PaperTileComponent {
 
   private deleteFile(paperId?: string) {
     if (!paperId) {
-      // TODO toast
+      this.dialog.errorToast(`No such file!`)
       return
     }
     this.dialog.yesOrNoPopup(`Are you sure you want to delete this file?`).pipe(

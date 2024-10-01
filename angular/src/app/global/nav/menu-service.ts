@@ -14,6 +14,8 @@ import { Path } from "./path";
 import { Theme } from "../theme/theme";
 import { UnityTheme } from "../theme/unity.theme";
 import { DefaultTheme } from "../theme/default.theme";
+import { DialogService } from "./dialog.service";
+
 
 @Injectable({
     providedIn: 'root'
@@ -25,6 +27,7 @@ export class MenuService {
         private readonly router: Router,
         private readonly nav: NavService,
         private readonly location: Location,
+        private readonly dialog: DialogService,
     ) {
     }
 
@@ -85,15 +88,16 @@ export class MenuService {
     private readonly testThemeButton: MenuButtonItem  = {
         label: 'Test',
         onclick: () => {
-            if (this.flag) {
-                this.flag = false
-                Theme.setTheme(DefaultTheme)
-            } else {
-                this.flag = true
-                Theme.setTheme(UnityTheme)
-            }
+            // if (this.flag) {
+            //     this.flag = false
+            //     Theme.setTheme(DefaultTheme)
+            // } else {
+            //     this.flag = true
+            //     Theme.setTheme(UnityTheme)
+            // }
         }
     }
+
 
     private allButtons: MenuButtonItem[] = [
         this.homeButton,

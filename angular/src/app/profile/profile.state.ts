@@ -193,7 +193,7 @@ export class ProfileEffect {
             Token.remove()
             if (!this.nav.isHome) {
                 this.nav.home()
-                this.dialog.simplePopup('Logged out')
+                this.dialog.warnToast('Logged out')
             }
         }),
     ), { dispatch: false })
