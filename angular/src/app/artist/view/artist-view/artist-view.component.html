@@ -8,14 +8,14 @@
             <div class="edit-toggle hovergrow fs3" pTooltip="Save profile changes">
                 <app-icon-button
                     (click)="_save()"
-                    icon="save"
+                    icon="pi-save"
                     [active]="true"
                 ></app-icon-button>
             </div>
             <div class="edit-toggle hovergrow fs3" pTooltip="Cancel profile changes">
                 <app-icon-button
                     (click)="_discard()"
-                    icon="cancel"
+                    icon="pi-undo"
                     [active]="true"
                 ></app-icon-button>
             </div>
@@ -25,7 +25,7 @@
             <div class="edit-toggle" pTooltip="Start edit profile">
                 <app-icon-button
                     (click)="_editToggle()"
-                    icon="edit"
+                    icon="pi-pencil"
                     [active]="true"
                 ></app-icon-button>
             </div>
@@ -69,7 +69,7 @@
                     [active]="true"
                     (click)="_onBookNow()"
                     label="Book now"
-                    icon="list_alt"
+                    icon="pi-bars"
                 ></app-btn>
             </div>
 

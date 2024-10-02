@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, HostBinding, Input, Output, ViewEncapsulation } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
+import { IconComponent } from '../../components/icon/icon.component';
 
 @Component({
   selector: 'app-btn',
   standalone: true,
   imports: [
-    MatIconModule,
-    CommonModule
+    CommonModule,
+    IconComponent
   ],
   templateUrl: './btn.component.html',
   styleUrl: './btn.component.scss',

@@ -1,12 +1,10 @@
 <div class="icon-button cover-center" [class.active]="active" [class.button]="button">
     
     @if (icon && show) {
-        <mat-icon 
-            [fontIcon]="icon" 
-            aria-hidden="false" 
-            aria-label="icon" 
+        <app-icon 
+            [icon]="icon"
             (click)="button && active && _click($event)"
-        ></mat-icon>
+        ></app-icon>
     } 
     
     @else if (src) {

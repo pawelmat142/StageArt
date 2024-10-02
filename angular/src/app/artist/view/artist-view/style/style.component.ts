@@ -9,9 +9,9 @@ import { ArtistService } from '../../../artist.service';
 import { Dialog, DialogData } from '../../../../global/nav/dialog.service';
 import { ArtistLabel, ArtistStyle } from '../../../model/artist-view.dto';
 import { Validators } from '@angular/forms';
-import { MatIconModule } from '@angular/material/icon';
 import { DESKTOP } from '../../../../global/services/device';
 import { TooltipModule } from 'primeng/tooltip';
+import { IconComponent } from '../../../../global/components/icon/icon.component';
 
 
 @Component({
@@ -20,8 +20,8 @@ import { TooltipModule } from 'primeng/tooltip';
   imports: [
     CommonModule,
     TextareaElementComponent,
-    MatIconModule,
     TooltipModule,
+    IconComponent,
   ],
   templateUrl: './style.component.html',
   styleUrl: './style.component.scss',

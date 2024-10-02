@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, ViewEncapsulation } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
 import { StepMode } from '../../../interface/checklist.interface';
+import { IconComponent } from '../../../../global/components/icon/icon.component';
 
 @Component({
   selector: 'app-substep',
   standalone: true,
   imports: [
-    MatIconModule,
-    CommonModule
+    CommonModule,
+    IconComponent,
   ],
   templateUrl: './substep.component.html',
   encapsulation: ViewEncapsulation.None
@@ -26,11 +26,11 @@ export class SubstepComponent {
 
   get _icon(): string {
     switch(this.mode) {
-      case 'blank': return 'radio_button_unchecked'
-      case 'available': return 'radio_button_checked'
+      case 'blank': return 'pi-circle'
+      case 'available': return 'pi-circle-on'
       // case 'available': return 'pending_outlined'
-      case 'ready': return 'check_circle'
-      case 'error': return 'block'
+      case 'ready': return 'pi-check-circle'
+      case 'error': return 'pi-exclamation-circle'
       default: return 'block'
     }
   }

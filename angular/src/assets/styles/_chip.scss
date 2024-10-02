@@ -16,11 +16,10 @@
     align-items: center;
 
     $icon-size: 11px;
-    mat-icon,
-    .mat-icon {
-        font-size: $icon-size;
-        height: $icon-size;
-        width: $icon-size;
+
+
+    .pi {
+        display: block;
     }
 
     &.red-chip {

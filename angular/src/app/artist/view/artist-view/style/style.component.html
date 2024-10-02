@@ -4,16 +4,13 @@
             <span>
                 {{style.name}}
             </span>
-            @if (_canRemoveStyle) {
-                <mat-icon
-                    pTooltip="Remove style"
-                    class="hovergrow"
-                    *ngIf="_editMode"
-                    (click)="_removeStyle(style)"
-                    fontIcon="cancel" 
-                    aria-hidden="false" 
-                    aria-label="icon" 
-                ></mat-icon>
+            @if (_canRemoveStyle && _editMode) {
+                <span pTooltip="Remove style" class="hovergrow">
+                    <app-icon 
+                        (click)="_removeStyle(style)"
+                        icon="pi-times-circle bold"
+                    ></app-icon>
+                </span>
             }
         </div>
     }
@@ -30,15 +27,12 @@
                 <span>
                     {{label.name}}
                 </span>
-                <mat-icon
-                    pTooltip="Remove label"
-                    class="hovergrow"
-                    *ngIf="_editMode"
-                    (click)="_removeLabel(label)"
-                    fontIcon="cancel" 
-                    aria-hidden="false" 
-                    aria-label="icon" 
-                ></mat-icon>
+                <span pTooltip="Remove label" class="hovergrow" *ngIf="_editMode">
+                    <app-icon 
+                        (click)="_removeLabel(label)"
+                        icon="pi-times-circle bold"
+                    ></app-icon>
+                </span>
             </div>
         }
         <ng-container *ngIf="_editMode">

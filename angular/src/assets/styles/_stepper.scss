@@ -4,10 +4,6 @@
 $circle-size: 28px;
 $substep-circle-size: 20px;
 
-.p-stepper {
-
-}
-
 .p-stepper-panel {
     display: flex;
     flex-direction: column;
@@ -109,31 +105,31 @@ $substep-circle-size: 20px;
     display: inline-flex;
     align-items: center;
     
-    .mat-icon {
+    .pi {
         color: $grey;
         margin-right: 0.5*$padding-standard;
     }
 
     &.blank {
-        .mat-icon {
+        .pi {
             color: $grey;
         }
     }
 
     &.available {
-        .mat-icon {
+        .pi {
             color: $light;
         }
     }
 
     &.ready {
-        .mat-icon {
+        .pi {
             color: $green;
         }
     }
 
     &.error {
-        .mat-icon {
+        .pi {
             color: $red;
         }
     }
