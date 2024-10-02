@@ -102,7 +102,7 @@ export class LoginComponent {
         this.loginToken = token.token
 
         const data: DialogData = {
-          header: '',
+          header: 'PIN:',
           input: 'pin',
           inputClass: 'max-300',
           inputValidators: [Validators.minLength(4), Validators.maxLength(4), Validators.pattern(/^[0-9]*$/)]

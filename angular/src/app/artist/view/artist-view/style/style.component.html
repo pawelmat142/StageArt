@@ -6,7 +6,7 @@
             </span>
             @if (_canRemoveStyle) {
                 <mat-icon
-                    matTooltip="Remove style"
+                    pTooltip="Remove style"
                     class="hovergrow"
                     *ngIf="_editMode"
                     (click)="_removeStyle(style)"
@@ -31,7 +31,7 @@
                     {{label.name}}
                 </span>
                 <mat-icon
-                    matTooltip="Remove label"
+                    pTooltip="Remove label"
                     class="hovergrow"
                     *ngIf="_editMode"
                     (click)="_removeLabel(label)"

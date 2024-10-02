@@ -15,13 +15,13 @@ import { AvatarComponent } from './avatar/avatar.component';
 import { artist, cancelArtistChanges, editMode, initArtist, saveChanges, startEditArtist } from './artist-view.state';
 import { BackgroundComponent } from './background/background.component';
 import { BackgroundEditorComponent } from './background-editor/background-editor.component';
-import {MatTooltipModule} from '@angular/material/tooltip';
 import { BioComponent } from './bio/bio.component';
 import { NameComponent } from './name/name.component';
 import { MediasComponent } from './medias/medias.component';
 import { StyleComponent } from './style/style.component';
 import { TextareaElementComponent } from '../../../global/controls/textarea-element/textarea-element.component';
 import { Path } from '../../../global/nav/path';
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
   selector: 'app-artist-view',
@@ -36,12 +36,12 @@ import { Path } from '../../../global/nav/path';
     AvatarComponent,
     BackgroundComponent,
     BackgroundEditorComponent,
-    MatTooltipModule,
     BioComponent,
     NameComponent,
     MediasComponent,
     StyleComponent,
-    TextareaElementComponent
+    TextareaElementComponent,
+    TooltipModule
 ],
   templateUrl: './artist-view.component.html',
   styleUrl: './artist-view.component.scss',

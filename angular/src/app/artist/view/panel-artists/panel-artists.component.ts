@@ -1,8 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, ViewEncapsulation } from '@angular/core';
 import { ArtistService } from '../../artist.service';
-import { AppState } from '../../../app.state';
-import { Store } from '@ngrx/store';
 import { noop, Observable, Observer, of, tap } from 'rxjs';
 import { ArtistStatus, ArtistViewDto } from '../../model/artist-view.dto';
 import { StatusPipe } from "../../../global/pipes/status.pipe";
@@ -13,8 +11,8 @@ import { TextareaComponent } from '../../../global/controls/textarea/textarea.co
 import { FormUtil } from '../../../global/utils/form.util';
 import { CourtineService } from '../../../global/nav/courtine.service';
 import { Dialog } from '../../../global/nav/dialog.service';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { AccordionModule } from 'primeng/accordion';
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
   selector: 'app-panel-artists',
@@ -24,9 +22,9 @@ import { AccordionModule } from 'primeng/accordion';
     ReactiveFormsModule,
     TextareaComponent,
     StatusPipe,
-    MatTooltipModule,
     BtnComponent,
     AccordionModule,
+    TooltipModule
 ],
   templateUrl: './panel-artists.component.html',
   styleUrl: './panel-artists.component.scss',
@@ -39,7 +37,6 @@ export class PanelArtistsComponent {
     private readonly courtineService: CourtineService,
     private readonly dialog: Dialog,
     private readonly nav: NavService,
-    private readonly store: Store<AppState>,
   ) {}
 
   _artists$: Observable<ArtistViewDto[]> = of([])

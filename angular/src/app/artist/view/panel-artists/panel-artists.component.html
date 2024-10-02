@@ -21,7 +21,9 @@
                         <ng-template pTemplate="header">
                             <div class="item-row clickable">
                                 <p>{{artist.name}}</p>
-                                <p [matTooltip]="_artistStatusTooltip(artist.status)">{{artist.status | status }}</p>
+                                <p [pTooltip]="_artistStatusTooltip(artist.status)" tooltipPosition="top">
+                                    {{artist.status | status }}
+                                </p>
                             </div>
                         </ng-template>
 

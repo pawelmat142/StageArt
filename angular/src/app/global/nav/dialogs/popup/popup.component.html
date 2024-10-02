@@ -1,68 +1,20 @@
-<div class="popup-container">
+@for (c of (data.content || []); track c) {
+    <div class="pupup-content">
+        <p class="dark">{{c}}</p>
+    </div>
+}
 
-    @for (c of (data.content || []); track c) {
-        <div class="pupup-content">
-            <p class="dark">{{c}}</p>
-        </div>
-    }
-
-    @if (data.chips?.length) {
-        <div class="chips margin-bottom">
-            @for (chip of data.chips; track chip.id) {
-                <div 
-                (click)="_onChip(chip)"
-                [ngClass]="chip.class"
-                class="chip big hovergrow" 
-            >{{chip.name}}</div>
-            }
-        </div>
-    }
-
-    <!-- @if (form) {
-        <form [formGroup]="form" (ngSubmit)="_submit()">
-            <div class="control-margin" [ngClass]="data.inputClass">
-                @if (data.input) {
-                    <app-input
-                        formControlName="control"
-                        [required]="true"
-                        [label]="data.input || 'input'" 
-                    ></app-input>
-                } 
-                @if (data.select) {
-                    <app-selector
-                        formControlName="control"
-                        [required]="true"
-                        [label]="data.select || 'select'"
-                        [items]="(data.items | async) || []"
-                        [allowWriteItem]="true"
-                    ></app-selector>
-                }
-            </div>
-
-            <div class="popup-buttons">
-                @if (_defaultButton) {
-                    <app-btn class="big center" label="OK" (click)="_close(true)" type="submit"></app-btn>
-                }
-        
-                @for(btn of data.buttons; track btn.label) {
-                    <app-btn [ngClass]="btn.class" [label]="btn.label" (click)="_onBtnClick(btn)" [type]="btn.type || 'button'"></app-btn>
-                }
-            </div>
-        </form>
-    }
-
-    @else {
-        <div class="popup-buttons">
-            @if (_defaultButton) {
-                <app-btn class="big center" label="OK" (click)="_close(true)"></app-btn>
-            }
-    
-            @for(btn of data.buttons; track btn.label) {
-                <app-btn [ngClass]="btn.class" [label]="btn.label" (click)="_onBtnClick(btn)"></app-btn>
-            }
-        </div>
-    } -->
-</div>
+@if (data.chips?.length) {
+    <div class="chips margin-bottom">
+        @for (chip of data.chips; track chip.id) {
+            <div 
+            (click)="_onChip(chip)"
+            [ngClass]="chip.class"
+            class="chip big hovergrow" 
+        >{{chip.name}}</div>
+        }
+    </div>
+}
 
 @if (form) {
     <form [formGroup]="form" (ngSubmit)="_submit()">
@@ -85,24 +37,25 @@
             }
         </div>
 
-        <div class="p-dialog-footer">
+        <div class="p-dialog-footer p-dialog-footer-inner">
             @if (_defaultButton) {
-                <app-btn (click)="_close(true)" type="submit">OK</app-btn>
+                <p-button (click)="_close(true)">OK</p-button>
             }
     
             @for(btn of data.buttons; track btn.label) {
-                <app-btn (click)="_onBtnClick(btn)" [type]="btn.type || 'button'">{{btn.label}}</app-btn>
+                <p-button [severity]="btn.severity" (click)="_onBtnClick(btn)">{{btn.label}}</p-button>
             }
         </div>
     </form>
+} 
+@else {
+    <div class="p-dialog-footer p-dialog-footer-inner">
+        @if (_defaultButton) {
+            <p-button (click)="_close(true)">OK</p-button>
+        }
+    
+        @for(btn of data.buttons; track btn.label) {
+            <p-button [severity]="btn.severity" (click)="_onBtnClick(btn)">{{btn.label}}</p-button>
+        }
+    </div>
 }
-
-<div class="p-dialog-footer p-dialog-footer-inner">
-    @if (_defaultButton) {
-        <p-button (click)="_close(true)">OK</p-button>
-    }
-
-    @for(btn of data.buttons; track btn.label) {
-        <p-button [severity]="btn.severity" (click)="_onBtnClick(btn)">{{btn.label}}</p-button>
-    }
-</div>

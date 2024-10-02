@@ -1,6 +1,5 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { ArtistViewDto } from '../../../artist/model/artist-view.dto';
-import { MatChipsModule} from '@angular/material/chips';
 import { CommonModule } from '@angular/common';
 import { CountryComponent } from '../../../global/components/country/country.component';
 import { MediaItemComponent } from '../../../global/components/media-item/media-item.component';
@@ -11,7 +10,6 @@ import { ArtistUtil } from '../../artist.util';
   selector: 'app-artist-card',
   standalone: true,
   imports: [
-    MatChipsModule,
     CommonModule,
     CountryComponent,
     MediaItemComponent,

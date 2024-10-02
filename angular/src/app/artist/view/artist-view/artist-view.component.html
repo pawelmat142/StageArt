@@ -5,14 +5,14 @@
     <div class="edit-toggle-container">
 
         <ng-container *ngIf="_editMode$ | async as editMode; else notEdit">
-            <div class="edit-toggle hovergrow fs3" matTooltip="Save progile changes">
+            <div class="edit-toggle hovergrow fs3" pTooltip="Save profile changes">
                 <app-icon-button
                     (click)="_save()"
                     icon="save"
                     [active]="true"
                 ></app-icon-button>
             </div>
-            <div class="edit-toggle hovergrow fs3" matTooltip="Cancel profile changes">
+            <div class="edit-toggle hovergrow fs3" pTooltip="Cancel profile changes">
                 <app-icon-button
                     (click)="_discard()"
                     icon="cancel"
@@ -22,7 +22,7 @@
         </ng-container>
 
         <ng-template #notEdit>
-            <div class="edit-toggle" matTooltip="Start edit profile">
+            <div class="edit-toggle" pTooltip="Start edit profile">
                 <app-icon-button
                     (click)="_editToggle()"
                     icon="edit"

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, HostListener, Input, OnChanges, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @Component({
   selector: 'app-file-view',
@@ -9,7 +9,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    MatProgressSpinnerModule,
+    ProgressSpinnerModule
   ],
   templateUrl: './file-view.component.html',
   styleUrl: './file-view.component.scss',

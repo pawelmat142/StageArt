@@ -3,7 +3,6 @@ import { Component, ElementRef, EventEmitter, forwardRef, HostListener, Injector
 import { NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { FileViewComponent } from './file-view/file-view.component';
 import { AbstractControlComponent } from '../abstract-control/abstract-control.component';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { tap } from 'rxjs';
 import { ImgUtil } from '../../utils/img.util';
 import { IconButtonComponent } from '../../components/icon-button/icon-button.component';
@@ -17,7 +16,6 @@ import { Dialog } from '../../nav/dialog.service';
     ReactiveFormsModule,
     IconButtonComponent,
     FileViewComponent,
-    MatProgressSpinnerModule
   ],
   templateUrl: './file-loader.component.html',
   styleUrl: './file-loader.component.scss',

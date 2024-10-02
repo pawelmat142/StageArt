@@ -10,8 +10,9 @@ import { Dialog, DialogData } from '../../../../global/nav/dialog.service';
 import { ArtistLabel, ArtistStyle } from '../../../model/artist-view.dto';
 import { Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { DESKTOP } from '../../../../global/services/device';
+import { TooltipModule } from 'primeng/tooltip';
+
 
 @Component({
   selector: 'app-style',
@@ -20,7 +21,7 @@ import { DESKTOP } from '../../../../global/services/device';
     CommonModule,
     TextareaElementComponent,
     MatIconModule,
-    MatTooltipModule,
+    TooltipModule,
   ],
   templateUrl: './style.component.html',
   styleUrl: './style.component.scss',
