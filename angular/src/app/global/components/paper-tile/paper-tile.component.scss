@@ -7,10 +7,11 @@ $paper-step-size: 18px;
 
     padding: 0.5*$padding-standard $padding-standard;
     min-width: 300px;
+    margin-right: $padding-standard;
 
     box-shadow: $shadow-standard;
     border-radius: $radius;
-    background-color: $bgTwo;
+    background-color: $highlightBg;
 
 
     .tile-wrapper-row {
@@ -19,13 +20,14 @@ $paper-step-size: 18px;
     }
     
     .tile-wrapper-header {
-        // @extend .fs3;
         text-transform: uppercase;
+        color: $textColor;
     }
     
     .tile-wrapper-name {
-        color: $light;
+        color: $textColor;
         @extend .fs5;
+        font-weight: 600;
     }
 
     .tile-wrapper-bottom {
@@ -44,6 +46,7 @@ $paper-step-size: 18px;
                 font-size: $paper-step-size;
                 width: $paper-step-size;
                 height: $paper-step-size;
+                font-weight: 900;
             }
         }
     }
@@ -55,18 +58,18 @@ $paper-step-size: 18px;
 
 .p-menu-overlay {
     border-radius: $radius;
-    background: $bgOne;
+    background: $highlightBg;
     min-width: 150px;
     box-shadow: $shadow-standard;
     
     .p-submenu-header {
-        color: $red;
+        color: $primaryColor;
         padding: $padding-standard;
         font-weight: 600;
     }
     
     a {
-        color: $light;
+        color: $secondaryColor;
         padding: $padding-standard;
         @extend .highlight;
         @extend .light;

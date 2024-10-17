@@ -6,14 +6,14 @@
     overflow: hidden;
     padding: $padding-standard;
     color: $white;
-    background-color: $bgOneTransparent;
-    border-radius: 10px;
+    background-color: $bgTwo;
+    border-radius: $borderRadius;
     box-shadow: $shadow-standard;
 }
 
 .tile-header {
     @extend .baron;
-    @extend .red;
+    @extend .primary;
     @extend .fs3;
 }
 
@@ -33,5 +33,5 @@
 .card {
     @extend .tile;
     padding: 0;
-    border: 1px solid $red;
+    border-radius: $borderRadius;
 }

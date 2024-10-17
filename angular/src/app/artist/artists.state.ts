@@ -3,8 +3,9 @@ import { ArtistViewDto } from './model/artist-view.dto';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ArtistService } from './artist.service';
-import { catchError, map, of, switchMap, withLatestFrom } from 'rxjs';
+import { catchError, filter, map, of, switchMap, withLatestFrom } from 'rxjs';
 import { AppState, selectArtistsState } from '../app.state';
+import { OFFLINE_MODE } from '../app.component';
 
 export interface ArtistsState {
     artists: ArtistViewDto[]
@@ -83,6 +84,7 @@ export class ArtistEffect {
 
     initArtists$ = createEffect(() => this.actions$.pipe(
         ofType(initArtists),
+        filter(() => !OFFLINE_MODE),
         withLatestFrom(this.store.select(selectArtistsState).pipe(map(state => state.initialized))),
         map(arr => arr[1]),
         switchMap(initialized => {

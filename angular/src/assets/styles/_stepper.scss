@@ -50,12 +50,12 @@ $substep-circle-size: 20px;
 
 .p-highlight {
     .p-stepper-title {
-       color: $light;
+       color: $secondaryColor;
    }
 
    .p-stepper-number {
-       border-color: $light;
-       color: $light;
+       border-color: $secondaryColor;
+       color: $secondaryColor;
    }
 }
 
@@ -94,7 +94,7 @@ $substep-circle-size: 20px;
     color: $grey;
     border: 2px solid $grey;
     line-height: 2rem;
-    font-size: 1.143rem;
+    font-size: .8rem;
     border-radius: 50%;
     transition: $transition-standard;
 }
@@ -118,7 +118,7 @@ $substep-circle-size: 20px;
 
     &.available {
         .pi {
-            color: $light;
+            color: $grey;
         }
     }
 
@@ -130,9 +130,12 @@ $substep-circle-size: 20px;
 
     &.error {
         .pi {
-            color: $red;
+            color: $primaryColor;
         }
     }
+}
 
+.substep-icon {
+    font-weight: 900;
 }
 

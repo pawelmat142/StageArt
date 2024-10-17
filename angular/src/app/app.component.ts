@@ -13,11 +13,14 @@ import { NavService } from './global/nav/nav.service';
 import { RegisterComponent } from './profile/auth/view/register/register.component';
 import { Token } from './profile/auth/view/token';
 import { Theme } from './global/theme/theme';
-import { UnityTheme } from './global/theme/unity.theme';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { Dialog } from './global/nav/dialog.service';
 import { Path } from './global/nav/path';
+import { DefaultTheme } from './global/theme/default.theme';
+
+// TODO
+export const OFFLINE_MODE = false
 
 @Component({
   selector: 'app-root',
@@ -62,7 +65,7 @@ export class AppComponent {
 
 
   private autoLogin() {
-    if (this.skipAutoLogin()) {
+    if (OFFLINE_MODE || this.skipAutoLogin()) {
       return
     }
     if (!Token.token) {
@@ -85,7 +88,7 @@ export class AppComponent {
   private initScssVariables() {
     const avatarSize = DESKTOP ? ImgSize.avatar.height : ImgSize.avatarMobile.height
     Theme.cssVar('avatar-size',`${avatarSize}px`)
-    Theme.setTheme(UnityTheme)
+    Theme.setTheme(DefaultTheme)
   }
 
 }

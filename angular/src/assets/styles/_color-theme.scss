@@ -1,31 +1,54 @@
-$bgOne: var(--bgOne);
-$bgOneTransparent: var(--bgOneTransparent);
-$bgOneCourtine: var(--bgOneCourtine);
+$primaryColorText: var(--primary-color-text);
 
-$bgTwo: var(--bgTwo);
+$primaryColor: var(--primary-color);
+$primary600: var(--primary-600);
 
-$red: var(--red);
-$redActive: var(--redActive);
-$redTransparent: var(--redTransparent);
+$secondaryColor: var(--secondary-color);
+$textSecondaryColor: var(--text-secondary-color);
 
-$light: var(--light);
+$bg: $primaryColorText;
+$highlightBg: var(--highlight-bg);
+$highlightTextColor: var(--highlight-text-color);
+
+$textColor: var(--text-color);
+$fontFamily: var(--font-family);
+$inlineSpacing: var(--inline-spacing);
+
+$borderRadius: var(--border-radius);
+$borderRadius2: calc(1.5 * #{$borderRadius});
+$borderRadius3: calc(2 * #{$borderRadius});
+
+$surfaceBorder: var(--surface-border);
+$border: 1px solid $surfaceBorder;
+
+$bgTwo: var(--bg-two);
+$bgTwoText: var(--bg-two-text);
+
+
+$focusRing: var(--focus-ring);
+$maskBg: var(--mask-bg);
+
+$bgOneCourtine: var(--bg-one-courtine);
+
+$primaryColorText: var(--primary-color-text);
+
+$primaryTransparent: rgba(var(--primary-color),  0.9);
 
 $grey: var(--grey);
 $white: var(--white);
-$fontColor: var(--fontColor);
-$inputBg: var(--inputBg);
+$inputBg: var(--input-bg);
 
 $yellow: var(--yellow);
 
-$yellowDark: var(--yellowDark);
+$yellowDark: var(--yellow-dark);
 
-$yellowTransparent: var(--yellowTransparent);
+$yellowTransparent: var(--yellow-transparent);
 
 $green: var(--green);
-$greenLight: var(--greenLight);
-$greenDark: var(--greenDark);
+$greenLight: var(--green-light);
+$greenDark: var(--green-dark);
 
-$labelColor: var(--labelColor);
-$controlBg: var(--controlBg);
-$borderColor: var(--borderColor);
-$placeholderColor: var(--placeholderColor);
+$labelColor: var(--label-color);
+$controlBg: var(--control-bg);
+$borderColor: var(--border-color);
+$placeholderColor: var(--placeholder-color);

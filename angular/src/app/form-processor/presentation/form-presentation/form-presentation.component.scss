@@ -20,7 +20,7 @@
     margin: $padding-standard;
     p {
         font-size: 14px;
-        color: $red;
+        color: $primaryColor;
     }
 }
 
@@ -39,7 +39,7 @@
 
     
     .key {
-        color: $light;
+        color: $secondaryColor;
     }
 
     .value > .textarea,

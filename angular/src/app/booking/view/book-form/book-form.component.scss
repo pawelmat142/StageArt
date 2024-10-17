@@ -13,14 +13,14 @@
     .step {
         flex-grow: 1;
         max-width: 30px;
-        background-color: $red;
+        background-color: $primaryColor;
         height: 8px;
         border-radius: 4px;
-        background-color: $light;
+        background-color: $secondaryColor;
         transition: $transition-standard;
 
         &.active {
-            background-color: $red;
+            background-color: $primaryColor;
         }
     }
 }

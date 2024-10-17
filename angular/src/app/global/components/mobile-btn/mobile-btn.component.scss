@@ -25,8 +25,8 @@
 
     transition: $transition-standard;
 
-    background-color: $red;
-    color: $bgOne;
+    background-color: $primaryColor;
+    color: $highlightBg;
     border-radius: 10px;
 
     box-shadow: $card-shadow;
@@ -41,7 +41,7 @@
         padding: 0.8*$padding-standard 2*$padding-standard;
 
         &:not(:last-child) {
-            border-bottom: 2px solid $bgTwo;
+            border-bottom: 2px solid $bg;
         }
 
     }

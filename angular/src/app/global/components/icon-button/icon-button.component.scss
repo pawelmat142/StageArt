@@ -36,7 +36,7 @@
         justify-content: center;
     }
     svg {
-        fill: $bgOne;
+        fill: $highlightBg;
         max-height: 35px;
     }
 
@@ -54,7 +54,7 @@
     .icon-button {
         display: flex;
         overflow: hidden;
-        border: 1px solid $bgOne;
+        border: $border;
         border-radius: 3px;
     }
 }

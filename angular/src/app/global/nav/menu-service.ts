@@ -79,7 +79,20 @@ export class MenuService {
         filter: (profile?: Profile) => !profile, 
     }
 
+    private defaultTheme = true
+
+
+    private readonly test: MenuButtonItem  = {
+        label: 'theme',
+        onclick: () => {
+            this.defaultTheme = !this.defaultTheme
+            Theme.setTheme(this.defaultTheme ? DefaultTheme : UnityTheme)
+        }
+    }
+
     private allButtons: MenuButtonItem[] = [
+        this.test,
+
         this.homeButton,
         this.artistsButton,
         this.bookNowButton,

@@ -125,7 +125,7 @@ export class LoginComponent {
         this.courtine.stopCourtine()
         this.store.dispatch(loggedIn(token))
         this.nav.to(Path.PANEL)
-        this.dialog.simplePopup('Logged in!')
+        this.dialog.infoToast('Logged in!')
       },
       error: (error: any) => {
         this.courtine.stopCourtine()

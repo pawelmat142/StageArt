@@ -22,15 +22,14 @@ $avatar-size: var(--avatar-size);
 
 $page-padding-big: 14vw;
 $radius: 3px;
-$radius-standard: 10px;
 
-$shadow-standard: 1px 1px 3px $bgOne;
+$shadow-standard: 1px 1px 6px #00000050;
 $transition-standard: all 0.16s ease-in-out;
-$text-shadow: 0px 2px 1px $bgOne;
-$text-shadow-red: 0px 2px 1px $red;
-$card-shadow: 0 0 16px $red;
+$text-shadow: 0px 2px 1px $highlightBg;
+$text-shadow-primary: 0px 2px 1px $primaryColor;
+$card-shadow: 0 0 16px $primaryColor;
 
-$border-shadow: 0 3px 5px $red;
+$border-shadow: 0 3px 5px $primaryColor;
 
 .padding-top {
     padding-top: $padding-standard;
@@ -88,11 +87,11 @@ $border-shadow: 0 3px 5px $red;
     transition: $transition-standard;
     cursor: pointer;
     &:hover {
-        background-color: $redTransparent;
+        background-color: $primaryTransparent;
     }
     
     &.light:hover {
-        background-color: $bgTwo;
+        background-color: $bg;
     }
 }
 
@@ -125,7 +124,7 @@ $border-shadow: 0 3px 5px $red;
 
 
 .section {
-    background-color: $bgOne;
+    background-color: $highlightBg;
     padding: $view-margin-1;
 }
 
@@ -177,7 +176,7 @@ $border-shadow: 0 3px 5px $red;
 .edit-toggle-style {
     min-width: 40px;
     height: 40px;
-    color: $bgOne;
+    color: $highlightBg;
     display: flex;
     align-items: center;
     justify-content: center;

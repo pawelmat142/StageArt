@@ -14,19 +14,18 @@ $header-margin-desc: 170px;
     }
 
     .section {
-        background-color: $light;
+        background-color: $secondaryColor;
         padding: $view-margin-1-desc $view-margin-2-desc;
 
         .section-container {
-            background-color: $bgOne;
+            background-color: $highlightBg;
             padding: $view-margin-1-desc;
-            border-radius: 30px;
+            border-radius: $borderRadius3;
         }
     }
 
     .tile {
         padding: 2*$padding-standard;
-        border-radius: 15px;
     }
 
     .section-top {
@@ -37,4 +36,10 @@ $header-margin-desc: 170px;
     
     
 
+}
+
+.section {
+    .section-container {
+        border: $border;
+    }
 }

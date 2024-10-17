@@ -14,11 +14,11 @@
   }
   
   ::-webkit-scrollbar-thumb {
-    background: $bgTwo; /* Scrollbar color */
+    background: $bg; /* Scrollbar color */
     border-radius: $radius;
   }
   
   ::-webkit-scrollbar-thumb:hover {
-    background: $light; /* Scrollbar color on hover */
+    background: $secondaryColor; /* Scrollbar color on hover */
   }
 }

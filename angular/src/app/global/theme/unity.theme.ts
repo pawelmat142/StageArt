@@ -1,19 +1,34 @@
 export abstract class UnityTheme {
 
-    public static readonly bgOne = '#141919';
-    public static readonly bgOneTransparent = '#141919f0';
-    public static readonly bgOneCourtine = '#141919af';
+    public static readonly dark = '#141919';
+
+    public static readonly primaryColor = '#d44127';
+    public static readonly primary600 = '#ff5733';
+
+    public static readonly secondaryColor = '#84b6b9';
+    
+    public static readonly primaryColorText = this.dark; //bg
+    
+    public static readonly highlightBg = this.primaryColorText;
 
     public static readonly bgTwo = '#333333';
+    public static readonly bgTwoText = '#fff';
 
-    public static readonly red = '#d44127';
-    public static readonly redActive = '#ff5733';
-    public static readonly redTransparent = '#d4412737';
+    public static readonly focusRing = '';
+    public static readonly maskBg = '';
 
-    public static readonly light = "#84b6b9";
+    // TXT
+    public static readonly textColor = '#A9A9A9';
+    public static readonly textSecondaryColor = this.primaryColorText;
+    public static readonly highlightTextColor = '';
+    public static readonly fontFamily = '';
+    public static readonly inlineSpacing = '';
+
+    public static readonly borderRadius = '';
+    public static readonly surfaceBorder = this.dark;
+
     public static readonly grey = "#577483";
     public static readonly white = "#fff";
-    public static readonly fontColor = "#7c7c7c";
     public static readonly inputBg = "#f0edf2";
 
     public static readonly yellow = "#f9d85d";

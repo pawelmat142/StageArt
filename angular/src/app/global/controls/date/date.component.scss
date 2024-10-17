@@ -67,7 +67,7 @@
                     transition: $transition-standard;
                     &.p-highlight {
                         font-weight: 700;
-                        background-color: $redTransparent;
+                        background-color: $primaryTransparent;
                         border-radius: 50%;
                     }
 
@@ -89,7 +89,7 @@
                     padding: $padding-standard;
                     @extend .fs3;
                     @extend .baron;
-                    color: $red;
+                    color: $primaryColor;
                     font-weight: 500;
                 }
 

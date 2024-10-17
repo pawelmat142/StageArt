@@ -15,7 +15,7 @@ $view-padding: 4*$padding-standard;
 
 .edit-toggle {
     @extend .edit-toggle-style;
-    background-color: $red;
+    background-color: $primaryColor;
     border-top-right-radius: $radius;
     border-bottom-right-radius: $radius;
     margin-bottom: $padding-standard;
@@ -68,7 +68,7 @@ $view-padding: 4*$padding-standard;
     width: 100vw;
     max-height: 100vh;
     white-space: nowrap;
-    background-color: $bgTwo;
+    background-color: $bg;
     opacity: 0.7;
 }
 
@@ -122,14 +122,14 @@ $view-padding: 4*$padding-standard;
 
 .edit-button {
     @extend .hovergrow;
-    color: $bgOne;
+    color: $highlightBg;
     padding: 0.2*$padding-standard 0.5*$padding-standard;
     border-radius: $radius;
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: $white;
-    border: 1px solid $bgOne;
+    border: 1px solid $highlightBg;
     @extend .fs5;
     z-index: 5;
 

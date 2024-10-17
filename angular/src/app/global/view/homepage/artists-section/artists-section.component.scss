@@ -9,7 +9,7 @@
                 button {
                     @extend .hovergrow;
                     &:hover {
-                        background-color: $redActive;
+                        background-color: $primary600;
                     }
                     height: 10px;
                     border-radius: 5px;
@@ -43,7 +43,7 @@
         li {
             padding: $padding-standard;
             button {
-                background-color: $red;
+                background-color: $primaryColor;
                 border: 0;
                 height: 8px;
                 width: 8px;
@@ -52,7 +52,7 @@
             }
             &.p-highlight {
                 button {
-                    background-color: $redActive;
+                    background-color: $primary600;
                     box-shadow: $card-shadow;
                 }
             }

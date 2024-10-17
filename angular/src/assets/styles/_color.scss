@@ -1,20 +1,24 @@
 @import 'color-theme';
 
+.text-color {
+    color: $textColor;
+    fill: $textColor; 
+}
 .dark {
-    color: $bgOne;
-    fill: $bgOne;
+    color: $textSecondaryColor;
+    fill: $textSecondaryColor;
 }
 .light-dark {
-    color: $bgTwo;
-    fill: $bgTwo;
+    color: $bg;
+    fill: $bg;
 }
-.red {
-    color: $red;
-    fill: $red;
+.primary {
+    color: $primaryColor;
+    fill: $primaryColor;
 }
-.light {
-    color: $light;
-    fill: $light;
+.secondary {
+    color: $secondaryColor;
+    fill: $secondaryColor;
 }
 .grey {
     color: $grey;
@@ -28,10 +32,7 @@
     color: $green;
     fill: $white;
 }
-.font-color {
-    color: $fontColor;
-}
 
 body {
-    background-color: $bgOne;
+    background-color: $highlightBg;
 }

@@ -7,13 +7,13 @@
         .btn {
             &:hover {
                 transform: scale(1.05);
-                background-color: $redActive;
+                background-color: $primary600;
             }
         }
         &.light {
             .btn {
                 &:hover {
-                    background-color: $light;
+                    background-color: $secondaryColor;
                 }
             }
         }
@@ -27,7 +27,7 @@
     }
     .grey {
         .btn:hover {
-            background-color: $light;
+            background-color: $secondaryColor;
             
         }
     }
@@ -47,7 +47,7 @@
 }
 .light {
     .btn {
-        background-color: $light;
+        background-color: $secondaryColor;
     }
 }
 .yellow {
@@ -97,13 +97,13 @@
     box-shadow: $shadow-standard;
     text-wrap: nowrap;
     
-    border-radius: $radius-standard;
+    border-radius: $borderRadius;
 
     transition: $transition-standard;
     opacity: 0.6;
 
-    background-color: $red;
-    color: $bgOne;
+    background-color: $primaryColor;
+    color: $highlightBg;
 
     @extend .btn-font;
     

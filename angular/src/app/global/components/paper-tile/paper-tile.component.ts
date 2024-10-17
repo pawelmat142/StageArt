@@ -44,7 +44,7 @@ export class PaperTileComponent {
   @Input() booking!: BookingDto
   @Input() uid?: string
 
-  @ViewChild('menu') menuRef!: Menu
+  @ViewChild('menuRef') menuRef!: Menu
 
   tileOptions: MenuItem[] = []
 
@@ -66,8 +66,7 @@ export class PaperTileComponent {
       }),
       this.tileOptions.push({
         label: 'Upload signed',
-        // TODO
-        // command: () => this.documentService.sign(this.tile.paperId!)
+        command: () => console.log('TODO!')
       })
     }
     if (ChecklistUtil.canVerify(this.tile)) {

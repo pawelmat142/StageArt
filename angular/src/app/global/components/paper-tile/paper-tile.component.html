@@ -5,15 +5,16 @@
             <div class="tile-wrapper-header">
                 {{tile.name}}
             </div>
-            <div class="tile-wrapper-name">
+            <div class="tile-wrapper-name ">
                 {{tile.subName || tile.template}}
             </div>
         </div>
 
         <div *ngIf="tileOptions.length">
-            <p-menu #menu [model]="items" [popup]="true" />
-            <!-- <app-icon-button (onClick)="menu.toggle($event)" test() icon="more_vert" [skipPreventEvent]="true"></app-icon-button> -->
-            <app-icon-button (click)="_toggle($event!)" icon="more_vert"></app-icon-button>
+            <div class="relative">
+                <p-menu #menuRef [model]="items" [popup]="true" />
+                <app-icon-button (click)="_toggle($event!)" icon="pi-ellipsis-v"></app-icon-button>
+            </div>
         </div>
     </div>
     

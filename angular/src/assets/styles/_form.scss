@@ -6,12 +6,12 @@
 
 $form-shadow: 0px 0px 20px rgb(0 0 0 / 20%);
 
-$form-radius: $radius-standard;
+$form-radius: $borderRadius;
 $input-radius: 12px;
 $input-border: 1px solid $borderColor;
 $form-transition: $transition-standard;
 $input-active-shadow: 0px 0px 8px $yellow;
-$input-error-shadow: 0px 0px 8px $red;
+$input-error-shadow: 0px 0px 8px $primaryColor;
 
 $control-padding-y: 8px;
 $control-padding-y-desc: 12px;
@@ -105,7 +105,7 @@ textarea {
 
 .edit-mode {
     .textarea {
-        background-color: $bgTwo;
+        background-color: $bg;
     }
 }
 
@@ -208,7 +208,7 @@ textarea {
     font-weight: 500;
     font-size: 16px;
     letter-spacing: 0;
-    color: $bgTwo;
+    color: $bg;
     font-family: $family;
 }
 
@@ -247,7 +247,7 @@ textarea {
 }
 
 .ng-invalid.ng-dirty.ng-touched > .form-input {
-    border-color: $red;
+    border-color: $primaryColor;
     box-shadow: $input-error-shadow;
 }
 

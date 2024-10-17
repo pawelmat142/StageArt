@@ -1,19 +1,38 @@
 export abstract class DefaultTheme {
 
-    public static readonly bgOne = '##fff';
-    public static readonly bgOneTransparent = '#141919f0';
-    public static readonly bgOneCourtine = '#141919af';
 
-    public static readonly bgTwo = '#333333';
 
-    public static readonly red = '#d44127';
-    public static readonly redActive = '#ff5733';
-    public static readonly redTransparent = '#d4412737';
+    public static readonly primaryColor = '';
+    public static readonly primary600 = '';
+    public static readonly secondaryColor = '#fff';
 
-    public static readonly light = "#84b6b9";
+    public static readonly primaryColorText = ''; // bg
+    
+    
+    public static readonly highlightBg = '';
+
+    public static readonly bgTwo = '#fff';
+    public static readonly bgTwoText = '#fff';
+
+    public static readonly focusRing = '';
+    public static readonly maskBg = '';
+
+    // TXT
+    public static readonly textColor = '';
+    public static readonly textSecondaryColor = '#0f172a';
+
+    public static readonly highlightTextColor = '';
+    public static readonly fontFamily = '';
+    public static readonly inlineSpacing = '';
+
+    public static readonly borderRadius = '';
+    public static readonly surfaceBorder = '#e2e8f0';
+
+    public static readonly input = '#e2e8f0';
+
+
     public static readonly grey = "#577483";
     public static readonly white = "#fff";
-    public static readonly fontColor = "#7c7c7c";
     public static readonly inputBg = "#f0edf2";
 
     public static readonly yellow = "#f9d85d";

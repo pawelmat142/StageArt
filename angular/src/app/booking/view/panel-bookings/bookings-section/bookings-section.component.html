@@ -1,7 +1,7 @@
 <div class="panel-section">
         
     <div class="panel-section-header">
-        <h2 class="fs3 light">{{header}}</h2>
+        <h2 class="fs3 bold">{{header}}</h2>
     </div>
 
     <div class="booking-itmes-container">
@@ -17,7 +17,7 @@
 
         <ng-container *ngIf="_profileUid$ | async as uid">
 
-            <p-accordion class="w-full" expandIcon="pi pi-plus" collapseIcon="pi pi-minus" (activeIndexChange)="_selectBooking($event)">
+            <p-accordion class="w-full" (activeIndexChange)="_selectBooking($event)">
 
                 @for (booking of bookings; track booking.formId; let last = $last) {
                     <p-accordionTab>

@@ -29,7 +29,7 @@
     display: grid;
     grid-template-columns: 1fr;
     gap: $padding-standard;
-    background-color: $bgTwo;
+    background-color: $highlightBg;
     
     padding-top: $header-height + $padding-standard;
 
@@ -37,14 +37,12 @@
 
     .separate-line {
         margin: 0 $padding-standard;
-        border-top: 0.5px solid $bgTwo;
+        border-top: 0.5px solid $bg;
     }
 }
 
 .panel-section {
-    @extend .tile;
     padding: 0;
-    border: 1px solid $bgOne;
 }
 
 .panel-section-content,
@@ -61,27 +59,13 @@
     width: 100%;
 
     p {
-        color: $white;
-        font-weight: 100;
+        color: $textColor;
+        font-weight: 600;
         @extend .fs5;
 
         &:last-of-type {
             text-align: right;
         }
-    }
-
-    &:not(.labels) {
-        border-top: 0.5px solid $bgTwo;
-    }
-
-    &.clickable {
-        cursor: pointer;
-        &:hover {
-            background-color: $bgTwo;
-        }
-    }
-    &.selected {
-        background-color: $bgTwo;
     }
 }
 
@@ -89,7 +73,7 @@
 .item-row.labels {
     p {
         font-size: 14px;
-        color: $red;
+        color: $primaryColor;
     }
 }
 

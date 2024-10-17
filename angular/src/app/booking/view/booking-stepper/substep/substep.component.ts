@@ -15,14 +15,9 @@ import { IconComponent } from '../../../../global/components/icon/icon.component
 })
 export class SubstepComponent {
 
-  constructor(
-
-  ) {}
-
   @Input() mode: StepMode = 'blank'
 
   @Input() header?: string
-
 
   get _icon(): string {
     switch(this.mode) {

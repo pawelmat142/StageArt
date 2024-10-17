@@ -10,9 +10,9 @@
     }
 
     <ng-container *ngIf="_profile$ | async as profile">
-        <p class="red sidebar-header-item">Name:</p>
+        <p class="primary sidebar-header-item">Name:</p>
         <p class="bold sidebar-header-item margin-bottom">{{profile?.name}}</p>
-        <p class="red sidebar-header-item">Role:</p>
+        <p class="primary sidebar-header-item">Role:</p>
         <p class="bold sidebar-header-item margin-bottom">{{profile?.roles?.join(', ')}}</p>
     </ng-container>
 

@@ -3,7 +3,7 @@
     <div class="panel-section">
 
         <div class="panel-section-header">
-            <h2 class="fs3 light">Your artists</h2>
+            <h2 class="fs3 secondary">Your artists</h2>
         </div>
 
         <div class="">
@@ -65,7 +65,7 @@
         <div class="panel-section management-notes">
         
             <div class="panel-section-header">
-                <h2 class="fs3 light">Management notes for <span class="bold">{{_selectedArtist?.name}}</span></h2>
+                <h2 class="fs3 secondary">Management notes for <span class="bold">{{_selectedArtist?.name}}</span></h2>
             </div>
 
             <form class="panel-section-content"
@@ -85,7 +85,7 @@
                         label="Cancel"
                         (click)="_cancelManagementNotesEdit()"
                     ></app-btn>
-                    <app-btn class="big light"
+                    <app-btn class="big secondary"
                         (click)="_submitManagementNotes()"
                     ></app-btn>
                 </div>

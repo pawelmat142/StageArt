@@ -7,3 +7,38 @@
     padding: 0;
 }
 
+.p-accordion .p-accordion-header .p-accordion-header-link {
+    padding: 0;
+    background-color: $bgTwo;
+    border: $border;
+}
+
+.p-accordion .p-accordion-header .p-accordion-header-link .p-accordion-toggle-icon {
+    order: 2;
+    color: $textColor;
+    font-weight: 600;
+}
+
+.p-accordion .p-accordion-header.p-highlight .p-accordion-header-link {
+    border: none;
+}
+
+.p-accordion p-accordiontab .p-accordion-tab {
+    background-color: $bgTwo;
+    border-radius: $borderRadius;
+    box-shadow: $shadow-standard;
+}
+
+.p-accordion .p-accordion-content {
+    background-color: $bgTwo;
+    border: none;
+}
+
+.p-stepper.p-stepper-vertical .p-stepper-toggleable-content {
+    background-color: $bgTwo;
+
+}
+
+.p-stepper .p-stepper-header .p-stepper-action {
+    background: none;
+}

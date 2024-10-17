@@ -5,10 +5,10 @@
 
 
 .menu-button-container {
-    background-color: $red;
-    color: $bgOne;
+    background-color: $primaryColor;
+    color: $primaryColorText;
     overflow: hidden;
-    border-radius: $radius-standard;
+    border-radius: $borderRadius;
     box-shadow: $shadow-standard;
     
     display: flex;
@@ -43,7 +43,7 @@
 .menu-button-children {
     display: flex;
     align-items: center;
-    color: $red;
+    color: $primaryColor;
     transition: none;
     @extend .btn-font;
     
@@ -53,8 +53,8 @@
         transition: $transition-standard;
 
         cursor: pointer;
-        background-color: $red;
-        border-radius: $radius-standard;
+        background-color: $primaryColor;
+        border-radius: $borderRadius;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -65,14 +65,14 @@
         white-space: normal;
         
         &:hover {
-            background-color: $redActive;
+            background-color: $primary600;
         }
     }
 }
 
 .menu-button-open {
     .menu-button-children {
-        color: $bgOne;
+        color: $highlightBg;
     }
 
     .menu-button-child {
