@@ -4,6 +4,10 @@
 
 .mobile-menu-container {
     position: relative;
+
+    .p-button:focus {
+        box-shadow: unset;
+    }
 }
 
 .open {

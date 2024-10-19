@@ -38,9 +38,12 @@
 
 .p-stepper.p-stepper-vertical .p-stepper-toggleable-content {
     background-color: $bgTwo;
-
 }
 
 .p-stepper .p-stepper-header .p-stepper-action {
     background: none;
+}
+
+.pi:before {
+    font-weight: bold;
 }

@@ -1,21 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { Component, ViewEncapsulation } from '@angular/core';
-import { BtnComponent } from '../../../controls/btn/btn.component';
 import { TextareaElementComponent } from '../../../controls/textarea-element/textarea-element.component';
 import { FeedbackService } from './feedback-service';
 import { take } from 'rxjs';
 import { Dialog } from '../../../nav/dialog.service';
 import { CourtineService } from '../../../nav/courtine.service';
 import { DESKTOP } from '../../../services/device';
-import { PopupComponent } from '../../../nav/dialogs/popup/popup.component';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-feedback',
   standalone: true,
   imports: [
     CommonModule,
-    BtnComponent,
     TextareaElementComponent,
+    ButtonModule,
   ],
   templateUrl: './feedback.component.html',
   styleUrl: './feedback.component.scss',

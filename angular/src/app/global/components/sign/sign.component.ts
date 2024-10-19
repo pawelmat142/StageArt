@@ -1,10 +1,9 @@
 import { Component, ElementRef, QueryList, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
 import SignaturePad from 'signature_pad';
 import { DESKTOP } from '../../services/device';
-import { BtnComponent } from '../../controls/btn/btn.component';
 import { ImgUtil } from '../../utils/img.util';
-import {  Signature, SignatureService } from './signature.service';
-import {  filter, map, Observable, of, switchMap, tap, withLatestFrom } from 'rxjs';
+import { Signature, SignatureService } from './signature.service';
+import { filter, map, Observable, of, switchMap, tap, withLatestFrom } from 'rxjs';
 import { AppState } from '../../../app.state';
 import { Store } from '@ngrx/store';
 import { Dialog } from '../../nav/dialog.service';
@@ -18,6 +17,7 @@ import { BookingDto } from '../../../booking/services/booking.service';
 import { BookingUtil } from '../../../booking/booking.util';
 import { uid } from '../../../profile/profile.state';
 import { Role } from '../../../profile/profile.model';
+import { ButtonModule } from 'primeng/button';
 
 
 @Component({
@@ -25,9 +25,9 @@ import { Role } from '../../../profile/profile.model';
   standalone: true,
   imports: [
     CommonModule,
-    BtnComponent,
     IconButtonComponent,
     MenuModule,
+    ButtonModule
   ],
   templateUrl: './sign.component.html',
   styleUrl: './sign.component.scss',

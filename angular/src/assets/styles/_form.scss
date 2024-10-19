@@ -21,10 +21,6 @@ $control-padding: $control-padding-y $control-padding-x;
 $selector-item-height: 50px;
 $selector-img-height: 40px;
 
-.btn {
-    cursor: pointer;
-}
-
 .desktop {
 
     .form-group {
@@ -241,7 +237,6 @@ textarea {
     }
 }
 
-.btn,
 .form-button-control {
     border: none;
 }
@@ -269,11 +264,6 @@ textarea {
         flex-direction: row;
         gap: 2*$padding-standard;
         justify-content: space-evenly;
-
-        app-btn,
-        .btn {
-            width: unset;
-        }
     }
 }
 
@@ -284,11 +274,6 @@ textarea {
     gap: $padding-standard;
     &.center {
         justify-content: center;
-    }
-    
-    app-btn,
-    .btn {
-        width: 100%;
     }
 
     &.btns-row {

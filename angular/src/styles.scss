@@ -60,3 +60,23 @@ app-icon {
         background-color: $highlightBg;
     }
 }
+
+.p-button {
+    font-family: $family;
+    font-weight: bold;
+    // letter-spacing: .05rem;
+    font-size: unset;
+    color: $primaryColorText;
+}
+
+.primary-btn {
+    .p-button {
+        background: $primaryColor;
+        border-color: $primaryColor;
+    
+        &:not(:disabled):hover {
+            border-color: $primaryHover;
+            background: $primaryHover;
+        }
+    }
+}

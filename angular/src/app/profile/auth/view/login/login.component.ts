@@ -1,14 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { BtnComponent } from '../../../../global/controls/btn/btn.component';
 import { SelectorComponent } from "../../../../global/controls/selector/selector.component";
 import { loggedIn } from '../../../profile.state';
 import { Store } from '@ngrx/store';
 import { filter, noop, Observer, of, switchMap } from 'rxjs';
 import { FormUtil } from '../../../../global/utils/form.util';
 import { LoginForm, ProfileService } from '../../../profile.service';
-import {  } from '../../../view/panel/panel.component';
 import { HeaderComponent } from '../../../../global/components/header/header.component';
 import { Dialog, DialogData } from '../../../../global/nav/dialog.service';
 import { NavService } from '../../../../global/nav/nav.service';
@@ -17,6 +15,7 @@ import { AppState } from '../../../../app.state';
 import { RegisterComponent } from '../register/register.component';
 import { CourtineService } from '../../../../global/nav/courtine.service';
 import { Path } from '../../../../global/nav/path';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-login',
@@ -26,8 +25,8 @@ import { Path } from '../../../../global/nav/path';
     CommonModule,
     HeaderComponent,
     InputComponent,
-    BtnComponent,
-    SelectorComponent
+    SelectorComponent,
+    ButtonModule
 ],
   templateUrl: './login.component.html'
 })

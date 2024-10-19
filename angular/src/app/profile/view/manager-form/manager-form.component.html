@@ -90,7 +90,13 @@
 
 
         <div class="btns center">
-            <app-btn class="big" label="Submit" (click)="_submit()"></app-btn>
+            <p-button
+                label="Submit"
+                (click)="_submit()"
+                severity="success"
+                type="submit"
+                [raised]="true">
+            </p-button>
         </div>
 
     </form>

@@ -3,7 +3,6 @@ import { AppState } from '../../../app.state';
 import { Store } from '@ngrx/store';
 import { ButtonModule } from 'primeng/button';
 import { StepperModule } from 'primeng/stepper';
-import { BtnComponent } from '../../../global/controls/btn/btn.component';
 import { BookingDto, BookingService } from '../../services/booking.service';
 import { map, Observable, of, switchMap, tap, withLatestFrom } from 'rxjs';
 import { loadBookings, setBookingFormData } from '../../../profile/profile.state';
@@ -19,10 +18,11 @@ import { ChecklistUtil } from '../../checklist.util';
   standalone: true,
   imports: [
     CommonModule,
-    ButtonModule, StepperModule,
-    BtnComponent,
+    ButtonModule, 
+    StepperModule,
     SubstepComponent,
     PaperTileComponent,
+    ButtonModule
   ],
   templateUrl: './booking-stepper.component.html',
   styleUrl: './booking-stepper.component.scss',

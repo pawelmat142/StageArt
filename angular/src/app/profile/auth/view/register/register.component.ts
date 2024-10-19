@@ -1,7 +1,6 @@
 import { Component, HostListener, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { BtnComponent } from "../../../../global/controls/btn/btn.component";
 import { SelectorComponent, SelectorItem } from '../../../../global/controls/selector/selector.component';
 import { CourtineService } from '../../../../global/nav/courtine.service';
 import { FormUtil } from '../../../../global/utils/form.util';
@@ -12,6 +11,7 @@ import { NavService } from '../../../../global/nav/nav.service';
 import { InputComponent } from '../../../../global/controls/input/input.component';
 import { Role } from '../../../profile.model';
 import { Path } from '../../../../global/nav/path';
+import { ButtonModule } from 'primeng/button';
 
 function repassword(): ValidatorFn {
   const error = { mismatch: true }
@@ -44,8 +44,8 @@ function password(): ValidatorFn {
     CommonModule,
     HeaderComponent,
     InputComponent,
-    BtnComponent,
-    SelectorComponent
+    SelectorComponent,
+    ButtonModule
 ],
   templateUrl: './register.component.html',
   encapsulation: ViewEncapsulation.None

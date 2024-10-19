@@ -7,7 +7,13 @@
 
                 <div class="form-header margin-bottom-2">
                     <h1 class="dark baron">{{step.name}}</h1>
-                    <app-btn label="Reset form" class="secondary" (click)="_resetForm()"></app-btn>
+                    <p-button 
+                        label="Reset form"
+                        (click)="_resetForm()" 
+                        [raised]="true"
+                        severity="warning"
+                        size="small"
+                    ></p-button>
                 </div>
 
                 @if (step.array) {
@@ -15,9 +21,20 @@
                     <app-array [step]="step" [rebuildDetector]="rebuildDetector"></app-array>
 
                     <div class="btns center margin-top-2">
-                        <app-btn label="remove" class="grey" (click)="_removeFromArray(step.name)" [active]="this._removeActive"></app-btn>
+                        <p-button 
+                            label="Remove"
+                            (click)="_removeFromArray(step.name)" 
+                            [raised]="true"
+                            severity="warning"
+                            [disabled]="!this._removeActive"
+                        ></p-button>
                         <div></div>
-                        <app-btn label="add" class="grey" (click)="_addToArray(step.name)"></app-btn>
+                        <p-button 
+                            label="info"
+                            (click)="_addToArray(step.name)" 
+                            [raised]="true"
+                            severity="help"
+                        ></p-button>
                     </div>
                 } 
                 @else {
@@ -36,12 +53,30 @@
         </div>
         
         <div class="btns btns-row margin-top-2">
-            <app-btn label="back" [active]="stepIndex > 0" (click)="_back()"></app-btn>
+            <p-button 
+                label="Back"
+                (click)="_back()" 
+                [raised]="true"
+                [disabled]="stepIndex <= 0"
+                class="primary-btn"
+            ></p-button>
             <div></div>
             @if (stepIndex === form.steps.length-1) {
-                <app-btn label="submit" (click)="_submit()"></app-btn>
+                <p-button 
+                    label="Submit"
+                    (click)="_submit()" 
+                    [raised]="true"
+                    class="primary-btn"
+                    size="small"
+                ></p-button>
             } @else {
-                <app-btn label="next" (click)="_next()"></app-btn>
+                <p-button 
+                    label="Next"
+                    (click)="_next()" 
+                    [raised]="true"
+                    class="primary-btn"
+                    size="small"
+                ></p-button>
             }
         </div>
         

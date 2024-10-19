@@ -22,22 +22,26 @@
         </div>
 
         <div class="pad-controls">
-          <app-btn *ngIf="!_clean && !_selectedSignature"
+          <p-button *ngIf="!_clean && !_selectedSignature"
             label="Clear pad"
             (click)="_clearPad()"
-          ></app-btn>
-          <app-btn *ngIf="!_clean && !_selectedSignature"
-            class="green"
+            severity="warning"
+            [raised]="true">
+          </p-button>
+          <p-button *ngIf="!_clean && !_selectedSignature"
             label="Save"
             (click)="_save()"
-          ></app-btn>
+            severity="success"
+            [raised]="true">
+          </p-button>
 
           <ng-container *ngIf="_selectedBooking$ | async as selectedBooking">
-            <app-btn *ngIf="_selectedSignature && (_paperIdToSign$ | async) as paperIdToSign"
-              class="green"
+            <p-button *ngIf="_selectedSignature && (_paperIdToSign$ | async) as paperIdToSign"
               label="Sign contract"
               (click)="_signPaper(selectedBooking, paperIdToSign)"
-            ></app-btn>
+              severity="success"
+              [raised]="true">
+            </p-button>
           </ng-container>
 
         </div>
@@ -61,7 +65,7 @@
             <div></div>
 
             <div class="menu">
-              <app-icon-button (click)="_remove(signature)" icon="delete_forever"></app-icon-button>
+              <app-icon-button (click)="_remove(signature)" icon="pi-trash"></app-icon-button>
             </div>
 
           </div>

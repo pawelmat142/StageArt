@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { ControlContainer, FormArray, FormBuilder, FormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
 import { ControlComponent } from '../control/control.component';
-import { BtnComponent } from '../../global/controls/btn/btn.component';
 import { GroupComponent } from '../group/group.component';
 import { ArrayComponent } from "../array/array.component";
 import { pForm, pFormArray, pFormStep } from '../form-processor.service';
@@ -12,6 +11,7 @@ import { formData, FormType, newForm, openForm, selectFormId, startForm, storeFo
 import { FormUtil } from '../../global/utils/form.util';
 import { AppState } from '../../app.state';
 import { Dialog, DialogData } from '../../global/nav/dialog.service';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-form-processor',
@@ -20,9 +20,9 @@ import { Dialog, DialogData } from '../../global/nav/dialog.service';
     ReactiveFormsModule,
     CommonModule,
     ControlComponent,
-    BtnComponent,
     GroupComponent,
-    ArrayComponent
+    ArrayComponent,
+    ButtonModule
 ],
   viewProviders: [
     {

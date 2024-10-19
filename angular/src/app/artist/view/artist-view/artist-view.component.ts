@@ -2,7 +2,6 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ArtistService } from '../../../artist/artist.service';
 import { CommonModule } from '@angular/common';
-import { BtnComponent } from '../../../global/controls/btn/btn.component';
 import { HeaderComponent } from '../../../global/components/header/header.component';
 import { MenuButtonComponent } from '../../../global/components/menu-button/menu-button.component';
 import { NavService } from '../../../global/nav/nav.service';
@@ -22,6 +21,7 @@ import { StyleComponent } from './style/style.component';
 import { TextareaElementComponent } from '../../../global/controls/textarea-element/textarea-element.component';
 import { Path } from '../../../global/nav/path';
 import { TooltipModule } from 'primeng/tooltip';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-artist-view',
@@ -31,7 +31,6 @@ import { TooltipModule } from 'primeng/tooltip';
     HeaderComponent,
     HeaderComponent,
     MenuButtonComponent,
-    BtnComponent,
     IconButtonComponent,
     AvatarComponent,
     BackgroundComponent,
@@ -41,8 +40,9 @@ import { TooltipModule } from 'primeng/tooltip';
     MediasComponent,
     StyleComponent,
     TextareaElementComponent,
-    TooltipModule
-],
+    TooltipModule,
+    ButtonModule
+  ],
   templateUrl: './artist-view.component.html',
   styleUrl: './artist-view.component.scss',
   encapsulation: ViewEncapsulation.None,

@@ -24,19 +24,10 @@
     }
     
     width: unset;
-    height: 50px;
+    max-height: 45px;
 
-    .btn {
-
-        padding: 0.5*$padding-standard 1.5*$padding-standard;
-    }
-
-    .active {
-        .btn {
-            &:hover {
-                transform: none;
-            }
-        }
+    .p-button:focus {
+        box-shadow: unset;
     }
 }
 
@@ -65,7 +56,7 @@
         white-space: normal;
         
         &:hover {
-            background-color: $primary600;
+            background-color: $primaryHover;
         }
     }
 }

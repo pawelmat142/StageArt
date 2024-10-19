@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { GroupComponent } from '../group/group.component';
 import { ControlComponent } from '../control/control.component';
 import { pFormArray } from '../form-processor.service';
-import { BtnComponent } from '../../global/controls/btn/btn.component';
 import { FormUtil } from '../../global/utils/form.util';
 
 @Component({
@@ -15,7 +14,6 @@ import { FormUtil } from '../../global/utils/form.util';
     CommonModule,
     GroupComponent,
     ControlComponent,
-    BtnComponent,
   ],
   templateUrl: './array.component.html',
   encapsulation: ViewEncapsulation.None,

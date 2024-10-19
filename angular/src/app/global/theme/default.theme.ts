@@ -4,6 +4,7 @@ export abstract class DefaultTheme {
 
     public static readonly primaryColor = '';
     public static readonly primary600 = '';
+    public static readonly primaryHover = '#2563eb';
     public static readonly secondaryColor = '#fff';
 
     public static readonly primaryColorText = ''; // bg

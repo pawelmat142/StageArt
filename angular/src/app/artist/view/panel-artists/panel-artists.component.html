@@ -30,27 +30,33 @@
                         <div class="item-row-collapse-content">
                             <div class="item-row-buttons">
                                 @if (['READY', 'INACTIVE'].includes(artist.status)) {
-                                    <app-btn
-                                        class="green"
-                                        label="activate"
-                                        (click)="_activate(artist)"
-                                    ></app-btn>
+                                    <p-button 
+                                        (click)="_activate(artist)" 
+                                        [raised]="true"
+                                        severity="success" 
+                                        label="activate">
+                                    </p-button>
                                 }
                                 @if (['ACTIVE'].includes(artist.status)) {
-                                    <app-btn
-                                        label="deactivate"
-                                        (click)="_deactivate(artist)"
-                                    ></app-btn>
+                                    <p-button 
+                                        (click)="_deactivate(artist)" 
+                                        [raised]="true"
+                                        severity="warning" 
+                                        label="deactivate">
+                                    </p-button>
                                 }
-                                <app-btn
-                                    class="grey"
-                                    label="Artist view"
-                                    (click)="_artistView(artist)"
-                                ></app-btn>
-                                <app-btn
-                                    [label]="'Management notes'"
-                                    (click)="_addNotes(artist)"
-                                ></app-btn>
+                                <p-button 
+                                    (click)="_artistView(artist)" 
+                                    [raised]="true"
+                                    severity="info" 
+                                    label="Artist view">
+                                </p-button>
+                                <p-button 
+                                    (click)="_addNotes(artist)" 
+                                    [raised]="true"
+                                    severity="help" 
+                                    label="Management notes">
+                                </p-button>
                             </div>
                         </div>
 
@@ -81,13 +87,18 @@
                 ></app-textarea>
 
                 <div class="btns center">
-                    <app-btn class="big"
-                        label="Cancel"
-                        (click)="_cancelManagementNotesEdit()"
-                    ></app-btn>
-                    <app-btn class="big secondary"
-                        (click)="_submitManagementNotes()"
-                    ></app-btn>
+                    <p-button 
+                        (click)="_cancelManagementNotesEdit()" 
+                        [raised]="true"
+                        severity="warning" 
+                        label="Cancel">
+                    </p-button>
+                    <p-button 
+                        (click)="_cancelManagementNotesEdit()" 
+                        [raised]="true"
+                        severity="success" 
+                        label="Submit">
+                    </p-button>
                 </div>
             </form>
             

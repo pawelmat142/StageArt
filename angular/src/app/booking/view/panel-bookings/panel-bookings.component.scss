@@ -14,7 +14,7 @@
 .bookings-container {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 2*$padding-standard;
+    gap: $padding-standard;
     background-color: $bg;
     padding-top: $header-height;
     padding-bottom: 4*$padding-standard;

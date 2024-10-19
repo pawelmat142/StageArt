@@ -4,7 +4,6 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { InputComponent } from '../../../global/controls/input/input.component';
 import { SelectorComponent } from '../../../global/controls/selector/selector.component';
 import { CountriesService } from '../../../global/countries/countries.service';
-import { BtnComponent } from '../../../global/controls/btn/btn.component';
 import { ProfileService } from '../../profile.service';
 import { FormUtil } from '../../../global/utils/form.util';
 import { Country } from '../../../global/countries/country.model';
@@ -13,6 +12,7 @@ import { Dialog } from '../../../global/nav/dialog.service';
 import { NavService } from '../../../global/nav/nav.service';
 import { take, tap } from 'rxjs';
 import { Path } from '../../../global/nav/path';
+import { ButtonModule } from 'primeng/button';
 
 export interface ManagerData {
   agencyName: string
@@ -35,7 +35,7 @@ export interface ManagerData {
     ReactiveFormsModule,
     InputComponent,
     SelectorComponent,
-    BtnComponent,
+    ButtonModule
   ],
   templateUrl: './manager-form.component.html',
   styleUrl: './manager-form.component.scss',

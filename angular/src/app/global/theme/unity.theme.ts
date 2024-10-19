@@ -3,6 +3,7 @@ export abstract class UnityTheme {
     public static readonly dark = '#141919';
 
     public static readonly primaryColor = '#d44127';
+    public static readonly primaryHover = '#be221c';
     public static readonly primary600 = '#ff5733';
 
     public static readonly secondaryColor = '#84b6b9';

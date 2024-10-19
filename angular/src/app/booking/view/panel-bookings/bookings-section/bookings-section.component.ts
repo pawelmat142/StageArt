@@ -4,7 +4,6 @@ import { DESKTOP } from '../../../../global/services/device';
 import { BookingDto } from '../../../services/booking.service';
 import { StatusPipe } from "../../../../global/pipes/status.pipe";
 import { AccordionModule } from 'primeng/accordion';
-import { BtnComponent } from '../../../../global/controls/btn/btn.component';
 import { AppState } from '../../../../app.state';
 import { Store } from '@ngrx/store';
 import { selectBooking, uid, unselectBooking } from '../../../../profile/profile.state';
@@ -19,7 +18,6 @@ import { BookingStepperComponent } from '../../booking-stepper/booking-stepper.c
     CommonModule,
     StatusPipe,
     AccordionModule,
-    BtnComponent,
     IconButtonComponent,
     NamesPipe,
     BookingStepperComponent,

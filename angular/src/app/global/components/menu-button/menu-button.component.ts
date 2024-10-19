@@ -1,15 +1,15 @@
 import { Component, ElementRef, HostBinding, HostListener, ViewChild, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavService } from '../../nav/nav.service';
-import { BtnComponent } from '../../controls/btn/btn.component';
 import { MenuService } from '../../nav/menu-service';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-menu-button',
   standalone: true,
   imports: [
     CommonModule,
-    BtnComponent,
+    ButtonModule
 ],
   templateUrl: './menu-button.component.html',
   styleUrl: './menu-button.component.scss',

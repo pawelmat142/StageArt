@@ -25,7 +25,12 @@
 
 
     <div class="popup-buttons">
-        <app-btn class="big center" label="Skip" (click)="_close()" type="button"></app-btn>
+        <p-button
+            label="Skip"
+            (click)="_close()"
+            severity="info"
+            [raised]="true">
+        </p-button>
     </div>
 
 </div>

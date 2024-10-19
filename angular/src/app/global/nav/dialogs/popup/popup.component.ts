@@ -4,7 +4,6 @@ import { Chip } from '../../../../artist/model/artist-view.dto';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FormUtil } from '../../../utils/form.util';
 import { CommonModule } from '@angular/common';
-import { BtnComponent } from '../../../controls/btn/btn.component';
 import { InputComponent } from '../../../controls/input/input.component';
 import { SelectorComponent } from '../../../controls/selector/selector.component';
 import { ButtonModule } from 'primeng/button';
@@ -16,7 +15,6 @@ import { DialogBtn, DialogData } from '../../dialog.service';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    BtnComponent,
     InputComponent,
     SelectorComponent,
     ButtonModule,

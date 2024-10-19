@@ -17,7 +17,11 @@
                 [rowsInitial]="DESKTOP ? 7 : 4"
             ></app-textarea-element>
 
-            <app-btn label="Send" class="big center right margin-top-2" (click)="_send()"></app-btn>
+            <p-button 
+                (click)="_send()" 
+                [raised]="true" 
+                class="center right margin-top-2"
+            >Send</p-button>
         </div>
 
 

@@ -10,11 +10,11 @@ import { map, Observable, shareReplay, take, tap } from 'rxjs';
 import { FormVal } from '../../../global/utils/form-val';
 import { login, } from '../../../profile/profile.state';
 import { ArtistService } from '../../artist.service';
-import { BtnComponent } from '../../../global/controls/btn/btn.component';
 import { FormUtil } from '../../../global/utils/form.util';
 import { CourtineService } from '../../../global/nav/courtine.service';
 import { Dialog } from '../../../global/nav/dialog.service';
 import { initializedArtist } from '../artist-view/artist-view.state';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-initial-info',
@@ -24,7 +24,7 @@ import { initializedArtist } from '../artist-view/artist-view.state';
     ReactiveFormsModule,
     InputComponent,
     SelectorComponent,
-    BtnComponent,
+    ButtonModule
   ],
   templateUrl: './initial-info.component.html',
   styleUrl: './initial-info.component.scss',

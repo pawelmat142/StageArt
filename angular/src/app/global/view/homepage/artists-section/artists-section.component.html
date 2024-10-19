@@ -8,8 +8,12 @@
                 <h2 class="fs3 baron text-color">Check them all!</h2>
             </div>
 
-            <app-btn class="big" label="View all" (click)="_viewAll()"></app-btn>
-
+            <p-button 
+                (click)="_viewAll()" 
+                [raised]="true"
+                label="View all"
+                class="primary-btn"
+            ></p-button>
         </div>
 
 

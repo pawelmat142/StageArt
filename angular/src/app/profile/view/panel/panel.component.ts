@@ -1,5 +1,4 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { BtnComponent } from '../../../global/controls/btn/btn.component';
 import { PanelBookingsComponent } from '../../../booking/view/panel-bookings/panel-bookings.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { HeaderComponent } from '../../../global/components/header/header.component';
@@ -14,7 +13,6 @@ export type PanelView  = 'NONE' | 'BOOKINGS' | 'MANAGER_ARTISTS' | 'MANAGER_DATA
   selector: 'app-profile',
   standalone: true,
   imports: [
-    BtnComponent,
     HeaderComponent,
     SidebarComponent,
     InitialInfoComponent,

@@ -1,16 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { Component, ViewEncapsulation } from '@angular/core';
-import { map, Observable, tap } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { CarouselModule } from 'primeng/carousel';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../../app.state';
 import { selectArtists, initArtists } from '../../../../artist/artists.state';
 import { ArtistViewDto } from '../../../../artist/model/artist-view.dto';
 import { ArtistCardComponent } from '../../../../artist/view/artist-card/artist-card.component';
-import { BtnComponent } from '../../../controls/btn/btn.component';
 import { NavService } from '../../../nav/nav.service';
 import { DESKTOP } from '../../../services/device';
 import { Path } from '../../../nav/path';
+import { ButtonModule } from 'primeng/button';
 
 
 @Component({
@@ -20,7 +20,7 @@ import { Path } from '../../../nav/path';
     CommonModule,
     ArtistCardComponent,
     CarouselModule,
-    BtnComponent,
+    ButtonModule,
   ],
   templateUrl: './artists-section.component.html',
   styleUrl: './artists-section.component.scss',
