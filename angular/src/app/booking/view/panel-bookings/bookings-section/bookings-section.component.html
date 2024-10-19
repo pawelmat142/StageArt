@@ -21,8 +21,9 @@
 
                 @for (booking of bookings; track booking.formId; let last = $last) {
                     <p-accordionTab>
+
                         <ng-template pTemplate="header">
-                            <div class="item-row booking-item clickable">
+                            <div class="item-row booking-item">
                                 <p>{{booking.status | status}}</p>
                                 <p>{{booking.event.startDate| date : 'dd-MM-yyyy'}}</p>
                                 <p>{{booking.event.name}}</p>
@@ -34,10 +35,9 @@
                         </ng-template>
     
                         <div class="item-row-collapse-content">
-
                             <app-booking-stepper></app-booking-stepper>
-
                         </div>
+
                     </p-accordionTab>
                 }
 

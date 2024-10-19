@@ -1,5 +1,5 @@
 <div class="mobile-menu-container">
-    <app-btn label="menu" icon="menu" (click)="_toggle()"></app-btn>
+    <app-btn label="menu" icon="pi-ellipsis-v" (click)="_toggle()"></app-btn>
     
     <div class="mobile-menu-items" #mobileMenuItems>
         @for (btn of (menu.menuReversed$ | async); track btn.label) {

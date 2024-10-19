@@ -4,7 +4,7 @@
         <div class="panel-section">
 
             <div class="panel-section-header">
-                <h2 class="fs3 secondary">Events as promoter</h2>
+                <h2 class="fs3 bold">Events as promoter</h2>
             </div>
         
             <div class="booking-itmes-container">
@@ -16,15 +16,30 @@
                     <p>End date</p>
                 </div>
 
-                @for(event of events; track event.signature) {
-                    <div class="item-row booking-item clickable" (click)="_openEvent(event)">
-                        <p>{{event.name}}</p>
-                        <p>{{event.status | status}}</p>
-                        <p>{{event.startDate | date : 'dd-MM-yyyy'}}</p>
-                        <p>{{event.endDate | date : 'dd-MM-yyyy'}}</p>
-                    </div>
-                }
-        
+                <p-accordion class="w-full" (activeIndexChange)="_selectEvent($event)">
+                    
+                    @for (event of events; track event.signature; let last = $last) {
+                        <p-accordionTab>
+
+                            <ng-template pTemplate="header">
+                                <div class="item-row booking-item">
+                                    <p>{{event.name}}</p>
+                                    <p>{{event.status | status}}</p>
+                                    <p>{{event.startDate | date : 'dd-MM-yyyy'}}</p>
+                                    <p>{{event.endDate | date : 'dd-MM-yyyy'}}</p>
+                                </div>
+                            </ng-template>
+
+                            <div class="item-row-collapse-content">
+                                <div class="fs3 primary">
+                                    TODO...
+                                </div>
+                            </div>
+
+                        </p-accordionTab>
+                    }
+                </p-accordion>
+
             </div>
         </div>
 

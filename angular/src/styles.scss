@@ -49,3 +49,14 @@ app-img-cached {
 app-icon {
     display: contents;
 }
+
+.card {
+    background-color: $bgTwo;
+    color: $textColor;
+    box-shadow: $shadow-standard;
+    border-radius: $borderRadius;
+
+    .card-highlight {
+        background-color: $highlightBg;
+    }
+}

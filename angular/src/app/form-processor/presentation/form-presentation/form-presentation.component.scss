@@ -39,13 +39,15 @@
 
     
     .key {
-        color: $secondaryColor;
+        color: $textColor;
     }
 
     .value > .textarea,
     .value {
         text-align: right;
         padding-right: $padding-standard;
+        color: $primaryColor;
+        font-weight: bold;
     }
 
     .form-input-control {

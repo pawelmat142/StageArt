@@ -14,6 +14,17 @@
 
     .item-row {
         padding: 0.8*$padding-standard $padding-standard;
+
+        &.clickable {
+            cursor: pointer;
+            &:hover {
+                background-color: $highlightBg;
+            }
+        }
+        
+        &.selected {
+            background-color: $highlightBg;
+        }
     }
 
     .booking-item {
@@ -28,7 +39,7 @@
 .panel-container {
     display: grid;
     grid-template-columns: 1fr;
-    gap: $padding-standard;
+    gap: 2*$padding-standard;
     background-color: $highlightBg;
     
     padding-top: $header-height + $padding-standard;
@@ -78,7 +89,7 @@
 }
 
 .item-row-collapse-content {
-    padding: 0.5*$padding-standard $padding-standard $padding-standard;
+    padding: 0 $padding-standard $padding-standard;
     display: block;
 }
 

@@ -1,7 +1,7 @@
 @import 'variables';
 @import 'color';
 
-$circle-size: 28px;
+$circle-size: 1.6rem;
 $substep-circle-size: 20px;
 
 .p-stepper-panel {
@@ -37,26 +37,15 @@ $substep-circle-size: 20px;
 
     .p-stepper-content {
         width: 100%;
-        padding-left: 0.5*$circle-size + 0.5*$padding-standard;
+        padding-left: calc(0.5*$circle-size + 0.5*$padding-standard);
         padding-top: 0.5*$padding-standard;
         padding-bottom: 0.5*$padding-standard;
     }
 
 }
 .p-stepper-panel:last-of-type .p-stepper-content {
-    padding-left: $circle-size + 0.5*$padding-standard;
+    padding-left: calc($circle-size + 0.5*$padding-standard);
     
-}
-
-.p-highlight {
-    .p-stepper-title {
-       color: $secondaryColor;
-   }
-
-   .p-stepper-number {
-       border-color: $secondaryColor;
-       color: $secondaryColor;
-   }
 }
 
 .p-stepper-title {
@@ -91,12 +80,15 @@ $substep-circle-size: 20px;
     background: transparent;
     width: $circle-size;
     height: $circle-size;
+    min-width: $circle-size;
+    min-height: $circle-size;
     color: $grey;
     border: 2px solid $grey;
     line-height: 2rem;
     font-size: .8rem;
     border-radius: 50%;
     transition: $transition-standard;
+    font-weight: bold;
 }
 
 

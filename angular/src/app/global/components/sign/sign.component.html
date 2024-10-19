@@ -2,10 +2,10 @@
   <div class="panel-section sign-section" #signatureSection>
   
     <div class="panel-section-header">
-      <h2 class="fs3 secondary">Document signature pad</h2>
+      <h2 class="fs3 bold">Document signature pad</h2>
       <div class="menu">
         <p-menu #menu [model]="_menuItems" [popup]="true" />
-        <app-icon-button (click)="_menuToggle($event!)" icon="more_vert"></app-icon-button>
+        <app-icon-button (click)="_menuToggle($event!)" icon="pi-ellipsis-v"></app-icon-button>
       </div>
     </div>
   
@@ -14,7 +14,7 @@
         <div class="canvas-container"
         >
           <canvas
-            class="canvas"
+            class="canvas card"
             #canvas
             [width]="width"
             [height]="height"
@@ -45,7 +45,7 @@
     </div>
 
     <ng-container *ngIf="_signatures$ | async as signatures">
-      <div class="signatures-container" *ngIf="signatures.length">
+      <div class="signatures-container card card-highlight" *ngIf="signatures.length">
 
         <div class="item-row labels">
           <p>Date</p>
@@ -54,7 +54,7 @@
         </div>
 
         @for (signature of signatures; track signature.id; let index = $index) {
-          <div class="item-row item-row-signature clickable" (click)="_select(signature)" [class.selected]="signature.id === _selectedSignature?.id">
+          <div class="item-row item-row-signature clickable text-color" (click)="_select(signature)" [class.selected]="signature.id === _selectedSignature?.id">
             <div>{{signature.modified || signature.created | date : 'dd-MM-yyyy'}}</div>
             <div>{{signature.modified || signature.created | date : 'HH:mm'}}</div>
 
