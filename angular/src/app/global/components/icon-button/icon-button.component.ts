@@ -13,8 +13,7 @@ import { IconComponent } from '../icon/icon.component';
     IconComponent
   ],
   templateUrl: './icon-button.component.html',
-  styleUrl: './icon-button.component.scss',
-  encapsulation: ViewEncapsulation.None
+  styleUrl: './icon-button.component.scss'
 })
 export class IconButtonComponent {
   

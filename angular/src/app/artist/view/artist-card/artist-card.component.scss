@@ -7,11 +7,6 @@ $card-width: 24vw;
 
 .desktop {
     .artist-card {
-
-        .media-item-container .icon-button svg {
-            height: 25px;
-        }
-
         &:hover {
             box-shadow: $card-shadow;
             .img-wrapper { 
@@ -33,12 +28,10 @@ $card-width: 24vw;
 }
 
 .artist-card {
-
+    font-size: 14px;
     transition: $transition-standard;
     cursor: pointer;
-
     @extend .card;
-
     .img-wrapper {
         width: 100%;
         height: 1.4*$card-width;
@@ -51,8 +44,9 @@ $card-width: 24vw;
     }
 
     .media-item-container .icon-button svg {
+        width: 2rem;
         fill: $primaryColor;
-        height: 25px;
+        height: 2rem;
     }
 
     .description {
@@ -77,12 +71,6 @@ $card-width: 24vw;
             .icon-button .svg-wrapper {
                 min-height: 25px;
             }
-        }
-    }
-
-    .icon-button {
-        img {
-            max-height: 20px;
         }
     }
 }

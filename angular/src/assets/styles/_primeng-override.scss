@@ -1,6 +1,22 @@
 .p-button {
-    min-width: 100px;
-    justify-content: center;
+    font-weight: bold;
+    color: $primaryColorText;
+}
+
+.p-button:focus {
+    box-shadow: none;
+}
+
+.primary-btn {
+    .p-button {
+        background: $primaryColor;
+        border-color: $primaryColor;
+    
+        &:not(:disabled):hover {
+            border-color: $primaryHover;
+            background: $primaryHover;
+        }
+    }
 }
 
 .p-dialog-footer-inner {
@@ -46,4 +62,50 @@
 
 .pi:before {
     font-weight: bold;
+}
+
+.p-carousel-indicators {
+    margin-top: $padding-standard;
+    gap: $padding-standard;
+    list-style-type: none;
+    padding: 0;
+
+    li {
+        padding: $padding-standard;
+        button {
+            background-color: $primaryColor;
+            border: 0;
+            height: 8px;
+            width: 8px;
+            border-radius: 4px;
+            padding: 0;
+        }
+        &.p-highlight {
+            button {
+                background-color: $primary600;
+                box-shadow: $card-shadow;
+            }
+        }
+    }
+}
+.desktop {
+    .p-carousel {
+        .p-link {
+            display: none;
+        }
+    }
+    .p-carousel-indicators {
+        margin-top: 2*$padding-standard;
+        li {
+            width: 30px;
+            button {
+                &:hover {
+                    background-color: $primary600;
+                }
+                height: 10px;
+                border-radius: 5px;
+                width: 10px;
+            }
+        } 
+    }
 }

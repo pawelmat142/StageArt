@@ -13,7 +13,6 @@ import { ButtonModule } from 'primeng/button';
 ],
   templateUrl: './menu-button.component.html',
   styleUrl: './menu-button.component.scss',
-  encapsulation: ViewEncapsulation.None
 })
 export class MenuButtonComponent {
 
@@ -22,7 +21,7 @@ export class MenuButtonComponent {
     readonly menu: MenuService,
   ) {}
 
-  @HostBinding('class.menu-button-open') menuButtonOpen = false
+  menuButtonOpen = false
 
   @ViewChild('menuButtonRef') menuButtonRef?: ElementRef
 

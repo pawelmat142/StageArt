@@ -24,7 +24,6 @@ import { ButtonModule } from 'primeng/button';
   ],
   templateUrl: './artists-section.component.html',
   styleUrl: './artists-section.component.scss',
-  encapsulation: ViewEncapsulation.None
 })
 export class ArtistsSectionComponent {
 

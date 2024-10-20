@@ -2,7 +2,6 @@
 @import 'scrollbar';
 @import 'color';
 @import 'font';
-@import 'form';
 @import 'primeng-override';
 
 * {
@@ -32,14 +31,149 @@
     display: block;
 }
 
-.card {
-    svg {
-        fill: #fff;
+.relative {
+    position: relative;
+}
+
+.padding-top {
+    padding-top: $padding-standard;
+}
+.padding-top-2 {
+    padding-top: 2*$padding-standard;
+}
+.padding-top-4 {
+    padding-top: 4*$padding-standard;
+}
+
+.margin-top-05 {
+    margin-top: 0.5*$padding-standard;
+}
+.margin-top {
+    margin-top: $padding-standard;
+}
+.margin-top-2 {
+    margin-top: 2*$padding-standard;
+}
+.margin-top-4 {
+    margin-top: 4*$padding-standard;
+}
+
+.margin-bottom {
+    margin-bottom: $padding-standard;
+}
+.margin-bottom-2 {
+    margin-bottom: 2*$padding-standard;
+}
+.margin-bottom-4 {
+    margin-bottom: 4*$padding-standard;
+}
+
+.header-margin {
+    margin-top: $header-margin;
+}
+
+.border {
+    border: $border;
+}
+
+
+.highlight {
+    transition: $transition-standard;
+    cursor: pointer;
+    &:hover {
+        background-color: $primaryTransparent;
+    }
+    
+    &.light:hover {
+        background-color: $bg;
     }
 }
 
-.relative {
-    position: relative;
+.no-margin {
+    margin: 0;
+}
+
+.no-padding {
+    padding: 0;
+}
+
+.center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &.right {
+        justify-content: flex-end;
+    }
+    &.left {
+        justify-content: flex-start;
+    }
+}
+
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $padding-standard;
+}
+
+
+.section {
+    background-color: $highlightBg;
+    padding: $view-margin-1;
+}
+
+.section-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    &.section-header-margin {
+        margin-bottom: 3*$padding-standard;
+    }
+}
+
+.cover-center {
+    img {
+        min-width: 100%;
+        min-height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+}
+
+.circle {
+    img {
+        aspect-ratio: 1;
+    }
+}
+
+.courtine {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: $bgOneCourtine;
+
+    z-index: 9999;
+
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.to-right {
+    width: 100%;
+    margin-left: auto;
+}
+
+.edit-toggle-style {
+    min-width: 40px;
+    height: 40px;
+    color: $highlightBg;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 app-img-cached {
@@ -61,22 +195,17 @@ app-icon {
     }
 }
 
-.p-button {
-    font-family: $family;
-    font-weight: bold;
-    // letter-spacing: .05rem;
-    font-size: unset;
-    color: $primaryColorText;
-}
-
-.primary-btn {
-    .p-button {
-        background: $primaryColor;
-        border-color: $primaryColor;
+.desktop {
+    .hovergrow {
+        cursor: pointer;
+        transition: $transition-standard;
+        position: relative;
     
-        &:not(:disabled):hover {
-            border-color: $primaryHover;
-            background: $primaryHover;
+        &:hover {
+            transform: scale(1.05);
+        }
+        &.max:hover {
+            transform: scale(1.2);
         }
     }
 }

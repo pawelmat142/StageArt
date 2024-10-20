@@ -18,7 +18,6 @@ import { ButtonModule } from 'primeng/button';
   ],
   templateUrl: './feedback.component.html',
   styleUrl: './feedback.component.scss',
-  encapsulation: ViewEncapsulation.None,
 })
 export class FeedbackComponent {
 

@@ -16,7 +16,6 @@ import { ArtistUtil } from '../../artist.util';
   ],
   templateUrl: './artist-card.component.html',
   styleUrl: './artist-card.component.scss',
-  encapsulation: ViewEncapsulation.None,
 })
 export class ArtistCardComponent {
 

@@ -52,7 +52,6 @@
 
     .header-logo {
         display: block;
-        @extend .hovergrow;
     }
 
 }
@@ -61,7 +60,6 @@
     transition: $transition-standard;
     padding: 0 8px 4px;
     border-radius: $radius;
-    @extend .highlight;
     &:hover {
         text-shadow: $text-shadow;
     }

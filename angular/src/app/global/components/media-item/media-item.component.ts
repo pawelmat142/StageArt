@@ -19,8 +19,7 @@ import { FromSnakeCasePipe } from "../../pipes/from-snake-case.pipe";
     FromSnakeCasePipe
 ],
   templateUrl: './media-item.component.html',
-  styleUrl: './media-item.component.scss',
-  encapsulation: ViewEncapsulation.None
+  styleUrl: './media-item.component.scss'
 })
 export class MediaItemComponent {
 
@@ -32,7 +31,6 @@ export class MediaItemComponent {
   @Input() media!: ArtistMedia
   @Input() hideName = false
   @Input() color = 'light'
-  @Input() size = 30
 
   _editMode$ = this.store.select(editMode)
 

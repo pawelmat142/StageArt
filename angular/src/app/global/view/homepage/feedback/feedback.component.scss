@@ -1,31 +1,9 @@
 @import 'variables';
 
-.desktop {
-    .section.feedback-section {
-        padding-top: 0;
-    }
-
-    .textarea-wrapper {
-        max-width: 800px;
-        margin-left: auto;
-        margin-right: auto;
-        .textarea {
-            padding: $padding-standard;
-        }
-    }
+.feedback-textarea {
+    border: $border;
+    border-radius: $radius;
+    background-color: #fff;
+    box-shadow: $shadow-standard;
 }
 
-.feedback-section {
-    
-    .textarea-wrapper {
-        .textarea {
-            min-height: 100px;
-            border-radius: $borderRadius;
-            background-color: $bgTwo;
-            color: $textColor;
-            padding: 0.5*$padding-standard $padding-standard;
-            border: $border;
-        }
-    }
-
-}

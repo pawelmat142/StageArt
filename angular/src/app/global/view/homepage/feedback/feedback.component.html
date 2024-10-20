@@ -10,17 +10,19 @@
                 </div>
             </div>
 
-            <app-textarea-element
-                [value]="value"
-                (onInput)="_onInput($event)"
-                [disabled]="false"
-                [rowsInitial]="DESKTOP ? 7 : 4"
-            ></app-textarea-element>
+            <div class="feedback-textarea">
+                <app-textarea-element
+                    [value]="value"
+                    (onInput)="_onInput($event)"
+                    [disabled]="false"
+                    [rowsInitial]="DESKTOP ? 5 : 4"
+                ></app-textarea-element>
+            </div>
 
             <p-button 
                 (click)="_send()" 
                 [raised]="true" 
-                class="center right margin-top-2"
+                class="center right margin-top-2 primary-btn"
             >Send</p-button>
         </div>
 

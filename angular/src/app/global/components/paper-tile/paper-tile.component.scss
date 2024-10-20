@@ -71,7 +71,7 @@ $paper-step-size: 18px;
     a {
         color: $secondaryColor;
         padding: $padding-standard;
-        @extend .highlight;
-        @extend .light;
+        // @extend .highlight;
+        // @extend .light;
     }
 }

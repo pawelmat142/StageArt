@@ -26,7 +26,6 @@ app-profile {
         background-color: $primaryColor;
         width: 50px;
 
-        @extend .edit-toggle-style;
         border-bottom-left-radius: $radius;
         border-top-left-radius: $radius;
     }
@@ -54,7 +53,6 @@ app-profile {
 }
 
 .sidebar-header-item {
-    // padding: 0 $padding-standard 0.5*$padding-standard;
     padding: 0 $padding-standard 0;
 }
 
@@ -62,7 +60,6 @@ app-profile {
     @extend .fs3;
     color: $primaryColor;
     @extend .baron;
-    @extend .highlight;
     padding: 0.5*$padding-standard 2*$padding-standard;
     display: flex;
     align-items: center;

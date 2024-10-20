@@ -51,7 +51,7 @@
 @else {
     <div class="p-dialog-footer p-dialog-footer-inner">
         @if (_defaultButton) {
-            <p-button (click)="_close(true)">OK</p-button>
+            <p-button (click)="_close(true)" severity="info">OK</p-button>
         }
     
         @for(btn of data.buttons; track btn.label) {

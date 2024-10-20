@@ -199,13 +199,15 @@ textarea {
 }
 
 .form-input-control {
-    width: 100%;
     padding: 0px;
     font-weight: 500;
     font-size: 16px;
     letter-spacing: 0;
-    color: $bg;
+    color: $textColor;
     font-family: $family;
+    background-color: #fff;
+    border-radius: $borderRadius;
+    padding: 0.5*$padding-standard $padding-standard;
 }
 
 

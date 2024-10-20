@@ -1,8 +1,4 @@
 @import 'variables';
-@import 'color';
-@import 'font';
-@import 'form';
-
 
 .menu-button-container {
     background-color: $primaryColor;
@@ -34,40 +30,31 @@
 .menu-button-children {
     display: flex;
     align-items: center;
-    color: $primaryColor;
     transition: none;
-    @extend .btn-font;
+    color: $highlightBg;
     
     .menu-button-child {
-        width: 0;
-        padding: 0;
-        transition: $transition-standard;
-
-        cursor: pointer;
         background-color: $primaryColor;
         border-radius: $borderRadius;
         display: flex;
         align-items: center;
         justify-content: center;
 
+        width: 0;
+        color: $primaryColor;
+        font-size: 0;
+
+        transition: $transition-standard;
+        white-space: nowrap;
         overflow: hidden;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-        white-space: normal;
+        text-overflow: ellipsis;
+
+        width: auto;
+        max-width: 0;
         
-        &:hover {
-            background-color: $primaryHover;
+        &.open {
+            max-width: 150px;
+            height: 100%;
         }
-    }
-}
-
-.menu-button-open {
-    .menu-button-children {
-        color: $highlightBg;
-    }
-
-    .menu-button-child {
-        width: 130px;
-        height: 100%;
     }
 }
