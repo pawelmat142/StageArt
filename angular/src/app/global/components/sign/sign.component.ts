@@ -1,4 +1,4 @@
-import { Component, ElementRef, QueryList, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import SignaturePad from 'signature_pad';
 import { DESKTOP } from '../../services/device';
 import { ImgUtil } from '../../utils/img.util';
@@ -31,7 +31,6 @@ import { ButtonModule } from 'primeng/button';
   ],
   templateUrl: './sign.component.html',
   styleUrl: './sign.component.scss',
-  encapsulation: ViewEncapsulation.None,
 })
 export class SignComponent {
 

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { ControlContainer, FormArray, FormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { GroupComponent } from '../group/group.component';
@@ -16,7 +16,6 @@ import { FormUtil } from '../../global/utils/form.util';
     ControlComponent,
   ],
   templateUrl: './array.component.html',
-  encapsulation: ViewEncapsulation.None,
   viewProviders: [
     {
       provide: ControlContainer,

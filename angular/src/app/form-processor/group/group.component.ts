@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { ControlContainer, FormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
 import { ControlComponent } from '../control/control.component';
 import { pFormGroup } from '../form-processor.service';
@@ -14,7 +14,6 @@ import { FormUtil } from '../../global/utils/form.util';
     ControlComponent,
   ],
   templateUrl: './group.component.html',
-  encapsulation: ViewEncapsulation.None,
   viewProviders: [
     {
       provide: ControlContainer,

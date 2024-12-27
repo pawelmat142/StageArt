@@ -1,72 +1,12 @@
-@import 'color';
 @import 'variables';
-@import 'font';
-
-$border: 1px solid $primaryColor; 
-
-app-profile {
-    background-color: $bg;
-}
-
-.desktop {
-    .sidebar {
-        right: unset;
-        left: 0;
-        transform: unset;
-    }
-}
 
 .sidebar-container {
-    position: relative;
-    .sidebar-btn {
-        position: absolute;
-        top: -10px;
-        left: -50px;
-
-        background-color: $primaryColor;
-        width: 50px;
-
-        border-bottom-left-radius: $radius;
-        border-top-left-radius: $radius;
-    }
-}
-
-
-.sidebar {
+    overflow: visible;
+    height: 100%;
     background-color: $bgTwo;
-    width: $sidebar-width;
-    position: fixed;
-    top: 0;
-    left: unset;
-    right: 0;
-    bottom: 0;
-    padding-top: $header-height;
-    z-index: 8;
-    box-shadow: $shadow-standard;
-
-    transition: $transition-standard;
-    
-    transform: translateX(100%);
-    &.open {
-        transform: translateX(0);
-    }
-}
-
-.sidebar-header-item {
-    padding: 0 $padding-standard 0;
-}
-
-.siderbar-item {
-    @extend .fs3;
-    color: $primaryColor;
-    @extend .baron;
-    padding: 0.5*$padding-standard 2*$padding-standard;
+    border-right: 1px solid $surfaceBorder;
+    // padding: $padding-standard 0 $padding-standard $padding-standard;
     display: flex;
-    align-items: center;
-    margin-bottom: 0.2*$padding-standard;
-
-    &.active {
-        background: $primaryTransparent;
-    }
+    flex-direction: column;
+    justify-content: space-between;
 }
-

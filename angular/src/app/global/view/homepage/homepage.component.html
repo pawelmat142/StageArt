@@ -1,25 +1,26 @@
-<app-header [floating]="true" ></app-header>
+<app-header [floating]="true" class="show-desktop"></app-header>
+<app-header [floating]="false" class="show-mobile"></app-header>
 
-<div class="landing">
+<div class="section-margin">
+    <div class="landing">
 
-    <div class="landing-left">
-        @if (DESKTOP) {
-            <app-logo></app-logo>
-        }
-        <h1 class="fs1 baron primary">Unity Management</h1>
-        <h2 class="fs3 baron uppercase text-color">The best music style making your event shine</h2>
-        <p>A professional booking agency that concentrates on high-quality music, managing international bookings & representing top-level artists exclusively worldwide.</p>
+        <div class="landing-left">
+            <div class="langin-left-content">
+                <app-logo class="show-desktop"></app-logo>
+                <h1 class="fs1 baron primary">Unity Management</h1>
+                <h2 class="fs3 baron uppercase text-color">The best music style making your event shine</h2>
+                <p>A professional booking agency that concentrates on high-quality music, managing international bookings & representing top-level artists exclusively worldwide.</p>
+            </div>
+        </div>
+    
+        <div class="landing-right">
+            <app-menu-button class="show-desktop"></app-menu-button>
+            <app-homepage-form></app-homepage-form>
+        </div>
     </div>
-
-    <div class="landing-right">
-        @if (DESKTOP) {
-            <app-menu-button></app-menu-button>
-        } 
-        <app-homepage-form></app-homepage-form>
-    </div>
-
-    <app-artists-section class="w100"></app-artists-section>
-
-    <app-feedback class="w100"></app-feedback>
-
 </div>
+
+
+<app-artists-section></app-artists-section>
+
+<app-feedback></app-feedback>

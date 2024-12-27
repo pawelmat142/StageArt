@@ -1,4 +1,4 @@
-import { SelectorItem } from "../global/controls/selector/selector.component"
+import { SelectorItem } from "../global/interface"
 import { DESKTOP } from "../global/services/device"
 import { Images } from "./model/artist-form"
 import { ArtistViewDto } from "./model/artist-view.dto"

@@ -10,6 +10,8 @@ import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@
 })
 export class ButtonComponent {
 
+  // TODO
+  // DEPRACATED!!
   @Output() submit = new EventEmitter<void>()
   
   @ViewChild('formButton') formButton!: ElementRef<HTMLInputElement>;

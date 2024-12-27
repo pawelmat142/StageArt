@@ -1,17 +1,19 @@
-import { Component, HostListener, ViewEncapsulation } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { SelectorComponent, SelectorItem } from '../../../../global/controls/selector/selector.component';
 import { CourtineService } from '../../../../global/nav/courtine.service';
 import { FormUtil } from '../../../../global/utils/form.util';
 import { LoginForm, ProfileService } from '../../../profile.service';
 import { HeaderComponent } from '../../../../global/components/header/header.component';
 import { Dialog } from '../../../../global/nav/dialog.service';
 import { NavService } from '../../../../global/nav/nav.service';
-import { InputComponent } from '../../../../global/controls/input/input.component';
 import { Role } from '../../../profile.model';
 import { Path } from '../../../../global/nav/path';
 import { ButtonModule } from 'primeng/button';
+import { FormFieldComponent } from '../../../../global/controls/form-field/form-field.component';
+import { InputTextModule } from 'primeng/inputtext';
+import { DropdownComponent } from '../../../../global/controls/dropdown/dropdown.component';
+import { SelectorItem } from '../../../../global/interface';
 
 function repassword(): ValidatorFn {
   const error = { mismatch: true }
@@ -43,12 +45,13 @@ function password(): ValidatorFn {
     ReactiveFormsModule,
     CommonModule,
     HeaderComponent,
-    InputComponent,
-    SelectorComponent,
-    ButtonModule
+
+    FormFieldComponent,
+    InputTextModule,
+    ButtonModule,
+    DropdownComponent
 ],
   templateUrl: './register.component.html',
-  encapsulation: ViewEncapsulation.None
 })
 export class RegisterComponent {
 
@@ -112,6 +115,10 @@ export class RegisterComponent {
     this.profileService.fetchTelegramBotHref$().subscribe(telegramHref => {
       window.location.href = telegramHref.url
     })
+  }
+
+  _back() {
+    this.nav.back()
   }
 
 }

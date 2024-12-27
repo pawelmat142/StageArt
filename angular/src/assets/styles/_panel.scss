@@ -1,56 +1,11 @@
 @import 'variables';
-@import 'tile';
 
-.desktop {
-    .panel-container {
-        padding-right: $padding-standard;
-        padding-left: $padding-standard;
-        padding-bottom: 4*$padding-standard;
-    }
-
-    .panel-section-header {
-        grid-template-columns: 1fr 1fr 1fr;
-    }
-
-    .item-row {
-        padding: 0.8*$padding-standard $padding-standard;
-
-        &.clickable {
-            cursor: pointer;
-            &:hover {
-                background-color: $highlightBg;
-            }
-        }
-        
-        &.selected {
-            background-color: $highlightBg;
-        }
-    }
-
-    .booking-item {
-        grid-template-columns: 1fr 1fr 1fr 1fr 2fr;
-    }
-
-    .booking-item p:last-of-type {
-        text-align: unset;
-    }
+.panel {
+    padding-top: $header-height;
+    display: flex;
+    min-height: 100vh;
 }
 
-.panel-container {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 2*$padding-standard;
-    background-color: $highlightBg;
-    
-    padding-top: $header-height + $padding-standard;
-
-    padding-bottom: 4*$padding-standard;
-
-    .separate-line {
-        margin: 0 $padding-standard;
-        border-top: 0.5px solid $bg;
-    }
-}
 
 .panel-section {
     padding: 0;
@@ -63,33 +18,53 @@
     justify-content: space-between;
 }
 
+.bookings-header {
+    padding: $padding-standard;
+}
+
+.booking-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.booking-item {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+@media only screen and (min-width: $desktop) {
+    .booking-item {
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    }
+
+    .booking-item p:last-of-type {
+        text-align: unset;
+    }
+}
+
 .item-row {
-    padding: 0.8*$padding-standard 0.5*$padding-standard;   
+    padding: 0.8*$padding-standard 0.8*$padding-standard;   
     display: grid;
     align-items: center;
     width: 100%;
 
     p {
-        color: $textColor;
-        font-weight: 600;
-        @extend .fs5;
-
         &:last-of-type {
             text-align: right;
         }
     }
 }
 
-
-.item-row.labels {
-    p {
-        font-size: 14px;
-        color: $primaryColor;
+.labels {
+    margin-right: $padding-standard;
+    .item-row {
+        p {
+            font-size: 14px;
+            color: $primaryColor;
+        }
     }
 }
 
 .item-row-collapse-content {
-    padding: 0 $padding-standard $padding-standard;
     display: block;
 }
 
@@ -101,4 +76,11 @@
 
 .item-row-files {
     @extend .item-row-buttons;
+}
+
+
+@media only screen and (min-width: $desktop) {
+    .item-row-collapse-content { 
+        padding: 0 $padding-standard $padding-standard;
+    }
 }

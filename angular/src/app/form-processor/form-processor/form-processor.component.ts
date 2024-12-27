@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { ControlContainer, FormArray, FormBuilder, FormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
 import { ControlComponent } from '../control/control.component';
 import { GroupComponent } from '../group/group.component';
@@ -32,7 +32,6 @@ import { ButtonModule } from 'primeng/button';
   ],
   templateUrl: './form-processor.component.html',
   styleUrl: './form-processor.component.scss',
-  encapsulation: ViewEncapsulation.None
 })
 export class FormProcessorComponent {
 

@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { SelectorComponent } from "../../../../global/controls/selector/selector.component";
 import { loggedIn } from '../../../profile.state';
 import { Store } from '@ngrx/store';
 import { filter, noop, Observer, of, switchMap } from 'rxjs';
@@ -10,12 +9,13 @@ import { LoginForm, ProfileService } from '../../../profile.service';
 import { HeaderComponent } from '../../../../global/components/header/header.component';
 import { Dialog, DialogData } from '../../../../global/nav/dialog.service';
 import { NavService } from '../../../../global/nav/nav.service';
-import { InputComponent } from '../../../../global/controls/input/input.component';
 import { AppState } from '../../../../app.state';
 import { RegisterComponent } from '../register/register.component';
 import { CourtineService } from '../../../../global/nav/courtine.service';
 import { Path } from '../../../../global/nav/path';
 import { ButtonModule } from 'primeng/button';
+import { FormFieldComponent } from '../../../../global/controls/form-field/form-field.component';
+import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
   selector: 'app-login',
@@ -24,9 +24,9 @@ import { ButtonModule } from 'primeng/button';
     ReactiveFormsModule,
     CommonModule,
     HeaderComponent,
-    InputComponent,
-    SelectorComponent,
-    ButtonModule
+    FormFieldComponent,
+    InputTextModule,
+    ButtonModule,
 ],
   templateUrl: './login.component.html'
 })

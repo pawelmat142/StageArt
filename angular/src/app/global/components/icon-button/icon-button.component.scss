@@ -1,5 +1,12 @@
+@import 'variables';
+
 img, svg {
-    width: 2em;
-    height: 2em;
+    width: 1.5em;
+    height: 1.5em;
     aspect-ratio: 1/1;
+}
+
+.icon-button {
+    cursor: pointer;
+    padding: 0.5*$padding-standard;
 }

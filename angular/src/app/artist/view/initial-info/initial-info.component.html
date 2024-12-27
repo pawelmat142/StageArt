@@ -1,68 +1,45 @@
-<div class="form-page ">
+<div class="form-page">
 
-    <form [formGroup]="form" class="form-container margin-bottom-2">
+    <form [formGroup]="form" class="form-wrapper" (ngSubmit)="_submit()">
 
-        <h1 class="dark margin-bottom-2 baron">Artist form</h1>
-
-        <div class="control-margin" *ngIf="_managerItems$ | async as items">
-            <app-selector
-                formControlName="manager"
-                label="Manager"
-                [required]="true"
-                [items]="items"
-                [selectCode]="_autoselectManagerUid"
-                [allowWriteItem]="true"
-            ></app-selector>
-        </div>
-
-        <div class="control-margin">
-            <app-input
-                formControlName="artistName"
-                label="Artist name"
-                [required]="true"
-            ></app-input>
-        </div>
-
-        <h3 class="primary margin-bottom">Contact data for your manager</h3>
-
-        <div class="control-margin">
-            <app-input
-                formControlName="firstName"
-                label="First name"
-                [required]="true"
-            ></app-input>
-        </div>
-
-        <div class="control-margin">
-            <app-input
-                formControlName="lastName"
-                label="Last name"
-                [required]="true"
-            ></app-input>
-        </div>
-
-        <div class="control-margin">
-            <app-input
-                formControlName="phoneNumber"
-                label="Phone number"
-                [required]="true"
-            ></app-input>
-        </div>
-
-        <div class="control-margin">
-            <app-input
-                formControlName="email"
-                label="Email"
-                [required]="true"
-            ></app-input>
-        </div>
+        <div class="form-title">Artist form</div>
         
-        <div class="btns center">
+        <div class="form-grid" >
+
+            <app-form-field label="Manager" *ngIf="_managerItems$ | async as items">
+                <app-dropdown [items]="items" formControlName="manager"></app-dropdown>
+            </app-form-field>
+
+            <app-form-field label="Artist name">
+                <input type="text" pInputText formControlName="artistName"/>
+            </app-form-field>
+
+            <div class="form-subtitle">Contact data for your manager</div>
+
+            <app-form-field label="First name">
+                <input type="text" pInputText formControlName="firstName"/>
+            </app-form-field>
+
+            <app-form-field label="Last name">
+                <input type="text" pInputText formControlName="lastName"/>
+            </app-form-field>
+
+            <app-form-field label="Phone number">
+                <input type="text" pInputText formControlName="phoneNumber"/>
+            </app-form-field>
+
+            <app-form-field label="Email">
+                <input type="text" pInputText formControlName="email"/>
+            </app-form-field>
+
+        </div>
+
+        <div class="form-buttons">
             <p-button
                 label="Submit"
-                (click)="_submit()"
                 severity="success"
                 type="submit"
+                size="small"
                 [raised]="true">
             </p-button>
         </div>

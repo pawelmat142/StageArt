@@ -1,44 +1,26 @@
 @import 'variables';
-@import 'variables-desc';
-@import 'color';
-@import 'form';
-@import 'font';
-@import 'device';
 
-.show {
-    .header-container {
-        top: 0;
-    }
+:host.show .header {
+    top: 0;
 }
 
-.desktop {
-    .header-container {
-        padding: 0.2*$padding-standard $view-margin-3-desc;
-
-       .header-section {
-            gap: 2*$padding-standard;
-       }
-    }
-
-}
-
-.header-container {
+.header {
     top: -120px;
     position: fixed;
-    z-index: 10;
+    z-index: 1102;
     left: 0;
     right: 0;
 
     background-color: $highlightBg;
     transition: $transition-standard;
+    box-shadow: $border-shadow;
+}
 
-    padding: 0.2*$padding-standard $view-margin-1;
-
+.header-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    box-shadow: $border-shadow;
 
     .header-section {
         display: flex;

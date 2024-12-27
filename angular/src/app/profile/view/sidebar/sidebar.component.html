@@ -1,27 +1,7 @@
 <div class="sidebar-container">
-    @if (!DESKTOP) {
-        <div class="sidebar-btn">
-            <app-icon-button
-                (click)="_open()"
-                [icon]="_sidebarOpened ? 'arrow_forward_ios' : 'arrow_back_ios'"
-                [active]="true"
-            ></app-icon-button>
-        </div>
-    }
 
-    <ng-container *ngIf="_profile$ | async as profile">
-        <p class="primary sidebar-header-item">Name:</p>
-        <p class="bold sidebar-header-item margin-bottom">{{profile?.name}}</p>
-        <p class="primary sidebar-header-item">Role:</p>
-        <p class="bold sidebar-header-item margin-bottom">{{profile?.roles?.join(', ')}}</p>
-    </ng-container>
+    <app-menu-items [items]="(_items$ | async) || []"></app-menu-items>
 
-    
-    @for (item of _sidebarItems$ | async; track item.label) {
-    
-        <div class="siderbar-item" (click)="_clickItem(item)" [class.active]="item.active">
-            {{item.label}}
-        </div>
-    
-    }
+    <app-profile-data></app-profile-data>
+
 </div>

@@ -1,5 +1,9 @@
 @import 'variables';
 
+.artists-section {
+    padding-top: 2*$padding-standard;
+}
+
 .section-container {
     .p-carousel {
         margin-left: -0.5*$padding-standard;
@@ -7,5 +11,16 @@
     }
     .card-shadow-wrapper {
         padding: 0.5*$padding-standard;
+    }
+}
+
+@media only screen and (min-width: $desktop) {
+    .artists-section {
+        padding-top: 6*$padding-standard;
+    }
+    .grid {
+        margin-top: 2*$padding-standard;
+        grid-template-columns: 1fr 1fr 1fr;
+        margin: $padding-standard 0.5*$padding-standard;
     }
 }

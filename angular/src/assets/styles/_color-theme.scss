@@ -4,6 +4,8 @@ $primaryColor: var(--primary-color);
 $primaryHover: var(--primary-hover);
 $primary600: var(--primary-600);
 
+$primary2: $primaryColor'50';
+
 $secondaryColor: var(--secondary-color);
 $textSecondaryColor: var(--text-secondary-color);
 
@@ -21,6 +23,12 @@ $borderRadius3: calc(2 * #{$borderRadius});
 
 $surfaceBorder: var(--surface-border);
 $border: 1px solid $surfaceBorder;
+
+$formBg: var(--form-bg);
+$formColor: var(--form-color);
+$formBorder: var(--form-border);
+$formBorderActive: var(--form-border-active);
+$formControlShadow: var(--form-control-shadow);
 
 $bgTwo: var(--bg-two);
 $bgTwoText: var(--bg-two-text);

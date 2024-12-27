@@ -1,136 +1,119 @@
+@import 'color-theme';
+@import 'color-class';
 @import 'variables';
 @import 'scrollbar';
-@import 'color';
 @import 'font';
 @import 'primeng-override';
+@import 'utils';
+@import 'form';
+@import 'stepper';
+@import 'tile';
+@import 'panel';
 
 * {
     box-sizing: border-box;
 }
 
-.desktop {
-    .w50-desktop {
-        width: 50%;
-    }
-}
-
-.d-flex {
-    display: flex;
-    align-items: center;
-}
-.w50 {
-    width: 50%;
-}
-.w100 {
-    width: 100%;
-}
-.h100 {
-    height: 100%;
-}
-.block {
-    display: block;
-}
-
-.relative {
-    position: relative;
-}
-
-.padding-top {
-    padding-top: $padding-standard;
-}
-.padding-top-2 {
-    padding-top: 2*$padding-standard;
-}
-.padding-top-4 {
-    padding-top: 4*$padding-standard;
-}
-
-.margin-top-05 {
-    margin-top: 0.5*$padding-standard;
-}
-.margin-top {
-    margin-top: $padding-standard;
-}
-.margin-top-2 {
-    margin-top: 2*$padding-standard;
-}
-.margin-top-4 {
-    margin-top: 4*$padding-standard;
-}
-
-.margin-bottom {
-    margin-bottom: $padding-standard;
-}
-.margin-bottom-2 {
-    margin-bottom: 2*$padding-standard;
-}
-.margin-bottom-4 {
-    margin-bottom: 4*$padding-standard;
-}
-
-.header-margin {
-    margin-top: $header-margin;
-}
-
-.border {
-    border: $border;
-}
-
-
-.highlight {
-    transition: $transition-standard;
-    cursor: pointer;
-    &:hover {
-        background-color: $primaryTransparent;
-    }
-    
-    &.light:hover {
-        background-color: $bg;
-    }
-}
-
-.no-margin {
-    margin: 0;
-}
-
-.no-padding {
-    padding: 0;
-}
-
-.center {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    &.right {
-        justify-content: flex-end;
-    }
-    &.left {
-        justify-content: flex-start;
-    }
-}
-
-.flex-center {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: $padding-standard;
-}
-
-
-.section {
+body,
+html {
+    min-height: 100%;
     background-color: $highlightBg;
-    padding: $view-margin-1;
 }
 
+
+.hide-mobile {
+    display: none;
+}
+
+.show-desktop,
+.d-flex-desktop {
+    display: none;
+}
+
+.view-margin {
+    padding-top: $view-padding-top-mobile;
+    padding-bottom: 2*$padding-standard;
+}
+.section-margin {
+    margin-left: $padding-standard;
+    margin-right: $padding-standard;
+}
+.section {
+    background-color: $bgTwo;
+    padding-top: $padding-standard;
+    padding-bottom: $padding-standard;
+}
+.section-container {
+    padding: 2*$padding-standard $padding-standard;
+}
 .section-top {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
+    margin-bottom: 2*$padding-standard;
+}
 
-    &.section-header-margin {
-        margin-bottom: 3*$padding-standard;
+.section-container.card {
+    border-radius: $borderRadius3;
+}
+
+
+@media only screen and (min-width: $desktop) {
+    .show-desktop {
+        display: unset;
+    }
+    .d-flex-desktop {
+        display: flex;
+    }
+    .show-mobile {
+        display: none;
+    }
+
+    .view-margin {
+        padding-top: $view-padding-top;
+        padding-bottom: $view-padding-top;
+    }
+    .section-margin {
+        margin-left: calc(2*$padding-standard + $desktop-margin);
+        margin-right: calc(2*$padding-standard + $desktop-margin);
+    }
+    .section {
+        padding-top: 3*$padding-standard;
+        padding-bottom: 3*$padding-standard;
+    }
+    .section-container {
+        padding: 4*$padding-standard;
+    }
+    .section-top {
+        margin-bottom: 4*$padding-standard;
     }
 }
+
+@media only screen and (min-width: $hugeScreen) {
+}
+
+
+
+
+
+// CONTROL
+
+textarea {
+    border: none;
+    background-color: initial;
+    outline: none;
+    margin: 0;
+    padding: 0;
+    resize: none;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.5*$padding-standard;
+}
+
+.textarea-wrapper {
+    width: 100%;
+}
+
 
 .cover-center {
     img {
@@ -140,7 +123,11 @@
         object-position: center;
     }
 }
-
+.square {
+    img {
+        aspect-ratio: 1;
+    }
+}
 .circle {
     img {
         aspect-ratio: 1;
@@ -184,28 +171,6 @@ app-icon {
     display: contents;
 }
 
-.card {
-    background-color: $bgTwo;
-    color: $textColor;
-    box-shadow: $shadow-standard;
-    border-radius: $borderRadius;
 
-    .card-highlight {
-        background-color: $highlightBg;
-    }
-}
 
-.desktop {
-    .hovergrow {
-        cursor: pointer;
-        transition: $transition-standard;
-        position: relative;
-    
-        &:hover {
-            transform: scale(1.05);
-        }
-        &.max:hover {
-            transform: scale(1.2);
-        }
-    }
-}
+

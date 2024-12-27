@@ -1,4 +1,4 @@
-import { SelectorItem } from "../controls/selector/selector.component";
+import { SelectorItem } from "../interface";
 
 interface NativeName {
     official: string;

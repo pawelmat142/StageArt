@@ -21,6 +21,13 @@ export abstract class DefaultTheme {
     // TXT
     public static readonly textColor = '';
     public static readonly textSecondaryColor = '#0f172a';
+    
+    // FORM
+    public static readonly formBg = this.bgTwo;
+    public static readonly formColor = this.textSecondaryColor;
+    public static readonly formBorder = '#d1d5db';
+    public static readonly formBorderActive = '#3B82F6';
+    public static readonly formControlShadow = '#BFDBFE';
 
     public static readonly highlightTextColor = '';
     public static readonly fontFamily = '';

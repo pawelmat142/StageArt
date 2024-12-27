@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { DESKTOP } from '../../../../global/services/device';
 import { BookingDto } from '../../../services/booking.service';
 import { StatusPipe } from "../../../../global/pipes/status.pipe";
@@ -24,7 +24,6 @@ import { BookingStepperComponent } from '../../booking-stepper/booking-stepper.c
 ],
   templateUrl: './bookings-section.component.html',
   styleUrl: './bookings-section.component.scss',
-  encapsulation: ViewEncapsulation.None
 })
 export class BookingsSectionComponent {
 

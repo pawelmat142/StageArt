@@ -1,4 +1,4 @@
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ArtistViewDto } from '../../../artist/model/artist-view.dto';
 import { CommonModule } from '@angular/common';
 import { CountryComponent } from '../../../global/components/country/country.component';

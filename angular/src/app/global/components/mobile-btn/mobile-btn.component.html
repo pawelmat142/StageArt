@@ -1,16 +1,18 @@
 <div class="mobile-menu-container">
-
     <p-button
         label="Menu"
-        (click)="_toggle()"
+        (click)="_open()"
         icon="pi pi-bars"
         class="primary-btn"
     ></p-button>
-
-    <div class="mobile-menu-items" #mobileMenuItems>
-        @for (btn of (menu.menuReversed$ | async); track btn.label) {
-            <div class="menu-item" (click)="menu.btnClick(btn)">{{btn.label}}</div>
-        }
-    </div>
-
 </div>
+
+<p-sidebar [(visible)]="sidebarVisible" position="right">
+    <div class="sidebar">
+        <app-menu-items 
+            [items]="(_mobileMenuItems$ | async) || []" 
+            (select)="_close()"
+        ></app-menu-items>
+        <app-profile-data></app-profile-data>
+    </div>
+</p-sidebar>

@@ -1,8 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { InputComponent } from '../../../global/controls/input/input.component';
-import { SelectorComponent } from '../../../global/controls/selector/selector.component';
 import { CountriesService } from '../../../global/countries/countries.service';
 import { ProfileService } from '../../profile.service';
 import { FormUtil } from '../../../global/utils/form.util';
@@ -13,6 +11,10 @@ import { NavService } from '../../../global/nav/nav.service';
 import { take, tap } from 'rxjs';
 import { Path } from '../../../global/nav/path';
 import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { FormFieldComponent } from '../../../global/controls/form-field/form-field.component';
+import { DropdownModule } from 'primeng/dropdown';
+import { DropdownComponent } from '../../../global/controls/dropdown/dropdown.component';
 
 export interface ManagerData {
   agencyName: string
@@ -33,13 +35,14 @@ export interface ManagerData {
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    InputComponent,
-    SelectorComponent,
-    ButtonModule
+    
+    FormFieldComponent,
+    InputTextModule,
+    ButtonModule,
+    DropdownComponent,
   ],
   templateUrl: './manager-form.component.html',
   styleUrl: './manager-form.component.scss',
-  encapsulation: ViewEncapsulation.None,
 })
 export class ManagerFormComponent {
   

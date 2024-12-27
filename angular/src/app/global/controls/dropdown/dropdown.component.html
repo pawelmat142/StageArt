@@ -1,0 +1,26 @@
+<p-dropdown 
+    [(ngModel)]="value"
+    [options]="items"
+    [filter]="true"
+    [showClear]="true"
+    [optionLabel]="optionLabel"
+    [placeholder]="placeholder" >
+    <ng-template pTemplate="selectedItem" let-selectedOption>
+        <div class="flex align-items-center gap-2">
+            <div class="item-template">
+                @if (selectedOption.imgUrl) {
+                    <img [src]="selectedOption.imgUrl" class="item-image item-image-border" />
+                }
+                <div>{{ selectedOption.name }}</div>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template let-item pTemplate="item">
+        <div class="item-template">
+            @if (item.imgUrl) {
+                <img [src]="item.imgUrl" [alt]="item.name" class="item-image item-image-border" />
+            }
+        <span>{{ item.name }}</span>
+        </div>
+    </ng-template>
+</p-dropdown>

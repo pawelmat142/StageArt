@@ -1,5 +1,13 @@
 @import 'variables';
-@import 'color';
+
+.panel {
+    padding-top: $header-height;
+    display: flex;
+    min-height: 100vh;
+}
+
+@media only screen and (min-width: $desktop) {
+}
 
 .spinner-wrapper  {
     display: flex;
@@ -7,14 +15,9 @@
     justify-content: center;
 }
 
-.desktop {
-    .profile-view-content {
-        margin-left: $sidebar-width;
-    }
-}
-
 .profile-view-content {
+    padding: $padding-standard;
     background-color: $highlightBg;
-    min-height: 100vh;
     padding-bottom: 2*$padding-standard;
+    width: 100%;
 }

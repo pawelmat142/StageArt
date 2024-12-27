@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostBinding, HostListener, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavService } from '../../nav/nav.service';
 import { MenuService } from '../../nav/menu-service';

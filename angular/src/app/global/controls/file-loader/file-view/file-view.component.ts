@@ -13,7 +13,6 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
   ],
   templateUrl: './file-view.component.html',
   styleUrl: './file-view.component.scss',
-  encapsulation: ViewEncapsulation.None
 })
 export class FileViewComponent implements OnChanges {
 

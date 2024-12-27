@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ArtistMediaCode } from '../../../artist/artist-medias/artist-medias.service';
 import { ImgCachedComponent } from '../img-cached/img-cached.component';
 import { IconComponent } from '../icon/icon.component';

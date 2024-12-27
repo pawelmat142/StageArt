@@ -1,47 +1,11 @@
-@import 'color';
 @import 'variables';
-@import 'variables-desc';
-@import 'font';
-
-.desktop {
-
-    .landing {
-        margin-top: 0.5*$header-margin;
-        flex-direction: row;
-    }
-
-    .landing-left, .landing-right {
-        width: 50%;
-    }
-
-    .landing-left {
-        justify-content: flex-start;
-        min-height: 100vh;
-        padding-bottom: 30vh;
-        gap: 3*$padding-standard;
-        padding-bottom: 5vh;
-
-        padding-left: $view-margin-3-desc;
-        
-        p {
-            max-width: 20vw;
-        }
-    }
-    
-    .landing-right {
-        align-items: flex-end;
-        padding-right: $view-margin-3-desc;
-    }
-    
-}
 
 .landing {
     width: 100%;
-    margin-top: 0.7*$header-margin;
-
+    padding-top: 100px;
     display: flex;
     flex-wrap: wrap;
-    flex-direction: column;
+    min-height: 100vh;
 }
 
 .landing-left, .landing-right {
@@ -49,21 +13,29 @@
 }
 
 .landing-left {
-    padding-left: $view-margin-3;
-    padding-right: $view-margin-3;
     padding-bottom: 10vh;
     
-    display: flex;
-    flex-direction: column;
-    gap: 4*$padding-standard;
+    .langin-left-content {
+        display: flex;
+        flex-direction: column;
+        gap: 4*$padding-standard;
+    }
 }
 
 .landing-right {
-    padding-left: $view-margin-1;
-    padding-right: $view-margin-1;
     gap: $padding-standard*4;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     margin-bottom: 10vh;
+}
+
+@media only screen and (min-width: $desktop) {
+    .landing-left, .landing-right {
+        width: 50%;
+    }
+
+    .langin-left-content {
+        max-width: 600px;
+    }
 }

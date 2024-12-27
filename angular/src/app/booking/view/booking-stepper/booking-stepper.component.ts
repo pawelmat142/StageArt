@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { AppState } from '../../../app.state';
 import { Store } from '@ngrx/store';
 import { ButtonModule } from 'primeng/button';
@@ -26,7 +26,6 @@ import { ChecklistUtil } from '../../checklist.util';
   ],
   templateUrl: './booking-stepper.component.html',
   styleUrl: './booking-stepper.component.scss',
-  encapsulation: ViewEncapsulation.None
 })
 export class BookingStepperComponent {
 

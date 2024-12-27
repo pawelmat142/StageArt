@@ -1,26 +1,9 @@
 @import 'variables';
 
-.btns {
-    display: flex;
-    justify-content: space-between;
+
+.form-page-container {
+    padding: $padding-standard;
 }
-
-.steps {
-    display: flex;
-    justify-content: center;
-    gap: 0.5*$padding-standard;
-
-    .step {
-        flex-grow: 1;
-        max-width: 30px;
-        background-color: $primaryColor;
-        height: 8px;
-        border-radius: 4px;
-        background-color: $secondaryColor;
-        transition: $transition-standard;
-
-        &.active {
-            background-color: $primaryColor;
-        }
-    }
+.form-page {
+    padding-top: $header-height;
 }

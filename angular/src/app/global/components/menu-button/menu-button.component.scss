@@ -1,6 +1,15 @@
 @import 'variables';
 
+:host {
+    margin-left: auto;
+    position: relative;
+    margin-bottom: 80px;
+}
+
 .menu-button-container {
+    position: absolute;
+    top: 0;
+    right: 0;
     background-color: $primaryColor;
     color: $primaryColorText;
     overflow: hidden;

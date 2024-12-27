@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, input, Output, ViewEncapsulation } from '@angular/core';
-import { IconButtonComponent } from '../../../components/icon-button/icon-button.component';
-import { SelectorItem } from '../selector.component';
+import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
+import { IconButtonComponent } from '../../components/icon-button/icon-button.component';
+import { SelectorItem } from '../../interface';
 
+// depracated
 @Component({
   selector: 'app-selector-items',
   standalone: true,

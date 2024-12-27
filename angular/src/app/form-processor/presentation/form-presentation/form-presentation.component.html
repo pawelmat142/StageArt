@@ -1,29 +1,30 @@
-
-<div *ngFor="let step of _stepsWithData | keyvalue" class="step">
-
-    <div class="step-name bold">
-        <p>{{step.key.name}}</p>
-    </div>
-
-
-    @if (step.key.array) {
-
-        @for(groupData of _iterable(step.value); track $index) {
-
-            <div class="array-group">
-                <app-form-group-presentation
-                    [structure]="step.key.groups[0]"
-                    [data]="groupData"
-                ></app-form-group-presentation>
-            </div>
+<div class="form-presentation">
+    <div *ngFor="let step of _stepsWithData | keyvalue" class="step">
+    
+        <div class="step-name bold">
+            <p>{{step.key.name}}</p>
+        </div>
+    
+    
+        @if (step.key.array) {
+    
+            @for(groupData of _iterable(step.value); track $index) {
+    
+                <div class="array-group">
+                    <app-form-group-presentation
+                        [structure]="step.key.groups[0]"
+                        [data]="groupData"
+                    ></app-form-group-presentation>
+                </div>
+            }
+    
+        } @else {
+    
+            <app-form-group-presentation
+                [structure]="step.key"
+                [data]="step.value"
+            ></app-form-group-presentation>
         }
-
-    } @else {
-
-        <app-form-group-presentation
-            [structure]="step.key"
-            [data]="step.value"
-        ></app-form-group-presentation>
-    }
-
+    
+    </div>
 </div>

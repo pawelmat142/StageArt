@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { StepMode } from '../../../interface/checklist.interface';
 import { IconComponent } from '../../../../global/components/icon/icon.component';
 
@@ -11,7 +11,6 @@ import { IconComponent } from '../../../../global/components/icon/icon.component
     IconComponent,
   ],
   templateUrl: './substep.component.html',
-  encapsulation: ViewEncapsulation.None
 })
 export class SubstepComponent {
 

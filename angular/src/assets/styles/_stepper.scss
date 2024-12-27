@@ -1,5 +1,4 @@
 @import 'variables';
-@import 'color';
 
 $circle-size: 1.6rem;
 $substep-circle-size: 20px;
@@ -10,6 +9,11 @@ $substep-circle-size: 20px;
     flex: initial;
     &.p-stepper-panel-active {
         flex: 1 1 auto;
+
+        .p-toggleable-content,
+        .p-stepper-toggleable-content {
+            overflow: unset;
+        }
     }
 }
 
@@ -22,37 +26,8 @@ $substep-circle-size: 20px;
 }
 
 
-.p-stepper-toggleable-content {
-    display: flex;
-    flex: 1 1 auto;
-    padding: 0 0.5*$padding-standard;
-
-    .p-stepper-separator {
-        background-color: $grey;
-        flex: 0 0 auto;
-        width: 2px;
-        height: auto;
-        margin-inline-start: 0.5*$circle-size;
-    }
-
-    .p-stepper-content {
-        width: 100%;
-        padding-left: calc(0.5*$circle-size + 0.5*$padding-standard);
-        padding-top: 0.5*$padding-standard;
-        padding-bottom: 0.5*$padding-standard;
-    }
-
-}
 .p-stepper-panel:last-of-type .p-stepper-content {
     padding-left: calc($circle-size + 0.5*$padding-standard);
-    
-}
-
-.p-stepper-title {
-    margin-left: 0.5*$padding-standard;
-    color: $grey;
-    font-weight: 500;
-    transition: $transition-standard;
 }
 
 
@@ -68,27 +43,6 @@ $substep-circle-size: 20px;
         width: 100%;
         padding-right: 4*$padding-standard;
     }
-}
-
-
-
-.p-stepper-number {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    background: transparent;
-    width: $circle-size;
-    height: $circle-size;
-    min-width: $circle-size;
-    min-height: $circle-size;
-    color: $grey;
-    border: 2px solid $grey;
-    line-height: 2rem;
-    font-size: .8rem;
-    border-radius: 50%;
-    transition: $transition-standard;
-    font-weight: bold;
 }
 
 
@@ -130,4 +84,3 @@ $substep-circle-size: 20px;
 .substep-icon {
     font-weight: 900;
 }
-

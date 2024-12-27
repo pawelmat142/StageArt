@@ -1,6 +1,24 @@
 @import 'variables';
 
-.separation {
-    margin-bottom: 2*$padding-standard;
-    width: 100%;
+
+
+.steps {
+    display: flex;
+    justify-content: center;
+    gap: 0.5*$padding-standard;
+
+    .step {
+        flex-grow: 1;
+        max-width: 30px;
+        background-color: $primaryColor;
+        height: 8px;
+        border-radius: 4px;
+        background-color: $highlightBg;
+        transition: $transition-standard;
+        border: $border;
+
+        &.active {
+            background-color: $primaryColor;
+        }
+    }
 }

@@ -39,6 +39,7 @@ export const routes: Routes = [
         component: NotFoundPageComponent
     }, {
         path: '**',
-        component: NotFoundPageComponent,
+        // component: NotFoundPageComponent,
+        redirectTo: HomepageComponent.path
     },
 ];

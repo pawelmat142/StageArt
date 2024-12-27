@@ -21,6 +21,15 @@ export abstract class UnityTheme {
     // TXT
     public static readonly textColor = '#A9A9A9';
     public static readonly textSecondaryColor = this.primaryColorText;
+
+    // FORM
+    // public static readonly formBg = '#444444';
+    public static readonly formBg = '#555555';
+    public static readonly formColor = '#e0e0e0';
+    public static readonly formBorder = this.dark;
+    public static readonly formBorderActive = this.secondaryColor;
+    public static readonly formControlShadow = '#577483';
+
     public static readonly highlightTextColor = '';
     public static readonly fontFamily = '';
     public static readonly inlineSpacing = '';

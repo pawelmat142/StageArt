@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { ArtistCardComponent } from '../artist-card/artist-card.component';
 import { HeaderComponent } from '../../../global/components/header/header.component';
 import { Path } from '../../../global/nav/path';
@@ -20,7 +20,6 @@ import { ButtonModule } from 'primeng/button';
   ],
   templateUrl: './artists-view.component.html',
   styleUrl: './artists-view.component.scss',
-  encapsulation: ViewEncapsulation.None
 })
 export class ArtistsListViewComponent {
 

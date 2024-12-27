@@ -13,7 +13,6 @@
 
 .tile-header {
     @extend .baron;
-    @extend .primary;
     @extend .fs3;
 }
 
@@ -31,7 +30,15 @@
 }
 
 .card {
-    @extend .tile;
-    padding: 0;
+    background-color: $bgTwo;
+    color: $textColor;
     border-radius: $borderRadius;
+    
+    &.shadow {
+        box-shadow: $shadow-standard;
+    }
+    &.card-highlight {
+        background-color: $highlightBg;
+    }
 }
+

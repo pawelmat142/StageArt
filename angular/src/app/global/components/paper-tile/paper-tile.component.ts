@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, SimpleChanges, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, Input, SimpleChanges, ViewChild } from '@angular/core';
 import { SubstepComponent } from '../../../booking/view/booking-stepper/substep/substep.component';
 import { ChecklistTile } from '../../../booking/interface/checklist.interface';
 import { Menu, MenuModule } from 'primeng/menu';
@@ -28,7 +28,6 @@ import { Role } from '../../../profile/profile.model';
   ],
   templateUrl: './paper-tile.component.html',
   styleUrl: './paper-tile.component.scss',
-  encapsulation: ViewEncapsulation.None
 })
 export class PaperTileComponent {
 
@@ -122,8 +121,19 @@ export class PaperTileComponent {
 
   _toggle(event: Event) {
     this.menuRef?.toggle(event)
+    this.workaroundToAlignMenuPopup()
   }
 
+  private workaroundToAlignMenuPopup() {
+    const popupRef = this.menuRef?.el?.nativeElement?.querySelector('.p-menu')
+    if (popupRef instanceof HTMLElement) {
+      setTimeout(() => {
+        popupRef.style.right = '0'
+        popupRef.style.left = 'auto'
+        popupRef.style.top = '100%'
+      })
+    }
+  }
 
   private uploadFile(template: Template) {
     this.courtine.startCourtine()

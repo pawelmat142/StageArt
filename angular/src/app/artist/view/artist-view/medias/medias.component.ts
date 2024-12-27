@@ -4,13 +4,13 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../../../app.state';
 import { artistMedias, editMode, updateMedias } from '../artist-view.state';
 import { CommonModule } from '@angular/common';
-import { SelectorItemsComponent } from '../../../../global/controls/selector/selector-items/selector-items.component';
-import { SelectorItem } from '../../../../global/controls/selector/selector.component';
+import { SelectorItemsComponent } from '../../../../global/controls/selector-items/selector-items.component';
 import { ArtistMedia, ArtistMediaCode, ArtistMediasService } from '../../../artist-medias/artist-medias.service';
 import { Util } from '../../../../global/utils/util';
 import { Dialog, DialogData } from '../../../../global/nav/dialog.service';
 import { Validators } from '@angular/forms';
 import { noop, of, switchMap, take, tap } from 'rxjs';
+import { SelectorItem } from '../../../../global/interface';
 
 @Component({
   selector: 'app-medias',

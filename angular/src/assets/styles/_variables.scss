@@ -1,24 +1,23 @@
-@import 'color';
+@import 'color-theme';
+
+$tablet: 768px;
+$desktop: 1024px;
+$hugeScreen: 1280px;
 
 $scroll-width: 6px;
 
 $padding-standard: 16px;
+$desktop-margin: 7vw;
 
-$view-margin-1: 16px;
-$view-margin-2: 16px;
-$view-margin-3: calc($view-margin-1 + $view-margin-2);
+$view-padding-top: 100px;
+$view-padding-top-mobile: 100px;
 
-$header-margin: 200px;
+$avatarSize: var(--avatar-size);
+
+$header-height: 50px;
+
 
 $sidebar-width: 250px;
-$header-height: 80px;
-
-$avatar-size: var(--avatar-size);
-
-.section-margin {
-    margin-left: $view-margin-1;
-    margin-right: $view-margin-1;
-}
 
 $page-padding-big: 14vw;
 $radius: 3px;

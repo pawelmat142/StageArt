@@ -27,13 +27,12 @@
                 ></app-input>
             } 
             @if (data.select) {
-                <app-selector
-                    formControlName="control"
-                    [required]="true"
-                    [label]="data.select || 'select'"
-                    [items]="(data.items | async) || []"
-                    [allowWriteItem]="true"
-                ></app-selector>
+                <app-form-field [label]="data.select || 'select'">
+                    <app-dropdown 
+                        [items]="(data.items | async) || []" 
+                        formControlName="control">
+                    </app-dropdown>
+                </app-form-field>
             }
         </div>
 

@@ -5,13 +5,13 @@ import { AppState } from '../../../../app.state';
 import { CountryComponent } from '../../../../global/components/country/country.component';
 import { artistCountry, artistName, editMode, updateCountry, updateName } from '../artist-view.state';
 import { FormsModule } from '@angular/forms';
-import { SelectorItemsComponent } from '../../../../global/controls/selector/selector-items/selector-items.component';
-import { SelectorItem } from '../../../../global/controls/selector/selector.component';
+import { SelectorItemsComponent } from '../../../../global/controls/selector-items/selector-items.component';
 import { CountriesService } from '../../../../global/countries/countries.service';
 import { tap } from 'rxjs';
 import { StyleComponent } from '../style/style.component';
 import { DESKTOP } from '../../../../global/services/device';
 import { ArtistService } from '../../../artist.service';
+import { SelectorItem } from '../../../../global/interface';
 
 @Component({
   selector: 'app-name',

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { TextareaElementComponent } from '../../../controls/textarea-element/textarea-element.component';
 import { FeedbackService } from './feedback-service';
 import { take } from 'rxjs';

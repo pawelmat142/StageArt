@@ -1,8 +1,16 @@
-@import 'stepper';
+@import 'variables';
 
 .paper-tiles {
     display: grid;
     grid-template-columns: 1fr;
+}
 
-    gap: $padding-standard;
+.p-accordion .p-toggleable-content {
+    overflow: unset;
+}
+
+.p-stepper-panel.p-stepper-panel-active {
+    .p-stepper-toggleable-content {
+        overflow: unset;
+    }
 }

@@ -1,20 +1,38 @@
 @import 'variables';
-@import 'panel';
 
-.desktop {
-    .grid {
-        margin-top: 4*$padding-standard;
-        grid-template-columns: 25% 25% 25% 25%;
-        margin: $padding-standard 0.3*$padding-standard;
-    }
+
+.section-top {
+    margin: 0 0.5*$padding-standard;
 }
 
 .grid {
     display: grid;
-    grid-template-columns: 100%;
-
+    grid-template-columns: 1fr;
+    gap: $padding-standard;
     .grid-item {
+        margin: $padding-standard 0;
+    }
+}
+
+
+@media only screen and (min-width: $tablet) {
+    .grid {
+        margin-top: 2*$padding-standard;
+        grid-template-columns: 1fr 1fr 1fr;
         margin: $padding-standard 0.5*$padding-standard;
     }
+}
 
+@media only screen and (min-width: $desktop) {
+    .grid {
+        margin-top: 3*$padding-standard;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+}
+
+@media only screen and (min-width: $hugeScreen) {
+    .grid {
+        margin-top: 4*$padding-standard;
+        // grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    }
 }

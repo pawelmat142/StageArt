@@ -7,12 +7,14 @@
         </div>
 
         <div class="">
-            <div class="item-row panel-artist-item labels">
-                <p>Artist name</p>
-                <p>Status</p>
+            <div class="labels">
+                <div class="item-row panel-artist-item">
+                    <p>Artist name</p>
+                    <p>Status</p>
+                </div>
             </div>
 
-            <p-accordion class="w-full" expandIcon="pi pi-plus" collapseIcon="pi pi-minus">
+            <p-accordion class="w-full">
                 
                 @for (artist of _artists$ | async; track artist.signature; let last = $last) {
                     

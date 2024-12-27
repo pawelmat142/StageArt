@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { CarouselModule } from 'primeng/carousel';
 import { Store } from '@ngrx/store';
@@ -11,7 +11,6 @@ import { NavService } from '../../../nav/nav.service';
 import { DESKTOP } from '../../../services/device';
 import { Path } from '../../../nav/path';
 import { ButtonModule } from 'primeng/button';
-
 
 @Component({
   selector: 'app-artists-section',

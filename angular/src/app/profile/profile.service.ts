@@ -2,8 +2,8 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { HttpService } from "../global/services/http.service";
 import { Profile, ProfileDto } from "./profile.model";
-import { SelectorItem } from "../global/controls/selector/selector.component";
 import { ManagerData } from "./view/manager-form/manager-form.component";
+import { SelectorItem } from "../global/interface";
 
 export interface LoginToken {
     token: string

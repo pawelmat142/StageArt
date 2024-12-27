@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { ArtistService } from '../../artist.service';
 import { noop, Observable, Observer, of, tap } from 'rxjs';
 import { ArtistStatus, ArtistViewDto } from '../../model/artist-view.dto';
@@ -28,7 +28,6 @@ import { ButtonModule } from 'primeng/button';
 ],
   templateUrl: './panel-artists.component.html',
   styleUrl: './panel-artists.component.scss',
-  encapsulation: ViewEncapsulation.None
 })
 export class PanelArtistsComponent {
 

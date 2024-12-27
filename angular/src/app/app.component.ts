@@ -18,6 +18,7 @@ import { MessageService } from 'primeng/api';
 import { Dialog } from './global/nav/dialog.service';
 import { Path } from './global/nav/path';
 import { DefaultTheme } from './global/theme/default.theme';
+import { FooterComponent } from './global/components/footer/footer.component';
 
 // TODO
 export const OFFLINE_MODE = false
@@ -25,7 +26,7 @@ export const OFFLINE_MODE = false
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, ProgressSpinnerModule, ToastModule],
+  imports: [CommonModule, RouterOutlet, ProgressSpinnerModule, ToastModule, FooterComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   providers: [MessageService],
@@ -88,6 +89,7 @@ export class AppComponent {
   private initScssVariables() {
     const avatarSize = DESKTOP ? ImgSize.avatar.height : ImgSize.avatarMobile.height
     Theme.cssVar('avatar-size',`${avatarSize}px`)
+    Theme.cssVar('is-desktop', DESKTOP.toString())
     Theme.setTheme(DefaultTheme)
   }
 

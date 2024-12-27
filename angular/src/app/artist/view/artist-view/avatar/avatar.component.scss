@@ -1,5 +1,4 @@
 @import 'variables';
-@import 'color';
 
 .desktop {
     .avatar {
@@ -9,8 +8,8 @@
             right: 25%;
             left: unset;
         }
-        max-height: $avatar-size;
-        max-width: $avatar-size;
+        max-height: $avatarSize;
+        max-width: $avatarSize;
     }
 }
 

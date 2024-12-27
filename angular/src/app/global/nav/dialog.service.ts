@@ -4,8 +4,8 @@ import { Message } from "primeng/api";
 import { DialogService } from "primeng/dynamicdialog";
 import { PopupComponent } from "./dialogs/popup/popup.component";
 import { ValidatorFn } from "@angular/forms";
-import { SelectorItem } from "../controls/selector/selector.component";
 import { Chip } from "../../artist/model/artist-view.dto";
+import { SelectorItem } from "../interface";
 
 export interface DialogData {
     header: string

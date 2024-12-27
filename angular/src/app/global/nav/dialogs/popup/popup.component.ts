@@ -5,9 +5,10 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FormUtil } from '../../../utils/form.util';
 import { CommonModule } from '@angular/common';
 import { InputComponent } from '../../../controls/input/input.component';
-import { SelectorComponent } from '../../../controls/selector/selector.component';
 import { ButtonModule } from 'primeng/button';
 import { DialogBtn, DialogData } from '../../dialog.service';
+import { DropdownComponent } from '../../../controls/dropdown/dropdown.component';
+import { FormFieldComponent } from '../../../controls/form-field/form-field.component';
 
 @Component({
   selector: 'app-popup',
@@ -16,8 +17,10 @@ import { DialogBtn, DialogData } from '../../dialog.service';
     CommonModule,
     ReactiveFormsModule,
     InputComponent,
-    SelectorComponent,
     ButtonModule,
+
+    DropdownComponent,
+    FormFieldComponent,
   ],
   templateUrl: './popup.component.html',
   styleUrl: './popup.component.scss',

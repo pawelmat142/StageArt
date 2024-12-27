@@ -1,98 +1,56 @@
-<div class="form-page ">
-    
-    <form [formGroup]="form" class="form-container margin-bottom-2">
-        
-        <h1 class="dark margin-bottom-2 baron">Manager data</h1>
+<div class="form-page">
 
-        <div class="form-group">
-            <div class="control-margin">
-                <app-input
-                    formControlName="agencyName"
-                    label="Agency name"
-                    [required]="true"
-                ></app-input>
-            </div>
-    
-            <div class="control-margin">
-                <app-input
-                    formControlName="agencyCompanyName"
-                    label="Company name"
-                    [required]="true"
-                ></app-input>
-            </div>
-    
-            <div class="control-margin">
-                <app-input
-                    formControlName="nameOfBank"
-                    label="Name of bank"
-                    [required]="true"
-                ></app-input>
-            </div>
+    <form [formGroup]="form" class="form-wrapper" (ngSubmit)="_submit()">
 
-            <div class="control-margin">
-                <app-input
-                    formControlName="accountHolder"
-                    label="Account holder"
-                    [required]="true"
-                ></app-input>
-            </div>
+        <div class="form-title">Manager data</div>
 
-            <div class="control-margin">
-                <app-selector
-                    class="skip-aspect-ratio"
-                    formControlName="agencyCountry"
-                    label="Country"
-                    [required]="true"
-                    [items]="_countryItems"
-                ></app-selector>
-            </div>
-    
-            <div class="control-margin">
-                <app-input
-                    formControlName="accountAddress"
-                    label="Account holder address"
-                    [required]="true"
-                ></app-input>
-            </div>
-    
-            <div class="control-margin">
-                <app-input
-                    formControlName="accountNumber"
-                    label="Account number"
-                    [required]="true"
-                ></app-input>
-            </div>
-    
-            <div class="control-margin">
-                <app-input
-                    formControlName="accountSwift"
-                    label="SWIFT"
-                    [required]="true"
-                ></app-input>
-            </div>
-    
-            <div class="control-margin">
-                <app-input
-                    formControlName="agencyEmail"
-                    label="Manager email"
-                    [required]="true"
-                ></app-input>
-            </div>
-    
-            <div class="control-margin">
-                <app-input
-                    formControlName="agencyPhone"
-                    label="Manager phone number"
-                    [required]="true"
-                ></app-input>
-            </div>
+        <div class="form-grid">
+            <app-form-field label="Agency name">
+                <input type="text" pInputText formControlName="agencyName"/>
+            </app-form-field>
+
+            <app-form-field label="Company name">
+                <input type="text" pInputText formControlName="agencyCompanyName"/>
+            </app-form-field>
+
+            <app-form-field label="Name of bank">
+                <input type="text" pInputText formControlName="nameOfBank"/>
+            </app-form-field>
+
+            <app-form-field label="Account holder">
+                <input type="text" pInputText formControlName="accountHolder"/>
+            </app-form-field>
+            
+            <app-form-field label="Country">
+                <app-dropdown [items]="_countryItems" formControlName="agencyCountry"></app-dropdown>
+            </app-form-field>
+
+            <app-form-field label="Account holder address">
+                <input type="text" pInputText formControlName="accountAddress"/>
+            </app-form-field>
+
+            <app-form-field label="Account number">
+                <input type="text" pInputText formControlName="accountNumber"/>
+            </app-form-field>
+
+            <app-form-field label="SWIFT">
+                <input type="text" pInputText formControlName="accountSwift"/>
+            </app-form-field>
+
+            <app-form-field label="Manager email">
+                <input type="text" pInputText formControlName="agencyEmail"/>
+            </app-form-field>
+
+            <app-form-field label="Manager phone number">
+                <input type="text" pInputText formControlName="agencyPhone"/>
+            </app-form-field>
+
         </div>
 
-
-        <div class="btns center">
+        <div class="form-buttons">
             <p-button
+                class="form-button"
                 label="Submit"
-                (click)="_submit()"
                 severity="success"
                 type="submit"
                 [raised]="true">

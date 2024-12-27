@@ -2,22 +2,17 @@
 
 <div class="form-page">
 
-    <div class="form-container">
-
         @if (_nameOrEmailForm) {
-            <form [formGroup]="_nameOrEmailForm" (ngSubmit)="_submit()">
-                <div class="control-margin">
-                    <app-input
-                        formControlName="nameOrEmail"
-                        [required]="true"
-                        label="Name or email" 
-                    ></app-input>
-                </div>
-
-                <div class="btns">
+            <form [formGroup]="_nameOrEmailForm" class="form-wrapper" (ngSubmit)="_submit()">
+                
+                <app-form-field label="Name or email">
+                    <input type="text" pInputText formControlName="nameOrEmail"/>
+                </app-form-field>
+                
+                <div class="form-buttons">
                     <p-button
+                        type="submit"
                         label="Submit"
-                        (click)="_submit()"
                         severity="info"
                         [raised]="true">
                     </p-button>
@@ -25,38 +20,34 @@
             </form>
         } 
         @else {
-            <form [formGroup]="form" (ngSubmit)="_submit()">
+            <form [formGroup]="form" class="form-wrapper" (ngSubmit)="_submit()">
 
-                <div class="control-margin">
-                    <app-input
-                        formControlName="email"
-                        [required]="true"
-                        label="Email" 
-                    ></app-input>
-                </div>
-    
-                <div class="control-margin">
-                    <app-input
-                        formControlName="password"
-                        [required]="true"
-                        label="Password" 
-                        type="password"
-                    ></app-input>
+                <div class="form-grid column">
+                    <app-form-field label="Email">
+                        <input type="text" pInputText formControlName="email"/>
+                    </app-form-field>
+
+                    <app-form-field label="Password">
+                        <input type="password" pInputText formControlName="password"/>
+                    </app-form-field>
+
                 </div>
 
-                <div class="btns" [ngClass]="{ center: _nameOrEmailForm }">
+                <div class="form-buttons" [ngClass]="{ center: _nameOrEmailForm }">
                     @if (!_nameOrEmailForm) {
 
                         <p-button
                             label="Via Telegram"
                             (click)="_byTelegram()"
                             severity="info"
+                            size="small"
                             [raised]="true">
                         </p-button>
-
+                        
                         <p-button
                             label="Register"
                             (click)="_register()"
+                            size="small"
                             severity="help"
                             [raised]="true">
                         </p-button>
@@ -64,7 +55,7 @@
 
                     <p-button
                         label="Submit"
-                        (click)="_submit()"
+                        size="small"
                         severity="success"
                         type="submit"
                         [raised]="true">
@@ -75,5 +66,4 @@
         }
 
     
-    </div>
 </div>

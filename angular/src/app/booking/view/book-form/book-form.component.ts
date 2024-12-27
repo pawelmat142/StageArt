@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormProcessorComponent } from '../../../form-processor/form-processor/form-processor.component';
 import { selectFormId, submittedForm } from '../../../form-processor/form.state';
@@ -27,7 +27,6 @@ import { Path } from '../../../global/nav/path';
   ],
   templateUrl: './book-form.component.html',
   styleUrl: './book-form.component.scss',
-  encapsulation: ViewEncapsulation.None
 })
 export class BookFormComponent {
 

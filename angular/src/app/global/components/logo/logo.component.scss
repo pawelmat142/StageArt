@@ -1,5 +1,26 @@
-@import 'color';
+@import 'variables';
+
+.landing {
+    .logo {
+        height: 150px;
+    }
+}
+
+.header {
+    .logo {
+        padding: 0.2*$padding-standard;
+        height: $header-height;
+    }
+}
 
 .logo {
     display: flex;
+
+    svg {
+        aspect-ratio: 1;
+    }
+}
+
+.drop-color {
+    fill: $primaryColor;
 }

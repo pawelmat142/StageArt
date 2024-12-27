@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { EventDto } from '../../../../event/services/event.service';
 import { StatusPipe } from "../../../pipes/status.pipe";
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -15,9 +15,9 @@ import { ButtonModule } from 'primeng/button';
 ],
   templateUrl: './events-form-data.component.html',
   styleUrl: './events-form-data.component.scss',
-  encapsulation: ViewEncapsulation.None
 })
 export class EventsFormDataComponent {
+  // TODO sprawidzc
 
   constructor(
     private ref: DynamicDialogRef,

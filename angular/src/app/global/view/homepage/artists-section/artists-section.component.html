@@ -1,8 +1,8 @@
 <div class="section artists-section">
 
-    <div class="section-container">
+    <div class="section-container section-margin card card-highlight shadow">
 
-        <div class="section-top section-header-margin">
+        <div class="section-top">
             <div>
                 <h2 class="fs1 baron primary uppercase margin-bottom">Our Artists</h2>
                 <h2 class="fs3 baron text-color">Check them all!</h2>
@@ -20,7 +20,7 @@
         <ng-container *ngIf="artists$ | async as artists">
             <p-carousel class="p-carousel"
                 [value]="artists" 
-                [numVisible]="this.DESKTOP ? 3 : 1" 
+                [numVisible]="DESKTOP ? 3 : 1" 
                 [circular]="true" 
             >
                 <ng-template let-artist pTemplate="item">

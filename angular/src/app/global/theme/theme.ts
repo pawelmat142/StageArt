@@ -13,6 +13,7 @@ export abstract class Theme {
             Theme.cssVar(key, value)
         })
     }
+
     private static toKebabCase(camelCaseStr: string): string {
         return camelCaseStr
             .replace(/([a-z])([A-Z])/g, '$1-$2') // Handles camelCase
@@ -20,8 +21,13 @@ export abstract class Theme {
             .toLowerCase();
     }
 
-    // private static toKebabCase(camelCaseStr: string): string {
-    //     return camelCaseStr.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
-    // }
-    
+    public static getProperty(name: string): string {
+        const root = document.documentElement
+        const styles = getComputedStyle(root)
+        const value = styles.getPropertyValue(`--${this.toKebabCase(name)}`)
+        if (!value) {
+            throw new Error(`Not found css property ${name}`)
+        }
+        return value
+    }
 }

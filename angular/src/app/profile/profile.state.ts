@@ -204,9 +204,11 @@ export class ProfileEffect {
         switchMap(() => this.bookingService.fetchProfileBookings$()),
         // TODO remove
         tap(bookings => {
-            setTimeout(() => {
-                this.store.dispatch(selectBooking(bookings[0]))
-            },200)
+            if (bookings.length) {
+                setTimeout(() => {
+                    this.store.dispatch(selectBooking(bookings[0]))
+                },200)
+            }
         }),
         map(bookings => setBookings({ value: bookings })),
     ))

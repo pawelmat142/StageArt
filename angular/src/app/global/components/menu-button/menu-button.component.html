@@ -11,11 +11,11 @@
 
     <div class="menu-button-children">
 
-        <p-button *ngFor="let btn of menu.menuBtns$ | async"
+        <p-button *ngFor="let item of menu.menuBtns$ | async"
             class="menu-button-child primary-btn"
             [ngClass]="menuButtonOpen ? 'open' : ''"
-            (click)="menu.btnClick(btn)"
-            [label]="btn.label"
+            (click)="menu.command(item)"
+            [label]="item.label"
         ></p-button>
 
     </div>

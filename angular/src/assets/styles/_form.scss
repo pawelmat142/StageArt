@@ -1,285 +1,155 @@
-@import 'color';
 @import 'variables';
-@import 'variables-desc';
 @import 'font';
+@import 'form-variables';
 
-
-$form-shadow: 0px 0px 20px rgb(0 0 0 / 20%);
-
-$form-radius: $borderRadius;
-$input-radius: 12px;
-$input-border: 1px solid $borderColor;
-$form-transition: $transition-standard;
-$input-active-shadow: 0px 0px 8px $yellow;
-$input-error-shadow: 0px 0px 8px $primaryColor;
-
-$control-padding-y: 8px;
-$control-padding-y-desc: 12px;
-$control-padding-x: 15px;
-$control-padding: $control-padding-y $control-padding-x;
-
-$selector-item-height: 50px;
-$selector-img-height: 40px;
-
-.desktop {
-
-    .form-group {
-        grid-template-columns: 1fr 1fr;
-        column-gap: $padding-standard;
-    }
-
-    .form-page {
-        padding-top: $header-margin-desc;
-        padding-left: $page-padding-big;
-        padding-right: $page-padding-big;
-    }
-
-    .profile-view-content {
-        .form-page {
-            padding-left: 5vw;
-            padding-right: 5vw;
-        }
-    }
-
-    .form-container {
-        padding: 2*$padding-standard 3/2*$padding-standard;
-        
-        &.small {
-            width: 25vw;
-        }
-
-        .input-row {
-            & > * {
-                width: calc(50% - 0.5*$padding-standard);
-            }
-        }
-
-        .form-input {
-            padding: $control-padding-y-desc $control-padding-x;
-        }
-    }
-    .control-margin {
-        margin-bottom: 2*$padding-standard;
-    }
-}
-
-.form-group {
-    display: grid;
-    grid-template-columns: 1fr;
-
-    & > * {
-        width: 100%;
-    }
-}
+$control-width: 300px;
+$button-width: 150px;
+$control-width-max: 400px;
 
 .form-page {
-    width: 100%;
-
-    padding-left: $view-margin-1;
-    padding-right: $view-margin-1;
-    padding-top: 0.7*$header-margin;
-    padding-bottom: 4*$padding-standard;
+    margin-top: 2*$padding-standard;
+    display: flex;
 }
 
-textarea,
-input {
-    border: none;
-    background-color: initial;
-    outline: none;
-    margin: 0;
-    padding: 0;
+.form-wrapper {
+    background-color: $bgTwo;
+    border: 1px solid $surfaceBorder;
+    padding: 2rem;
+    margin-bottom: 2*$padding-standard;
+    border-radius: 12px;
+    color: $formColor;
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-textarea {
-    resize: none;
-    width: 100%;
-    box-sizing: border-box;
-}
-.textarea-wrapper {
-    width: 100%;
-}
-
-.edit-mode {
-    .textarea {
-        background-color: $bg;
-    }
-}
-
-.control-margin {
-    margin-bottom: $padding-standard;
-
-    &.max-300 {
-        margin-left: auto;
-        margin-right: auto;
-        max-width: 300px;
-    }
-}
-
-
-.form-container {
-    position: relative;
-    display: block;
-    background-color: $white;
-    padding: 2*$padding-standard $view-margin-1;
-    border-radius: $form-radius;
-    box-shadow: $form-shadow;
-
-    .input-row {
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        gap: $padding-standard;
-        & > * {
-            width: 100%;
-        }
-    }
-
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $padding-standard;
 }
 
 .form-header {
     display: flex;
     justify-content: space-between;
-    flex-wrap: wrap;
-    gap: $padding-standard;
 }
 
-
-.form-input:hover {
-    border-color: $yellow;
+.form-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 2*$padding-standard;
 }
 
-.active {
-    .form-input {
-        background-color: $yellowTransparent;
-        border-color: $yellow;
-        box-shadow: $input-active-shadow;
-    }
-
-    .form-button {
-        cursor: pointer;
-        border-color: $yellowDark;
-        background-color: $yellow;
-        box-shadow: $input-active-shadow;
-
-        .form-button-control {
-            cursor: pointer;
-        }
-    }
-}
-
-.form-input {
-
-    cursor: text;
-    border: $input-border;
-    border-radius: $input-radius;
-    transition: $form-transition;
-    background-color: $controlBg;
-    padding: $control-padding;
-    
-    box-shadow: 0 0 0 transparent;
-
-    &.active {
-        background-color: $yellowTransparent;
-        border-color: $yellow;
-        box-shadow: $input-active-shadow;
-    }
-
-    .form-input-label {
-        color: $labelColor;
-        font-size: 12.8px;
-        font-weight: 600;
-        margin: 0;
-    }   
-    
-    .form-input-wrapper {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-}
-
-.form-input-control {
-    padding: 0px;
-    font-weight: 500;
+.form-subtitle {
     font-size: 16px;
-    letter-spacing: 0;
-    color: $textColor;
-    font-family: $family;
-    background-color: #fff;
-    border-radius: $borderRadius;
-    padding: 0.5*$padding-standard $padding-standard;
+    font-weight: 500;
+    color: $primaryColor;
+    margin-bottom: $padding-standard;
 }
 
 
-// BUTTON
-.form-button {
-
-    width: 100%;
-    padding: $padding-standard 0;
-    
-    border-radius: $input-radius;
-    border: $input-border;
-    
-    text-align: center;
-    transition: $form-transition;
-
-    background-color: $yellowTransparent;
-    cursor: not-allowed;
-
-    &.active {
-        cursor: pointer;
-        border-color: $yellowDark;
-        background-color: $yellow;
-        box-shadow: $input-active-shadow;
-
-        .form-button-control {
-            cursor: pointer;
-        }
-
+.field-label {
+    margin-bottom: 0.3*$padding-standard;
+    padding-left: 0.75rem;
+    p {
+        font-size: 12px;
+        color: $primaryColor;
     }
 }
 
-.form-button-control {
-    border: none;
+.field-control {
+    min-width: $control-width;
+    max-width: $control-width-max;
 }
 
-.ng-invalid.ng-dirty.ng-touched > .form-input {
-    border-color: $primaryColor;
-    box-shadow: $input-error-shadow;
-}
-
-.pointer {
-    cursor: pointer;
-    input {
-        cursor: pointer;
-    }
-}
-
-*::placeholder,
-.placeholder {
-    @extend .form-input-control;
-    color: $placeholderColor!important;
-}
-
-.desktop {
-    .btns {
-        flex-direction: row;
-        gap: 2*$padding-standard;
-        justify-content: space-evenly;
-    }
-}
-
-.btns {
+.form-buttons {
     margin-top: 2*$padding-standard;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     gap: $padding-standard;
-    &.center {
-        justify-content: center;
-    }
 
-    &.btns-row {
-        flex-direction: row;
+    .form-button, .p-button {
+        min-width: $button-width;
     }
 }
 
+
+@media only screen and (min-width: $desktop) {
+    .form-grid {
+        grid-template-columns: max-content max-content;
+        gap: 2*$padding-standard;
+        &.column {
+            grid-template-columns: 1fr;
+
+            .field-control {
+                max-width: 100%;
+            }
+        }
+    }
+}
+
+
+.p-calendar,
+.p-dropdown,
+.p-inputtext {
+    background-color: $formBg;
+    display: flex;
+    color: $formColor;
+    width: 100%;
+    max-height: 46px;
+    border-color: $formBorder;
+    // overflow: hidden;
+}
+
+.p-dropdown-panel {
+    background-color: $formBg;
+    box-shadow: $shadow-standard;
+}
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item {
+    color: $formColor;
+}
+.p-dropdown .p-dropdown-trigger,
+.p-dropdown .p-dropdown-clear-icon {
+    color: $formColor;
+}
+.p-dropdown-panel .p-dropdown-header,
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item:not(.p-highlight):not(.p-disabled):hover,
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight {
+    background-color: $highlightBg;
+    color: $primaryColor;
+    border-color: $surfaceBorder;
+}
+.p-inputtext:enabled:focus,
+.p-inputtext:enabled:hover {
+    border-color: $formBorderActive;
+}
+.p-inputtext:enabled:focus {
+    box-shadow: 0 0 0 0.2rem $formControlShadow;
+}
+
+.item-template {
+    display: flex;
+    align-items: center;
+    gap: 0.5*$padding-standard;
+}
+.item-image {
+    max-height: 25px;
+    &.item-image-border {
+        border: 1px solid $surfaceBorder;
+        border-radius: 3px;
+    }
+}
+.p-dropdown-filter-container {
+    height: 50px;
+}
+.p-dropdown-filter-icon {
+    margin-top: -10px;
+}
+
+
+
+
+.separation {
+    margin-bottom: 2*$padding-standard;
+    width: 100%;
+}

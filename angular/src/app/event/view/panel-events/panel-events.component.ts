@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { EventDto, EventService } from '../../services/event.service';
 import { AppState } from '../../../app.state';
 import { Store } from '@ngrx/store';
@@ -17,7 +17,6 @@ import { tap } from 'rxjs';
 ],
   templateUrl: './panel-events.component.html',
   styleUrl: './panel-events.component.scss',
-  encapsulation: ViewEncapsulation.None
 })
 export class PanelEventsComponent {
 
