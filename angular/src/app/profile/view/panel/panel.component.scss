@@ -1,12 +1,7 @@
 @import 'variables';
 
-.panel {
-    padding-top: $header-height;
-    display: flex;
-    min-height: 100vh;
-}
-
-@media only screen and (min-width: $desktop) {
+:host {
+    flex: 1;
 }
 
 .spinner-wrapper  {

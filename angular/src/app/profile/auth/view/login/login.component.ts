@@ -28,7 +28,8 @@ import { InputTextModule } from 'primeng/inputtext';
     InputTextModule,
     ButtonModule,
 ],
-  templateUrl: './login.component.html'
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.scss',
 })
 export class LoginComponent {
 

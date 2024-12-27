@@ -25,7 +25,7 @@ export type PanelView  = 'NONE' | 'BOOKINGS' | 'MANAGER_ARTISTS' | 'MANAGER_DATA
     PanelArtistsComponent,
     PanelEventsComponent,
     ManagerFormComponent,
-    SidebarModule 
+    SidebarModule
 ],
   templateUrl: './panel.component.html',
   styleUrl: './panel.component.scss',

@@ -124,16 +124,7 @@ export class PaperTileComponent {
     this.workaroundToAlignMenuPopup()
   }
 
-  private workaroundToAlignMenuPopup() {
-    const popupRef = this.menuRef?.el?.nativeElement?.querySelector('.p-menu')
-    if (popupRef instanceof HTMLElement) {
-      setTimeout(() => {
-        popupRef.style.right = '0'
-        popupRef.style.left = 'auto'
-        popupRef.style.top = '100%'
-      })
-    }
-  }
+
 
   private uploadFile(template: Template) {
     this.courtine.startCourtine()
@@ -185,5 +176,15 @@ export class PaperTileComponent {
     return BookingUtil.bookingRoles(this.booking, this.uid).includes(role)
   }
 
+  private workaroundToAlignMenuPopup() {
+    const popupRef = this.menuRef?.el?.nativeElement?.querySelector('.p-menu')
+    if (popupRef instanceof HTMLElement) {
+      setTimeout(() => {
+        popupRef.style.right = '0'
+        popupRef.style.left = 'auto'
+        popupRef.style.top = '100%'
+      })
+    }
+  }
 
 }

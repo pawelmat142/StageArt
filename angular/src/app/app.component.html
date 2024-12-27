@@ -1,17 +1,21 @@
 
 <div class="view">
-    <router-outlet></router-outlet>
+
+    <div class="view-main">
+        <router-outlet></router-outlet>
+    </div>
     
     <app-footer></app-footer>
 
     @if (courtine$ | async) {
         <div class="courtine">
             <p-progressSpinner 
-                styleClass="w-4rem h-4rem" 
-                strokeWidth="8" 
-                animationDuration=".5s" />
+            styleClass="w-4rem h-4rem" 
+            strokeWidth="8" 
+            animationDuration=".5s" />
         </div>
     }
+
 </div>
 
 

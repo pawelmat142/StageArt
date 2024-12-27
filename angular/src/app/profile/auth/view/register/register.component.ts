@@ -52,6 +52,7 @@ function password(): ValidatorFn {
     DropdownComponent
 ],
   templateUrl: './register.component.html',
+  styleUrl: './register.component.scss',
 })
 export class RegisterComponent {
 

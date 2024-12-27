@@ -1,5 +1,9 @@
 @import 'variables';
 
+:host {
+    flex: 1;
+}
+
 $view-padding: 4*$padding-standard;
 
 .edit-toggle-container {

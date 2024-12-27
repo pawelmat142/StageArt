@@ -3,9 +3,8 @@
 .panel {
     padding-top: $header-height;
     display: flex;
-    min-height: 100vh;
+    height: 100%;
 }
-
 
 .panel-section {
     padding: 0;

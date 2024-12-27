@@ -1,5 +1,9 @@
 @import 'variables';
 
+:host {
+    flex: 1;
+}
+
 .landing {
     width: 100%;
     padding-top: 100px;
