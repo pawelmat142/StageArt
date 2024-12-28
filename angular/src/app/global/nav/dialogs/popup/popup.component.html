@@ -20,11 +20,9 @@
     <form [formGroup]="form" (ngSubmit)="_submit()">
         <div class="control-margin" [ngClass]="data.inputClass">
             @if (data.input) {
-                <app-input
-                    formControlName="control"
-                    [required]="true"
-                    [label]="data.input || 'input'" 
-                ></app-input>
+                <app-form-field [label]="'*' + (data.input || 'input')">
+                    <input type="text" pInputText formControlName="control" required/>
+                </app-form-field>
             } 
             @if (data.select) {
                 <app-form-field [label]="data.select || 'select'">

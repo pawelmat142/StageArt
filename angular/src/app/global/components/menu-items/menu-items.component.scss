@@ -17,7 +17,7 @@ ul, li {
 .menu-item {
     padding: $item-padding;
     display: flex;
-    border-radius: 6px;
+    border-radius: $radius-control;
 
     &.column {
         flex-direction: column;

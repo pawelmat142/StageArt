@@ -5,7 +5,6 @@ import { Store } from '@ngrx/store';
 import { CommonModule } from '@angular/common';
 import { StatusPipe } from "../../../global/pipes/status.pipe";
 import { AccordionModule } from 'primeng/accordion';
-import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-panel-events',
@@ -26,8 +25,6 @@ export class PanelEventsComponent {
   ) {}
 
   _events$ = this.eventService.fetchPromoterEvents$()
-  // TODO remove
-  .pipe(tap(console.log))
 
   _selectEvent(index: number | number[]) {
     console.log(`TODO: select event index: ${index}`)

@@ -6,29 +6,29 @@
         
         <div class="form-grid" >
 
-            <app-form-field label="Manager" *ngIf="_managerItems$ | async as items">
+            <app-form-field label="*Manager" *ngIf="_managerItems$ | async as items">
                 <app-dropdown [items]="items" formControlName="manager"></app-dropdown>
             </app-form-field>
 
-            <app-form-field label="Artist name">
+            <app-form-field label="*Artist name">
                 <input type="text" pInputText formControlName="artistName"/>
             </app-form-field>
 
-            <div class="form-subtitle">Contact data for your manager</div>
+            <div class="form-subtitle double-size">Contact data for your manager</div>
 
-            <app-form-field label="First name">
+            <app-form-field label="*First name">
                 <input type="text" pInputText formControlName="firstName"/>
             </app-form-field>
 
-            <app-form-field label="Last name">
+            <app-form-field label="*Last name">
                 <input type="text" pInputText formControlName="lastName"/>
             </app-form-field>
 
-            <app-form-field label="Phone number">
+            <app-form-field label="*Phone number">
                 <input type="text" pInputText formControlName="phoneNumber"/>
             </app-form-field>
 
-            <app-form-field label="Email">
+            <app-form-field label="*Email">
                 <input type="text" pInputText formControlName="email"/>
             </app-form-field>
 
@@ -37,7 +37,7 @@
         <div class="form-buttons">
             <p-button
                 label="Submit"
-                severity="success"
+                severity="primary"
                 type="submit"
                 size="small"
                 [raised]="true">

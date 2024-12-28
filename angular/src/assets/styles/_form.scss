@@ -7,20 +7,25 @@ $button-width: 150px;
 $control-width-max: 400px;
 
 .form-page {
+    margin-left: $padding-standard;
+    margin-right: $padding-standard;
     margin-top: 2*$padding-standard;
+    height: 100%;
     display: flex;
+    align-items: center;
 }
 
 .form-wrapper {
     background-color: $bgTwo;
     border: 1px solid $surfaceBorder;
-    padding: 2rem;
+    padding: 1rem;
     margin-bottom: 2*$padding-standard;
     border-radius: 12px;
     color: $formColor;
     display: inline-block;
     margin-left: auto;
     margin-right: auto;
+    width: 100%;
 }
 
 .form-grid {
@@ -44,6 +49,7 @@ $control-width-max: 400px;
     font-size: 16px;
     font-weight: 500;
     color: $primaryColor;
+    margin-top: $padding-standard;
     margin-bottom: $padding-standard;
 }
 
@@ -59,7 +65,8 @@ $control-width-max: 400px;
 
 .field-control {
     min-width: $control-width;
-    max-width: $control-width-max;
+    width: 100%;
+    // max-width: $control-width-max;
 }
 
 .form-buttons {
@@ -68,16 +75,14 @@ $control-width-max: 400px;
     justify-content: center;
     gap: $padding-standard;
 
-    .form-button, .p-button {
-        min-width: $button-width;
-    }
 }
 
 
 @media only screen and (min-width: $desktop) {
     .form-grid {
         grid-template-columns: max-content max-content;
-        gap: 2*$padding-standard;
+        gap: $padding-standard;
+        column-gap: 2*$padding-standard;
         &.column {
             grid-template-columns: 1fr;
 
@@ -86,19 +91,61 @@ $control-width-max: 400px;
             }
         }
     }
+
+    .form-buttons {
+        .form-button, .p-button {
+            min-width: $button-width;
+        }
+    }
+
+    .double-size {
+        grid-column: span 2;
+    }
+
+    .form-wrapper {
+        padding: 2rem;
+        width: unset;
+    }
+    
 }
 
 
-.p-calendar,
-.p-dropdown,
-.p-inputtext {
+.p-dropdown {
     background-color: $formBg;
     display: flex;
     color: $formColor;
-    width: 100%;
     max-height: 46px;
-    border-color: $formBorder;
-    // overflow: hidden;
+    border: $formBorder;
+}
+
+.p-dropdown,
+.p-inputtext,
+.p-calendar {
+    width: 100%;
+}
+
+.form-grid textarea {
+    @extend .p-inputtext;
+    border: $formBorder;
+    border-radius: $radius-control;
+}
+
+.p-inputtext {
+    background-color: $formBg;
+    color: $formColor;
+    &.p-component {
+        border: $formBorder;
+    }
+}
+
+app-dropdown.ng-dirty.ng-invalid .p-component,
+.p-element.ng-dirty.ng-invalid input,
+.p-inputtext.ng-dirty.ng-invalid {
+    border-color: #e24c4c;
+}
+
+::placeholder {
+    color: $formColor;
 }
 
 .p-dropdown-panel {

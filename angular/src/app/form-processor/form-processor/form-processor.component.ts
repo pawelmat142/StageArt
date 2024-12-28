@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { ControlContainer, FormArray, FormBuilder, FormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
-import { ControlComponent } from '../control/control.component';
 import { GroupComponent } from '../group/group.component';
 import { ArrayComponent } from "../array/array.component";
 import { pForm, pFormArray, pFormStep } from '../form-processor.service';
@@ -19,7 +18,6 @@ import { ButtonModule } from 'primeng/button';
   imports: [
     ReactiveFormsModule,
     CommonModule,
-    ControlComponent,
     GroupComponent,
     ArrayComponent,
     ButtonModule
@@ -58,7 +56,6 @@ export class FormProcessorComponent {
   formData?: any
 
   ngOnInit(): void {
-    
     this.subscriptions.push(this.store.select(formData).pipe(
       tap(formData => this.formData = formData),
       skip(1),

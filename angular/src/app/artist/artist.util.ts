@@ -22,8 +22,6 @@ export abstract class ArtistUtil {
         const url = DESKTOP 
             ? images.avatar?.avatar?.url
             : images.avatar?.avatarMobile?.url 
-            // TODO temporary:
-            || images.avatar?.avatar?.url
 
         return url || ''
     }

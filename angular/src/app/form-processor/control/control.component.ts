@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, SimpleChanges } from '@angular/core';
+import { Component, HostBinding, Input, SimpleChanges } from '@angular/core';
 import { ControlContainer, FormGroupDirective, ReactiveFormsModule, Validators } from '@angular/forms';
 import { pFormControl } from '../form-processor.service';
 import { Observable, of } from 'rxjs';
 import { FormUtil } from '../../global/utils/form.util';
-import { TextareaElementComponent } from '../../global/controls/textarea-element/textarea-element.component';
 import { TextareaComponent } from '../../global/controls/textarea/textarea.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { CalendarModule } from 'primeng/calendar';
@@ -24,9 +23,7 @@ import { SelectorItem } from '../../global/interface';
     DropdownComponent,
     FormFieldComponent,
 
-// TODO remove
     TextareaComponent,
-    TextareaElementComponent,
   ],
   viewProviders: [
     {
@@ -43,15 +40,22 @@ export class ControlComponent {
 
   @Input() control!: pFormControl
 
+  @HostBinding('class.double-size') doubleSize = false 
+
   _formControlName?: string
 
   _selectorItems$: Observable<SelectorItem[]> = of([])
 
   _required = false
 
+  _label = ''
+
   ngOnChanges(changes: SimpleChanges): void {
     this._required = this.control?.validators?.includes(Validators.required) || false
-
+    this._label = this.control.name
+    if (this._required) {
+      this._label = `*${this._label}`
+    }
     if (this.control.type === 'selector') {
       if (!this.control.selectorItems$) {
         throw new Error(`Missing selector items`)
@@ -61,6 +65,7 @@ export class ControlComponent {
 
     this._formControlName = FormUtil.toCamelCase(this.control?.name)
 
+    this.doubleSize = this.control?.type === 'textarea'
   }
 
 }

@@ -207,7 +207,7 @@ export class ProfileEffect {
             if (bookings.length) {
                 setTimeout(() => {
                     this.store.dispatch(selectBooking(bookings[0]))
-                },200)
+                }, 200)
             }
         }),
         map(bookings => setBookings({ value: bookings })),

@@ -47,7 +47,7 @@ export class FeedbackComponent {
       next: () => {
         this.value = ''
         this.courtine.stopCourtine()
-        this.dialog.simplePopup(`Thanks! It's so helpful.`)
+        this.dialog.simplePopup(`Thanks! It's realy helpful :)`)
       },
       error: error => {
         this.courtine.stopCourtine()

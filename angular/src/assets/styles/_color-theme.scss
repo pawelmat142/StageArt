@@ -23,9 +23,11 @@ $borderRadius3: calc(2 * #{$borderRadius});
 
 $surfaceBorder: var(--surface-border);
 $border: 1px solid $surfaceBorder;
+$stepBorder: var(--step-border);
 
 $formBg: var(--form-bg);
 $formColor: var(--form-color);
+$formBorderColor: var(--form-border-color);
 $formBorder: var(--form-border);
 $formBorderActive: var(--form-border-active);
 $formControlShadow: var(--form-control-shadow);

@@ -17,8 +17,6 @@ import { ButtonModule } from 'primeng/button';
   styleUrl: './events-form-data.component.scss',
 })
 export class EventsFormDataComponent {
-  // TODO sprawidzc
-
   constructor(
     private ref: DynamicDialogRef,
     private config: DynamicDialogConfig<EventDto[]>

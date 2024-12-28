@@ -4,11 +4,11 @@ import { Chip } from '../../../../artist/model/artist-view.dto';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FormUtil } from '../../../utils/form.util';
 import { CommonModule } from '@angular/common';
-import { InputComponent } from '../../../controls/input/input.component';
 import { ButtonModule } from 'primeng/button';
 import { DialogBtn, DialogData } from '../../dialog.service';
 import { DropdownComponent } from '../../../controls/dropdown/dropdown.component';
 import { FormFieldComponent } from '../../../controls/form-field/form-field.component';
+import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
   selector: 'app-popup',
@@ -16,8 +16,8 @@ import { FormFieldComponent } from '../../../controls/form-field/form-field.comp
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    InputComponent,
     ButtonModule,
+    InputTextModule,
 
     DropdownComponent,
     FormFieldComponent,

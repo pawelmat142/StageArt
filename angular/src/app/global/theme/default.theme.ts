@@ -25,7 +25,8 @@ export abstract class DefaultTheme {
     // FORM
     public static readonly formBg = this.bgTwo;
     public static readonly formColor = this.textSecondaryColor;
-    public static readonly formBorder = '#d1d5db';
+    public static readonly formBorderColor = '#d1d5db';
+    public static readonly formBorder = `1px solid ${this.formBorderColor}`;
     public static readonly formBorderActive = '#3B82F6';
     public static readonly formControlShadow = '#BFDBFE';
 
@@ -35,6 +36,7 @@ export abstract class DefaultTheme {
 
     public static readonly borderRadius = '';
     public static readonly surfaceBorder = '#e2e8f0';
+    public static readonly stepBorder = `1px solid ${this.surfaceBorder}`; //book form stepper 
 
     public static readonly input = '#e2e8f0';
 

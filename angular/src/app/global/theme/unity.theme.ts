@@ -26,7 +26,8 @@ export abstract class UnityTheme {
     // public static readonly formBg = '#444444';
     public static readonly formBg = '#555555';
     public static readonly formColor = '#e0e0e0';
-    public static readonly formBorder = this.dark;
+    public static readonly formBorderColor = this.dark;
+    public static readonly formBorder = `unset`;
     public static readonly formBorderActive = this.secondaryColor;
     public static readonly formControlShadow = '#577483';
 
@@ -36,6 +37,7 @@ export abstract class UnityTheme {
 
     public static readonly borderRadius = '';
     public static readonly surfaceBorder = this.dark;
+    public static readonly stepBorder = `unset`; //book form stepper 
 
     public static readonly grey = "#577483";
     public static readonly white = "#fff";
