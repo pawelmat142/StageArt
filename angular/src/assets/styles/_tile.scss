@@ -1,6 +1,5 @@
 @import 'variables';
 @import 'font';
-@import 'chip';
 
 .tile {
     overflow: hidden;
@@ -14,6 +13,7 @@
 .tile-header {
     @extend .baron;
     @extend .fs3;
+    color: $primaryColor;
 }
 
 .tile-content {

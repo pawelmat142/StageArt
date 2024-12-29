@@ -80,8 +80,7 @@ export class MenuService {
 
     private defaultTheme = true
 
-
-    private readonly test: MenuButtonItem  = {
+    private readonly test: MenuButtonItem = {
         label: 'theme',
         command: () => {
             this.defaultTheme = !this.defaultTheme

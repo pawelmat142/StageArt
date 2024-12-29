@@ -1,16 +1,16 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { MediaItemComponent } from '../../../../global/components/media-item/media-item.component';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../../app.state';
 import { artistMedias, editMode, updateMedias } from '../artist-view.state';
 import { CommonModule } from '@angular/common';
-import { SelectorItemsComponent } from '../../../../global/controls/selector-items/selector-items.component';
 import { ArtistMedia, ArtistMediaCode, ArtistMediasService } from '../../../artist-medias/artist-medias.service';
 import { Util } from '../../../../global/utils/util';
 import { Dialog, DialogData } from '../../../../global/nav/dialog.service';
 import { Validators } from '@angular/forms';
 import { noop, of, switchMap, take, tap } from 'rxjs';
 import { SelectorItem } from '../../../../global/interface';
+import { DropdownComponent } from '../../../../global/controls/dropdown/dropdown.component';
 
 @Component({
   selector: 'app-medias',
@@ -18,11 +18,10 @@ import { SelectorItem } from '../../../../global/interface';
   imports: [
     CommonModule,
     MediaItemComponent,
-    SelectorItemsComponent,
+    DropdownComponent
   ],
   templateUrl: './medias.component.html',
-  styleUrl: './medias.component.scss',
-  encapsulation: ViewEncapsulation.None
+  styleUrl: './medias.component.scss'
 })
 export class MediasComponent {
 

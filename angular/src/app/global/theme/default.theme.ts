@@ -1,15 +1,12 @@
 export abstract class DefaultTheme {
 
-
-
     public static readonly primaryColor = '';
     public static readonly primary600 = '';
     public static readonly primaryHover = '#2563eb';
     public static readonly secondaryColor = '#fff';
 
     public static readonly primaryColorText = ''; // bg
-    
-    
+
     public static readonly highlightBg = '';
 
     public static readonly bgTwo = '#fff';
@@ -57,4 +54,8 @@ export abstract class DefaultTheme {
     public static readonly borderColor = "#d3d3d3";
 
     public static readonly placeholderColor = "#757575";
+
+    public static readonly chipColor = this.formControlShadow;
+
+    public static readonly editButtonColor = this.yellow;
 }

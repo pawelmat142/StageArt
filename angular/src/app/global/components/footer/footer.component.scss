@@ -1,5 +1,9 @@
 @import 'variables';
 
+:host {
+    position: relative;
+}
+
 .app-footer {
     background-color: $primaryColor;
     color: $primaryColorText;

@@ -1,17 +1,70 @@
 @import 'variables';
 @import 'font';
 
-.desktop {
+.name {
+    display: grid;
+    grid-template-rows: 1fr 2fr 1fr;
+
+    height: 100%;
+
+    .name-and-country {
+        align-self: center;
+    }
+
+    .artist-name {
+        position: relative;
+        input {
+            text-shadow: 1px 1px 3px #000;
+            width: 100%;
+            background-color: transparent;
+            border: unset;
+        }
+    }
+
+    .artist-country {
+        display: flex;
+        position: relative;
+    }
+
+    input.edit-mode {
+        background-color: $bg;
+    }
+
+    .edit-button.edit-name {
+        top: -33px;
+        right: 8px;
+    }
+
+    .edit-button.edit-country {
+        top: 30px;
+        right: unset;
+        left: 0;
+    }
+
+    h1.edit-mode {
+        background-color: $inputBg;
+    }
+
+
+    .country-container {
+        .icon-button {
+            img {
+                max-height: 18px;
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: $desktop) {
     .name {
         .edit-button.edit-name {
-            top: -25px;
+            top: -40px;
             right: unset;
             left: 0;
         }
         .edit-button.edit-country {
-            top: 120px;
-            right: unset;
-            left: 40px;
+            position: unset;
+            margin-left: $padding-standard;
         }
 
         .artist-name {
@@ -28,60 +81,5 @@
             margin-bottom: 0.5*$padding-standard;
         }
     }
-}
 
-.name {
-    display: grid;
-    grid-template-rows: 1fr 2fr 1fr;
-
-    height: 100%;
-
-    .name-and-country {
-        align-self: center;
-    }
-
-    .artist-name {
-        position: relative;
-        input {
-            text-shadow: 1px 1px 3px #000;
-            width: 100%;
-        }
-    }
-
-    input.edit-mode {
-        background-color: $bg;
-    }
-
-    .edit-button.edit-name {
-        top: -33px;
-        right: 8px;
-    }
-
-    .edit-button.edit-country {
-        top: 73px;
-        right: 0px;
-    }
-
-    h1.edit-mode {
-        background-color: $inputBg;
-    }
-
-    .country-txt {
-        @extend .fs5;
-        color: $white;
-        text-shadow: $shadow-standard;
-    }
-
-    .country-container {
-        .icon-button {
-            img {
-                max-height: 18px;
-            }
-        }
-    }
-
-    .floating .selector-items {
-        right: 0;
-        left: unset;
-    }
 }

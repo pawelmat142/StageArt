@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { IconButtonComponent } from '../icon-button/icon-button.component';
 import { ArtistMedia } from '../../../artist/artist-medias/artist-medias.service';
 import { Util } from '../../../global/utils/util';

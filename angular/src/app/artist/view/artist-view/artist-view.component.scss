@@ -21,45 +21,6 @@ $view-padding: 4*$padding-standard;
     box-shadow: $shadow-standard;
 }
 
-.desktop {
-
-    .edit-toggle-container {
-        position: fixed;
-        top: 30%;
-    }
-
-    .image-bg-item {
-        max-height: 100vh;
-    }
-
-    .view-content {
-        .grid-container {
-            &.one {
-                row-gap: 0; 
-                grid-template-columns: $avatarSize 2fr 1fr;
-                margin-bottom: $padding-standard;
-                margin-bottom: 4*$padding-standard;
-            }
-            grid-template-columns: 2fr 1fr;
-            column-gap: 2*$padding-standard;
-            row-gap: $padding-standard;
-
-            &.two {
-                margin-bottom: 4*$padding-standard;
-    
-                .tiles-column {
-                    gap: 2*$padding-standard;
-
-                    &.right-on-desktop {
-                        order: 2;
-                    }
-                }
-            }
-        }
-
-    }
-
-}
 
 .image-bg {
     height: 100%;
@@ -118,23 +79,51 @@ $view-padding: 4*$padding-standard;
     justify-content: flex-end;
 }
 
-.edit-button {
-    color: $highlightBg;
-    padding: 0.2*$padding-standard 0.5*$padding-standard;
-    border-radius: $radius;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: $white;
-    border: 1px solid $highlightBg;
-    z-index: 5;
+@media only screen and (min-width: $desktop) {
 
-    position: absolute;
-    top: 0;
-    right: 0;
-    &.inline {
-        position: unset;
-        margin: 0 $padding-standard;
+    .edit-toggle-container {
+        position: fixed;
+        top: 30%;
+    }
+
+    .image-bg-item {
+        max-height: 100vh;
+    }
+
+    .view-content {
+        .grid-container {
+            max-width: $hugeScreen;
+            margin: 0 auto;
+            &.one {
+                row-gap: 0; 
+                grid-template-columns: $avatarSizeDesktop 2fr 1fr;
+                margin-bottom: $padding-standard;
+                margin-bottom: 4*$padding-standard;
+            }
+            grid-template-columns: 2fr 1fr;
+            column-gap: 3*$padding-standard;
+            row-gap: $padding-standard;
+
+            &.two {
+                margin-bottom: 4*$padding-standard;
+    
+                .tiles-column {
+                    gap: 2*$padding-standard;
+
+                    &.right-on-desktop {
+                        order: 2;
+                    }
+                }
+            }
+        }
+
     }
 }
 
+@media only screen and (min-width: $maxScreen) {
+    .view-content {
+        .grid-container {
+            max-width: $maxScreen;
+        }
+    }
+}

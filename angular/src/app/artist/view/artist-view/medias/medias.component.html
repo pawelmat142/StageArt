@@ -1,18 +1,12 @@
 <div class="tile medias">
 
     @if (_editMode$ | async) {
-        
-        <div class="edit-button" (click)="editMedias()">
-            <span class="dark">add link</span>
-        </div>
-        
-        <app-selector-items
-            [class.active]="_editMedias"
-            class="floating"
+
+        <app-dropdown 
+            class="floating edit-media edit-button" 
             [items]="_items"
-            [chachedImg]="true"
             (select)="_selectMedia($event)"
-        ></app-selector-items>
+        ></app-dropdown>
     }
 
     <p class="tile-header">Medias</p>
@@ -21,7 +15,6 @@
         @for (media of _medias$ | async; track media.url) {
     
             <app-media-item [media]="media"
-                class="margin-bottom"
             ></app-media-item>
         }
     </div>

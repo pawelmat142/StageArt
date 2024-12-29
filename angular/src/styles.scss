@@ -3,6 +3,8 @@
 @import 'variables';
 @import 'scrollbar';
 @import 'font';
+@import 'artist-view';
+@import 'chip';
 @import 'primeng-override';
 @import 'utils';
 @import 'form';
@@ -107,6 +109,7 @@ textarea {
     width: 100%;
     box-sizing: border-box;
     padding: 0.5*$padding-standard;
+    color: $textColor;
 }
 
 .textarea-wrapper {

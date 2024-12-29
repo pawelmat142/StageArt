@@ -17,8 +17,8 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { Dialog } from './global/nav/dialog.service';
 import { Path } from './global/nav/path';
-import { DefaultTheme } from './global/theme/default.theme';
 import { FooterComponent } from './global/components/footer/footer.component';
+import { UnityTheme } from './global/theme/unity.theme';
 
 // TODO
 export const OFFLINE_MODE = false
@@ -33,8 +33,6 @@ export const OFFLINE_MODE = false
 })
 export class AppComponent {
   
-  readonly DESKTOP = DESKTOP
-
   title = 'book-agency';
 
   constructor(
@@ -52,10 +50,6 @@ export class AppComponent {
   )
 
   ngOnInit() {
-    if (DESKTOP) {
-      this.renderer.addClass(document.body, 'desktop')
-    }
-
     this.autoLogin()
     this.initScssVariables()
 
@@ -87,10 +81,12 @@ export class AppComponent {
   }
 
   private initScssVariables() {
-    const avatarSize = DESKTOP ? ImgSize.avatar.height : ImgSize.avatarMobile.height
-    Theme.cssVar('avatar-size',`${avatarSize}px`)
+    Theme.cssVar('avatar-size',`${ImgSize.avatarMobile.height}px`)
+    Theme.cssVar('avatar-size-desktop',`${ImgSize.avatar.height}px`)
     Theme.cssVar('is-desktop', DESKTOP.toString())
-    Theme.setTheme(DefaultTheme)
+    Theme.setTheme(UnityTheme)
+    // TODO
+    // Theme.setTheme(DefaultTheme)
   }
 
 }

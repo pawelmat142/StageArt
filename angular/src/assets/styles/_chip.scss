@@ -2,7 +2,7 @@
 
 .chip {
     padding: 1px 6px;
-    background-color: $secondaryColor;
+    background-color: $chipColor;
     color: #000;
     border-radius: $radius;
     // box-shadow: 1px 1px 3px $highlightBg;
@@ -29,7 +29,7 @@
     }
 
     &.grey-chip {
-        background-color: $white;
+        background-color: $editButtonColor;
     }
 
     &.big {
@@ -46,5 +46,5 @@
 }
 
 .chip-label {
-    margin-bottom: $padding-standard;
+    margin-bottom: 0.5*$padding-standard;
 }

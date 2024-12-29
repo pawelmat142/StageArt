@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../../app.state';
 import { artist, artistTempBgImage, editMode } from '../artist-view.state';
@@ -16,7 +16,6 @@ import { ImgUtil } from '../../../../global/utils/img.util';
   ],
   templateUrl: './background.component.html',
   styleUrl: './background.component.scss',
-  encapsulation: ViewEncapsulation.None
 })
 export class BackgroundComponent {
 

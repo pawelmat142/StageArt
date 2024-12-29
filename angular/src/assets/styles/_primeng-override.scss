@@ -21,6 +21,12 @@
 
 .p-dialog {
     max-width: 85%;
+    .p-dialog-footer,
+    .p-dialog-content,
+    .p-dialog-header {
+        background-color: $bg;
+        color: $textColor;
+    }
 }
 
 .p-dialog-footer-inner {
@@ -72,6 +78,9 @@
     background: none;
 }
 
+.pi {
+    color: $primaryColorText;
+}
 .pi:before {
     font-weight: bold;
 }
@@ -149,6 +158,49 @@
 }
 
 
+// DROPDOWN
+.floating {
+    svg,
+    .p-dropdown-label,
+    timesicon {
+        display: none;
+    }
+    
+    .p-dropdown-trigger {
+        background-color: $editButtonColor; 
+        color: white; 
+        border-radius: 0; 
+        padding: 0; 
+        border: none; 
+        font-size: 0;
+        font-weight: bold;
+        width: fit-content;
+        &::after {
+            font-size: medium;
+            font-weight: normal;
+            color: $textSecondaryColor;
+        }
+
+    }
+
+    &.edit-country .p-dropdown-trigger::after {
+        content: 'select country';
+    }
+    &.edit-media .p-dropdown-trigger::after {
+        content: 'add link';
+    }
+
+    .dropdown-img {
+        .icon-button {
+            padding: 0;
+            padding-right: 0.5*$padding-standard;
+
+            svg {
+                fill: $primaryColor;
+            }
+        }
+    }
+}
 
 @media only screen and (min-width: $desktop) {
     .p-accordion .p-accordion-content { 

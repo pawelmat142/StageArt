@@ -1,3 +1,4 @@
+
 <p-dropdown 
     [(ngModel)]="value"
     [options]="items"
@@ -19,6 +20,13 @@
         <div class="item-template">
             @if (item.imgUrl) {
                 <img [src]="item.imgUrl" [alt]="item.name" class="item-image item-image-border" />
+            }
+            @if (item.svg) {
+                <app-icon-button
+                    class="dropdown-img"
+                    [button]="false"
+                    [mediaIcon]="item.svg"
+                ></app-icon-button>
             }
         <span>{{ item.name }}</span>
         </div>

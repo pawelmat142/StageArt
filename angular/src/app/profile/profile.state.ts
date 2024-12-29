@@ -202,7 +202,6 @@ export class ProfileEffect {
     loadBookings$ = createEffect(() => this.actions$.pipe(
         ofType(loadBookings),
         switchMap(() => this.bookingService.fetchProfileBookings$()),
-        // TODO remove
         tap(bookings => {
             if (bookings.length) {
                 setTimeout(() => {

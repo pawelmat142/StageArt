@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ArtistService } from '../../../artist/artist.service';
 import { CommonModule } from '@angular/common';
@@ -45,7 +45,6 @@ import { ButtonModule } from 'primeng/button';
   ],
   templateUrl: './artist-view.component.html',
   styleUrl: './artist-view.component.scss',
-  encapsulation: ViewEncapsulation.None,
 })
 export class ArtistViewComponent {
 

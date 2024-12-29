@@ -1,9 +1,8 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { AppState } from '../../../../app.state';
 import { Store } from '@ngrx/store';
 import { CommonModule } from '@angular/common';
 import { editMode, updateLabels, updateStyle } from '../artist-view.state';
-import { TextareaElementComponent } from '../../../../global/controls/textarea-element/textarea-element.component';
 import { filter, map, take, tap, withLatestFrom } from 'rxjs';
 import { ArtistService } from '../../../artist.service';
 import { Dialog, DialogData } from '../../../../global/nav/dialog.service';
@@ -19,18 +18,14 @@ import { IconComponent } from '../../../../global/components/icon/icon.component
   standalone: true,
   imports: [
     CommonModule,
-    TextareaElementComponent,
     TooltipModule,
     IconComponent,
   ],
   templateUrl: './style.component.html',
   styleUrl: './style.component.scss',
-  encapsulation: ViewEncapsulation.None
 })
 export class StyleComponent {
 
-  readonly DESKTOP = DESKTOP
-  
   constructor(
     private readonly store: Store<AppState>,
     private readonly dialog: Dialog,

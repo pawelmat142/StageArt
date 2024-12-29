@@ -55,4 +55,7 @@ export abstract class UnityTheme {
     public static readonly borderColor = "#d3d3d3";
 
     public static readonly placeholderColor = "#757575";
+
+    public static readonly chipColor = this.secondaryColor;
+    public static readonly editButtonColor = 'white';
 }
