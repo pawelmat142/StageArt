@@ -113,10 +113,7 @@ export class PanelArtistsComponent {
       next: () => {
         this.fetchArtistsOfManager()
       }, 
-      error: (error) => {
-        this.dialog.errorPopup(error.error.message)
-        this.courtineService.stopCourtine()
-      },
+      error: this.dialog.errorPopup,
       complete: noop
     }
   }

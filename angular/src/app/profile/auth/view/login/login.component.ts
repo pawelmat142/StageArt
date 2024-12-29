@@ -129,7 +129,7 @@ export class LoginComponent {
       },
       error: (error: any) => {
         this.courtine.stopCourtine()
-        this.dialog.errorPopup(error.error.message)
+        this.dialog.errorPopup(error)
       },
       complete: () => noop()
     }

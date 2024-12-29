@@ -88,7 +88,7 @@ export class ManagerFormComponent {
       }, 
       error: error => {
         this.courtine.stopCourtine()
-        this.dialog.errorPopup(error.error.message)
+        this.dialog.errorPopup(error)
       }
     })
   }
@@ -104,7 +104,7 @@ export class ManagerFormComponent {
       },
       error: error => {
         this.courtine.stopCourtine()
-        this.dialog.errorPopup(error.error.message)
+        this.dialog.errorPopup(error)
       } 
     })
   }

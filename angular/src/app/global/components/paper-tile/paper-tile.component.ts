@@ -132,7 +132,7 @@ export class PaperTileComponent {
       filter(paper => !!paper),
       switchMap(paper => this.documentService.refreshChecklist$(this.booking)),
       catchError(error => {
-        this.dialog.errorPopup(error.error.message)
+        this.dialog.errorPopup(error)
         return of(null)
       }),
       tap(() => this.courtine.stopCourtine()),
@@ -162,7 +162,7 @@ export class PaperTileComponent {
         return of(null)
       }),
       catchError(error => {
-        this.dialog.errorPopup(error.error.message)
+        this.dialog.errorPopup(error)
         return of()
       }),
       tap(() => this.courtine.stopCourtine()),

@@ -367,10 +367,8 @@ export class ArtistViewEffect {
     }
 
     private handleUploadImagesError = (error: any) => {
-        this.dialog.errorPopup(`Error uploading images`)
-        console.error(error)
-        // TODO popup
-        return of(undefined)
+        this.dialog.errorPopup(error)
+        return of()
       }
 
 }

@@ -101,9 +101,7 @@ export class InitialInfoComponent {
         this.courtine.stopCourtine()
         window.location.reload()
       },
-      error: (error) => {
-        this.dialog.errorPopup(error.error.message)
-      }
+      error: this.dialog.errorPopup
     })
   }
 

@@ -54,7 +54,7 @@ export class BookFormComponent {
         if (!loggedIn) {
           this.loginPopup()
         } else if (!formId) {
-          console.error('no form id')
+          throw new Error(`No form id`)
         } else {
           return this.bookingService.submitForm$(formId)
         }
@@ -63,14 +63,10 @@ export class BookFormComponent {
     ).subscribe({
       next: () => {
         this.store.dispatch(submittedForm())
-
-        // TODO go to form/booking view
-        this.nav.home()
-        this.dialog.simplePopup('Form submitted')
+        this.nav.to(Path.PANEL)
+        this.dialog.infoToast(`Form submitted`)
       },
-      error: error => {
-        this.dialog.errorPopup(error.error.message)
-      }
+      error: this.dialog.errorPopup
     })
   }
 

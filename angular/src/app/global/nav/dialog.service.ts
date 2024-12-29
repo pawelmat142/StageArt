@@ -6,6 +6,7 @@ import { PopupComponent } from "./dialogs/popup/popup.component";
 import { ValidatorFn } from "@angular/forms";
 import { Chip } from "../../artist/model/artist-view.dto";
 import { SelectorItem } from "../interface";
+import { HttpErrorResponse } from "@angular/common/http";
 
 export interface DialogData {
     header: string
@@ -61,7 +62,7 @@ export class Dialog extends DialogService {
     /*
         POPUPS
     */
-    public popup(data: DialogData) {
+    public popup = (data: DialogData) => {
         return this.open(PopupComponent, {
             closable: false,
             header: data.header, 
@@ -72,15 +73,25 @@ export class Dialog extends DialogService {
     public simplePopup(header: string) {
         const data = { header }
         return this.popup(data)
+    }
+
+    public errorPopup = (error: string | Error | HttpErrorResponse, content: string[] = []) => {
+      if (error instanceof Error) {
+        return this._errorPopup(error.message, content)
       }
+      if (error instanceof HttpErrorResponse) {
+        return this._errorPopup(error.statusText, content)
+      }
+      return this._errorPopup(error, content)
+    }
     
-    public async errorPopup(msg: string, content: string[] = []) {
-        const data: DialogData = {
-          header: msg,
-          content: content,
-          isError: true
-        }
-        return this.popup(data)
+    private _errorPopup = (msg: string, content: string[] = []) => {
+      const data: DialogData = {
+        header: msg,
+        content: content,
+        isError: true
+      }
+      return this.popup(data)
     }
       
     public async sww() {

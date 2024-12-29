@@ -106,7 +106,7 @@ export class RegisterComponent {
         this.dialog.simplePopup('Registered successfully')
       },
       error: (error) => {
-        this.dialog.errorPopup(error.error.message)
+        this.dialog.errorPopup(error)
         this.courtineService.stopCourtine()
       },
     })

@@ -51,7 +51,7 @@ export class FeedbackComponent {
       },
       error: error => {
         this.courtine.stopCourtine()
-        this.dialog.errorPopup(error.error.message)
+        this.dialog.errorPopup(error)
       }
     })
   }
