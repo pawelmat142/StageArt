@@ -1,5 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
-import { BtnComponent } from '../../../global/controls/btn/btn.component';
+import { Component, OnInit } from '@angular/core';
 import { PanelBookingsComponent } from '../../../booking/view/panel-bookings/panel-bookings.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { HeaderComponent } from '../../../global/components/header/header.component';
@@ -7,6 +6,10 @@ import { InitialInfoComponent } from '../../../artist/view/initial-info/initial-
 import { PanelArtistsComponent } from '../../../artist/view/panel-artists/panel-artists.component';
 import { PanelEventsComponent } from '../../../event/view/panel-events/panel-events.component';
 import { ManagerFormComponent } from "../manager-form/manager-form.component";
+import { SidebarModule } from 'primeng/sidebar';
+import { PanelMenuService } from '../sidebar/panel-menu.service';
+import { Observable } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 export type PanelView  = 'NONE' | 'BOOKINGS' | 'MANAGER_ARTISTS' | 'MANAGER_DATA' | 'PROMOTER_EVENTS' | 'ARTIST_INITIAL_INFO'
 
@@ -14,7 +17,7 @@ export type PanelView  = 'NONE' | 'BOOKINGS' | 'MANAGER_ARTISTS' | 'MANAGER_DATA
   selector: 'app-profile',
   standalone: true,
   imports: [
-    BtnComponent,
+    CommonModule,
     HeaderComponent,
     SidebarComponent,
     InitialInfoComponent,
@@ -22,19 +25,19 @@ export type PanelView  = 'NONE' | 'BOOKINGS' | 'MANAGER_ARTISTS' | 'MANAGER_DATA
     PanelArtistsComponent,
     PanelEventsComponent,
     ManagerFormComponent,
+    SidebarModule
 ],
   templateUrl: './panel.component.html',
   styleUrl: './panel.component.scss',
-  encapsulation: ViewEncapsulation.None
 })
-export class PanelComponent {
+export class PanelComponent {  
 
-  public static readonly path = 'panel'
+  constructor (
+    private readonly panelMenuService: PanelMenuService
+  ) {}
 
-  _profileView: PanelView = 'NONE' 
+  _panelView$: Observable<PanelView> = this.panelMenuService.panelViewSubject$
 
-  _setView(view: PanelView) {
-    this._profileView = view
-  }
+  sidebarVisible = true
   
 }

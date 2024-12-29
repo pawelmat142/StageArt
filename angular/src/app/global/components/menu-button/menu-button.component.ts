@@ -1,19 +1,18 @@
-import { Component, ElementRef, HostBinding, HostListener, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavService } from '../../nav/nav.service';
-import { BtnComponent } from '../../controls/btn/btn.component';
 import { MenuService } from '../../nav/menu-service';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-menu-button',
   standalone: true,
   imports: [
     CommonModule,
-    BtnComponent,
+    ButtonModule
 ],
   templateUrl: './menu-button.component.html',
   styleUrl: './menu-button.component.scss',
-  encapsulation: ViewEncapsulation.None
 })
 export class MenuButtonComponent {
 
@@ -22,7 +21,7 @@ export class MenuButtonComponent {
     readonly menu: MenuService,
   ) {}
 
-  @HostBinding('class.menu-button-open') menuButtonOpen = false
+  menuButtonOpen = false
 
   @ViewChild('menuButtonRef') menuButtonRef?: ElementRef
 

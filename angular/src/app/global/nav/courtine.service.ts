@@ -29,7 +29,6 @@ export class CourtineService {
 
     public get courtine$() {
         return this.courtineSubject$.asObservable().pipe(
-            // TODO temporary: 
             delay(10),
         )
     }

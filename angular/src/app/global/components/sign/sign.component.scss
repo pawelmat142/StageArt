@@ -8,14 +8,14 @@
 
 .sign-section {
     .menu {
-        color: $red;
+        color: $primaryColor;
     }
 }
 
 .sign-pad-container {
 
     padding-top: 0;
-    padding-bottom: $padding-standard;
+    padding-bottom: 2*$padding-standard;
     padding-left: $padding-standard;
     padding-right: $padding-standard;
     display: flex;
@@ -23,8 +23,6 @@
     
     .canvas {
         transition: $transition-standard;
-        border-radius: $radius;
-        background-color: white;
     }
 
     .pad-controls {

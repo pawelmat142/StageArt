@@ -1,23 +1,23 @@
-import { Component, ElementRef, QueryList, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import SignaturePad from 'signature_pad';
 import { DESKTOP } from '../../services/device';
-import { BtnComponent } from '../../controls/btn/btn.component';
 import { ImgUtil } from '../../utils/img.util';
-import {  Signature, SignatureService } from './signature.service';
-import {  filter, map, Observable, of, switchMap, tap, withLatestFrom } from 'rxjs';
+import { Signature, SignatureService } from './signature.service';
+import { filter, map, Observable, of, switchMap, tap, withLatestFrom } from 'rxjs';
 import { AppState } from '../../../app.state';
 import { Store } from '@ngrx/store';
-import { DialogService } from '../../nav/dialog.service';
+import { Dialog } from '../../nav/dialog.service';
 import { IconButtonComponent } from '../icon-button/icon-button.component';
 import { CommonModule } from '@angular/common';
 import { Menu, MenuModule } from 'primeng/menu';
-import { MenuItem, MenuItemCommandEvent } from 'primeng/api';
+import { MenuItem } from 'primeng/api';
 import { CourtineService } from '../../nav/courtine.service';
 import { DocumentService } from '../../document/document.service';
 import { BookingDto } from '../../../booking/services/booking.service';
 import { BookingUtil } from '../../../booking/booking.util';
 import { uid } from '../../../profile/profile.state';
 import { Role } from '../../../profile/profile.model';
+import { ButtonModule } from 'primeng/button';
 
 
 @Component({
@@ -25,13 +25,12 @@ import { Role } from '../../../profile/profile.model';
   standalone: true,
   imports: [
     CommonModule,
-    BtnComponent,
     IconButtonComponent,
     MenuModule,
+    ButtonModule
   ],
   templateUrl: './sign.component.html',
   styleUrl: './sign.component.scss',
-  encapsulation: ViewEncapsulation.None,
 })
 export class SignComponent {
 
@@ -40,7 +39,7 @@ export class SignComponent {
   constructor (
     private readonly signatureService: SignatureService,
     private readonly documentService: DocumentService,
-    private readonly dialog: DialogService,
+    private readonly dialog: Dialog,
     private readonly store: Store<AppState>,
     private readonly courtine: CourtineService,
   ) {}
@@ -134,6 +133,7 @@ export class SignComponent {
       },
     }).pipe(
       tap(signatureId => {
+        this.dialog.succesToast(`Signature saved!`)
         if (signatureId?.id) {
           this.reloadSignatures({ signatureIdToSelect: signatureId.id })
         }
@@ -209,7 +209,10 @@ export class SignComponent {
         if (confirm) {
           this.courtine.startCourtine()
           return this.signatureService.cancelSignature$(signature.id).pipe(
-            tap(() => this.reloadSignatures())
+            tap(() => {
+              this.reloadSignatures()
+              this.dialog.succesToast(`Signature removed`)
+            })
           )
         }
         return of()

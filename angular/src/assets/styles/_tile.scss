@@ -1,20 +1,19 @@
 @import 'variables';
 @import 'font';
-@import 'chip';
 
 .tile {
     overflow: hidden;
     padding: $padding-standard;
     color: $white;
-    background-color: $dark-transparent;
-    border-radius: 10px;
+    background-color: $bgTwo;
+    border-radius: $borderRadius;
     box-shadow: $shadow-standard;
 }
 
 .tile-header {
     @extend .baron;
-    @extend .red;
     @extend .fs3;
+    color: $primaryColor;
 }
 
 .tile-content {
@@ -31,7 +30,15 @@
 }
 
 .card {
-    @extend .tile;
-    padding: 0;
-    border: 1px solid $red;
+    background-color: $bgTwo;
+    color: $textColor;
+    border-radius: $borderRadius;
+    
+    &.shadow {
+        box-shadow: $shadow-standard;
+    }
+    &.card-highlight {
+        background-color: $highlightBg;
+    }
 }
+

@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { SelectorItem } from '../controls/selector/selector.component';
+import { SelectorItem } from '../interface';
 
 @Pipe({
   name: 'names',

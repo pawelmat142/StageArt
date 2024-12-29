@@ -19,7 +19,7 @@ export abstract class AbstractControlComponent<T> implements ControlValueAccesso
 
   disabled: boolean = false;
 
-  private onChange = (value: T) => {}
+  onChange = (value: T) => {}
   onTouched = () => {}
 
   writeValue(value: T): void {

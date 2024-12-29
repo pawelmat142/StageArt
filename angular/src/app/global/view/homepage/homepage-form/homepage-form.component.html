@@ -1,30 +1,33 @@
-<div class="form-container small">
+<div class="form-container small homepage-form">
 
-    <form [formGroup]="form" (ngSubmit)="submit()">
+    <form [formGroup]="form" class="form-wrapper" (ngSubmit)="_submit()">
 
-        <div class="control-margin">
-            <app-input
-                formControlName="artist"
-                label="Artist name" 
-                placeholder="Search for an artist..."
-            ></app-input>
-        </div>
-        <div class="control-margin">
-            <app-input
-                formControlName="country"
-                label="Desired event location" 
-                placeholder="Select a country..."
-            ></app-input>
-        </div>
-        <div class="control-margin">
-            <app-input
-                formControlName="date"
-                label="Date" 
-                placeholder="Select date..."
-            ></app-input>
+        <div class="form-grid column">
+            <app-form-field label="Artist">
+                <app-dropdown [items]="(_artistItems$ | async) || []" formControlName="artist"></app-dropdown>
+            </app-form-field>
+    
+            <app-form-field label="Country">
+                <app-dropdown [items]="_countryItems" formControlName="country"></app-dropdown>
+            </app-form-field>
+    
+            <app-form-field label="Date">
+                <p-calendar 
+                    formControlName="date" 
+                    placeholder="Select..."
+                    dateFormat="dd-mm-yy"
+                ></p-calendar>
+            </app-form-field>
         </div>
 
-        <app-button label="Submit" [active]="form.valid"></app-button>
+        <div class="form-buttons">
+            <p-button
+                class="form-button primary-btn"
+                label="Submit"
+                type="submit"
+                [raised]="true">
+            </p-button>
+        </div>
 
     </form>
 

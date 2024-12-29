@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { pFormControl, pFormGroup } from '../../form-processor.service';
 import { FormUtil } from '../../../global/utils/form.util';
 import { TextareaElementComponent } from '../../../global/controls/textarea-element/textarea-element.component';
@@ -13,7 +13,6 @@ import { TextareaElementComponent } from '../../../global/controls/textarea-elem
   ],
   templateUrl: './form-group-presentation.component.html',
   styleUrl: './form-group-presentation.component.scss',
-  encapsulation: ViewEncapsulation.None
 })
 export class FormGroupPresentationComponent {
 

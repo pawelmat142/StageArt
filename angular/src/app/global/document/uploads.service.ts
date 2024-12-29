@@ -3,7 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Util } from "../utils/util";
 import { filter, Observable, of, switchMap } from "rxjs";
 import { Paper } from "./document.service";
-import { DialogService } from "../nav/dialog.service";
+import { Dialog } from "../nav/dialog.service";
 import { BookingDto } from "../../booking/services/booking.service";
 import { ImgUtil, Size } from "../utils/img.util";
 
@@ -26,7 +26,7 @@ export class UploadsService {
 
     constructor(
         private readonly httpClient: HttpClient,
-        private readonly dialog: DialogService,
+        private readonly dialog: Dialog,
     ) {}
 
     private readonly apiUri = Util.apiUri

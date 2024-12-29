@@ -1,36 +1,5 @@
-@import 'color';
-@import 'form';
+@import 'variables';
 @import 'font';
-@import 'chip';
-
-.desktop {
-    .name {
-        .edit-button.edit-name {
-            top: -25px;
-            right: unset;
-            left: 0;
-        }
-        .edit-button.edit-country {
-            top: 120px;
-            right: unset;
-            left: 40px;
-        }
-
-        .artist-name {
-            input {
-                font-weight: 600;
-            }
-        }
-
-        .country-txt {
-            font-size: 14px;
-        }
-
-        .chip {
-            margin-bottom: 0.5*$padding-standard;
-        }
-    }
-}
 
 .name {
     display: grid;
@@ -47,11 +16,18 @@
         input {
             text-shadow: 1px 1px 3px #000;
             width: 100%;
+            background-color: transparent;
+            border: unset;
         }
     }
 
+    .artist-country {
+        display: flex;
+        position: relative;
+    }
+
     input.edit-mode {
-        background-color: $light-dark;
+        background-color: $bg;
     }
 
     .edit-button.edit-name {
@@ -60,19 +36,15 @@
     }
 
     .edit-button.edit-country {
-        top: 73px;
-        right: 0px;
+        top: 30px;
+        right: unset;
+        left: 0;
     }
 
     h1.edit-mode {
-        background-color: $input-bg;
+        background-color: $inputBg;
     }
 
-    .country-txt {
-        @extend .fs5;
-        color: $white;
-        text-shadow: $shadow-standard;
-    }
 
     .country-container {
         .icon-button {
@@ -81,9 +53,33 @@
             }
         }
     }
+}
 
-    .floating .selector-items {
-        right: 0;
-        left: unset;
+@media only screen and (min-width: $desktop) {
+    .name {
+        .edit-button.edit-name {
+            top: -40px;
+            right: unset;
+            left: 0;
+        }
+        .edit-button.edit-country {
+            position: unset;
+            margin-left: $padding-standard;
+        }
+
+        .artist-name {
+            input {
+                font-weight: 600;
+            }
+        }
+
+        .country-txt {
+            font-size: 14px;
+        }
+
+        .chip {
+            margin-bottom: 0.5*$padding-standard;
+        }
     }
+
 }

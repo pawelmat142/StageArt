@@ -1,17 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../../app.state';
 import { CountryComponent } from '../../../../global/components/country/country.component';
 import { artistCountry, artistName, editMode, updateCountry, updateName } from '../artist-view.state';
 import { FormsModule } from '@angular/forms';
-import { SelectorItemsComponent } from '../../../../global/controls/selector/selector-items/selector-items.component';
-import { SelectorItem } from '../../../../global/controls/selector/selector.component';
 import { CountriesService } from '../../../../global/countries/countries.service';
 import { tap } from 'rxjs';
 import { StyleComponent } from '../style/style.component';
-import { DESKTOP } from '../../../../global/services/device';
 import { ArtistService } from '../../../artist.service';
+import { SelectorItem } from '../../../../global/interface';
+import { DropdownComponent } from "../../../../global/controls/dropdown/dropdown.component";
 
 @Component({
   selector: 'app-name',
@@ -20,17 +19,14 @@ import { ArtistService } from '../../../artist.service';
     CommonModule,
     CountryComponent,
     FormsModule,
-    SelectorItemsComponent,
     StyleComponent,
-  ],
+    DropdownComponent
+],
   templateUrl: './name.component.html',
-  styleUrl: './name.component.scss',
-  encapsulation: ViewEncapsulation.None
+  styleUrl: './name.component.scss'
 })
 export class NameComponent {
-
-  readonly DESKTOP = DESKTOP
-
+  
   constructor(
     private readonly countriesService: CountriesService,
     private readonly artistService: ArtistService,
@@ -54,7 +50,6 @@ export class NameComponent {
       this._editMode = mdoe
       if (!mdoe) {
         this._editName = false
-        this._editCountry = false
       }
     })
   )
@@ -77,15 +72,10 @@ export class NameComponent {
     }
   }
 
-  _editCountry = false
 
-  editCountry() {
-    this._editCountry = true
-  }
 
   _selectCountry(item: SelectorItem) {
     this.store.dispatch(updateCountry({ value: item }))
-    this._editCountry = false
   }
 
   _nameChange($event: Event) {

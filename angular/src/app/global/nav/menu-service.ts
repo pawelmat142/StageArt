@@ -1,7 +1,5 @@
 import { Injectable } from "@angular/core";
 import { MenuButtonItem, NavService } from "./nav.service";
-import { PanelComponent } from "../../profile/view/panel/panel.component";
-import { LoginComponent } from "../../profile/auth/view/login/login.component";
 import { profile } from "../../profile/profile.state";
 import { AppState } from "../../app.state";
 import { Store } from "@ngrx/store";
@@ -11,6 +9,11 @@ import { combineLatest, filter, map, Observable, shareReplay, startWith } from "
 import { HomepageComponent } from "../view/homepage/homepage.component";
 import { ResolveEnd, Router } from "@angular/router";
 import { Path } from "./path";
+import { Theme } from "../theme/theme";
+import { UnityTheme } from "../theme/unity.theme";
+import { DefaultTheme } from "../theme/default.theme";
+import { MenuItemCommandEvent } from "primeng/api";
+
 
 @Injectable({
     providedIn: 'root'
@@ -25,19 +28,17 @@ export class MenuService {
     ) {
     }
 
-    public menuBtns$: Observable<MenuButtonItem[]> = combineLatest([
-        this.router.events.pipe(
-            filter(event => event instanceof ResolveEnd),
-            map(event => event.url),
-            startWith(this.location.path()),
-            map(url => url.replace('/', ''))
-        ),
-        this.store.select(profile)
-    ]).pipe(
-        map(([path, profile]) => this.allButtons
-            .filter(btn => btn.path !== path)
-            .filter(btn => btn.filter ? btn.filter(profile) : true)
-        ),
+    public menuBtns$: Observable<MenuButtonItem[]> = this.store.select(profile).pipe(
+        map(profile => {
+            return this.allButtons
+                .filter(btn => btn.filter ? btn.filter(profile) : true)
+                .map(btn => {
+                    if (btn.path === this.nav.path.replace('/', '')) {
+                        btn.styleClass = 'active'
+                    }
+                    return btn
+                })
+        }),
         shareReplay()
     )
 
@@ -45,12 +46,12 @@ export class MenuService {
         map(btns => btns.slice().reverse())
     )
 
-    public btnClick(btn: MenuButtonItem) {
-        if (btn.onclick) {
-          btn.onclick()
+    public command(item: MenuButtonItem) {
+        if (item.path) {
+            this.nav.to(item.path)
         }
-        if (typeof btn.path === 'string') {
-          this.nav.to(btn.path)
+        if (item.command) {
+            item.command({} as MenuItemCommandEvent)
         }
     }
 
@@ -60,7 +61,7 @@ export class MenuService {
     }
     private readonly panelButton: MenuButtonItem  = {
         label: 'Panel',
-        path: PanelComponent.path,
+        path: Path.PANEL ,
         filter: (profile?: Profile) => !!profile, 
     }
     private readonly bookNowButton: MenuButtonItem  = {
@@ -69,15 +70,27 @@ export class MenuService {
     }
     private readonly artistsButton: MenuButtonItem  = {
         label: 'Artists',
-        path: Path.ARTISTS_LIST_VIEW
+        path: Path.ARTISTS_LIST_VIEW,
     }
     private readonly loginButton: MenuButtonItem  = {
         label: 'Login',
-        path: LoginComponent.path,
+        path: Path.LOGIN,
         filter: (profile?: Profile) => !profile, 
     }
 
+    private defaultTheme = true
+
+    private readonly test: MenuButtonItem = {
+        label: 'theme',
+        command: () => {
+            this.defaultTheme = !this.defaultTheme
+            Theme.setTheme(this.defaultTheme ? DefaultTheme : UnityTheme)
+        }
+    }
+
     private allButtons: MenuButtonItem[] = [
+        this.test,
+
         this.homeButton,
         this.artistsButton,
         this.bookNowButton,

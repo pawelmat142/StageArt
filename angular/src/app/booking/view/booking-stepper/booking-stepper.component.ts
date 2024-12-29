@@ -1,16 +1,15 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { AppState } from '../../../app.state';
 import { Store } from '@ngrx/store';
 import { ButtonModule } from 'primeng/button';
 import { StepperModule } from 'primeng/stepper';
-import { BtnComponent } from '../../../global/controls/btn/btn.component';
 import { BookingDto, BookingService } from '../../services/booking.service';
 import { map, Observable, of, switchMap, tap, withLatestFrom } from 'rxjs';
 import { loadBookings, setBookingFormData } from '../../../profile/profile.state';
 import { SubstepComponent } from './substep/substep.component';
 import { CommonModule } from '@angular/common';
 import { PaperTileComponent } from '../../../global/components/paper-tile/paper-tile.component';
-import { DialogService } from '../../../global/nav/dialog.service';
+import { Dialog } from '../../../global/nav/dialog.service';
 import { ChecklistTile } from '../../interface/checklist.interface';
 import { ChecklistUtil } from '../../checklist.util';
 
@@ -19,21 +18,21 @@ import { ChecklistUtil } from '../../checklist.util';
   standalone: true,
   imports: [
     CommonModule,
-    ButtonModule, StepperModule,
-    BtnComponent,
+    ButtonModule, 
+    StepperModule,
     SubstepComponent,
     PaperTileComponent,
+    ButtonModule
   ],
   templateUrl: './booking-stepper.component.html',
   styleUrl: './booking-stepper.component.scss',
-  encapsulation: ViewEncapsulation.None
 })
 export class BookingStepperComponent {
 
   constructor(
     private readonly store: Store<AppState>,
     private readonly bookingService: BookingService,
-    private readonly dialog: DialogService,
+    private readonly dialog: Dialog,
   ) {}
 
   activeStep = 0;

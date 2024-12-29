@@ -1,14 +1,21 @@
 <app-header label="Artists"></app-header>
 
-<div class="section-margin header-margin">
+<div class="section-margin view-margin header-margin">
 
-    <div class="section-top section-header-margin">
+    <div class="section-top">
         <div>
-            <h2 class="fs1 baron red uppercase margin-bottom">Our Artists</h2>
-            <h2 class="fs3 baron light">Check them all!</h2>
+            <h2 class="fs1 baron primary uppercase margin-bottom">Our Artists</h2>
+            <h2 class="fs3 baron text-color">Check them all!</h2>
         </div>
     
-        <app-btn class="big light" label="Book now" (click)="_bookNow()"></app-btn>
+        <p-button 
+            (click)="_bookNow()" 
+            [raised]="true" 
+            icon="pi pi-calendar-plus"
+            label="Book now"
+            iconPos="left"
+            class="primary-btn"
+        ></p-button>
     
     </div>
 

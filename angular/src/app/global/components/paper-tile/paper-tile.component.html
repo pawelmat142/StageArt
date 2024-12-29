@@ -10,10 +10,11 @@
             </div>
         </div>
 
-        <div *ngIf="tileOptions.length">
-            <p-menu #menu [model]="items" [popup]="true" />
-            <!-- <app-icon-button (onClick)="menu.toggle($event)" test() icon="more_vert" [skipPreventEvent]="true"></app-icon-button> -->
-            <app-icon-button (click)="_toggle($event!)" icon="more_vert"></app-icon-button>
+        <div *ngIf="tileOptions.length" class="menu-icon">
+            <div class="relative">
+                <p-menu #menuRef [model]="items" [popup]="true" [styleClass]="'paper-tile-menu'"/>
+                <app-icon-button (click)="_toggle($event!)" icon="pi-ellipsis-v"></app-icon-button>
+            </div>
         </div>
     </div>
     

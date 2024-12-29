@@ -1,0 +1,32 @@
+.text-color {
+    color: $textColor;
+    fill: $textColor; 
+}
+.dark {
+    color: $textSecondaryColor;
+    fill: $textSecondaryColor;
+}
+.light-dark {
+    color: $bg;
+    fill: $bg;
+}
+.primary {
+    color: $primaryColor;
+    fill: $primaryColor;
+}
+.secondary {
+    color: $secondaryColor;
+    fill: $secondaryColor;
+}
+.grey {
+    color: $grey;
+    fill: $grey;
+}
+.white {
+    color: $white;
+    fill: $white;
+}
+.green {
+    color: $green;
+    fill: $white;
+}

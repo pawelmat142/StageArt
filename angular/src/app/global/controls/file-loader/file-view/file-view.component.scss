@@ -1,4 +1,4 @@
-@import 'form';
+@import 'form-variables';
 
 .img-wrapper {
 
@@ -21,8 +21,4 @@
 .spinner-wrapper {
     display: flex;
     justify-content: center;
-
-    .mat-mdc-progress-spinner .mdc-circular-progress__determinate-circle, .mat-mdc-progress-spinner .mdc-circular-progress__indeterminate-circle-graphic {
-        stroke: $red;
-    }
 }

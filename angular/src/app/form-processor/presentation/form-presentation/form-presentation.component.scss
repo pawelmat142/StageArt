@@ -1,55 +1,20 @@
 @import 'variables';
-@import 'color';
-
-.desktop {
-    .step-control {
-        grid-template-columns: 1fr 2fr;
-        .value > .textarea,
-        .value {
-            text-align: unset;
-            padding-right: unset;
-        }
-    }
-}
 
 .step {
-    margin-bottom: 2*$padding-standard;
+    margin-bottom: $padding-standard;
 }
 
 .step-name {
     margin: $padding-standard;
     p {
         font-size: 14px;
-        color: $red;
+        color: $primaryColor;
     }
 }
 
 .array-group {
+    padding: $padding-standard;
     &:not(:last-child) {
         margin-bottom: 2*$padding-standard;
-    }
-}
-
-.step-control {
-    padding-left: 2*$padding-standard;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    margin-bottom: 0.5*$padding-standard;
-    color: $white;
-
-    
-    .key {
-        color: $light;
-    }
-
-    .value > .textarea,
-    .value {
-        text-align: right;
-        padding-right: $padding-standard;
-    }
-
-    .form-input-control {
-        color: $white;
-        font-weight: 100;
     }
 }

@@ -1,31 +1,31 @@
 
-<app-header [floating]="true" [label]="artistName"></app-header>
+<app-header [floating]="false" [label]="artistName"></app-header>
 
 @if (_editable$ | async) {
     <div class="edit-toggle-container">
 
         <ng-container *ngIf="_editMode$ | async as editMode; else notEdit">
-            <div class="edit-toggle hovergrow fs3" matTooltip="Save progile changes">
+            <div class="edit-toggle hovergrow fs3" pTooltip="Save profile changes">
                 <app-icon-button
                     (click)="_save()"
-                    icon="save"
+                    icon="pi-save"
                     [active]="true"
                 ></app-icon-button>
             </div>
-            <div class="edit-toggle hovergrow fs3" matTooltip="Cancel profile changes">
+            <div class="edit-toggle hovergrow fs3" pTooltip="Cancel profile changes">
                 <app-icon-button
                     (click)="_discard()"
-                    icon="cancel"
+                    icon="pi-undo"
                     [active]="true"
                 ></app-icon-button>
             </div>
         </ng-container>
 
         <ng-template #notEdit>
-            <div class="edit-toggle" matTooltip="Start edit profile">
+            <div class="edit-toggle" pTooltip="Start edit profile">
                 <app-icon-button
                     (click)="_editToggle()"
-                    icon="edit"
+                    icon="pi-pencil"
                     [active]="true"
                 ></app-icon-button>
             </div>
@@ -45,11 +45,9 @@
     
     <div class="view-content">
 
-        @if (DESKTOP) {
-            <div class="menu-button">
-                <app-menu-button></app-menu-button>
-            </div>
-        }
+        <div class="show-desktop menu-button">
+            <app-menu-button></app-menu-button>
+        </div>
 
         <div class="spacer"></div>
 
@@ -59,32 +57,29 @@
 
             <app-name></app-name>
 
-            @if (!DESKTOP) {
-                <div></div>
-            }
+            <div class="show-mobile"></div>
 
             <div class="book-now-btn">
-                <app-btn
-                    class="light book-now"
-                    [active]="true"
-                    (click)="_onBookNow()"
+                <p-button 
+                    class="primary-btn"
+                    (click)="_onBookNow()" 
+                    [raised]="true" 
+                    icon="pi pi-calendar-plus"
                     label="Book now"
-                    icon="list_alt"
-                ></app-btn>
+                    iconPos="left">
+                </p-button>
             </div>
 
         </div>
 
         <div class="grid-container two">
 
-            @if (!DESKTOP) {
-                <div class="style-tile">
-                    <div class="tile big">
-                        <p class="tile-header chip-label">Styles</p>
-                        <app-style></app-style>
-                    </div>
+            <div class="show-mobile style-tile">
+                <div class="tile big">
+                    <p class="tile-header chip-label">Styles</p>
+                    <app-style></app-style>
                 </div>
-            }
+            </div>
 
             <div class="tiles-column right-on-desktop">
 
@@ -103,7 +98,7 @@
     
                             <div class="tile-content tile-textarea">
                                 <app-textarea-element
-                                    class="white"
+                                    class="text-color"
                                     [value]="artist.managmentNotes"
                                     [disabled]="true"
                                 ></app-textarea-element>
@@ -113,8 +108,6 @@
                     </div>
                 }
             </div>
-
-
 
 
         </div>

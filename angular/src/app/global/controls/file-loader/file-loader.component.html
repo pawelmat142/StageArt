@@ -15,14 +15,14 @@
         </div>
 
         <app-icon-button
-            icon="delete_forever"
+            icon="pi-trash"
             [show]="!!value"
             (click)="_removeFile()"
         ></app-icon-button>
 
         @if (!required && !value) {
             <app-icon-button
-                icon="close"
+                icon="pi-times-circle"
                 color="gray"
                 (click)="removeControl.emit()"
             ></app-icon-button>

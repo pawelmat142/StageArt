@@ -4,43 +4,47 @@
     <div class="control-margin">
     
         @if (!control.type || control.type === 'text') {
-            <app-input
-                [formControlName]="_formControlName"
-                [label]="control.name"
-                [placeholder]="control.placeholder || ''"
-                [required]="_required"
-            ></app-input>
+            <app-form-field [label]="_label">
+                <input type="text" pInputText 
+                    [formControlName]="_formControlName"
+                    [placeholder]="control.placeholder || ''"
+                    [required]="_required"
+                    />
+            </app-form-field>
         } 
     
         @else if (control.type === 'textarea') {
-            <app-textarea
-                [formControlName]="_formControlName"
-                [label]="control.name"
-                [placeholder]="control.placeholder || ''"
-                [required]="_required"
-            ></app-textarea>
-        
+            
+            <app-form-field [label]="_label">
+                <app-textarea
+                    [formControlName]="_formControlName"
+                    [placeholder]="control.placeholder || ''"
+                    [required]="_required"
+                ></app-textarea>
+            </app-form-field>
         } 
     
         @else if (control.type === 'date') {
-    
-            <app-dates
-                [formControlName]="_formControlName"
-                [label]="control.name"
-                [placeholder]="control.placeholder || 'Select date...'"
-                [required]="_required"
-            ></app-dates>
+
+            <app-form-field [label]="_label">
+                <p-calendar 
+                    [formControlName]="_formControlName" 
+                    placeholder="Select..."
+                    dateFormat="dd-mm-yy"
+                    [placeholder]="control.placeholder || 'Select date...'"
+                    [required]="_required"
+                ></p-calendar>
+            </app-form-field>
             
         } @else if (control.type === 'selector') {
-    
-            <app-selector
-                class="skip-aspect-ratio"
-                [formControlName]="_formControlName"
-                [label]="control.name"
-                [placeholder]="control.placeholder || 'Select...'"
-                [required]="_required"
-                [items]="(control.selectorItems$ | async)!"
-            ></app-selector>
+            <app-form-field [label]="_label">
+                <app-dropdown 
+                    [items]="(control.selectorItems$ | async) || []" 
+                    [formControlName]="_formControlName"
+                    [placeholder]="control.placeholder || 'Select...'"
+                    [required]="_required"
+                ></app-dropdown>
+            </app-form-field>
         
         } @else {
             <div>{{control.name}}</div>

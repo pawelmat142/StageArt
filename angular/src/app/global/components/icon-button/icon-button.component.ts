@@ -1,20 +1,19 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
-import {MatIconModule} from '@angular/material/icon';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ArtistMediaCode } from '../../../artist/artist-medias/artist-medias.service';
 import { ImgCachedComponent } from '../img-cached/img-cached.component';
+import { IconComponent } from '../icon/icon.component';
 
 @Component({
   selector: 'app-icon-button',
   standalone: true,
   imports: [
     CommonModule,
-    MatIconModule,
     ImgCachedComponent,
+    IconComponent
   ],
   templateUrl: './icon-button.component.html',
   styleUrl: './icon-button.component.scss',
-  encapsulation: ViewEncapsulation.None
 })
 export class IconButtonComponent {
   

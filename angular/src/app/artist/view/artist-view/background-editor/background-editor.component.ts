@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../../app.state';
 import { addBgImage, editMode, loadingArtistView } from '../artist-view.state';
@@ -14,8 +14,7 @@ import { FireImgStorageService } from '../../../../global/services/fire-img-stor
     CommonModule,
   ],
   templateUrl: './background-editor.component.html',
-  styleUrl: './background-editor.component.scss',
-  encapsulation: ViewEncapsulation.None
+  styleUrl: './background-editor.component.scss'
 })
 export class BackgroundEditorComponent {
 

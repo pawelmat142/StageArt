@@ -1,8 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { InputComponent } from '../../../global/controls/input/input.component';
-import { SelectorComponent, SelectorItem } from '../../../global/controls/selector/selector.component';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../app.state';
 import { ProfileService } from '../../../profile/profile.service';
@@ -10,11 +8,15 @@ import { map, Observable, shareReplay, take, tap } from 'rxjs';
 import { FormVal } from '../../../global/utils/form-val';
 import { login, } from '../../../profile/profile.state';
 import { ArtistService } from '../../artist.service';
-import { BtnComponent } from '../../../global/controls/btn/btn.component';
 import { FormUtil } from '../../../global/utils/form.util';
 import { CourtineService } from '../../../global/nav/courtine.service';
-import { DialogService } from '../../../global/nav/dialog.service';
+import { Dialog } from '../../../global/nav/dialog.service';
 import { initializedArtist } from '../artist-view/artist-view.state';
+import { ButtonModule } from 'primeng/button';
+import { FormFieldComponent } from '../../../global/controls/form-field/form-field.component';
+import { DropdownComponent } from '../../../global/controls/dropdown/dropdown.component';
+import { InputTextModule } from 'primeng/inputtext';
+import { SelectorItem } from '../../../global/interface';
 
 @Component({
   selector: 'app-initial-info',
@@ -22,13 +24,14 @@ import { initializedArtist } from '../artist-view/artist-view.state';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    InputComponent,
-    SelectorComponent,
-    BtnComponent,
+
+    FormFieldComponent,
+    DropdownComponent,
+    InputTextModule,
+    ButtonModule,
   ],
   templateUrl: './initial-info.component.html',
   styleUrl: './initial-info.component.scss',
-  encapsulation: ViewEncapsulation.None
 })
 export class InitialInfoComponent {
 
@@ -36,7 +39,7 @@ export class InitialInfoComponent {
     private readonly store: Store<AppState>,
     private readonly profileService: ProfileService,
     private readonly artistService: ArtistService,
-    private readonly dialog: DialogService,
+    private readonly dialog: Dialog,
     private readonly courtine: CourtineService,
   ) {}
 
@@ -98,9 +101,7 @@ export class InitialInfoComponent {
         this.courtine.stopCourtine()
         window.location.reload()
       },
-      error: (error) => {
-        this.dialog.errorPopup(error.error.message)
-      }
+      error: this.dialog.errorPopup
     })
   }
 

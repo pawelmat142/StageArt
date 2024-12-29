@@ -2,10 +2,11 @@
 
 .chip {
     padding: 1px 6px;
-    background-color: $light;
-    color: $dark;
+    background-color: $chipColor;
+    color: #000;
     border-radius: $radius;
-    box-shadow: 1px 1px 3px $dark;
+    // box-shadow: 1px 1px 3px $highlightBg;
+    box-shadow: $shadow-standard;
 
     font-size: 11px;
     font-weight: 600;
@@ -16,21 +17,19 @@
     align-items: center;
 
     $icon-size: 11px;
-    mat-icon,
-    .mat-icon {
-        font-size: $icon-size;
-        height: $icon-size;
-        width: $icon-size;
+
+
+    .pi {
+        display: block;
     }
 
-    &.red-chip {
-        background-color: $red;
-        color: #000;
+    &.primary-chip {
+        background-color: $primaryColor;
+        color: $primaryColorText;
     }
 
     &.grey-chip {
-        background-color: $white;
-        color: #000;
+        background-color: $editButtonColor;
     }
 
     &.big {
@@ -47,5 +46,5 @@
 }
 
 .chip-label {
-    margin-bottom: $padding-standard;
+    margin-bottom: 0.5*$padding-standard;
 }

@@ -1,22 +1,22 @@
 <div class="menu-button-container">
 
     <div #menuButtonRef class="main-menu-button">
-        <app-btn 
-            class="block h100"
-            [active]="true"
-            icon="menu"
-            label="menu"
+        <p-button
+            label="Menu"
             (click)="toggleButton()"
-            [shadow]="false"
-        ></app-btn>
+            icon="pi pi-bars"
+            class="primary-btn"
+        ></p-button>
     </div>
 
     <div class="menu-button-children">
 
-        <div *ngFor="let btn of menu.menuBtns$ | async"
-        class="menu-button-child label"
-        (click)="menu.btnClick(btn)"
-        >{{btn.label}}</div>
+        <p-button *ngFor="let item of menu.menuBtns$ | async"
+            class="menu-button-child primary-btn"
+            [ngClass]="menuButtonOpen ? 'open' : ''"
+            (click)="menu.command(item)"
+            [label]="item.label"
+        ></p-button>
 
     </div>
 </div>

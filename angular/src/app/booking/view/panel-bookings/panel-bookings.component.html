@@ -1,7 +1,6 @@
 <div class="panel-container">
 
     @if (_bookings$ | async)  {
-        <div></div>
             @if (_bookingsAsManager.length) {
                 <app-bookings-section
                     header="Received booking requests"
@@ -22,13 +21,13 @@
             }
     }
 
-    <div class="panel-section form-data" *ngIf="(_formData$ | async) as formData">
+    <div class="panel-section card margin-top-2" *ngIf="(_formData$ | async) as formData">
         <div class="panel-section-header">
-          <h2 class="fs3 light">Booking request form data</h2>
+          <h2 class="fs3 bold">Booking request form data</h2>
           <app-icon-button
-              class="red"
+              class="primary"
               (click)="_closeBooking()"
-              icon="close"
+              icon="pi-times"
           ></app-icon-button>
         </div>
 

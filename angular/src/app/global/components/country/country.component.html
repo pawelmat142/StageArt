@@ -1,13 +1,8 @@
 <div class="country-container">
     
     @if (_country) {
-        <app-icon-button
-            class="border skip-aspect-ratio"
-            [button]="false"
-            [src]="_country.imgUrl"
-        ></app-icon-button>
-
-        <p class="country-txt">{{_country.name}}</p>
+        <img [src]="_country.imgUrl" alt="flag">
+        <div class="country-txt">{{_country.name}}</div>
     }
 
 </div>

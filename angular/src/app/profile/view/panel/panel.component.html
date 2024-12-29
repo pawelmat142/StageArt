@@ -1,30 +1,32 @@
 <app-header label="Panel"></app-header>
 
-<app-sidebar class="sidebar" (view)="_setView($event)"></app-sidebar>
+<div class="panel">
+    <app-sidebar class="sidebar show-desktop"></app-sidebar>
 
-<div class="profile-view-content">
-
-    @switch (_profileView) {
-        
-        @case ('BOOKINGS') {
-            <app-panel-bookings></app-panel-bookings>
+    <div class="profile-view-content">
+    
+        @switch (_panelView$  | async) {
+            
+            @case ('BOOKINGS') {
+                <app-panel-bookings></app-panel-bookings>
+            }
+    
+            @case ('ARTIST_INITIAL_INFO') {
+                <app-initial-info></app-initial-info>
+            }
+    
+            @case ('MANAGER_ARTISTS') {
+                <app-panel-artists></app-panel-artists>
+            }
+    
+            @case ('PROMOTER_EVENTS') {
+                <app-panel-events></app-panel-events>
+            }
+    
+            @case ('MANAGER_DATA') {
+                <app-manager-form></app-manager-form>
+            }
         }
-
-        @case ('ARTIST_INITIAL_INFO') {
-            <app-initial-info></app-initial-info>
-        }
-
-        @case ('MANAGER_ARTISTS') {
-            <app-panel-artists></app-panel-artists>
-        }
-
-        @case ('PROMOTER_EVENTS') {
-            <app-panel-events></app-panel-events>
-        }
-
-        @case ('MANAGER_DATA') {
-            <app-manager-form></app-manager-form>
-        }
-    }
-
+    
+    </div>
 </div>

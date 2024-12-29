@@ -1,9 +1,8 @@
-import { Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
+import { Component, HostBinding, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { LogoComponent } from '../logo/logo.component';
 import { NavService } from '../../nav/nav.service';
-import { DESKTOP } from '../../services/device';
 import { MobileBtnComponent } from '../mobile-btn/mobile-btn.component';
 import { MenuService } from '../../nav/menu-service';
 
@@ -17,11 +16,8 @@ import { MenuService } from '../../nav/menu-service';
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
-  encapsulation: ViewEncapsulation.None
 })
 export class HeaderComponent {
-
-  DESKTOP = DESKTOP
 
   constructor(
     private readonly nav: NavService,
@@ -36,14 +32,10 @@ export class HeaderComponent {
   menuButtonOverhiddenSubsciption?: Subscription
 
   ngOnInit() {
-    if (this.DESKTOP) {
-      if (this.floating) {
-        this.menuButtonOverhiddenSubsciption = this.nav.menuButtonOverhidden$.subscribe(menuButtonOverhidden => {
-          this.show = menuButtonOverhidden
-        })
-      } else {
-        this.show = true
-      }
+    if (this.floating) {
+      this.menuButtonOverhiddenSubsciption = this.nav.menuButtonOverhidden$.subscribe(menuButtonOverhidden => {
+        this.show = menuButtonOverhidden
+      })
     } else {
       this.show = true
     }

@@ -1,27 +1,12 @@
 @import 'variables';
 
-.desktop {
-    .medias {
-        .edit-button {
-            right: unset;
-            top: unset;
-            bottom: 20px;
-            left: 50px;
-        }
-
-        .floating .selector-items {
-            top: 85%;
-        }
-
-        .icon-button .svg-wrapper svg {
-            width: 35px;
-        }
-    }
-}
-
 .medias {
     &.tile {
         overflow: unset;
+        .tile-content {
+            padding-left: 0;
+            padding-right: 0;
+        }
     }
 
     .icon-button .svg-wrapper svg {
@@ -34,16 +19,24 @@
         right: 27px;
         top: 20px;
     }
+}
 
-    .floating {
-        .selector-items {
-            top: 50px;
-            max-width: 150px;
+app-media-item {
+    display: block;
+    margin-bottom: $padding-standard;
+}
 
-            .icon-button .svg-wrapper svg {
-                fill: $dark;
-            }
+@media only screen and (min-width: $desktop) {
+    .medias {
+        .edit-button {
+            right: 20px;
+            top: 20px;
+            bottom: unset;
+            left: unset;
+        }
+
+        .icon-button .svg-wrapper svg {
+            width: 35px;
         }
     }
-
 }

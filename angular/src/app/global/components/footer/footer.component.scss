@@ -1,0 +1,20 @@
+@import 'variables';
+
+:host {
+    position: relative;
+}
+
+.app-footer {
+    background-color: $primaryColor;
+    color: $primaryColorText;
+    z-index: 10;
+
+    .footer-container {
+        display: flex;
+        justify-content: space-between;
+        padding: $padding-standard 0;
+    }
+
+    box-shadow: $shadow-standard;
+
+}

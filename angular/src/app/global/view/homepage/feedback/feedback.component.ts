@@ -1,24 +1,23 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewEncapsulation } from '@angular/core';
-import { BtnComponent } from '../../../controls/btn/btn.component';
+import { Component } from '@angular/core';
 import { TextareaElementComponent } from '../../../controls/textarea-element/textarea-element.component';
 import { FeedbackService } from './feedback-service';
 import { take } from 'rxjs';
-import { DialogService } from '../../../nav/dialog.service';
+import { Dialog } from '../../../nav/dialog.service';
 import { CourtineService } from '../../../nav/courtine.service';
 import { DESKTOP } from '../../../services/device';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-feedback',
   standalone: true,
   imports: [
     CommonModule,
-    BtnComponent,
     TextareaElementComponent,
+    ButtonModule,
   ],
   templateUrl: './feedback.component.html',
   styleUrl: './feedback.component.scss',
-  encapsulation: ViewEncapsulation.None
 })
 export class FeedbackComponent {
 
@@ -26,7 +25,7 @@ export class FeedbackComponent {
 
   constructor(
     private readonly feedbackService: FeedbackService,
-    private readonly dialog: DialogService,
+    private readonly dialog: Dialog,
     private readonly courtine: CourtineService,
   ) {}
 
@@ -48,14 +47,13 @@ export class FeedbackComponent {
       next: () => {
         this.value = ''
         this.courtine.stopCourtine()
-        this.dialog.simplePopup(`Thanks! It's so helpful.`)
+        this.dialog.simplePopup(`Thanks! It's realy helpful :)`)
       },
       error: error => {
         this.courtine.stopCourtine()
-        this.dialog.errorPopup(error.error.message)
+        this.dialog.errorPopup(error)
       }
     })
   }
-
 
 }

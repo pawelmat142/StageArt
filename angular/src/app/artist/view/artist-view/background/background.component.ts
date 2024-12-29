@@ -1,10 +1,9 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../../app.state';
 import { artist, artistTempBgImage, editMode } from '../artist-view.state';
 import { filter, map, switchMap } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { FileViewComponent } from '../../../../global/controls/file-loader/file-view/file-view.component';
 import { CarouselModule } from 'primeng/carousel';
 import { ImgUtil } from '../../../../global/utils/img.util';
 
@@ -13,12 +12,10 @@ import { ImgUtil } from '../../../../global/utils/img.util';
   standalone: true,
   imports: [
     CommonModule,
-    FileViewComponent,
     CarouselModule 
   ],
   templateUrl: './background.component.html',
   styleUrl: './background.component.scss',
-  encapsulation: ViewEncapsulation.None
 })
 export class BackgroundComponent {
 

@@ -44,7 +44,6 @@ export class SignatureService {
         this.showSection$.next(false)
     }
 
-// TODO toasty
     listSignatures$(): Observable<Signature[]> {
         this.courtine.startCourtine()
         return this.http.get<Signature[]>(`/document/signatures`).pipe(

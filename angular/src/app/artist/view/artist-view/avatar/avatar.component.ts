@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { ImgUtil } from '../../../../global/utils/img.util';
 import { filter, map, switchMap, take, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
@@ -16,7 +16,6 @@ import { FireImgStorageService } from '../../../../global/services/fire-img-stor
   ],
   templateUrl: './avatar.component.html',
   styleUrl: './avatar.component.scss',
-  encapsulation: ViewEncapsulation.None
 })
 export class AvatarComponent {
 

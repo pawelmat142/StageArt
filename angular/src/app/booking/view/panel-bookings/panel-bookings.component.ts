@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { map, withLatestFrom } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { bookingFormData, loadBookings, profile, profileBookings, removeBookingFormData } from '../../../profile/profile.state';
@@ -28,7 +28,6 @@ import { SignComponent } from '../../../global/components/sign/sign.component';
 ],
   templateUrl: './panel-bookings.component.html',
   styleUrl: './panel-bookings.component.scss',
-  encapsulation: ViewEncapsulation.None
 })
 export class PanelBookingsComponent {
 

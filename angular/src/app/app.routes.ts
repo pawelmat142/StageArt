@@ -23,22 +23,23 @@ export const routes: Routes = [
         path: Path.BOOK_FORM_VIEW,
         component: BookFormComponent,
     }, {
-        path: LoginComponent.path,
+        path: Path.LOGIN,
         component: LoginComponent,
     }, {
         path: RegisterComponent.path,
         component: RegisterComponent
     }, {
-        path: `${PanelComponent.path}/telegram/:id`,
+        path: `${Path.PANEL}/telegram/:id`,
         component: PanelComponent,
     }, {
-        path: PanelComponent.path,
+        path: Path.PANEL,
         component: PanelComponent,
     }, {
         path: NotFoundPageComponent.path,
         component: NotFoundPageComponent
     }, {
         path: '**',
-        component: NotFoundPageComponent,
+        // component: NotFoundPageComponent,
+        redirectTo: HomepageComponent.path
     },
 ];

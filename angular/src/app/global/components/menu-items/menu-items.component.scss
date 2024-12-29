@@ -1,0 +1,38 @@
+@import 'variables';
+
+$item-padding: 10px;
+
+ul, li {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    min-width: 250px;
+}
+
+.menu-items {
+    color: $textColor;
+    font-weight: 500;
+}
+
+.menu-item {
+    padding: $item-padding;
+    display: flex;
+    border-radius: $radius-control;
+
+    &.column {
+        flex-direction: column;
+    }
+    &.title {
+        text-transform: uppercase;
+        color: $primaryColor;
+    }
+}
+
+a {
+    cursor: pointer;
+    transition: $transition-standard;
+    &.active,
+    &:hover {
+        background-color: $highlightBg;
+    }
+}

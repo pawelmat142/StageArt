@@ -1,81 +1,17 @@
 @import 'variables';
-@import 'form';
 
-:host {
-    height: 100%;
+img, svg {
+    width: 1.5em;
+    height: 1.5em;
+    aspect-ratio: 1/1;
+    display: flex;
 }
 
 .icon-button {
+    cursor: pointer;
+    padding: 0.5*$padding-standard;
+}
 
-    &.button {
-        cursor: not-allowed;
-        &.active {
-            @extend .hovergrow;
-            @extend .max;
-        }
-    }
-
+.svg-wrapper {
     display: flex;
-
-    .mat-icon {
-        width: unset;
-        height: unset;
-        font-size: 30px;
-    }
-
-    img {
-        max-height: 200px;
-        height: 100%;
-        aspect-ratio: 1/1;
-    }
-
-    .svg-wrapper {
-        height: 100%;
-        aspect-ratio: 1/1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    svg {
-        fill: $dark;
-        max-height: 35px;
-    }
-
 }
-
-.skip-aspect-ratio {
-    .icon-button {
-        .svg-wrapper, img {
-            aspect-ratio: unset;
-        }
-    }
-}
-
-.border {
-    .icon-button {
-        display: flex;
-        overflow: hidden;
-        border: 1px solid $dark;
-        border-radius: 3px;
-    }
-}
-
-.app-selector {
-    .icon-button {
-        height: $selector-img-height;
-    }
-    .selector-items {
-        .icon-button {
-            height: calc($selector-item-height - 6px);
-        }
-    }
-}
-
-.circle {
-    .icon-button {
-        border-radius: 50%;
-    }
-}
-
-
-

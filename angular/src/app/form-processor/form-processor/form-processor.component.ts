@@ -1,8 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { ControlContainer, FormArray, FormBuilder, FormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
-import { ControlComponent } from '../control/control.component';
-import { BtnComponent } from '../../global/controls/btn/btn.component';
 import { GroupComponent } from '../group/group.component';
 import { ArrayComponent } from "../array/array.component";
 import { pForm, pFormArray, pFormStep } from '../form-processor.service';
@@ -11,8 +9,8 @@ import { skip, Subscription, take, tap } from 'rxjs';
 import { formData, FormType, newForm, openForm, selectFormId, startForm, storeForm } from '../form.state';
 import { FormUtil } from '../../global/utils/form.util';
 import { AppState } from '../../app.state';
-import { DialogService } from '../../global/nav/dialog.service';
-import { DialogData } from '../../global/nav/dialogs/popup/popup.component';
+import { Dialog, DialogData } from '../../global/nav/dialog.service';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-form-processor',
@@ -20,10 +18,9 @@ import { DialogData } from '../../global/nav/dialogs/popup/popup.component';
   imports: [
     ReactiveFormsModule,
     CommonModule,
-    ControlComponent,
-    BtnComponent,
     GroupComponent,
-    ArrayComponent
+    ArrayComponent,
+    ButtonModule
 ],
   viewProviders: [
     {
@@ -33,14 +30,13 @@ import { DialogData } from '../../global/nav/dialogs/popup/popup.component';
   ],
   templateUrl: './form-processor.component.html',
   styleUrl: './form-processor.component.scss',
-  encapsulation: ViewEncapsulation.None
 })
 export class FormProcessorComponent {
 
   constructor(
     private readonly fb: FormBuilder,
     private readonly store: Store<AppState>,
-    private readonly dialog: DialogService,
+    private readonly dialog: Dialog,
   ) {}
 
   @Input() form!: pForm
@@ -60,7 +56,6 @@ export class FormProcessorComponent {
   formData?: any
 
   ngOnInit(): void {
-    
     this.subscriptions.push(this.store.select(formData).pipe(
       tap(formData => this.formData = formData),
       skip(1),
@@ -155,14 +150,13 @@ export class FormProcessorComponent {
       header: 'Are you sure you want to start new form?',
       buttons: [{
         label: 'No',
-        class: 'light big'
+        severity: 'secondary',
       }, {
         label: `Yes`,
-        class: 'big',
         onclick: () => this.resetForm()
       }]
     }
-    this.dialog.popup(data).afterClosed().subscribe()
+    this.dialog.popup(data).onClose.subscribe()
   }
   
   private resetForm() {

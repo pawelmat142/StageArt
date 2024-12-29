@@ -1,23 +1,21 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { BtnComponent } from '../../../../global/controls/btn/btn.component';
-import { SelectorComponent } from "../../../../global/controls/selector/selector.component";
-import { loggedIn, login, logout } from '../../../profile.state';
+import { loggedIn } from '../../../profile.state';
 import { Store } from '@ngrx/store';
-import { Token } from '../token';
-import { filter, noop, Observer, of, switchMap, tap } from 'rxjs';
+import { filter, noop, Observer, of, switchMap } from 'rxjs';
 import { FormUtil } from '../../../../global/utils/form.util';
 import { LoginForm, ProfileService } from '../../../profile.service';
-import { PanelComponent } from '../../../view/panel/panel.component';
 import { HeaderComponent } from '../../../../global/components/header/header.component';
-import { DialogService } from '../../../../global/nav/dialog.service';
+import { Dialog, DialogData } from '../../../../global/nav/dialog.service';
 import { NavService } from '../../../../global/nav/nav.service';
-import { InputComponent } from '../../../../global/controls/input/input.component';
 import { AppState } from '../../../../app.state';
 import { RegisterComponent } from '../register/register.component';
-import { DialogData } from '../../../../global/nav/dialogs/popup/popup.component';
 import { CourtineService } from '../../../../global/nav/courtine.service';
+import { Path } from '../../../../global/nav/path';
+import { ButtonModule } from 'primeng/button';
+import { FormFieldComponent } from '../../../../global/controls/form-field/form-field.component';
+import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
   selector: 'app-login',
@@ -26,19 +24,18 @@ import { CourtineService } from '../../../../global/nav/courtine.service';
     ReactiveFormsModule,
     CommonModule,
     HeaderComponent,
-    InputComponent,
-    BtnComponent,
-    SelectorComponent
+    FormFieldComponent,
+    InputTextModule,
+    ButtonModule,
 ],
-  templateUrl: './login.component.html'
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.scss',
 })
 export class LoginComponent {
 
-  public static readonly path = 'login'
-
   constructor(
     private profileService: ProfileService,
-    private dialog: DialogService,
+    private dialog: Dialog,
     private nav: NavService,
     private courtine: CourtineService,
     private store: Store<AppState>,
@@ -105,13 +102,13 @@ export class LoginComponent {
         this.loginToken = token.token
 
         const data: DialogData = {
-          header: '',
+          header: 'PIN:',
           input: 'pin',
           inputClass: 'max-300',
           inputValidators: [Validators.minLength(4), Validators.maxLength(4), Validators.pattern(/^[0-9]*$/)]
         }
         this.courtine.stopCourtine()
-        return this.dialog.popup(data).afterClosed().pipe(
+        return this.dialog.popup(data).onClose.pipe(
         )
       }),
       filter(pin => !!pin),
@@ -127,12 +124,12 @@ export class LoginComponent {
       next: (token: { token: string }) => {
         this.courtine.stopCourtine()
         this.store.dispatch(loggedIn(token))
-        this.nav.to(PanelComponent.path)
-        this.dialog.simplePopup('Logged in!')
+        this.nav.to(Path.PANEL)
+        this.dialog.infoToast('Logged in!')
       },
       error: (error: any) => {
         this.courtine.stopCourtine()
-        this.dialog.errorPopup(error.error.message)
+        this.dialog.errorPopup(error)
       },
       complete: () => noop()
     }

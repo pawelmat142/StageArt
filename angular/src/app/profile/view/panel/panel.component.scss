@@ -1,5 +1,8 @@
 @import 'variables';
-@import 'color';
+
+:host {
+    flex: 1;
+}
 
 .spinner-wrapper  {
     display: flex;
@@ -7,14 +10,9 @@
     justify-content: center;
 }
 
-.desktop {
-    .profile-view-content {
-        margin-left: $sidebar-width;
-    }
-}
-
 .profile-view-content {
-    background-color: $light-dark;
-    min-height: 100vh;
+    padding: $padding-standard;
+    background-color: $highlightBg;
     padding-bottom: 2*$padding-standard;
+    width: 100%;
 }

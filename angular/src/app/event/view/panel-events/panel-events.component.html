@@ -4,27 +4,44 @@
         <div class="panel-section">
 
             <div class="panel-section-header">
-                <h2 class="fs3 light">Events as promoter</h2>
+                <h2 class="fs3 bold">Events as promoter</h2>
             </div>
         
             <div class="booking-itmes-container">
-    
-                <div class="item-row booking-item labels">
-                    <p>Event name</p>
-                    <p>Status</p>
-                    <p>Start date</p>
-                    <p>End date</p>
-                </div>
-
-                @for(event of events; track event.signature) {
-                    <div class="item-row booking-item clickable" (click)="_openEvent(event)">
-                        <p>{{event.name}}</p>
-                        <p>{{event.status | status}}</p>
-                        <p>{{event.startDate | date : 'dd-MM-yyyy'}}</p>
-                        <p>{{event.endDate | date : 'dd-MM-yyyy'}}</p>
+                <div class="labels">
+                    <div class="item-row booking-item">
+                        <p>Event name</p>
+                        <p>Status</p>
+                        <p>Start date</p>
+                        <p>End date</p>
                     </div>
-                }
-        
+                </div>
+    
+
+                <p-accordion class="w-full" (activeIndexChange)="_selectEvent($event)">
+                    
+                    @for (event of events; track event.signature; let last = $last) {
+                        <p-accordionTab>
+
+                            <ng-template pTemplate="header">
+                                <div class="item-row booking-item">
+                                    <p>{{event.name}}</p>
+                                    <p>{{event.status | status}}</p>
+                                    <p>{{event.startDate | date : 'dd-MM-yyyy'}}</p>
+                                    <p>{{event.endDate | date : 'dd-MM-yyyy'}}</p>
+                                </div>
+                            </ng-template>
+
+                            <div class="item-row-collapse-content">
+                                <div class="fs3 primary">
+                                    To be continued...
+                                </div>
+                            </div>
+
+                        </p-accordionTab>
+                    }
+                </p-accordion>
+
             </div>
         </div>
 

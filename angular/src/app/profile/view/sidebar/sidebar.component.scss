@@ -1,74 +1,12 @@
-@import 'color';
 @import 'variables';
-@import 'font';
-
-$border: 1px solid $red; 
-
-app-profile {
-    background-color: $light-dark;
-}
-
-.desktop {
-    .sidebar {
-        right: unset;
-        left: 0;
-        transform: unset;
-    }
-}
 
 .sidebar-container {
-    position: relative;
-    .sidebar-btn {
-        position: absolute;
-        top: -10px;
-        left: -50px;
-
-        background-color: $red;
-        width: 50px;
-
-        @extend .edit-toggle-style;
-        border-bottom-left-radius: $radius;
-        border-top-left-radius: $radius;
-    }
-}
-
-
-.sidebar {
-    background-color: $dark;
-    width: $sidebar-width;
-    position: fixed;
-    top: 0;
-    left: unset;
-    right: 0;
-    bottom: 0;
-    padding-top: $header-height;
-    z-index: 8;
-
-    transition: $transition-standard;
-    
-    transform: translateX(100%);
-    &.open {
-        transform: translateX(0);
-    }
-}
-
-.sidebar-header-item {
-    // padding: 0 $padding-standard 0.5*$padding-standard;
-    padding: 0 $padding-standard 0;
-}
-
-.siderbar-item {
-    @extend .fs3;
-    color: $red;
-    @extend .baron;
-    @extend .highlight;
-    padding: 0.5*$padding-standard 2*$padding-standard;
+    overflow: visible;
+    height: 100%;
+    background-color: $bgTwo;
+    border-right: 1px solid $surfaceBorder;
+    // padding: $padding-standard 0 $padding-standard $padding-standard;
     display: flex;
-    align-items: center;
-    margin-bottom: 0.2*$padding-standard;
-
-    &.active {
-        background: $red-transparent;
-    }
+    flex-direction: column;
+    justify-content: space-between;
 }
-

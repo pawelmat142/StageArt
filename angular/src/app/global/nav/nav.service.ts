@@ -5,14 +5,16 @@ import { NotFoundPageComponent } from '../view/error/not-found-page/not-found-pa
 import { Location } from '@angular/common';
 import { Profile } from '../../profile/profile.model';
 import { HomepageComponent } from '../view/homepage/homepage.component';
+import { MenuItem } from 'primeng/api';
 
-export interface MenuButtonItem {
-  label: string
-  onclick?: () => void,
-  path?: string,
-  active?: boolean
+export interface MenuButtonItem extends MenuItem {
   rolesGuard?: string[] //undefined means its available for every role
   filter?: (profile?: Profile) => boolean
+  path?: string 
+}
+
+export interface AppMenuItem extends MenuItem {
+  rolesGuard?: string[] //undefined means its available for every role
 }
 
 @Injectable({
@@ -60,6 +62,10 @@ export class NavService {
 
   public get path(): string {
     return this.location.path()
+  }
+
+  public back() {
+    this.location.back()
   }
 
 }

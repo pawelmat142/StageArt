@@ -24,8 +24,6 @@ import { ArtistViewEffect, artistViewReducer } from './artist/view/artist-view/a
 
 registerLocaleData(localeEn);
 
-export interface State {}
-
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
@@ -44,8 +42,10 @@ export const appConfig: ApplicationConfig = {
     provideStorage(() => getStorage()),
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
 
-    { provide: FIREBASE_OPTIONS, useValue: environment.firebaseConfig },
-
+    { 
+        provide: FIREBASE_OPTIONS, 
+        useValue: environment.firebaseConfig 
+    },
     {
         provide: LOCALE_ID,
         useValue: 'en-EN'
@@ -56,11 +56,15 @@ export const appConfig: ApplicationConfig = {
         deps: [CountriesService],
         multi: true
     },
-
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { 
+        provide: HTTP_INTERCEPTORS, 
+        useClass: AuthInterceptor, 
+        multi: true 
+    },
 
 
     provideStoreDevtools({ maxAge: 25, logOnly: environment.production,  }),
 
     ]
 }
+

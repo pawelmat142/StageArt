@@ -6,9 +6,8 @@ import { FormProcessorService } from "./form-processor.service"
 import { AppState } from "../app.state"
 import { BookingService } from "../booking/services/booking.service"
 import { EventService } from "../event/services/event.service"
-import { MatDialog } from "@angular/material/dialog"
 import { EventsFormDataComponent } from "../global/nav/dialogs/events-form-data/events-form-data.component"
-import { setBookingFormData } from "../profile/profile.state"
+import { Dialog } from "../global/nav/dialog.service"
 
 export enum FormType {
     BOOKING = "BOOKING"
@@ -174,7 +173,7 @@ export class FormEffect {
 
         private readonly bookingService: BookingService,
         private readonly eventService: EventService,
-        private readonly matDialog: MatDialog,
+        private readonly dialog: Dialog,
     ){}
 
     openForm$ = createEffect(() => this.actions$.pipe(
@@ -252,11 +251,15 @@ export class FormEffect {
         return this.eventService.fetchPromoterEvents$().pipe(
             take(1),
             map(events => events.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime())),
-            switchMap(events => events?.length 
-                ? this.matDialog.open(EventsFormDataComponent, { data: events }).afterClosed()
-                : of(undefined)
-            ),
-            map(event => event?.formData)
+            
+            
+            // TODO wlaczyc i poprawic popup
+            // switchMap(events => events?.length 
+                // ? this.dialog.open(EventsFormDataComponent, { data: events }).onClose
+                // : of(undefined)
+            // ),
+
+            // map(event => event?.formData)
         )
     }
 

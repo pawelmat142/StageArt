@@ -1,6 +1,6 @@
-<div class="artist-card" (click)="goToArtist()">
+<div class="artist-card card shadow" (click)="goToArtist()">
 
-    <div class="img-wrapper cover-center">
+    <div class="img-wrapper cover-center square">
         <img [src]="_avatarUrl" [alt]="artist.name">
     </div>
 
@@ -13,7 +13,6 @@
         <div class="description-row">
             <app-country
                 [countryCode]="artist.country.code" 
-                class="card-country"
             ></app-country>
         </div>
 
@@ -25,7 +24,6 @@
                         class="no-padding"
                         [media]="media" 
                         [hideName]="true" color="light-dark"
-                        [size]="20"
                     ></app-media-item>
                 }
             </div>

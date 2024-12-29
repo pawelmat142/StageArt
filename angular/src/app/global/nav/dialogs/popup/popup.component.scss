@@ -1,0 +1,11 @@
+@import 'variables';
+
+.control-margin {
+    margin-bottom: $padding-standard;
+}
+
+.p-dialog-footer-inner {
+    display: flex;
+    justify-content: center;
+    gap: $padding-standard;
+}

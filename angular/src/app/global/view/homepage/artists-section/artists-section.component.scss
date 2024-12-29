@@ -1,63 +1,26 @@
 @import 'variables';
 
-.desktop {
-    .section-container {
-        .p-carousel-indicators {
-            margin-top: 3*$padding-standard;
-            li {
-                width: 30px;
-                button {
-                    @extend .hovergrow;
-                    &:hover {
-                        background-color: $active-red;
-                    }
-                    height: 10px;
-                    border-radius: 5px;
-                    width: 10px;
-                }
-            } 
-        }
-    }
+.artists-section {
+    padding-top: 2*$padding-standard;
 }
 
 .section-container {
-
     .p-carousel {
-        margin-left: -0.25*$padding-standard;
-        margin-right: -0.25*$padding-standard;
+        margin-left: -0.5*$padding-standard;
+        margin-right: -0.5*$padding-standard;
     }
     .card-shadow-wrapper {
         padding: 0.5*$padding-standard;
     }
+}
 
-    .p-ripple.p-link {
-        display: none;;
+@media only screen and (min-width: $desktop) {
+    .artists-section {
+        padding-top: 6*$padding-standard;
     }
-
-    .p-carousel-indicators {
-        margin-top: $padding-standard;
-        gap: $padding-standard;
-        list-style-type: none;
-        padding: 0;
-
-        li {
-            padding: $padding-standard;
-            button {
-                background-color: $red;
-                border: 0;
-                height: 8px;
-                width: 8px;
-                border-radius: 4px;
-                padding: 0;
-            }
-            &.p-highlight {
-                button {
-                    background-color: $active-red;
-                    box-shadow: $card-shadow;
-                }
-            }
-        }
-
+    .grid {
+        margin-top: 2*$padding-standard;
+        grid-template-columns: 1fr 1fr 1fr;
+        margin: $padding-standard 0.5*$padding-standard;
     }
-
 }

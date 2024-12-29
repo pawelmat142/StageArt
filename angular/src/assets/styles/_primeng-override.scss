@@ -1,0 +1,215 @@
+.p-button {
+    font-weight: bold;
+    color: $primaryColorText;
+}
+
+.p-button:focus {
+    box-shadow: none;
+}
+
+.primary-btn {
+    .p-button {
+        background: $primaryColor;
+        border-color: $primaryColor;
+    
+        &:not(:disabled):hover {
+            border-color: $primaryHover;
+            background: $primaryHover;
+        }
+    }
+}
+
+.p-dialog {
+    max-width: 85%;
+    .p-dialog-footer,
+    .p-dialog-content,
+    .p-dialog-header {
+        background-color: $bg;
+        color: $textColor;
+    }
+}
+
+.p-dialog-footer-inner {
+    padding: 0;
+}
+
+// ACCORDION
+.p-accordion .p-accordion-header .p-accordion-header-link {
+    padding: 0;
+    font-weight: normal;
+    background-color: $bgTwo;
+    border: $border;
+}
+.p-accordion-tab-active {
+    border: $border;
+}
+.p-accordion .p-accordion-tab {
+    background-color: $bgTwo;
+    border-radius: $borderRadius;
+}
+.p-accordion .p-accordion-header .p-accordion-header-link .p-accordion-toggle-icon {
+    order: 2;
+    color: $textColor;
+    font-weight: 600;
+}
+.p-accordion .p-accordion-header.p-highlight .p-accordion-header-link {
+    border: none;
+}
+.p-accordion .p-accordion-content { 
+    background-color: $bgTwo;
+    border: none;
+    padding-top: 0;
+    padding-left: 0;
+    padding-bottom: 0;
+    padding-right: 0;
+}
+
+
+// STEPPER
+.p-stepper.p-stepper-vertical .p-stepper-panel .p-stepper-separator {
+    margin-inline-start: 3/2*$padding-standard;
+
+}
+.p-stepper.p-stepper-vertical .p-stepper-toggleable-content {
+    background-color: $bgTwo;
+}
+
+.p-stepper .p-stepper-header .p-stepper-action {
+    background: none;
+}
+
+.pi {
+    color: $primaryColorText;
+}
+.pi:before {
+    font-weight: bold;
+}
+
+.p-stepper .p-stepper-header .p-stepper-action .p-stepper-number {
+    background-color: $bgTwo;
+    color: $textColor;
+    border-color: $primary2;
+}
+.p-stepper .p-stepper-header.p-highlight .p-stepper-number {
+    background-color: $highlightBg;
+    color: $primaryColor;
+}
+.p-stepper .p-stepper-separator,
+.p-stepper.p-stepper-vertical .p-stepper-panel:has(~ .p-stepper-panel-active) .p-stepper-separator {
+    background-color: $primaryColor;
+}
+.p-stepper-title {
+    margin-left: $padding-standard;
+    color: $textColor;
+    font-weight: 500;
+}
+.p-stepper.p-stepper-vertical .p-stepper-panel .p-stepper-content {
+    margin-left: $padding-standard;
+    padding-left: 0;
+}
+
+
+
+// CAROUSEL
+.p-carousel-container {
+    .p-link {
+        display: none;
+    }
+}
+
+.p-carousel-indicators {
+    margin-top: $padding-standard;
+    gap: $padding-standard;
+    list-style-type: none;
+    padding: 0;
+
+    li {
+        padding: $padding-standard;
+        button {
+            background-color: $primaryColor;
+            border: 0;
+            height: 8px;
+            width: 8px;
+            border-radius: 4px;
+            padding: 0;
+        }
+        &.p-highlight {
+            button {
+                background-color: $primary600;
+                box-shadow: $card-shadow;
+            }
+        }
+    }
+}
+
+
+// SIDEBAR
+.p-sidebar {
+    background-color: $bgTwo;
+}
+.p-sidebar-header {
+    padding-bottom: 0;
+}
+.p-sidebar .p-sidebar-header + .p-sidebar-content {
+    padding: 0;
+}
+.p-menuitem-text {
+    color: $textColor;
+}
+
+
+// DROPDOWN
+.floating {
+    svg,
+    .p-dropdown-label,
+    timesicon {
+        display: none;
+    }
+    
+    .p-dropdown-trigger {
+        background-color: $editButtonColor; 
+        color: white; 
+        border-radius: 0; 
+        padding: 0; 
+        border: none; 
+        font-size: 0;
+        font-weight: bold;
+        width: fit-content;
+        &::after {
+            font-size: medium;
+            font-weight: normal;
+            color: $textSecondaryColor;
+        }
+
+    }
+
+    &.edit-country .p-dropdown-trigger::after {
+        content: 'select country';
+    }
+    &.edit-media .p-dropdown-trigger::after {
+        content: 'add link';
+    }
+
+    .dropdown-img {
+        .icon-button {
+            padding: 0;
+            padding-right: 0.5*$padding-standard;
+
+            svg {
+                fill: $primaryColor;
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: $desktop) {
+    .p-accordion .p-accordion-content { 
+        padding-bottom: unset;
+        padding-right: unset;
+    }
+
+    .p-stepper.p-stepper-vertical .p-stepper-panel .p-stepper-content {
+        padding-left: 1rem;
+    }
+    
+}

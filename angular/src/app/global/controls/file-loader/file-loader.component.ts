@@ -3,13 +3,10 @@ import { Component, ElementRef, EventEmitter, forwardRef, HostListener, Injector
 import { NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { FileViewComponent } from './file-view/file-view.component';
 import { AbstractControlComponent } from '../abstract-control/abstract-control.component';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { tap } from 'rxjs';
-import { DialogData } from '../../nav/dialogs/popup/popup.component';
 import { ImgUtil } from '../../utils/img.util';
 import { IconButtonComponent } from '../../components/icon-button/icon-button.component';
-import { DialogService } from '../../nav/dialog.service';
-import { NavService } from '../../nav/nav.service';
+import { Dialog } from '../../nav/dialog.service';
 
 @Component({
   selector: 'app-file-loader',
@@ -19,7 +16,6 @@ import { NavService } from '../../nav/nav.service';
     ReactiveFormsModule,
     IconButtonComponent,
     FileViewComponent,
-    MatProgressSpinnerModule
   ],
   templateUrl: './file-loader.component.html',
   styleUrl: './file-loader.component.scss',
@@ -34,8 +30,7 @@ export class FileLoaderComponent extends AbstractControlComponent<File | null> {
   constructor(
     elementRef: ElementRef,
     injector: Injector,
-    private nav: NavService,
-    private dialog: DialogService,
+    private dialog: Dialog,
   ) {
     super(elementRef, injector);
   }
@@ -126,11 +121,7 @@ export class FileLoaderComponent extends AbstractControlComponent<File | null> {
   }
 
   private wrongExtensionPopup(extenstion: string) {
-    const data: DialogData = {
-      header: `Wrong extension: ${extenstion}`,
-      content: [`Available extensions: ${this.extensions.join(', ')}`]
-    }
-    this.dialog.popup(data)
+    this.dialog.warnToast(`Available extensions: ${this.extensions.join(', ')}`, `Wrong extension: ${extenstion}`)
   }
 
 }

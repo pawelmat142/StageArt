@@ -1,5 +1,4 @@
 <div class="name">
-
     
     <!-- row1 -->
     <div></div>
@@ -17,7 +16,7 @@
                     }
                 </div>
             }
-            <input class="fs1 light"
+            <input class="fs1 secondary"
                 #nameInput
                 [class.edit-mode]="_editName"
                 [value]="(_name$ | async)" 
@@ -26,7 +25,7 @@
             >
         </div>
 
-        <div class="d-flex">
+        <div class="artist-country">
             <app-country *ngIf="(_country$ | async) as country; else countryMock"
                 [countryCode]="country.code"
             ></app-country>
@@ -37,15 +36,11 @@
             </ng-template>
     
             @if (_editMode) {
-                <div class="edit-button inline edit-country" (click)="editCountry()" [class.active]="_editCountry">
-                    <span class="dark">select country</span>
-        
-                    <app-selector-items
-                        class="floating"
-                        [items]="_countryItems"
-                        (select)="_selectCountry($event)"
-                    ></app-selector-items>
-                </div>
+                <app-dropdown 
+                    class="floating edit-button edit-country" 
+                    [items]="_countryItems"
+                    (select)="_selectCountry($event)"
+                ></app-dropdown>
             }
         </div>
     
@@ -53,11 +48,7 @@
 
     <!-- row3 -->
 
-    @if (DESKTOP) {
-        <app-style></app-style>
-    } @else {
-        <div></div>
-    }
-
+    <app-style class="show-desktop"></app-style>
+    <div class="hide-desktop"></div>
     
 </div>

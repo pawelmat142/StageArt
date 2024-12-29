@@ -1,20 +1,18 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { ArtistService } from '../../artist.service';
-import { AppState } from '../../../app.state';
-import { Store } from '@ngrx/store';
 import { noop, Observable, Observer, of, tap } from 'rxjs';
 import { ArtistStatus, ArtistViewDto } from '../../model/artist-view.dto';
 import { StatusPipe } from "../../../global/pipes/status.pipe";
-import { BtnComponent } from '../../../global/controls/btn/btn.component';
 import { NavService } from '../../../global/nav/nav.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TextareaComponent } from '../../../global/controls/textarea/textarea.component';
 import { FormUtil } from '../../../global/utils/form.util';
 import { CourtineService } from '../../../global/nav/courtine.service';
-import { DialogService } from '../../../global/nav/dialog.service';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { Dialog } from '../../../global/nav/dialog.service';
 import { AccordionModule } from 'primeng/accordion';
+import { TooltipModule } from 'primeng/tooltip';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-panel-artists',
@@ -24,22 +22,20 @@ import { AccordionModule } from 'primeng/accordion';
     ReactiveFormsModule,
     TextareaComponent,
     StatusPipe,
-    MatTooltipModule,
-    BtnComponent,
     AccordionModule,
+    TooltipModule,
+    ButtonModule
 ],
   templateUrl: './panel-artists.component.html',
   styleUrl: './panel-artists.component.scss',
-  encapsulation: ViewEncapsulation.None
 })
 export class PanelArtistsComponent {
 
   constructor(
     private readonly artistService: ArtistService,
     private readonly courtineService: CourtineService,
-    private readonly dialog: DialogService,
+    private readonly dialog: Dialog,
     private readonly nav: NavService,
-    private readonly store: Store<AppState>,
   ) {}
 
   _artists$: Observable<ArtistViewDto[]> = of([])
@@ -117,10 +113,7 @@ export class PanelArtistsComponent {
       next: () => {
         this.fetchArtistsOfManager()
       }, 
-      error: (error) => {
-        this.dialog.errorPopup(error.error.message)
-        this.courtineService.stopCourtine()
-      },
+      error: this.dialog.errorPopup,
       complete: noop
     }
   }

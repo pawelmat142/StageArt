@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Input, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { catchError, concatMap, map, of, tap } from 'rxjs';
 import { ImgUtil } from '../../../global/utils/img.util';
 
@@ -9,7 +9,6 @@ import { ImgUtil } from '../../../global/utils/img.util';
   imports: [],
   templateUrl: './img-cached.component.html',
   styleUrl: './img-cached.component.scss',
-  encapsulation: ViewEncapsulation.None
 })
 export class ImgCachedComponent {
 

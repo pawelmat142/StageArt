@@ -1,49 +1,27 @@
 @import 'variables';
-@import 'color';
-@import 'tile';
-
 
 $card-width: 24vw;
 
-.desktop {
-    .artist-card {
-
-        .media-item-container .icon-button svg {
-            width: 40px;
-        }
-
-        &:hover {
-            box-shadow: $card-shadow;
-            .img-wrapper { 
-                img {
-                    filter: saturate(1)
-                }
-            }
-            
-        }
-        .img-wrapper {
-            height: 0.73*$card-width;
-        }
-    }
-    
-    .artist-card .img-wrapper img {
-        filter: saturate(0);
-    }
-
-}
-
 .artist-card {
-
+    font-size: 14px;
     transition: $transition-standard;
     cursor: pointer;
+    background-color: $white;
+    overflow: hidden;
+    &:hover {
+        transform: scale(1.03);
 
-    @extend .card;
+        .img-wrapper {
+            img {
+                filter: grayscale(0);
+            }
+        }
+    }
 
     .img-wrapper {
         width: 100%;
-        height: 1.4*$card-width;
-        height: 250px;
         img {
+            filter: grayscale(100%);
             transition: $transition-standard;
             width: 100%;
             height: 100%;
@@ -51,12 +29,12 @@ $card-width: 24vw;
     }
 
     .media-item-container .icon-button svg {
-        fill: $dark;
-        width: 35px;
+        width: 2rem;
+        fill: $primaryColor;
+        height: 2rem;
     }
 
     .description {
-        background-color: $white;
         padding: 0.5*$padding-standard $padding-standard $padding-standard;
 
         .description-row {
@@ -72,17 +50,14 @@ $card-width: 24vw;
             display: flex;
             align-items: center;
             justify-content: flex-end;
-            gap: $padding-standard;
-
             .icon-button .svg-wrapper {
-                min-height: 25px;
-            }
-        }
-    }
+                min-height: 20px;
 
-    .icon-button {
-        img {
-            max-height: 20px;
+                svg {
+                    height: 1.5rem;
+                    width: 1.5rem;
+                }
+            }
         }
     }
 }

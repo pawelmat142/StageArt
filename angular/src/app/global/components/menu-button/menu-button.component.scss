@@ -1,14 +1,19 @@
 @import 'variables';
-@import 'color';
-@import 'font';
-@import 'form';
 
+:host {
+    margin-left: auto;
+    position: relative;
+    margin-bottom: 80px;
+}
 
 .menu-button-container {
-    background-color: $red;
-    color: $dark;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: $primaryColor;
+    color: $primaryColorText;
     overflow: hidden;
-    border-radius: $radius-standard;
+    border-radius: $borderRadius;
     box-shadow: $shadow-standard;
     
     display: flex;
@@ -24,59 +29,41 @@
     }
     
     width: unset;
-    height: 50px;
+    max-height: 45px;
 
-    .btn {
-
-        padding: 0.5*$padding-standard 1.5*$padding-standard;
-    }
-
-    .active {
-        .btn {
-            &:hover {
-                transform: none;
-            }
-        }
+    .p-button:focus {
+        box-shadow: unset;
     }
 }
 
 .menu-button-children {
     display: flex;
     align-items: center;
-    color: $red;
     transition: none;
-    @extend .btn-font;
+    color: $highlightBg;
     
     .menu-button-child {
-        width: 0;
-        padding: 0;
-        transition: $transition-standard;
-
-        cursor: pointer;
-        background-color: $red;
-        border-radius: $radius-standard;
+        background-color: $primaryColor;
+        border-radius: $borderRadius;
         display: flex;
         align-items: center;
         justify-content: center;
 
+        width: 0;
+        color: $primaryColor;
+        font-size: 0;
+
+        transition: $transition-standard;
+        white-space: nowrap;
         overflow: hidden;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-        white-space: normal;
+        text-overflow: ellipsis;
+
+        width: auto;
+        max-width: 0;
         
-        &:hover {
-            background-color: $active-red;
+        &.open {
+            max-width: 150px;
+            height: 100%;
         }
-    }
-}
-
-.menu-button-open {
-    .menu-button-children {
-        color: $dark;
-    }
-
-    .menu-button-child {
-        width: 130px;
-        height: 100%;
     }
 }

@@ -1,10 +1,9 @@
-import { Component, EventEmitter, Input, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { ControlContainer, FormArray, FormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { GroupComponent } from '../group/group.component';
 import { ControlComponent } from '../control/control.component';
 import { pFormArray } from '../form-processor.service';
-import { BtnComponent } from '../../global/controls/btn/btn.component';
 import { FormUtil } from '../../global/utils/form.util';
 
 @Component({
@@ -15,10 +14,8 @@ import { FormUtil } from '../../global/utils/form.util';
     CommonModule,
     GroupComponent,
     ControlComponent,
-    BtnComponent,
   ],
   templateUrl: './array.component.html',
-  encapsulation: ViewEncapsulation.None,
   viewProviders: [
     {
       provide: ControlContainer,

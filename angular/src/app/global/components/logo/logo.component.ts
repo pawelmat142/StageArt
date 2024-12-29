@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-logo',
@@ -8,12 +8,11 @@ import { Component, Input } from '@angular/core';
     CommonModule
   ],
   templateUrl: './logo.component.html',
-  styleUrl: './logo.component.scss'
+  styleUrl: './logo.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class LogoComponent {
-  
-  @Input() size = '150'
-  @Input() dropColor = 'red'
+
   @Input() showDrop = true
 
 }

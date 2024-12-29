@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { IconButtonComponent } from '../icon-button/icon-button.component';
 import { ArtistMedia } from '../../../artist/artist-medias/artist-medias.service';
 import { Util } from '../../../global/utils/util';
@@ -7,8 +7,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../../app.state';
 import { artistMedias, editMode, updateMedias } from '../../../artist/view/artist-view/artist-view.state';
 import { map, noop, of, switchMap, take, tap } from 'rxjs';
-import { DialogData } from '../../nav/dialogs/popup/popup.component';
-import { DialogService } from '../../nav/dialog.service';
+import { Dialog, DialogData } from '../../nav/dialog.service';
 import { FromSnakeCasePipe } from "../../pipes/from-snake-case.pipe";
 
 @Component({
@@ -20,20 +19,18 @@ import { FromSnakeCasePipe } from "../../pipes/from-snake-case.pipe";
     FromSnakeCasePipe
 ],
   templateUrl: './media-item.component.html',
-  styleUrl: './media-item.component.scss',
-  encapsulation: ViewEncapsulation.None
+  styleUrl: './media-item.component.scss'
 })
 export class MediaItemComponent {
 
   constructor(
     private readonly store: Store<AppState>,
-    private readonly dialog: DialogService,
+    private readonly dialog: Dialog,
   ) {}
 
   @Input() media!: ArtistMedia
   @Input() hideName = false
   @Input() color = 'light'
-  @Input() size = 30
 
   _editMode$ = this.store.select(editMode)
 
@@ -58,7 +55,7 @@ export class MediaItemComponent {
       inputValue: this.media.url
     }
 
-    this.dialog.popup(data).afterClosed().pipe(
+    this.dialog.popup(data).onClose.pipe(
       switchMap(url => {
         if (url) {
           return this._medias$.pipe(

@@ -1,4 +1,4 @@
-import { Component, Input, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { pForm, pFormStep } from '../../form-processor.service';
 import { CommonModule } from '@angular/common';
 import { FormUtil } from '../../../global/utils/form.util';
@@ -13,7 +13,6 @@ import { FormGroupPresentationComponent } from '../form-group-presentation/form-
   ],
   templateUrl: './form-presentation.component.html',
   styleUrl: './form-presentation.component.scss',
-  encapsulation: ViewEncapsulation.None
 })
 export class FormPresentationComponent {
 

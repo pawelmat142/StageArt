@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, SimpleChanges, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, Input, SimpleChanges, ViewChild } from '@angular/core';
 import { SubstepComponent } from '../../../booking/view/booking-stepper/substep/substep.component';
 import { ChecklistTile } from '../../../booking/interface/checklist.interface';
 import { Menu, MenuModule } from 'primeng/menu';
@@ -12,7 +12,7 @@ import { SignatureService } from '../sign/signature.service';
 import { UploadsService } from '../../document/uploads.service';
 import { catchError, filter, of, switchMap, tap } from 'rxjs';
 import { Template } from '../../document/doc-util';
-import { DialogService } from '../../nav/dialog.service';
+import { Dialog } from '../../nav/dialog.service';
 import { CourtineService } from '../../nav/courtine.service';
 import { BookingUtil } from '../../../booking/booking.util';
 import { Role } from '../../../profile/profile.model';
@@ -28,7 +28,6 @@ import { Role } from '../../../profile/profile.model';
   ],
   templateUrl: './paper-tile.component.html',
   styleUrl: './paper-tile.component.scss',
-  encapsulation: ViewEncapsulation.None
 })
 export class PaperTileComponent {
 
@@ -36,7 +35,7 @@ export class PaperTileComponent {
     private readonly documentService: DocumentService,
     private readonly signatureService: SignatureService,
     private readonly uploadsService: UploadsService,
-    private readonly dialog: DialogService,
+    private readonly dialog: Dialog,
     private readonly courtine: CourtineService,
   ) {}
 
@@ -44,7 +43,7 @@ export class PaperTileComponent {
   @Input() booking!: BookingDto
   @Input() uid?: string
 
-  @ViewChild('menu') menuRef!: Menu
+  @ViewChild('menuRef') menuRef!: Menu
 
   tileOptions: MenuItem[] = []
 
@@ -66,8 +65,7 @@ export class PaperTileComponent {
       }),
       this.tileOptions.push({
         label: 'Upload signed',
-        // TODO
-        // command: () => this.documentService.sign(this.tile.paperId!)
+        command: () => console.log('TODO!')
       })
     }
     if (ChecklistUtil.canVerify(this.tile)) {
@@ -123,7 +121,9 @@ export class PaperTileComponent {
 
   _toggle(event: Event) {
     this.menuRef?.toggle(event)
+    this.workaroundToAlignMenuPopup()
   }
+
 
 
   private uploadFile(template: Template) {
@@ -132,7 +132,7 @@ export class PaperTileComponent {
       filter(paper => !!paper),
       switchMap(paper => this.documentService.refreshChecklist$(this.booking)),
       catchError(error => {
-        this.dialog.errorPopup(error.error.message)
+        this.dialog.errorPopup(error)
         return of(null)
       }),
       tap(() => this.courtine.stopCourtine()),
@@ -141,7 +141,7 @@ export class PaperTileComponent {
 
   private downloadFile(paperId?: string) {
     if (!paperId) {
-      // TODO toast
+      this.dialog.errorToast(`No such file!`)
       return
     }
     this.documentService.documentRequest(`/upload/${paperId}`)
@@ -149,7 +149,7 @@ export class PaperTileComponent {
 
   private deleteFile(paperId?: string) {
     if (!paperId) {
-      // TODO toast
+      this.dialog.errorToast(`No such file!`)
       return
     }
     this.dialog.yesOrNoPopup(`Are you sure you want to delete this file?`).pipe(
@@ -162,7 +162,7 @@ export class PaperTileComponent {
         return of(null)
       }),
       catchError(error => {
-        this.dialog.errorPopup(error.error.message)
+        this.dialog.errorPopup(error)
         return of()
       }),
       tap(() => this.courtine.stopCourtine()),
@@ -176,5 +176,15 @@ export class PaperTileComponent {
     return BookingUtil.bookingRoles(this.booking, this.uid).includes(role)
   }
 
+  private workaroundToAlignMenuPopup() {
+    const popupRef = this.menuRef?.el?.nativeElement?.querySelector('.p-menu')
+    if (popupRef instanceof HTMLElement) {
+      setTimeout(() => {
+        popupRef.style.right = '0'
+        popupRef.style.left = 'auto'
+        popupRef.style.top = '100%'
+      })
+    }
+  }
 
 }

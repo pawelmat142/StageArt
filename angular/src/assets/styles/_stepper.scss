@@ -1,12 +1,7 @@
 @import 'variables';
-@import 'color';
 
-$circle-size: 28px;
+$circle-size: 1.6rem;
 $substep-circle-size: 20px;
-
-.p-stepper {
-
-}
 
 .p-stepper-panel {
     display: flex;
@@ -14,6 +9,11 @@ $substep-circle-size: 20px;
     flex: initial;
     &.p-stepper-panel-active {
         flex: 1 1 auto;
+
+        .p-toggleable-content,
+        .p-stepper-toggleable-content {
+            overflow: unset;
+        }
     }
 }
 
@@ -26,48 +26,8 @@ $substep-circle-size: 20px;
 }
 
 
-.p-stepper-toggleable-content {
-    display: flex;
-    flex: 1 1 auto;
-    padding: 0 0.5*$padding-standard;
-
-    .p-stepper-separator {
-        background-color: $grey;
-        flex: 0 0 auto;
-        width: 2px;
-        height: auto;
-        margin-inline-start: 0.5*$circle-size;
-    }
-
-    .p-stepper-content {
-        width: 100%;
-        padding-left: 0.5*$circle-size + 0.5*$padding-standard;
-        padding-top: 0.5*$padding-standard;
-        padding-bottom: 0.5*$padding-standard;
-    }
-
-}
 .p-stepper-panel:last-of-type .p-stepper-content {
-    padding-left: $circle-size + 0.5*$padding-standard;
-    
-}
-
-.p-highlight {
-    .p-stepper-title {
-       color: $light;
-   }
-
-   .p-stepper-number {
-       border-color: $light;
-       color: $light;
-   }
-}
-
-.p-stepper-title {
-    margin-left: 0.5*$padding-standard;
-    color: $grey;
-    font-weight: 500;
-    transition: $transition-standard;
+    padding-left: calc($circle-size + 0.5*$padding-standard);
 }
 
 
@@ -86,57 +46,41 @@ $substep-circle-size: 20px;
 }
 
 
-
-.p-stepper-number {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    background: transparent;
-    width: $circle-size;
-    height: $circle-size;
-    color: $grey;
-    border: 2px solid $grey;
-    line-height: 2rem;
-    font-size: 1.143rem;
-    border-radius: 50%;
-    transition: $transition-standard;
-}
-
-
 .substep-haeder {
     width: 100%;
     display: inline-flex;
     align-items: center;
     
-    .mat-icon {
+    .pi {
         color: $grey;
         margin-right: 0.5*$padding-standard;
     }
 
     &.blank {
-        .mat-icon {
+        .pi {
             color: $grey;
         }
     }
 
     &.available {
-        .mat-icon {
-            color: $light;
+        .pi {
+            color: $grey;
         }
     }
 
     &.ready {
-        .mat-icon {
+        .pi {
             color: $green;
         }
     }
 
     &.error {
-        .mat-icon {
-            color: $red;
+        .pi {
+            color: $primaryColor;
         }
     }
-
 }
 
+.substep-icon {
+    font-weight: 900;
+}

@@ -1,6 +1,4 @@
 @import 'variables';
-@import 'chip';
-@import 'tile';
 
 .style-tile {
     position: relative;
@@ -16,4 +14,8 @@
             top: 0px;
         }
     }
+}
+
+.chips.styles {
+    margin-bottom: 0.5*$padding-standard;
 }

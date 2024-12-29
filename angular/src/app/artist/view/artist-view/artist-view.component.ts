@@ -1,8 +1,7 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ArtistService } from '../../../artist/artist.service';
 import { CommonModule } from '@angular/common';
-import { BtnComponent } from '../../../global/controls/btn/btn.component';
 import { HeaderComponent } from '../../../global/components/header/header.component';
 import { MenuButtonComponent } from '../../../global/components/menu-button/menu-button.component';
 import { NavService } from '../../../global/nav/nav.service';
@@ -15,13 +14,14 @@ import { AvatarComponent } from './avatar/avatar.component';
 import { artist, cancelArtistChanges, editMode, initArtist, saveChanges, startEditArtist } from './artist-view.state';
 import { BackgroundComponent } from './background/background.component';
 import { BackgroundEditorComponent } from './background-editor/background-editor.component';
-import {MatTooltipModule} from '@angular/material/tooltip';
 import { BioComponent } from './bio/bio.component';
 import { NameComponent } from './name/name.component';
 import { MediasComponent } from './medias/medias.component';
 import { StyleComponent } from './style/style.component';
 import { TextareaElementComponent } from '../../../global/controls/textarea-element/textarea-element.component';
 import { Path } from '../../../global/nav/path';
+import { TooltipModule } from 'primeng/tooltip';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-artist-view',
@@ -31,21 +31,20 @@ import { Path } from '../../../global/nav/path';
     HeaderComponent,
     HeaderComponent,
     MenuButtonComponent,
-    BtnComponent,
     IconButtonComponent,
     AvatarComponent,
     BackgroundComponent,
     BackgroundEditorComponent,
-    MatTooltipModule,
     BioComponent,
     NameComponent,
     MediasComponent,
     StyleComponent,
-    TextareaElementComponent
-],
+    TextareaElementComponent,
+    TooltipModule,
+    ButtonModule
+  ],
   templateUrl: './artist-view.component.html',
   styleUrl: './artist-view.component.scss',
-  encapsulation: ViewEncapsulation.None,
 })
 export class ArtistViewComponent {
 

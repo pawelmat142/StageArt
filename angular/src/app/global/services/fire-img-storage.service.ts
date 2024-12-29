@@ -3,8 +3,7 @@ import { concatMap, forkJoin, from, map, Observable, of, switchMap } from "rxjs"
 import { getDownloadURL, ref, uploadBytes, Storage, deleteObject} from "@angular/fire/storage";
 import { FireImg, FireImgSet } from "../../artist/model/artist-form";
 import { Size, ImgUtil, ImgSize } from "../utils/img.util";
-import { DialogData } from "../nav/dialogs/popup/popup.component";
-import { DialogService } from "../nav/dialog.service";
+import { Dialog, DialogData } from "../nav/dialog.service";
 
 @Injectable({
     providedIn: 'root'
@@ -13,7 +12,7 @@ export class FireImgStorageService {
 
     constructor(
         private storage: Storage,
-        private dialog: DialogService,
+        private dialog: Dialog,
     ){}
 
     readonly availableExtensions = ['jpg', 'png']
@@ -32,11 +31,7 @@ export class FireImgStorageService {
     }
 
     private wrongExtensionPopup(extenstion: string) {
-      const data: DialogData = {
-        header: `Wrong extension: ${extenstion}`,
-        content: [`Available extensions: ${this.availableExtensions.join(', ')}`]
-      }
-      this.dialog.popup(data)
+        this.dialog.warnToast(`Available extensions: ${this.availableExtensions.join(', ')}`, `Wrong extension: ${extenstion}`)
     }
 
     public uploadImage$(file: Blob, path: string): Observable<FireImg> {

@@ -1,31 +1,40 @@
 @import 'variables';
-@import 'color';
 @import 'font';
 
 $paper-step-size: 18px;
 .tile-wrapper {
 
+    margin: 0.5*$padding-standard 0;
+
     padding: 0.5*$padding-standard $padding-standard;
     min-width: 300px;
+    margin-right: $padding-standard;
 
     box-shadow: $shadow-standard;
     border-radius: $radius;
-    background-color: $light-dark;
+    background-color: $highlightBg;
 
 
     .tile-wrapper-row {
         display: flex;
         justify-content: space-between;
+
+        &.tile-wrapper-top {
+            .menu-icon {
+                cursor: pointer;
+            }
+        }
     }
     
     .tile-wrapper-header {
-        // @extend .fs3;
         text-transform: uppercase;
+        color: $textColor;
     }
     
     .tile-wrapper-name {
-        color: $light;
+        color: $textColor;
         @extend .fs5;
+        font-weight: 600;
     }
 
     .tile-wrapper-bottom {
@@ -35,15 +44,17 @@ $paper-step-size: 18px;
     .tile-wrapper-stepper {
         display: flex;
         width: 100%;
-        gap: $padding-standard;
+        gap: 0.5*$padding-standard;
 
+        flex-direction: column;
         .substep-haeder {
             @extend .fs5;
-            .mat-icon {
+            .pi {
                 margin-right: 0.25*$padding-standard;
                 font-size: $paper-step-size;
                 width: $paper-step-size;
                 height: $paper-step-size;
+                font-weight: 900;
             }
         }
     }
@@ -55,20 +66,37 @@ $paper-step-size: 18px;
 
 .p-menu-overlay {
     border-radius: $radius;
-    background: $dark;
+    background: $highlightBg;
     min-width: 150px;
     box-shadow: $shadow-standard;
     
     .p-submenu-header {
-        color: $red;
+        color: $primaryColor;
         padding: $padding-standard;
         font-weight: 600;
     }
     
     a {
-        color: $light;
+        color: $secondaryColor;
         padding: $padding-standard;
-        @extend .highlight;
-        @extend .light;
     }
+}
+
+.paper-tile-menu {
+    left: unset!important; //overrides styles added by js
+    right: 0!important; //overrides styles added by js
+}
+
+@media only screen and (min-width: $desktop) {
+    .tile-wrapper {
+
+        .tile-wrapper-row {
+            &.tile-wrapper-top {
+                .menu-icon {
+                    padding: 0.5*$padding-standard;
+                }
+            }
+        }
+    }
+
 }

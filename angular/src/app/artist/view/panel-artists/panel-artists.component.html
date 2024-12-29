@@ -3,16 +3,18 @@
     <div class="panel-section">
 
         <div class="panel-section-header">
-            <h2 class="fs3 light">Your artists</h2>
+            <h2 class="fs3 bold">Your artists</h2>
         </div>
 
         <div class="">
-            <div class="item-row panel-artist-item labels">
-                <p>Artist name</p>
-                <p>Status</p>
+            <div class="labels">
+                <div class="item-row panel-artist-item">
+                    <p>Artist name</p>
+                    <p>Status</p>
+                </div>
             </div>
 
-            <p-accordion class="w-full" expandIcon="pi pi-plus" collapseIcon="pi pi-minus">
+            <p-accordion class="w-full">
                 
                 @for (artist of _artists$ | async; track artist.signature; let last = $last) {
                     
@@ -21,34 +23,42 @@
                         <ng-template pTemplate="header">
                             <div class="item-row clickable">
                                 <p>{{artist.name}}</p>
-                                <p [matTooltip]="_artistStatusTooltip(artist.status)">{{artist.status | status }}</p>
+                                <p [pTooltip]="_artistStatusTooltip(artist.status)" tooltipPosition="top">
+                                    {{artist.status | status }}
+                                </p>
                             </div>
                         </ng-template>
 
                         <div class="item-row-collapse-content">
                             <div class="item-row-buttons">
                                 @if (['READY', 'INACTIVE'].includes(artist.status)) {
-                                    <app-btn
-                                        class="green"
-                                        label="activate"
-                                        (click)="_activate(artist)"
-                                    ></app-btn>
+                                    <p-button 
+                                        (click)="_activate(artist)" 
+                                        [raised]="true"
+                                        severity="success" 
+                                        label="activate">
+                                    </p-button>
                                 }
                                 @if (['ACTIVE'].includes(artist.status)) {
-                                    <app-btn
-                                        label="deactivate"
-                                        (click)="_deactivate(artist)"
-                                    ></app-btn>
+                                    <p-button 
+                                        (click)="_deactivate(artist)" 
+                                        [raised]="true"
+                                        severity="warning" 
+                                        label="deactivate">
+                                    </p-button>
                                 }
-                                <app-btn
-                                    class="grey"
-                                    label="Artist view"
-                                    (click)="_artistView(artist)"
-                                ></app-btn>
-                                <app-btn
-                                    [label]="'Management notes'"
-                                    (click)="_addNotes(artist)"
-                                ></app-btn>
+                                <p-button 
+                                    (click)="_artistView(artist)" 
+                                    [raised]="true"
+                                    severity="info" 
+                                    label="Artist view">
+                                </p-button>
+                                <p-button 
+                                    (click)="_addNotes(artist)" 
+                                    [raised]="true"
+                                    severity="help" 
+                                    label="Management notes">
+                                </p-button>
                             </div>
                         </div>
 
@@ -63,7 +73,7 @@
         <div class="panel-section management-notes">
         
             <div class="panel-section-header">
-                <h2 class="fs3 light">Management notes for <span class="bold">{{_selectedArtist?.name}}</span></h2>
+                <h2 class="fs3 bold">Management notes for <span class="bold">{{_selectedArtist?.name}}</span></h2>
             </div>
 
             <form class="panel-section-content"
@@ -79,13 +89,18 @@
                 ></app-textarea>
 
                 <div class="btns center">
-                    <app-btn class="big"
-                        label="Cancel"
-                        (click)="_cancelManagementNotesEdit()"
-                    ></app-btn>
-                    <app-btn class="big light"
-                        (click)="_submitManagementNotes()"
-                    ></app-btn>
+                    <p-button 
+                        (click)="_cancelManagementNotesEdit()" 
+                        [raised]="true"
+                        severity="warning" 
+                        label="Cancel">
+                    </p-button>
+                    <p-button 
+                        (click)="_cancelManagementNotesEdit()" 
+                        [raised]="true"
+                        severity="success" 
+                        label="Submit">
+                    </p-button>
                 </div>
             </form>
             

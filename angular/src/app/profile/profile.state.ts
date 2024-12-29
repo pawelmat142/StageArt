@@ -5,7 +5,7 @@ import { map, switchMap, tap, withLatestFrom } from "rxjs"
 import { Token } from "./auth/view/token"
 import { AppState, selectProfileState } from "../app.state"
 import { Profile } from "./profile.model"
-import { DialogService } from "../global/nav/dialog.service"
+import { Dialog } from "../global/nav/dialog.service"
 import { NavService } from "../global/nav/nav.service"
 import { BookingDto, BookingService } from "../booking/services/booking.service"
 import { ChecklistUtil } from "../booking/checklist.util"
@@ -172,7 +172,7 @@ export class ProfileEffect {
     
     constructor(
         private actions$: Actions,
-        private dialog: DialogService,
+        private dialog: Dialog,
         private nav: NavService,
         private bookingService: BookingService,
         private store: Store<AppState>,
@@ -193,7 +193,7 @@ export class ProfileEffect {
             Token.remove()
             if (!this.nav.isHome) {
                 this.nav.home()
-                this.dialog.simplePopup('Logged out')
+                this.dialog.warnToast('Logged out')
             }
         }),
     ), { dispatch: false })
@@ -202,11 +202,12 @@ export class ProfileEffect {
     loadBookings$ = createEffect(() => this.actions$.pipe(
         ofType(loadBookings),
         switchMap(() => this.bookingService.fetchProfileBookings$()),
-        // TODO remove
         tap(bookings => {
-            setTimeout(() => {
-                this.store.dispatch(selectBooking(bookings[0]))
-            },200)
+            if (bookings.length) {
+                setTimeout(() => {
+                    this.store.dispatch(selectBooking(bookings[0]))
+                }, 200)
+            }
         }),
         map(bookings => setBookings({ value: bookings })),
     ))

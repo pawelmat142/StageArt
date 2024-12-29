@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { TextareaElementComponent } from '../../../../global/controls/textarea-element/textarea-element.component';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
@@ -14,8 +14,7 @@ import { tap } from 'rxjs';
     TextareaElementComponent,
   ],
   templateUrl: './bio.component.html',
-  styleUrl: './bio.component.scss',
-  encapsulation: ViewEncapsulation.None
+  styleUrl: './bio.component.scss'
 })
 export class BioComponent {
 

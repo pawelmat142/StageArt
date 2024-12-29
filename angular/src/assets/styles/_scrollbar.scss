@@ -1,7 +1,4 @@
-@import 'color';
 @import 'variables';
-@import 'variables-desc';
-
 
 * {
     /* Style for WebKit browsers (Chrome, Safari) */
@@ -14,11 +11,11 @@
   }
   
   ::-webkit-scrollbar-thumb {
-    background: $light-dark; /* Scrollbar color */
+    background: $bg; /* Scrollbar color */
     border-radius: $radius;
   }
   
   ::-webkit-scrollbar-thumb:hover {
-    background: $light; /* Scrollbar color on hover */
+    background: $secondaryColor; /* Scrollbar color on hover */
   }
 }

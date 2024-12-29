@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { HttpService } from '../../global/services/http.service';
 import { FormType } from '../../form-processor/form.state';
-import { SelectorItem } from '../../global/controls/selector/selector.component';
 import { EventDto } from '../../event/services/event.service';
 import { ChecklistItem } from '../interface/checklist.interface';
+import { SelectorItem } from '../../global/interface';
 
 export type BookingStatus = 'SUBMITTED' | 'DOCUMENTS' | 'CHECKLIST_COMPLETE' | 'PENDING' | 'READY' | 'CANCELED'
 

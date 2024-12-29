@@ -1,43 +1,40 @@
 <div class="panel-section">
         
     <div class="panel-section-header">
-        <h2 class="fs3 light">{{header}}</h2>
+        <h2 class="fs3 bold">{{header}}</h2>
     </div>
 
     <div class="booking-itmes-container">
 
-        <div class="item-row booking-item labels">
-            <p>Status</p>
-            <p>Event date</p>
-            <p>Event name</p>
-            @if (DESKTOP) {
-                <p>Artists</p>
-            }
+        <div class="labels">
+            <div class="item-row booking-item">
+                <p>Status</p>
+                <p>Event date</p>
+                <p>Event name</p>
+                <p class="show-desktop">Artists</p>
+            </div>
         </div>
 
         <ng-container *ngIf="_profileUid$ | async as uid">
 
-            <p-accordion class="w-full" expandIcon="pi pi-plus" collapseIcon="pi pi-minus" (activeIndexChange)="_selectBooking($event)">
+            <p-accordion class="w-full" (activeIndexChange)="_selectBooking($event)">
 
                 @for (booking of bookings; track booking.formId; let last = $last) {
                     <p-accordionTab>
+
                         <ng-template pTemplate="header">
-                            <div class="item-row booking-item clickable">
+                            <div class="item-row booking-item p-menuitem-text">
                                 <p>{{booking.status | status}}</p>
                                 <p>{{booking.event.startDate| date : 'dd-MM-yyyy'}}</p>
                                 <p>{{booking.event.name}}</p>
-    
-                                @if (DESKTOP) {
-                                    <p>{{booking.artists | names}}</p>
-                                }
+                                <p class="show-desktop">{{booking.artists | names}}</p>
                             </div>
                         </ng-template>
     
                         <div class="item-row-collapse-content">
-
                             <app-booking-stepper></app-booking-stepper>
-
                         </div>
+
                     </p-accordionTab>
                 }
 

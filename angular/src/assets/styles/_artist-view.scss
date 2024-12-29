@@ -1,0 +1,40 @@
+@import 'variables';
+
+.edit-button {
+    background-color: $editButtonColor;
+    color: $highlightBg;
+    padding: 0.2*$padding-standard 0.5*$padding-standard;
+    border-radius: $radius;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid $highlightBg;
+    z-index: 3;
+    cursor: pointer;
+
+    position: absolute;
+    top: 0;
+    right: 0;
+    &.inline {
+        position: unset;
+        margin: 0 $padding-standard;
+    }
+}
+
+
+.country-txt {
+    @extend .fs5;
+    color: $white;
+    text-shadow: $shadow-standard;
+}
+
+.edit-toggle-container {
+    .pi {
+        font-size: 30px;
+        color: black;
+    }
+}
+
+.chip .pi { 
+    color: black;
+}
