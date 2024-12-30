@@ -15,6 +15,7 @@ import { BookingModule } from './booking/booking.module';
 import { FeedbackModule } from './feedback/feedback.module';
 import { EventModule } from './event/event.module';
 import { DocumentModule } from './document/document.module';
+import { PdfModule } from './pdf/pdf.module';
 
 @Module({
   imports: [
@@ -41,6 +42,8 @@ import { DocumentModule } from './document/document.module';
     EventModule,
 
     DocumentModule,
+
+    PdfModule,
   ],
   controllers: [AppController],
   providers: [AppService]

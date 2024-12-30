@@ -11,9 +11,10 @@ import { JwtPayload } from '../profile/auth/jwt-strategy';
 import { ChecklistService } from './checklist.service';
 import { PutSignatureDto, Signature } from './signature.model';
 import { SignatureService } from './signature.service';
-import { PaperGenerator } from './generators/paper-generator';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UploadsService } from './uploads.service';
+import { PdfGeneratorService } from '../pdf/pdf-generator.service';
+import { PdfTemplate } from '../pdf/model/pdf-data';
 
 @Controller('api/document')
 @UseInterceptors(LogInterceptor)
@@ -24,8 +25,8 @@ export class DocumentController {
         private readonly documentService: DocumentService,
         private readonly checklistService: ChecklistService,
         private readonly signatureService: SignatureService,
-        private readonly paperGenerator: PaperGenerator,
         private readonly uploadsService: UploadsService,
+        private readonly pdfGeneratorService: PdfGeneratorService,
     ) {}
 
     @Get('/refresh-checklist/:id')
@@ -51,10 +52,10 @@ export class DocumentController {
     async generate(
         @Res() res: Response,
         @Param('id') formId: string,
-        @Param('template') template: Template,
+        @Param('template') template: PdfTemplate,
         @GetProfile() profile: JwtPayload
     ) {
-        const paper = await this.paperGenerator.generatePaper(formId, template, profile)
+        const paper = await this.documentService.generatePdf(formId, template, profile)
         this.fileResponse(res, paper.content, `${paper.template}.${paper.extension}`)
     }
 
@@ -65,7 +66,7 @@ export class DocumentController {
         @Param('signatureid') signatureId: string,
         @GetProfile() profile: JwtPayload
     ) {
-        const paper = await this.paperGenerator.generateSignedPaper(paperId, signatureId, profile)
+        const paper = await this.documentService.generateSignedPaper(paperId, signatureId, profile)
         this.fileResponse(res, paper.contentWithSignatures, `${paper.template}-signed.${paper.extension}`)
     }
 

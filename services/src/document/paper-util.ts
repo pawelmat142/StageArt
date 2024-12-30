@@ -1,6 +1,10 @@
+import { BadRequestException } from "@nestjs/common"
+import { PdfData, PdfTemplate } from "../pdf/model/pdf-data"
 import { ManagerData } from "../profile/model/profile-interfaces"
+import { PaperSignature } from "./paper-model"
+import { Role } from "../profile/model/role"
 
-export type Template = 'contract' | 'tech-rider' | 'rental-proof'
+export type Template = PdfTemplate | 'rental-proof'
 
 export interface PaperGenerateParameters {
     headerTemplate?: string
@@ -14,21 +18,6 @@ export abstract class PaperUtil {
         return `${managerData.agencyName} / ${managerData.accountAddress} / ${managerData.agencyCountry.name}`
     }
 
-    public static preparePaperGenerateParams(data: any): PaperGenerateParameters {
-        const result: PaperGenerateParameters = {}
-        const promoterSignature = data.promoterSignature
-        const managerSignature = data.managerSignature
-        if (promoterSignature || managerSignature) {
-            result.displayHeaderFooter = true
-            result.headerTemplate = `<span style="display:none"></span>`
-            result.footerTemplate = `<div style="width: 100%; display: flex; justify-content: space-between; padding: 0 20mm;">`
-            result.footerTemplate += managerSignature ? `<img src="${managerSignature}" style="width: 150px;"/>` : '<div></div>'
-            result.footerTemplate += promoterSignature ? `<img src="${promoterSignature}" style="width: 150px;"/>` : '<div></div>'
-            result.footerTemplate += `</div>`
-        }
-        return result
-    }
-
     public static getContentType(filename: string): string {
         const extension = filename.split('.').pop() 
         switch(extension) {
@@ -38,6 +27,23 @@ export abstract class PaperUtil {
             case 'pdf': return 'application/pdf'
         }
         throw new Error(`Unprocessable file extension ${extension}`)
+    }
+
+    public static addSignaturesData(data: any, paperSignatures: PaperSignature[]) {
+        if (!paperSignatures.length) {
+            throw new BadRequestException(`Signatures missing`)
+        }
+        paperSignatures.forEach(signature => {
+            if (signature.role === Role.PROMOTER) {
+                data.promoterSignature = signature.base64
+            }
+            if (signature.role === Role.MANAGER) {
+                data.managerSignature = signature.base64
+            }
+            if (signature.role === Role.ARTIST) {
+                data.artistSignature = signature.base64
+            }
+        })
     }
 
 }

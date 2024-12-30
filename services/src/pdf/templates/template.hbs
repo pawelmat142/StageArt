@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{header}}</title>
+    <link rel="stylesheet" href="pdf-styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>{{header}}</h1>
+        </div>
+        {{#each sections}}
+        <div class="section">
+            {{#if header}}<h2 class="section-title no-indent">{{header}}</h2>{{/if}}
+            {{#each items}}
+                {{#if paragraph}}<p>{{paragraph}}</p>{{/if}}
+                {{#if break}}<br>{{/if}}
+                {{#if list}}<ul>
+                    {{#each list}}<li>{{this}}</li>{{/each}}
+                </ul>{{/if}}
+
+                {{#if subsection}}
+                <div class="subsection">
+                    {{#if header}}<p class="text-indent sub-title">{{header}}</h2>{{/if}}
+                    {{#each items}}
+                        {{#if paragraph}}<p>{{paragraph}}</p>{{/if}}
+                        {{#if break}}<br>{{/if}}
+                        {{#if list}}<ul>{{#each list}}<li>{{this}}</li>{{/each}}</ul>{{/if}}
+                    {{/each}}
+                {{/if}}
+
+            {{/each}}
+        </div>
+        {{/each}}
+    </div>
+</body>
+</html>

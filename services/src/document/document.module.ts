@@ -9,10 +9,10 @@ import { ChecklistService } from './checklist.service';
 import { SignatureService } from './signature.service';
 import { Signature, SignatureSchema } from './signature.model';
 import { ContractPaperDataProvider } from './generators/contract-paper-data-povider';
-import { PaperGenerator } from './generators/paper-generator';
 import { TechRiderDataProvider } from './generators/tech-rider-data.provider';
 import { MulterModule } from '@nestjs/platform-express';
 import { UploadsService } from './uploads.service';
+import { PdfModule } from '../pdf/pdf.module';
 
 @Module({
   imports: [
@@ -28,6 +28,7 @@ import { UploadsService } from './uploads.service';
     }),
     ProfileModule,
     BookingModule,
+    PdfModule
   ],
   controllers: [
     DocumentController
@@ -38,7 +39,6 @@ import { UploadsService } from './uploads.service';
     SignatureService,
     ContractPaperDataProvider,
     TechRiderDataProvider,
-    PaperGenerator,
     UploadsService
   ],
 })
