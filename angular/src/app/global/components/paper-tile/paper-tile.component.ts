@@ -10,12 +10,11 @@ import { DocumentService } from '../../document/document.service';
 import { ChecklistUtil } from '../../../booking/checklist.util';
 import { SignatureService } from '../sign/signature.service';
 import { UploadsService } from '../../document/uploads.service';
-import { catchError, filter, of, switchMap, tap } from 'rxjs';
+import { catchError, filter, mergeMap, of, switchMap, tap } from 'rxjs';
 import { Template } from '../../document/doc-util';
 import { Dialog } from '../../nav/dialog.service';
 import { CourtineService } from '../../nav/courtine.service';
 import { BookingUtil } from '../../../booking/booking.util';
-import { Role } from '../../../profile/profile.model';
 
 @Component({
   selector: 'app-paper-tile',
@@ -52,6 +51,9 @@ export class PaperTileComponent {
       return
     }
     this.tileOptions = []
+    if (this.booking.status !== 'DOCUMENTS') {
+      return
+    }
     if (ChecklistUtil.canGenerate(this.tile)) {
       this.tileOptions.push({
         label: 'Generate',
@@ -62,16 +64,18 @@ export class PaperTileComponent {
       this.tileOptions.push({
         label: 'Sign document',
         command: () => this.signatureService.showSection()
-      }),
+      })
+    }
+    if (ChecklistUtil.canVerifyAndSign(this.tile)) {
       this.tileOptions.push({
-        label: 'Upload signed',
-        command: () => console.log('TODO!')
+        label: 'Sign and verify document',
+        command: () => this.signatureService.showSection()
       })
     }
     if (ChecklistUtil.canVerify(this.tile)) {
       this.tileOptions.push({
-        label: 'Sign and verify document',
-        command: () => this.signatureService.showSection()
+        label: 'Verify document',
+        command: () => this.verifyFile()
       })
     }
     if (ChecklistUtil.canDownload(this.tile)) {
@@ -92,7 +96,7 @@ export class PaperTileComponent {
         command: () => this.uploadFile('rental-proof')
       })
     }
-    if (this.forRole(Role.PROMOTER) && ChecklistUtil.canDelete(this.tile)) {
+    if (ChecklistUtil.canDelete(this.tile)) {
       this.tileOptions.push({
         label: 'Delete file',
         command: () => this.deleteFile(this.tile.paperId)
@@ -125,6 +129,17 @@ export class PaperTileComponent {
   }
 
 
+  private verifyFile() {
+    this.courtine.startCourtine()
+    this.uploadsService.verifyPaperFile(this.tile.paperId!).pipe(
+      mergeMap(() => this.documentService.refreshChecklist$(this.booking)),
+      catchError(error => {
+        this.dialog.errorPopup(error)
+        return of(null)
+      }),
+      tap(() => this.courtine.stopCourtine()),
+    ).subscribe()
+  }
 
   private uploadFile(template: Template) {
     this.courtine.startCourtine()

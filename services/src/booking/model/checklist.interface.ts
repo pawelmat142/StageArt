@@ -1,6 +1,6 @@
 import { Template } from "../../document/paper-util"
 
-export type StepType = 'generate' | 'sign' | 'upload' | 'verify'
+export type StepType = 'generate' | 'sign' | 'verifyAndSign' | 'upload' | 'verify'
 
 export interface CheklistStep {
     type: StepType

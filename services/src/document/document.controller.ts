@@ -15,6 +15,8 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { UploadsService } from './uploads.service';
 import { PdfGeneratorService } from '../pdf/pdf-generator.service';
 import { PdfTemplate } from '../pdf/model/pdf-data';
+import { RoleGuard } from '../profile/auth/role.guard';
+import { Role } from '../profile/model/role';
 
 @Controller('api/document')
 @UseInterceptors(LogInterceptor)
@@ -105,6 +107,12 @@ export class DocumentController {
             throw new BadRequestException(`Max file size 1 MB`)
         }
         return this.uploadsService.uploadPaperFile(formId, template, profile, file)
+    }
+
+    @UseGuards(RoleGuard(Role.MANAGER))
+    @Post('/verify/:paperId')
+    verifyPaperFile(@Param('paperId') paperId: string, @GetProfile() profile: JwtPayload ) {
+        this.uploadsService.verifyPaperFile(paperId, profile)
     }
 
     @Get('/upload/:paperId')

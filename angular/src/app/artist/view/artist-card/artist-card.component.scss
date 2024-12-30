@@ -9,10 +9,9 @@ $card-width: 24vw;
     background-color: $white;
     overflow: hidden;
     &:hover {
-        transform: scale(1.03);
-
         .img-wrapper {
             img {
+                transform: scale(1.03);
                 filter: grayscale(0);
             }
         }

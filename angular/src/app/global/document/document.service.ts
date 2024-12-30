@@ -71,10 +71,6 @@ export class DocumentService {
         this.documentRequest(`/sign/${paperId}/${signatureId}`, booking)
     }
 
-    public verify(paperId: string, booking: BookingDto) {
-        this.documentRequest(`/verify/${paperId}`, booking)
-    }
-
     public uploadSigned(paperId: string) {
         this.documentRequest(`/upload-signed/${paperId}`)
     }

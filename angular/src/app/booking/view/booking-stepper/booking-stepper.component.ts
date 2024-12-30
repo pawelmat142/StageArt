@@ -42,9 +42,7 @@ export class BookingStepperComponent {
 
   _booking$: Observable<BookingDto | undefined> = this.store.select(state => state.profileState.selectedBooking).pipe(
     tap(booking => {
-      if (booking?.status !== 'SUBMITTED') {
-        this.activeStep = 1
-      }
+      this.setProcessStepIndex(booking)
     }),
     withLatestFrom(this.store.select(state => state.profileState.profile?.uid)),
     map(([booking, uid]) => {
@@ -55,6 +53,18 @@ export class BookingStepperComponent {
       return booking
     }),
   )
+
+  private setProcessStepIndex(booking?: BookingDto) {
+    if (booking?.status === 'SUBMITTED') {
+      this.activeStep = 0
+    }
+    if (booking?.status === 'DOCUMENTS') {
+      this.activeStep = 1
+    }
+    if (booking?.status === 'CHECKLIST_COMPLETE') {
+      this.activeStep = 2
+    }
+  }
 
   
   // STEP 1#

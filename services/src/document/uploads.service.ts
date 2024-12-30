@@ -11,7 +11,10 @@ import * as mongoose from 'mongoose';
 import * as fs from 'fs';
 import * as Grid from 'gridfs-stream';
 
-
+/*
+    Management of documents/Papers from uploading
+    Mongo file storage 
+*/
 @Injectable()
 export class UploadsService {
 
@@ -19,7 +22,6 @@ export class UploadsService {
 
     private bucket: GridFSBucket;
     private grid: Grid;
-
 
     private readonly EPLOAD_EXTENSIONS: string[] = ['jpg', 'jpeg', 'pdf']
     public readonly MAX_FILE_BYTES = 1100000
@@ -61,6 +63,17 @@ export class UploadsService {
         const paper = await this.documentService.storeUploadPaper(fileObjectId, ctx, template, extension)
         return paper
     }
+
+        public async verifyPaperFile(paperId: string, profile: JwtPayload): Promise<void> {
+            const paper = await this.documentService.getPaper(paperId)
+            if (!paper) {
+                throw new NotFoundException(`Not found Paper with id ${paperId}`)
+            }
+            await this.bookingService.hasPermissionToBooking(paper.formId, profile.uid)
+            paper.status = 'VERIFIED'
+            await this.documentService.updatePaper(paper)
+            this.logger.log(`Verified Paper ${paper.id}, by ${profile.uid}`)
+        }
 
     private async uploadPromise(file: Express.Multer.File): Promise<string> {   
         let buffer = fs.readFileSync(file.path);

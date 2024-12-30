@@ -369,6 +369,6 @@ export class ArtistViewEffect {
     private handleUploadImagesError = (error: any) => {
         this.dialog.errorPopup(error)
         return of()
-      }
+    }
 
 }

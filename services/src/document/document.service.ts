@@ -78,6 +78,7 @@ export class DocumentService {
         return paper
     }
 
+
     public async updatePaper(paper: Paper): Promise<Paper> {
         const update = await this.paperModel.updateOne({ id: paper.id }, { $set: paper })
         if (!update.modifiedCount) {

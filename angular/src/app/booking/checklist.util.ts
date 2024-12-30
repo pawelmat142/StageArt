@@ -34,10 +34,11 @@ export abstract class ChecklistUtil {
 
     private static tileStepName(step: ChecklistStep): string {
         switch (step.type) {
-            case 'generate': return step.ready ? 'Generated' : 'Generate'
-            case 'sign': return step.ready ? 'Signed' : 'Sign'
-            case 'upload': return step.ready ? 'Uploaded' : 'Upload'
-            case 'verify': return step.ready ? 'Verified' : 'Verify'
+            case 'generate': return step.ready ? 'Document template generated' : 'Generate template'
+            case 'sign': return step.ready ? 'Signed by promoter' : 'Sign document - promoter'
+            case 'upload': return step.ready ? 'Document uploaded' : 'Upload document - promoter'
+            case 'verifyAndSign': return step.ready ? 'Verified and signed by manager' : 'Verify and sign - manager'
+            case 'verify': return step.ready ? 'Verified by manager' : 'Verify - manager'
         }
     }
 
@@ -61,22 +62,24 @@ export abstract class ChecklistUtil {
         return tile.tileSteps.some(step => step.type === 'upload' && step.mode === 'available')
     }
     
+    public static canVerifyAndSign(tile: ChecklistTile): boolean {
+        return tile.tileSteps.some(step => step.type === 'verifyAndSign' && step.mode === 'available')
+    }
+    
+    public static canVerify(tile: ChecklistTile): boolean {
+        return tile.tileSteps.some(step => step.type === 'upload' && step.mode === 'ready')
+    }
+    
     public static canDelete(tile: ChecklistTile): boolean {
-        if (!tile.tileSteps.find(step => step.type === 'verify')?.ready) {
-            const generateStep = tile.tileSteps.find(step => step.type === 'generate')
-            if (generateStep?.ready) {
-                return true
-            }
-            const uploadStep = tile.tileSteps.find(step => step.type === 'upload')
-            if (uploadStep?.ready) {
-                return true
-            }
+        const generateStep = tile.tileSteps.find(step => step.type === 'generate')
+        if (generateStep?.ready) {
+            return true
+        }
+        const uploadStep = tile.tileSteps.find(step => step.type === 'upload')
+        if (uploadStep?.ready) {
+            return true
         }
         return false
-    }
-
-    public static canVerify(tile: ChecklistTile): boolean {
-        return tile.tileSteps.some(step => step.type === 'upload' && step.ready)
     }
 
     public static canDownloadSigned(tile: ChecklistTile): boolean {

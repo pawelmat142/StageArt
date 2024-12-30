@@ -78,9 +78,6 @@
     background: none;
 }
 
-.pi {
-    color: $primaryColorText;
-}
 .pi:before {
     font-weight: bold;
 }
@@ -155,6 +152,15 @@
 }
 .p-menuitem-text {
     color: $textColor;
+}
+
+
+// POPUP MENU
+.p-menu .p-menuitem > .p-menuitem-content {
+    .p-menuitem-text {
+        color: $textSecondaryColor;
+        line-height: 1.3;
+    }
 }
 
 

@@ -7,7 +7,6 @@ import { AccordionModule } from 'primeng/accordion';
 import { AppState } from '../../../../app.state';
 import { Store } from '@ngrx/store';
 import { selectBooking, uid, unselectBooking } from '../../../../profile/profile.state';
-import { IconButtonComponent } from '../../../../global/components/icon-button/icon-button.component';
 import { NamesPipe } from "../../../../global/pipes/names.pipe";
 import { BookingStepperComponent } from '../../booking-stepper/booking-stepper.component';
 
@@ -18,7 +17,6 @@ import { BookingStepperComponent } from '../../booking-stepper/booking-stepper.c
     CommonModule,
     StatusPipe,
     AccordionModule,
-    IconButtonComponent,
     NamesPipe,
     BookingStepperComponent,
 ],

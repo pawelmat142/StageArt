@@ -18,7 +18,7 @@ export abstract class ChecklistGenerator {
             steps: [
                 this.generateStep(),
                 this.signStep(),
-                this.verifyStep(),
+                this.verifyAndSignStep(),
             ]
         }
     }
@@ -57,9 +57,9 @@ export abstract class ChecklistGenerator {
         }
     }
 
-    private static verifyStep(): CheklistStep {
+    private static verifyAndSignStep(): CheklistStep {
         return {
-            type: 'verify',
+            type: 'verifyAndSign',
             forRoles: [Role.MANAGER]
         }
     }
@@ -68,6 +68,13 @@ export abstract class ChecklistGenerator {
         return {
             type: 'upload',
             forRoles: [Role.PROMOTER]
+        }
+    }
+
+    private static verifyStep(): CheklistStep {
+        return {
+            type: 'verify',
+            forRoles: [Role.MANAGER]
         }
     }
 

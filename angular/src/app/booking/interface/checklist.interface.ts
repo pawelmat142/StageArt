@@ -1,7 +1,7 @@
 import { Template } from "../../global/document/doc-util"
 
 export type StepMode = 'blank' | 'available' | 'ready' | 'error' 
-export type StepType = 'generate' | 'sign' | 'upload' | 'verify'
+export type StepType = 'generate' | 'sign' | 'verifyAndSign' | 'upload' | 'verify'
 
 export interface ChecklistStep {
     type: StepType

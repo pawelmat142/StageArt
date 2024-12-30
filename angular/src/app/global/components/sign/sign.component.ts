@@ -76,7 +76,7 @@ export class SignComponent {
         return booking?.checklist.find(c => {
           return c.template === 'contract'
             && c.steps.find(s => s.type === 'sign')?.ready
-            && !c.steps.find(s => s.type === 'verify')?.ready
+            && !c.steps.find(s => s.type === 'verifyAndSign')?.ready
         })?.paperId
       }
       return

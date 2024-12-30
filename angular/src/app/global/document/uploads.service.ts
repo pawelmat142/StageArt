@@ -3,9 +3,9 @@ import { HttpClient } from "@angular/common/http";
 import { Util } from "../utils/util";
 import { filter, Observable, of, switchMap } from "rxjs";
 import { Paper } from "./document.service";
-import { Dialog } from "../nav/dialog.service";
 import { BookingDto } from "../../booking/services/booking.service";
 import { ImgUtil, Size } from "../utils/img.util";
+import { HttpService } from "../services/http.service";
 
 @Injectable({
     providedIn: 'root'
@@ -26,7 +26,7 @@ export class UploadsService {
 
     constructor(
         private readonly httpClient: HttpClient,
-        private readonly dialog: Dialog,
+        private readonly http: HttpService,
     ) {}
 
     private readonly apiUri = Util.apiUri
@@ -80,6 +80,10 @@ export class UploadsService {
   
             switchMap(file => this.uploadFile$(booking.formId, template, file)),
         )
+    }
+
+    public verifyPaperFile(paperId: string) {
+        return this.http.post(`/document/verify/${paperId}`)
     }
 
     private uploadFile$(formId: string, template: string, file: File): Observable<Paper> {
