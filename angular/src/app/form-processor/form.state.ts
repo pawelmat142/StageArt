@@ -251,15 +251,14 @@ export class FormEffect {
         return this.eventService.fetchPromoterEvents$().pipe(
             take(1),
             map(events => events.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime())),
-            
-            
-            // TODO wlaczyc i poprawic popup
-            // switchMap(events => events?.length 
-                // ? this.dialog.open(EventsFormDataComponent, { data: events }).onClose
-                // : of(undefined)
-            // ),
-
-            // map(event => event?.formData)
+            switchMap(events => events?.length 
+                ? this.dialog.open(EventsFormDataComponent, { 
+                    data: events,
+                    header: 'Select previous event data'
+                 }).onClose
+                : of(undefined)
+            ),
+            map(event => event?.formData)
         )
     }
 

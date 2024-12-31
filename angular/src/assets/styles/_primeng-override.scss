@@ -34,11 +34,15 @@
 }
 
 // ACCORDION
+.item-row.tile-style,
 .p-accordion .p-accordion-header .p-accordion-header-link {
-    padding: 0;
     font-weight: normal;
     background-color: $bgTwo;
     border: $border;
+    border-radius: $borderRadius;
+}
+.p-accordion .p-accordion-header .p-accordion-header-link {
+    padding: 0;
 }
 .p-accordion-tab-active {
     border: $border;

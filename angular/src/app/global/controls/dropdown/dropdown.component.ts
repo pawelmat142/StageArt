@@ -29,25 +29,27 @@ export class DropdownComponent implements ControlValueAccessor {
   @Input() optionLabel = 'name'
   @Input() placeholder = 'Select...'
 
-  @Output() select = new EventEmitter<SelectorItem>()
+  @Output() select = new EventEmitter<SelectorItem | null>()
 
-  private _value?: SelectorItem
+  private _value: SelectorItem | null = null
 
   get value() {
     return this._value;
   }
   
-  set value(val: any) {
-    this._value = val;
-    this.onChange(val);
+  set value(valueFromNgModel: any) {
+    this.writeValue(valueFromNgModel);
   }
 
-  writeValue(value: SelectorItem): void {
-    this.value = value
+  writeValue(value: SelectorItem | null): void {
+    this._value = value || null;
+    setTimeout(() => {
+      this.onChange(this._value);
+    })
+    this.select.emit(this._value);
   }
-  
-  onChange = (val: SelectorItem) => {
-    this.select.emit(val)
+
+  onChange = (val: SelectorItem| null) => {
   }
   onTouched = () => {}
 

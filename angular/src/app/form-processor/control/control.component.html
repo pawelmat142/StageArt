@@ -16,11 +16,10 @@
         @else if (control.type === 'textarea') {
             
             <app-form-field [label]="_label">
-                <app-textarea
+                <textarea rows="5" cols="30" pInputTextarea 
                     [formControlName]="_formControlName"
-                    [placeholder]="control.placeholder || ''"
                     [required]="_required"
-                ></app-textarea>
+                ></textarea>
             </app-form-field>
         } 
     

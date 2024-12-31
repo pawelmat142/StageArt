@@ -1,0 +1,10 @@
+.popup-buttons {
+    display: flex;
+    &.center {
+        justify-content: center;
+    }
+    &.right {
+        justify-content: flex-end;
+
+    }
+}

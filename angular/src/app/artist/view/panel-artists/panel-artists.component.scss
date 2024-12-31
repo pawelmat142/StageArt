@@ -1,15 +1,4 @@
-@import 'panel';
-
-.desktop {
-    .item-row,
-    .panel-artist-item {
-        grid-template-columns: 1fr 1fr 4fr;
-    }
-
-    .item-row-btns {
-        gap: $padding-standard;
-    }
-}
+@import 'variables';
 
 .item-row,
 .panel-artist-item {

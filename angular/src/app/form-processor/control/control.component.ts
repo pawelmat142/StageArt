@@ -4,12 +4,12 @@ import { ControlContainer, FormGroupDirective, ReactiveFormsModule, Validators }
 import { pFormControl } from '../form-processor.service';
 import { Observable, of } from 'rxjs';
 import { FormUtil } from '../../global/utils/form.util';
-import { TextareaComponent } from '../../global/controls/textarea/textarea.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownComponent } from '../../global/controls/dropdown/dropdown.component';
 import { FormFieldComponent } from '../../global/controls/form-field/form-field.component';
 import { SelectorItem } from '../../global/interface';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
 @Component({
   selector: 'app-control',
@@ -22,8 +22,7 @@ import { SelectorItem } from '../../global/interface';
     CalendarModule,
     DropdownComponent,
     FormFieldComponent,
-
-    TextareaComponent,
+    InputTextareaModule
   ],
   viewProviders: [
     {

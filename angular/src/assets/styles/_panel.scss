@@ -51,6 +51,14 @@
             text-align: right;
         }
     }
+
+    &.clickable {
+        cursor: pointer;
+        transition: $transition-standard;
+        &:hover {
+            background-color: $formBg;
+        }
+    }
 }
 
 .labels {

@@ -64,6 +64,7 @@ export class FormProcessorComponent {
       FormUtil.setFormValues(this.formGroup, this.formData)
       this.rebuildDetector++
     }))
+    //TODOremove
     this.store.dispatch(openForm({ formType: FormType.BOOKING }))
 
     this.buildFormGroup()

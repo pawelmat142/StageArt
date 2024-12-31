@@ -6,7 +6,6 @@ import { ArtistStatus, ArtistViewDto } from '../../model/artist-view.dto';
 import { StatusPipe } from "../../../global/pipes/status.pipe";
 import { NavService } from '../../../global/nav/nav.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { TextareaComponent } from '../../../global/controls/textarea/textarea.component';
 import { FormUtil } from '../../../global/utils/form.util';
 import { CourtineService } from '../../../global/nav/courtine.service';
 import { Dialog } from '../../../global/nav/dialog.service';
@@ -20,7 +19,6 @@ import { ButtonModule } from 'primeng/button';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    TextareaComponent,
     StatusPipe,
     AccordionModule,
     TooltipModule,
