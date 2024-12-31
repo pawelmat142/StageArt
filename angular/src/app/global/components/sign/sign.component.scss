@@ -23,6 +23,7 @@
     
     .canvas {
         transition: $transition-standard;
+        background-color: $white;
     }
 
     .pad-controls {
@@ -37,10 +38,21 @@
         display: grid;
         grid-template-columns: 2fr 2fr 1fr 1fr;
         padding-left: $padding-standard;
-    
+        border-radius: $borderRadius;
+        margin-bottom: 0.5*$padding-standard;
+
         .menu {
             justify-self: flex-end;
             padding-right: 0.5*$padding-standard;
+        }
+
+        &:not(.labels) {
+            background-color: $bgTwo;
+            padding-top: 6px;
+            padding-bottom: 6px;
+            &:hover {
+                background-color: $formBg;
+            }
         }
     }
     

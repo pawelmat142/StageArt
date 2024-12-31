@@ -40,6 +40,9 @@
     background-color: $bgTwo;
     border: $border;
     border-radius: $borderRadius;
+    &:hover {
+        background-color: $formBg;
+    }
 }
 .p-accordion .p-accordion-header .p-accordion-header-link {
     padding: 0;
