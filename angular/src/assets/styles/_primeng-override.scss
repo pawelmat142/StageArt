@@ -3,6 +3,12 @@
     color: $primaryColorText;
 }
 
+.mobile-menu-container {
+    .p-button {
+        color: $primaryColor;
+    }
+}
+
 .p-button:focus {
     box-shadow: none;
 }

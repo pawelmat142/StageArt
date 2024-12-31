@@ -6,10 +6,9 @@ import { SidebarModule } from 'primeng/sidebar';
 import { PanelMenuService } from '../../../profile/view/sidebar/panel-menu.service';
 import { MenuItemsComponent } from '../menu-items/menu-items.component';
 import { ProfileDataComponent } from '../profile-data/profile-data.component';
-import { combineLatest, map, tap } from 'rxjs';
+import { combineLatest, map } from 'rxjs';
 import { NavService } from '../../nav/nav.service';
 import { Path } from '../../nav/path';
-import { $desktop } from '../../tools/media-query';
 
 @Component({
   selector: 'app-mobile-btn',

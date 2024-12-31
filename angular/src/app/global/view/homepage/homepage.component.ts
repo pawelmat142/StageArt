@@ -5,6 +5,8 @@ import { ArtistsSectionComponent } from './artists-section/artists-section.compo
 import { HeaderComponent } from '../../components/header/header.component';
 import { MenuButtonComponent } from '../../components/menu-button/menu-button.component';
 import { FeedbackComponent } from './feedback/feedback.component';
+import { $desktop } from '../../tools/media-query';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-homepage',
@@ -16,11 +18,14 @@ import { FeedbackComponent } from './feedback/feedback.component';
     HeaderComponent,
     ArtistsSectionComponent,
     FeedbackComponent,
+    CommonModule
   ],
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.scss',
 })
 export class HomepageComponent {
+
+  readonly $desktop = $desktop
 
   public static readonly path = 'home'
 

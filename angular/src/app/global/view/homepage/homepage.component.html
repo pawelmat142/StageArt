@@ -1,5 +1,5 @@
-<app-header [floating]="true" class="show-desktop"></app-header>
-<app-header [floating]="false" class="show-mobile"></app-header>
+<app-header *ngIf="$desktop" [floating]="true"></app-header>
+<app-header *ngIf="!$desktop" [floating]="false"></app-header>
 
 <div class="section-margin">
     <div class="landing">
