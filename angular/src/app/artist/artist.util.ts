@@ -1,5 +1,5 @@
 import { SelectorItem } from "../global/interface"
-import { DESKTOP } from "../global/services/device"
+import { $desktop } from "../global/tools/media-query"
 import { Images } from "./model/artist-form"
 import { ArtistViewDto } from "./model/artist-view.dto"
 
@@ -19,7 +19,7 @@ export abstract class ArtistUtil {
         if (!images) {
             return ''
         }
-        const url = DESKTOP 
+        const url = $desktop 
             ? images.avatar?.avatar?.url
             : images.avatar?.avatarMobile?.url 
 

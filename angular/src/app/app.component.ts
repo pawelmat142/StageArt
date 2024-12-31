@@ -5,7 +5,6 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { CourtineService } from './global/nav/courtine.service';
 import { Store } from '@ngrx/store';
 import { loggedIn, login, logout } from './profile/profile.state';
-import { DESKTOP } from './global/services/device';
 import { AppState } from './app.state';
 import { ImgSize } from './global/utils/img.util';
 import { ProfileService } from './profile/profile.service';
@@ -19,6 +18,7 @@ import { Dialog } from './global/nav/dialog.service';
 import { Path } from './global/nav/path';
 import { FooterComponent } from './global/components/footer/footer.component';
 import { UnityTheme } from './global/theme/unity.theme';
+import { $desktop } from './global/tools/media-query';
 
 // TODO
 export const OFFLINE_MODE = false
@@ -45,9 +45,7 @@ export class AppComponent {
     private readonly dialog: Dialog,
   ) {}
 
-  courtine$ = this.courtineService.courtine$.pipe(
-    
-  )
+  courtine$ = this.courtineService.courtine$.pipe()
 
   ngOnInit() {
     this.autoLogin()
@@ -83,7 +81,7 @@ export class AppComponent {
   private initScssVariables() {
     Theme.cssVar('avatar-size',`${ImgSize.avatarMobile.height}px`)
     Theme.cssVar('avatar-size-desktop',`${ImgSize.avatar.height}px`)
-    Theme.cssVar('is-desktop', DESKTOP.toString())
+    Theme.cssVar('is-desktop', $desktop.toString())
     Theme.setTheme(UnityTheme)
     // TODO
     // Theme.setTheme(DefaultTheme)

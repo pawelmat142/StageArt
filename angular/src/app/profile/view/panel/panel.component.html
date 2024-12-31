@@ -4,29 +4,22 @@
     <app-sidebar class="sidebar show-desktop"></app-sidebar>
 
     <div class="profile-view-content">
-    
-        @switch (_panelView$  | async) {
-            
-            @case ('BOOKINGS') {
-                <app-panel-bookings></app-panel-bookings>
-            }
-    
-            @case ('ARTIST_INITIAL_INFO') {
-                <app-initial-info></app-initial-info>
-            }
-    
-            @case ('MANAGER_ARTISTS') {
-                <app-panel-artists></app-panel-artists>
-            }
-    
-            @case ('PROMOTER_EVENTS') {
-                <app-panel-events></app-panel-events>
-            }
-    
-            @case ('MANAGER_DATA') {
-                <app-manager-form></app-manager-form>
-            }
-        }
+
+        <ng-container *ngIf="_panelView$ | async as panelView">
+            <ng-container [ngSwitch]="panelView">
+
+                <app-panel-bookings *ngSwitchCase="'BOOKINGS'"></app-panel-bookings>
+
+                <app-initial-info *ngSwitchCase="'ARTIST_INITIAL_INFO'"></app-initial-info>
+
+                <app-panel-artists *ngSwitchCase="'MANAGER_ARTISTS'"></app-panel-artists>
+
+                <app-panel-events *ngSwitchCase="'PROMOTER_EVENTS'"></app-panel-events>
+
+                <app-manager-form *ngSwitchCase="'MANAGER_DATA'"></app-manager-form>
+                
+            </ng-container>
+        </ng-container>
     
     </div>
 </div>

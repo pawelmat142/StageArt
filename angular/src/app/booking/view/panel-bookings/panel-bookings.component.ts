@@ -3,26 +3,22 @@ import { Component } from '@angular/core';
 import { map, withLatestFrom } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { bookingFormData, loadBookings, profile, profileBookings, removeBookingFormData } from '../../../profile/profile.state';
-import { StatusPipe } from '../../../global/pipes/status.pipe';
-import { IsArrayPipe } from '../../../global/pipes/is-array.pipe';
 import { BookingDto } from '../../services/booking.service';
 import { AppState } from '../../../app.state';
 import { FormPresentationComponent } from '../../../form-processor/presentation/form-presentation/form-presentation.component';
 import { BookingFormStructure } from '../../booking-form-structure';
-import { DESKTOP } from '../../../global/services/device';
 import { BookingsSectionComponent } from './bookings-section/bookings-section.component';
 import { IconButtonComponent } from '../../../global/components/icon-button/icon-button.component';
 import { SignComponent } from '../../../global/components/sign/sign.component';
+import { $desktop } from '../../../global/tools/media-query';
 
 @Component({
   selector: 'app-panel-bookings',
   standalone: true,
   imports: [
     CommonModule,
-    IsArrayPipe,
     FormPresentationComponent,
     BookingsSectionComponent,
-    StatusPipe,
     IconButtonComponent,
     SignComponent,
 ],
@@ -31,7 +27,7 @@ import { SignComponent } from '../../../global/components/sign/sign.component';
 })
 export class PanelBookingsComponent {
 
-  readonly DESKTOP = DESKTOP
+  readonly $desktop = $desktop;
 
   constructor(
     private readonly store: Store<AppState>,

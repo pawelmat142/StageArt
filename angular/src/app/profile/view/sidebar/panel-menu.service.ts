@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { AppMenuItem, MenuButtonItem, NavService } from "../../../global/nav/nav.service";
 import { Profile, Role } from "../../profile.model";
-import { map, Observable, Subject, take, tap } from "rxjs";
+import { BehaviorSubject, map, Observable, take, tap } from "rxjs";
 import { PanelView } from "../panel/panel.component";
 import { Store } from "@ngrx/store";
 import { AppState } from "../../../app.state";
@@ -19,7 +19,7 @@ export class PanelMenuService {
         private readonly nav: NavService,
     ) { }
 
-    panelViewSubject$ = new Subject<PanelView>()
+    panelViewSubject$ = new BehaviorSubject<PanelView>('NONE')
 
     _items$: Observable<MenuItem[]> = this.store.select(profile).pipe(
         tap(profile => this.setPanelViewForRole(profile)),
@@ -40,9 +40,13 @@ export class PanelMenuService {
     private setPanelViewForRole(profile?: Profile) {
         const panelBookingsRolesGuard: string[] = [Role.ARTIST, Role.MANAGER, Role.PROMOTER]
         if (Role.matches(profile, panelBookingsRolesGuard)) {
-            this._clickItem(this._bookingsItem)
+            setTimeout(() => {
+                this._clickItem(this._bookingsItem)
+            })
         }
     }
+
+    private initialPanelViewItem() {}
 
     _bookingsItem: MenuButtonItem = {
         label: `Bookings`,

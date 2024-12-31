@@ -8,9 +8,9 @@ import { selectArtists, initArtists } from '../../../../artist/artists.state';
 import { ArtistViewDto } from '../../../../artist/model/artist-view.dto';
 import { ArtistCardComponent } from '../../../../artist/view/artist-card/artist-card.component';
 import { NavService } from '../../../nav/nav.service';
-import { DESKTOP } from '../../../services/device';
 import { Path } from '../../../nav/path';
 import { ButtonModule } from 'primeng/button';
+import { $desktop } from '../../../tools/media-query';
 
 @Component({
   selector: 'app-artists-section',
@@ -26,7 +26,7 @@ import { ButtonModule } from 'primeng/button';
 })
 export class ArtistsSectionComponent {
 
-  DESKTOP = DESKTOP
+  $desktop = $desktop;
 
   artists$: Observable<ArtistViewDto[]>
 

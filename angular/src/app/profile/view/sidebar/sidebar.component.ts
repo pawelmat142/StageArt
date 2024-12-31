@@ -1,7 +1,4 @@
 import { Component } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { profile } from '../../profile.state';
-import { AppState } from '../../../app.state';
 import { CommonModule } from '@angular/common';
 import { MenuModule } from 'primeng/menu';
 import { PanelMenuService } from './panel-menu.service';

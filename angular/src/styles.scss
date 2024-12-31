@@ -58,7 +58,9 @@ html {
 .section-container.card {
     border-radius: $borderRadius3;
 }
-
+.show-mobile {
+    display: none;
+}
 @media only screen and (min-width: $desktop) {
     .show-desktop {
         display: unset;

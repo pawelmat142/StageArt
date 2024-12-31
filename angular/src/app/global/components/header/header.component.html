@@ -19,7 +19,7 @@
             </div>
         </div>
         
-        <app-mobile-btn class="show-mobile"></app-mobile-btn>
+        <app-mobile-btn *ngIf="!$desktop"></app-mobile-btn>
 
     </div>
 </div>

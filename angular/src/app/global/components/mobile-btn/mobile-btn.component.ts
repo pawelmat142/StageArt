@@ -6,9 +6,10 @@ import { SidebarModule } from 'primeng/sidebar';
 import { PanelMenuService } from '../../../profile/view/sidebar/panel-menu.service';
 import { MenuItemsComponent } from '../menu-items/menu-items.component';
 import { ProfileDataComponent } from '../profile-data/profile-data.component';
-import { combineLatest, map, shareReplay } from 'rxjs';
+import { combineLatest, map, tap } from 'rxjs';
 import { NavService } from '../../nav/nav.service';
 import { Path } from '../../nav/path';
+import { $desktop } from '../../tools/media-query';
 
 @Component({
   selector: 'app-mobile-btn',
@@ -29,14 +30,16 @@ export class MobileBtnComponent {
     readonly menu: MenuService,
     private readonly panelMenuService: PanelMenuService,
     private readonly nav: NavService
-  ) {}
+  ) {
+  }
 
   sidebarVisible: boolean = false
 
   _mobileMenuItems$ = combineLatest([
     this.menu.menuBtns$,
     this.panelMenuService._items$
-  ]).pipe(map(([menu, panelMenu]) => {
+  ]).pipe(
+    map(([menu, panelMenu]) => {
     const _menu = { 
       label: 'Menu',
       items: menu
@@ -47,7 +50,6 @@ export class MobileBtnComponent {
     }
     return [_menu]
   }),
-  shareReplay(),
 )
   
   _open() {

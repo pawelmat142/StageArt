@@ -20,7 +20,7 @@
         <ng-container *ngIf="artists$ | async as artists">
             <p-carousel class="p-carousel"
                 [value]="artists" 
-                [numVisible]="DESKTOP ? 3 : 1" 
+                [numVisible]="$desktop ? 3 : 1" 
                 [circular]="true" 
             >
                 <ng-template let-artist pTemplate="item">

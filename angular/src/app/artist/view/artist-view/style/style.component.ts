@@ -8,7 +8,6 @@ import { ArtistService } from '../../../artist.service';
 import { Dialog, DialogData } from '../../../../global/nav/dialog.service';
 import { ArtistLabel, ArtistStyle } from '../../../model/artist-view.dto';
 import { Validators } from '@angular/forms';
-import { DESKTOP } from '../../../../global/services/device';
 import { TooltipModule } from 'primeng/tooltip';
 import { IconComponent } from '../../../../global/components/icon/icon.component';
 

@@ -5,6 +5,7 @@ import { LogoComponent } from '../logo/logo.component';
 import { NavService } from '../../nav/nav.service';
 import { MobileBtnComponent } from '../mobile-btn/mobile-btn.component';
 import { MenuService } from '../../nav/menu-service';
+import { $desktop } from '../../tools/media-query';
 
 @Component({
   selector: 'app-header',
@@ -18,6 +19,8 @@ import { MenuService } from '../../nav/menu-service';
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
+
+  $desktop = $desktop;
 
   constructor(
     private readonly nav: NavService,

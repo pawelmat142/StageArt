@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { PanelBookingsComponent } from '../../../booking/view/panel-bookings/panel-bookings.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { HeaderComponent } from '../../../global/components/header/header.component';
@@ -8,7 +8,7 @@ import { PanelEventsComponent } from '../../../event/view/panel-events/panel-eve
 import { ManagerFormComponent } from "../manager-form/manager-form.component";
 import { SidebarModule } from 'primeng/sidebar';
 import { PanelMenuService } from '../sidebar/panel-menu.service';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 export type PanelView  = 'NONE' | 'BOOKINGS' | 'MANAGER_ARTISTS' | 'MANAGER_DATA' | 'PROMOTER_EVENTS' | 'ARTIST_INITIAL_INFO'
@@ -34,7 +34,8 @@ export class PanelComponent {
 
   constructor (
     private readonly panelMenuService: PanelMenuService
-  ) {}
+  ) {
+  }
 
   _panelView$: Observable<PanelView> = this.panelMenuService.panelViewSubject$
 

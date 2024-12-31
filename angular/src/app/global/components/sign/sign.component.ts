@@ -1,6 +1,5 @@
 import { Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import SignaturePad from 'signature_pad';
-import { DESKTOP } from '../../services/device';
 import { ImgUtil } from '../../utils/img.util';
 import { Signature, SignatureService } from './signature.service';
 import { filter, map, Observable, of, switchMap, tap, withLatestFrom } from 'rxjs';
@@ -18,6 +17,7 @@ import { BookingUtil } from '../../../booking/booking.util';
 import { uid } from '../../../profile/profile.state';
 import { Role } from '../../../profile/profile.model';
 import { ButtonModule } from 'primeng/button';
+import { $desktop } from '../../tools/media-query';
 
 
 @Component({
@@ -34,7 +34,7 @@ import { ButtonModule } from 'primeng/button';
 })
 export class SignComponent {
 
-  readonly DESKTOP = DESKTOP
+  readonly $desktop = $desktop;
 
   constructor (
     private readonly signatureService: SignatureService,
@@ -48,7 +48,7 @@ export class SignComponent {
   signatureImg!: string;
 
   width = 700
-  height = this.DESKTOP ? 200 : 150
+  height = this.$desktop ? 200 : 150
 
   @ViewChild('menu') menuRef!: Menu
   @ViewChild('canvas') canvasEl!: ElementRef;
@@ -173,7 +173,7 @@ export class SignComponent {
   private initSection(show: boolean) {
     if (show) {
       const standardPadding = 16
-      if (!this.DESKTOP) {
+      if (!this.$desktop) {
         this.width = innerWidth - 2*standardPadding
       }
       setTimeout(() => {

@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { DESKTOP } from '../../../../global/services/device';
 import { BookingDto } from '../../../services/booking.service';
 import { StatusPipe } from "../../../../global/pipes/status.pipe";
 import { AccordionModule } from 'primeng/accordion';
@@ -9,6 +8,7 @@ import { Store } from '@ngrx/store';
 import { selectBooking, uid, unselectBooking } from '../../../../profile/profile.state';
 import { NamesPipe } from "../../../../global/pipes/names.pipe";
 import { BookingStepperComponent } from '../../booking-stepper/booking-stepper.component';
+import { $desktop } from '../../../../global/tools/media-query';
 
 @Component({
   selector: 'app-bookings-section',
@@ -25,7 +25,7 @@ import { BookingStepperComponent } from '../../booking-stepper/booking-stepper.c
 })
 export class BookingsSectionComponent {
 
-  readonly DESKTOP = DESKTOP
+  readonly $desktop = $desktop;
 
   constructor(
     private readonly store: Store<AppState>,

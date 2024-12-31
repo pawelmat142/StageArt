@@ -5,8 +5,8 @@ import { FeedbackService } from './feedback-service';
 import { take } from 'rxjs';
 import { Dialog } from '../../../nav/dialog.service';
 import { CourtineService } from '../../../nav/courtine.service';
-import { DESKTOP } from '../../../services/device';
 import { ButtonModule } from 'primeng/button';
+import { $desktop } from '../../../tools/media-query';
 
 @Component({
   selector: 'app-feedback',
@@ -21,7 +21,7 @@ import { ButtonModule } from 'primeng/button';
 })
 export class FeedbackComponent {
 
-  readonly DESKTOP = DESKTOP
+  $desktop = $desktop;
 
   constructor(
     private readonly feedbackService: FeedbackService,

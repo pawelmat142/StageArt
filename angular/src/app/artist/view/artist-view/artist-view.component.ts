@@ -5,7 +5,6 @@ import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../../../global/components/header/header.component';
 import { MenuButtonComponent } from '../../../global/components/menu-button/menu-button.component';
 import { NavService } from '../../../global/nav/nav.service';
-import { DESKTOP } from '../../../global/services/device';
 import { NotFoundPageComponent } from '../../../global/view/error/not-found-page/not-found-page.component';
 import { AppState } from '../../../app.state';
 import { Store } from '@ngrx/store';
@@ -47,8 +46,6 @@ import { ButtonModule } from 'primeng/button';
   styleUrl: './artist-view.component.scss',
 })
 export class ArtistViewComponent {
-
-  DESKTOP = DESKTOP
 
   public static readonly path = `artist/:name`
 
