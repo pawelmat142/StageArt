@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ArtistViewDto } from '../../model/artist-view.dto';
 import { PdfDataService } from '../../pdf-data.service';
 import { PdfDataDto, PdfSection, PdfTemplate, PdfTemplateConst } from '../../model/document-template.def';
-import { BehaviorSubject, map, mergeMap, Observable, tap } from 'rxjs';
+import { BehaviorSubject, filter, map, mergeMap, Observable, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { IconButtonComponent } from '../../../global/components/icon-button/icon-button.component';
 import { ButtonModule } from 'primeng/button';
@@ -57,28 +57,84 @@ export class DocumentTemplatesComponent implements OnInit {
   pdfData$ = new BehaviorSubject<PdfDataDto | undefined>(undefined)
 
   ngOnInit(): void {
-    this.loadTemplates().subscribe()
+    this.loadTemplates$().subscribe()
   }
 
-  loadTemplates(): Observable<void> {
+  loadTemplates$(): Observable<void> {
+    this.courtine.startCourtine()
     return this.pdfDataservice
       .list$(this.artist.signature)
-      .pipe(map(documentTemplates => {
-        const pdfDatasPerTemplate: PdfDatasPerTemplate[] = PdfTemplateConst.map((template: PdfTemplate) => {
-          const pdfDatas: PdfDataDto[] = documentTemplates.filter(t => t.template === template)
-          return {
-            template,
-            pdfDatas
-          }
-        })
-        this.pdfDatasPerTemplate$.next(pdfDatasPerTemplate)
-      }))
+      .pipe(
+        map(documentTemplates => {
+          const pdfDatasPerTemplate: PdfDatasPerTemplate[] = PdfTemplateConst.map((template: PdfTemplate) => {
+            const pdfDatas: PdfDataDto[] = documentTemplates.filter(t => t.template === template)
+            this.sortFirstActiveAfterByModified(pdfDatas)
+            return {
+              template,
+              pdfDatas
+            }
+          })
+          this.pdfDatasPerTemplate$.next(pdfDatasPerTemplate)
+        }),
+        tap(() => this.courtine.stopCourtine())
+      )
+  }
+
+  _pdfDataMenuItems(menu: Menu, pdfData: PdfDataDto): MenuItem[] {
+    const result: MenuItem[] = [{
+      label: 'Open editor',
+      command: (e:{ originalEvent: PointerEvent }) => {
+        e.originalEvent.stopPropagation()
+        this._selectPdfData(pdfData)
+      }
+    }, {
+      label: 'Delete',
+      command: (e:{ originalEvent: PointerEvent }) => {
+        e.originalEvent.stopPropagation()
+        this.dialog.yesOrNoPopup(`Delete template, sure?`).pipe(
+          tap(() => this.courtine.startCourtine()),
+          mergeMap(() => this.pdfDataservice.delete$(pdfData.id)),
+          mergeMap(() => this.loadTemplates$()),
+          tap(() => this.courtine.stopCourtine()),
+          tap(() => this.pdfData$.next(undefined)),
+        ).subscribe()
+      }
+    }, {
+      label: 'Close',
+      command: (e:{ originalEvent: PointerEvent }) => {
+        e.originalEvent.stopPropagation()
+        menu.toggle(e.originalEvent)
+      }
+    }]
+    if (!pdfData.active) {
+      result.unshift({
+        label: 'Activate',
+        command: (e:{ originalEvent: PointerEvent }) => {
+          e.originalEvent.stopPropagation()
+          this.dialog.yesOrNoPopup(`Template will be activated, sure?`).pipe(
+            tap(() => this.courtine.startCourtine()),
+            mergeMap(() => this.pdfDataservice.activate$(pdfData.id)),
+            mergeMap(() => this.loadTemplates$()),
+            tap(() => this.courtine.stopCourtine()),
+          ).subscribe()
+        }
+      })
+    } 
+    return result
   }
 
   _selectDefault(template: PdfTemplate) {
     this.pdfDataservice.getDefaultPdfData$(template)
     .pipe(tap(console.log))
     .subscribe(pdfData => this.pdfData$.next(pdfData))
+  }
+
+  _selectPdfData(pdfData: PdfDataDto) {
+    this.courtine.startCourtine()
+    this.pdfDataservice
+      .getByName$(pdfData.name, this.artist.signature)
+      .pipe(tap(() => this.courtine.stopCourtine()))
+      .subscribe(pdfData => this.pdfData$.next(pdfData))
   }
 
   _closePdfData() {
@@ -98,10 +154,24 @@ export class DocumentTemplatesComponent implements OnInit {
     const pdfData = this.pdfData$.value!
     this.dialog.yesOrNoPopup(`Save template, sure?`).pipe(
       tap(() => this.courtine.startCourtine()),
+      mergeMap(() => this.checkIfTemplateWithNameExists(pdfData)),
+      filter(exists => !exists),
       mergeMap(() => this.pdfDataservice.save$(this.artist.signature, pdfData)),
-      mergeMap(() => this.loadTemplates()),
+      mergeMap(() => this.loadTemplates$()),
       tap(() => this.courtine.stopCourtine()),
     ).subscribe()
+  }
+
+  private checkIfTemplateWithNameExists(pdfData: PdfDataDto): Observable<boolean> {
+    return this.pdfDataservice.getByName$(pdfData.name, this.artist.signature).pipe(
+      map(existing => existing && existing?.id !== pdfData.id),
+      tap(exists => {
+        if (exists) {
+          this.courtine.stopCourtine()
+          this.dialog.warnToast(`Template with this name already exists`)
+        }
+      })
+    )
   }
 
   _removeSection(i: number) {
@@ -126,57 +196,6 @@ export class DocumentTemplatesComponent implements OnInit {
       pdfData.sections.splice(i + 1, 0, section)
       this.pdfData$.next(pdfData)
     }
-  }
-
-  _removeItem(i: number, itemIndex: number) {
-    const pdfData = this.pdfData$.value
-    if (pdfData) {
-      const section = pdfData.sections[i]
-      if (section) {
-        const item = section.items[itemIndex]
-        if (item) {
-          this.dialog.yesOrNoPopup(`Remove item, sure?`).subscribe(() => {
-            section.items.splice(itemIndex, 1)
-            this.pdfData$.next(pdfData)
-          })
-        }
-      }
-    }
-  }
-
-  _removeListItem(i: number, itemIndex: number, listItemIndex: number) {
-    const pdfData = this.pdfData$.value
-    if (pdfData) {
-      const section = pdfData.sections[i]
-      if (section) {
-        const item = section.items[itemIndex]
-        if (item) {
-          const listItem = item.list?.[listItemIndex];
-          if (listItem) {
-            this.dialog.yesOrNoPopup(`Remove list item, sure?`).subscribe(() => {
-              item.list?.splice(listItemIndex, 1)
-              this.pdfData$.next(pdfData)
-            })
-          }
-        }
-      }
-    }
-  }
-
-  _addListItem(i: number, itemIndex: number) {
-    const pdfData = this.pdfData$.value
-    if (pdfData) {
-      const section = pdfData.sections[i]
-      if (section) {
-        const item = section.items[itemIndex]
-        if (item) {
-          item.list = item.list || []
-          item.list.push('')
-          this.pdfData$.next(pdfData)
-        }
-      }
-    }
-
   }
 
   _sectionMenuItems(menu: Menu, sectionIndex: number): MenuItem[] {
@@ -246,6 +265,17 @@ export class DocumentTemplatesComponent implements OnInit {
 
   trackByIndex(index: number): number {
     return index; // Use the index as the unique identifier
+  }
+
+  private sortFirstActiveAfterByModified(pdfDatas: PdfDataDto[]) {
+    pdfDatas.sort((a, b) => {
+      const aNumber = Number(a.active);
+      const bNumber = Number(b.active);
+      if (aNumber === bNumber) {
+        return new Date(b.modified).getTime() - new Date(a.modified).getTime()
+      }
+      return bNumber - aNumber
+    })
   }
 
 }

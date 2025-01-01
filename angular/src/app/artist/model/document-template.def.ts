@@ -1,5 +1,6 @@
 export interface PdfDataDto {
     id: string
+    active: boolean
     name: string
     template: PdfTemplate
     created: Date

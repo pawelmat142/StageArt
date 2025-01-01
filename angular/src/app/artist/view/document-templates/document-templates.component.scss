@@ -3,7 +3,7 @@
 .template-subsection-header {
     color: $primaryColor;
     margin-top: $padding-standard;
-    margin-bottom: $padding-standard;
+    margin-bottom: .5*$padding-standard;
 
     &.text-color {
         color: $textColor;
@@ -53,4 +53,18 @@
 .form-grid.column {
     gap: 0.5*$padding-standard;
     padding: $padding-standard;
+}
+
+.item-row {
+    margin-bottom: 0.25*$padding-standard;
+} 
+
+.item-row.pdf-data {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    
+    .menu-icon {
+        display: flex;
+        justify-content: flex-end;
+        position: relative;
+    }
 }

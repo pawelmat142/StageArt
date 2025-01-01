@@ -67,6 +67,11 @@
             background-color: $formBg;
         }
     }
+
+    &.has-menu {
+        padding-top: .5*$padding-standard;
+        padding-bottom: .5*$padding-standard;
+    }
 }
 
 .labels {

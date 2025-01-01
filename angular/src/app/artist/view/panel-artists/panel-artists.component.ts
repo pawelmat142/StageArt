@@ -47,6 +47,9 @@ export class PanelArtistsComponent {
     this.fetchArtistsOfManager()
   }
 
+  _artistTabChange(tabIndex: any) {
+    this._hideDocumentTemapltes()
+  }
 
   _artistView(artist: ArtistViewDto) {
     this.nav.toArtist(artist.name)
@@ -108,7 +111,7 @@ export class PanelArtistsComponent {
     this._documentTemplatesArtist = artist
   }
 
-  _hideDocumentTemapltes(artist: ArtistViewDto) {
+  _hideDocumentTemapltes(artist?: ArtistViewDto) {
     this._documentTemplatesArtist = undefined
   }
 

@@ -14,7 +14,7 @@
                 </div>
             </div>
 
-            <p-accordion class="w-full">
+            <p-accordion class="w-full" (activeIndexChange)="_artistTabChange($event)">
                 
                 @for (artist of _artists$ | async; track artist.signature; let last = $last) {
                     

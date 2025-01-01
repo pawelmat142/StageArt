@@ -10,10 +10,19 @@
 
             <p class="template-subsection-header">{{pdfDatasAndTemplate.template | uppercase }}</p>
 
-            <div *ngIf="!pdfDatasAndTemplate.pdfDatas.length" class="defaut-tempalte-tile">
+            <div class="item-row tile-style clickable defaut-tempalte-tile" (click)="_selectDefault(pdfDatasAndTemplate.template)">
+                <p>Default template - click to open editor</p>
+            </div>
 
-                <div class="item-row tile-style clickable" (click)="_selectDefault(pdfDatasAndTemplate.template)">
-                    <p>Default template - click to open editor</p>
+            <div 
+                *ngFor="let pdfData of pdfDatasAndTemplate.pdfDatas; let i = index"
+                class="item-row tile-style pdf-data has-menu">
+                <div>{{pdfData.modified | date: 'dd-MM-yyyy HH:mm'}}</div>
+                <div>{{pdfData.name}}</div>
+                <div> <span *ngIf="pdfData.active" class="primary">active</span></div>
+                <div class="menu-icon">
+                    <p-menu #mmm appendTo="mmm" [model]="_pdfDataMenuItems(mmm, pdfData)" [popup]="true" [styleClass]="'paper-tile-menu'"/>
+                    <app-icon-button (click)="_toggleSectionMenu(mmm, $event!)" icon="pi-ellipsis-v"></app-icon-button>
                 </div>
             </div>
 
@@ -34,7 +43,7 @@
             <div class="panel-section-header">
                 <h2 class="fs3 bold"> 
                     <span> {{pdfData.template | uppercase}}</span>
-                    <span> - {{pdfData.created | date: 'dd-MM-yyyy HH:mm'}}</span>
+                    <span> - {{pdfData.modified | date: 'dd-MM-yyyy HH:mm'}}</span>
                 </h2>
                 <div class="right-section">
                     

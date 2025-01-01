@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Observable, of, tap } from "rxjs";
+import { Observable, of } from "rxjs";
 import { HttpService } from "../global/services/http.service";
 import { PdfDataDto, PdfTemplate } from "./model/document-template.def";
 
@@ -22,12 +22,21 @@ export class PdfDataService {
 
     public list$(artistSignature: string): Observable<PdfDataDto[]> {
         return this.http.get<PdfDataDto[]>(`/pdf-data/list/${artistSignature}`)
-            .pipe(tap(console.log))
+    }
+
+    public getByName$(name: string, artistSignature: string): Observable<PdfDataDto> {
+        return this.http.get<PdfDataDto>(`/pdf-data/name/${name}/${artistSignature}`)
     }
         
     public save$(artistSignature: string, dto: PdfDataDto): Observable<PdfDataDto> {
         return this.http.put<PdfDataDto>(`/pdf-data/save/${artistSignature}`, dto)
-            .pipe(tap(console.log))
+    }
+
+    public delete$(id: string): Observable<void> {
+        return this.http.delete<void>(`/pdf-data/${id}`)
+    }
+    public activate$(id: string): Observable<void> {
+        return this.http.get<void>(`/pdf-data/activate/${id}`)
     }
 
 }
