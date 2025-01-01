@@ -13,6 +13,9 @@ import { AccordionModule } from 'primeng/accordion';
 import { TooltipModule } from 'primeng/tooltip';
 import { ButtonModule } from 'primeng/button';
 import { DocumentTemplatesComponent } from '../document-templates/document-templates.component';
+import { IconButtonComponent } from '../../../global/components/icon-button/icon-button.component';
+import { Menu, MenuModule } from 'primeng/menu';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-panel-artists',
@@ -24,7 +27,9 @@ import { DocumentTemplatesComponent } from '../document-templates/document-templ
     AccordionModule,
     TooltipModule,
     ButtonModule,
-    DocumentTemplatesComponent
+    DocumentTemplatesComponent,
+    IconButtonComponent,
+    MenuModule
 ],
   templateUrl: './panel-artists.component.html',
   styleUrl: './panel-artists.component.scss',
@@ -49,6 +54,59 @@ export class PanelArtistsComponent {
 
   _artistTabChange(tabIndex: any) {
     this._hideDocumentTemapltes()
+  }
+
+  _artistMenuItems(menu: Menu, artist: ArtistViewDto): MenuItem[] {
+    const defaultMenu: MenuItem[] = [{
+      label: 'Go to artist view',
+      command: (e:{ originalEvent: PointerEvent }) => {
+        e.originalEvent.stopPropagation()
+        this._artistView(artist)
+      }
+    }, {
+      label: 'Management notes',
+      command: (e:{ originalEvent: PointerEvent }) => {
+        e.originalEvent.stopPropagation()
+        this._addNotes(artist)
+      }
+    }]
+    if (this._documentTemplatesArtist === artist) {
+      defaultMenu.push({
+        label: 'Hide document templates',
+        command: (e:{ originalEvent: PointerEvent }) => {
+          e.originalEvent.stopPropagation()
+          this._hideDocumentTemapltes(artist)
+        }
+      })
+    } else {
+      defaultMenu.push({
+        label: 'Show document templates',
+        command: (e:{ originalEvent: PointerEvent }) => {
+          e.originalEvent.stopPropagation()
+          this._showDocumentTemapltes(artist)
+        }
+      })
+    }
+
+    if (['ACTIVE'].includes(artist.status)) {
+      defaultMenu.unshift({
+        label: 'Deactivate',
+        command: (e:{ originalEvent: PointerEvent }) => {
+          e.originalEvent.stopPropagation()
+          this._deactivate(artist)
+        }
+      })
+    }
+    if (['READY', 'INACTIVE'].includes(artist.status)) {
+      defaultMenu.unshift({
+        label: 'Activate',
+        command: (e:{ originalEvent: PointerEvent }) => {
+          e.originalEvent.stopPropagation()
+          this._activate(artist)
+        }
+      })
+    }
+    return defaultMenu
   }
 
   _artistView(artist: ArtistViewDto) {
@@ -138,6 +196,11 @@ export class PanelArtistsComponent {
         this.courtineService.stopCourtine()
       })
     )
+  }
+
+  _toggleSectionMenu(menu: Menu, event: Event) {
+    event.stopPropagation()
+    menu?.toggle(event)
   }
 
 }

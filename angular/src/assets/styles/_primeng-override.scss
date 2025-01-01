@@ -177,8 +177,14 @@
     }
 }
 
+// .p-menu-overlay {
+//     top: 100%;
+// }
+
 .p-menu-overlay {
     top: 100%;
+    left: unset;
+    right: 0;
 }
 
 

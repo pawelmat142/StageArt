@@ -16,3 +16,13 @@
 .item-row p:last-of-type {
     text-align: unset;
 }
+
+.menu-icon {
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+}
+
+.item-row {
+    margin-bottom: .25*$padding-standard;
+}

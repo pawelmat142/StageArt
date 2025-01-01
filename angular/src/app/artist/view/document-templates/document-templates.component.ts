@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { ArtistViewDto } from '../../model/artist-view.dto';
 import { PdfDataService } from '../../pdf-data.service';
 import { PdfDataDto, PdfSection, PdfTemplate, PdfTemplateConst } from '../../model/document-template.def';
@@ -42,7 +42,7 @@ type PdfDatasPerTemplate = {
   templateUrl: './document-templates.component.html',
   styleUrl: './document-templates.component.scss'
 })
-export class DocumentTemplatesComponent implements OnInit {
+export class DocumentTemplatesComponent implements OnChanges {
 
   constructor(
     private readonly pdfDataservice: PdfDataService,
@@ -56,7 +56,7 @@ export class DocumentTemplatesComponent implements OnInit {
 
   pdfData$ = new BehaviorSubject<PdfDataDto | undefined>(undefined)
 
-  ngOnInit(): void {
+  ngOnChanges(): void {
     this.loadTemplates$().subscribe()
   }
 
@@ -125,7 +125,6 @@ export class DocumentTemplatesComponent implements OnInit {
 
   _selectDefault(template: PdfTemplate) {
     this.pdfDataservice.getDefaultPdfData$(template)
-    .pipe(tap(console.log))
     .subscribe(pdfData => this.pdfData$.next(pdfData))
   }
 
@@ -159,6 +158,7 @@ export class DocumentTemplatesComponent implements OnInit {
       mergeMap(() => this.pdfDataservice.save$(this.artist.signature, pdfData)),
       mergeMap(() => this.loadTemplates$()),
       tap(() => this.courtine.stopCourtine()),
+      tap(() => this.pdfData$.next(undefined)),
     ).subscribe()
   }
 

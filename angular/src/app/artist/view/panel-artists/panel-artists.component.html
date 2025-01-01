@@ -14,81 +14,27 @@
                 </div>
             </div>
 
-            <p-accordion class="w-full" (activeIndexChange)="_artistTabChange($event)">
-                
-                @for (artist of _artists$ | async; track artist.signature; let last = $last) {
-                    
-                    <p-accordionTab>
+            @for (artist of _artists$ | async; track artist.signature; let last = $last) {
 
-                        <ng-template pTemplate="header">
-                            <div class="item-row clickable">
-                                <p>{{artist.name}}</p>
-                                <p [pTooltip]="_artistStatusTooltip(artist.status)" tooltipPosition="top">
-                                    {{artist.status | status }}
-                                </p>
-                            </div>
-                        </ng-template>
+                <div class="item-row tile-style has-menu">
+                    <p>{{artist.name}}</p>
+                    <p [pTooltip]="_artistStatusTooltip(artist.status)" tooltipPosition="top">
+                        {{artist.status | status }}
+                    </p>
+                    <div class="menu-icon right">
+                        <p-menu #menu appendTo="menu" [model]="_artistMenuItems(menu, artist)" [popup]="true"/>
+                        <app-icon-button (click)="_toggleSectionMenu(menu, $event!)" icon="pi-ellipsis-v"></app-icon-button>
+                    </div>
+                </div>
+            }
 
-                        <div class="item-row-collapse-content">
-                            <div class="item-row-buttons">
-                                @if (['READY', 'INACTIVE'].includes(artist.status)) {
-                                    <p-button 
-                                        (click)="_activate(artist)" 
-                                        [raised]="true"
-                                        severity="success" 
-                                        label="Activate">
-                                    </p-button>
-                                }
-                                @if (['ACTIVE'].includes(artist.status)) {
-                                    <p-button 
-                                        (click)="_deactivate(artist)" 
-                                        [raised]="true"
-                                        severity="warning" 
-                                        label="Deactivate">
-                                    </p-button>
-                                }
-                                <p-button 
-                                    (click)="_artistView(artist)" 
-                                    [raised]="true"
-                                    severity="info" 
-                                    label="Go to artist view">
-                                </p-button>
-                                <p-button 
-                                    (click)="_addNotes(artist)" 
-                                    [raised]="true"
-                                    severity="help" 
-                                    label="Management notes">
-                                </p-button>
-                                @if(_documentTemplatesArtist !== artist) {
-                                    <p-button 
-                                        (click)="_showDocumentTemapltes(artist)" 
-                                        [raised]="true"
-                                        severity="help" 
-                                        label="Document templates">
-                                    </p-button>
-                                } @else {
-                                    <p-button 
-                                        (click)="_hideDocumentTemapltes(artist)" 
-                                        [raised]="true"
-                                        severity="warning" 
-                                        label="Hide document templates">
-                                    </p-button>
-                                }
-
-                            </div>
-
-                        </div>
-
-                    </p-accordionTab>
-
-                }
-            </p-accordion>
         </div>
     </div>
 
-    @if(_documentTemplatesArtist) {
-        <app-document-templates [artist]="_documentTemplatesArtist"></app-document-templates>
-    }
+    <app-document-templates 
+        *ngIf="_documentTemplatesArtist" 
+        [artist]="_documentTemplatesArtist"
+    ></app-document-templates>
     
     @if (managementNotesForm) {
         <div class="panel-section management-notes">

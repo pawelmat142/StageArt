@@ -36,7 +36,7 @@ export class PdfDataService {
     }
     
     public async save(artistSignature: string, dto: PdfDataDto, profile: JwtPayload): Promise<PdfData> {
-        if (Number(dto.id)) {
+        if (dto.id) {
             const existing = await this.getById(dto.id, profile.uid)
             if (existing) {
                 await this.update(dto)
