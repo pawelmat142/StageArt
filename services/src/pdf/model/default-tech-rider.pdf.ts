@@ -1,6 +1,11 @@
 import { PdfData } from "./pdf-data";
 
 export const defaultTechRiderPdf: PdfData = {
+    name: 'default',
+    id: '0',
+    template: 'tech-rider',
+    created: new Date(),
+    modified: new Date(),
     data: {
     },
     header: `Tech Rider + Stage pilot + Hospitality`, 

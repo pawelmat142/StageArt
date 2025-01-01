@@ -1,6 +1,11 @@
 import { PdfData } from "./pdf-data";
 
 export const defaultContractPdf: PdfData = {
+    name: 'default',
+    id: '0',
+    template: 'contract',
+    created: new Date(),
+    modified: new Date(),
     data: {
     },
     header: `ARTIST BOOKING CONTRACT ${new Date().getFullYear()}`, 

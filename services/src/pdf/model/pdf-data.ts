@@ -1,4 +1,19 @@
+export interface PdfDataDto {
+    id: string
+    name: string
+    template: PdfTemplate
+    created: Date
+    modified: Date
+    header: string
+    sections: PdfSection[]
+}
+
 export interface PdfData {
+    id: string
+    name: string
+    template: PdfTemplate
+    created: Date
+    modified: Date
     header: string
     sections: PdfSection[]
     data: any
