@@ -1,8 +1,6 @@
 import { Injectable } from "@angular/core";
-import { Store } from "@ngrx/store";
-import { Observable, of } from "rxjs";
+import { Observable, of, tap } from "rxjs";
 import { HttpService } from "../global/services/http.service";
-import { AppState } from "../app.state";
 import { PdfDataDto, PdfTemplate } from "./model/document-template.def";
 
 @Injectable({
@@ -12,14 +10,7 @@ export class PdfDataService {
 
     constructor(
         private http: HttpService,
-        private store: Store<AppState>,
     ) {}
-
-
-    // public setStatus$(status: ArtistStatus, signature: string): Observable<void> {  
-    //     return this.http.put<void>(`/artist/set-status/${status}/${signature}`).pipe(
-    //     )
-    // }
 
     public getDocumentTemplates$(): Observable<PdfDataDto[]> {
         return of([])
@@ -27,6 +18,16 @@ export class PdfDataService {
 
     public getDefaultPdfData$(template: PdfTemplate): Observable<PdfDataDto> {
         return this.http.get<PdfDataDto>(`/pdf-data/default/${template}`)
+    }
+
+    public list$(artistSignature: string): Observable<PdfDataDto[]> {
+        return this.http.get<PdfDataDto[]>(`/pdf-data/list/${artistSignature}`)
+            .pipe(tap(console.log))
+    }
+        
+    public save$(artistSignature: string, dto: PdfDataDto): Observable<PdfDataDto> {
+        return this.http.put<PdfDataDto>(`/pdf-data/save/${artistSignature}`, dto)
+            .pipe(tap(console.log))
     }
 
 }

@@ -79,7 +79,7 @@ export class BookingStepperComponent {
   }
 
   _cancelBooking(booking: BookingDto) {
-    this.dialog.yesOrNoPopup(`Booking will be cancelled. Are you sure?`).pipe(
+    this.dialog.yesOrNoPopup(`Booking will be cancelled. Are you sure?`, true).pipe(
       switchMap(confirm => confirm 
         ? this.bookingService.cancelBooking$(booking.formId).pipe(
           tap(booking => {
@@ -91,7 +91,7 @@ export class BookingStepperComponent {
   }
 
   _acceptBooking(booking: BookingDto) {
-    this.dialog.yesOrNoPopup(`Booking request will be accepted, documents step will be started. Sure?`).pipe(
+    this.dialog.yesOrNoPopup(`Booking request will be accepted, documents step will be started. Sure?`, true).pipe(
       switchMap(confirm => confirm 
         ? this.bookingService.requestDocuments$(booking.formId).pipe(
           tap(booking => {

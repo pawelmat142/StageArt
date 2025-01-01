@@ -6,11 +6,11 @@ import { FormService } from './form.service';
 
 @Module({
     imports: [
-        MongooseModule.forFeature([{
-          name: Form.name,
-          schema: FormSchema
-        }]),
-      ],
+      MongooseModule.forFeature([{
+        name: Form.name,
+        schema: FormSchema
+      }]),
+    ],
     providers: [FormService],
     exports: [FormService],
     controllers: [FormController],

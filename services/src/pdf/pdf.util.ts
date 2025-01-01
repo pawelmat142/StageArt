@@ -1,7 +1,8 @@
 import { PaperGenerateParameters } from "../document/paper-util";
 import { defaultContractPdf } from "./model/default-contract.pdf";
 import { defaultTechRiderPdf } from "./model/default-tech-rider.pdf";
-import { PdfData, PdfTemplate } from "./model/pdf-data";
+import { PdfTemplate } from "./model/pdf-data";
+import { PdfData } from "./model/pdf-data.model";
 
 export abstract class PdfUtil {
 
@@ -15,9 +16,8 @@ export abstract class PdfUtil {
         throw new Error(`Not found template: ${template}`)
     }
 
-    public static preparePaperGenerateParams(pdfData?: PdfData): PaperGenerateParameters {
+    public static preparePaperGenerateParams(data?: any): PaperGenerateParameters {
         const result: PaperGenerateParameters = {}
-        const data = pdfData?.data
         if (!data) {
             return result
         }

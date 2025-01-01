@@ -41,12 +41,9 @@ export class PdfSectionComponent {
   _removeItem(itemIndex: number) {
     const item = this.section.items[itemIndex]
     if (item) {
-      this.dialog.yesOrNoPopup(`Remove item, sure?`).pipe(
-      ).subscribe((confirmed) => {
-        if (confirmed) {
-          this.section.items.splice(itemIndex, 1)
-          this.updateSection.emit(this.section)
-        }
+      this.dialog.yesOrNoPopup(`Remove item, sure?`).subscribe(() => {
+        this.section.items.splice(itemIndex, 1)
+        this.updateSection.emit(this.section)
       })
     }
   }
@@ -58,13 +55,10 @@ export class PdfSectionComponent {
       if (list) {
         const listItem = list[listItemIndex];
         if (listItem) {
-          this.dialog.yesOrNoPopup(`Remove list item, sure?`)
-            .subscribe((confirmed) => {
-              if (confirmed) {
-                list.splice(listItemIndex, 1)
-                this.updateSection.emit(this.section)
-              }
-            })
+          this.dialog.yesOrNoPopup(`Remove list item, sure?`).subscribe(() => {
+            list.splice(listItemIndex, 1)
+            this.updateSection.emit(this.section)
+          })
         }
       }
     }
@@ -79,11 +73,6 @@ export class PdfSectionComponent {
       item.list.push('')
       this.updateSection.emit(this.section)
     }
-  }
-
-
-  trackByIndex(index: number): number {
-    return index; // Use the index as the unique identifier
   }
 
   _sectionItemMenu(menu: Menu, itemIndex: number, item?: PdfSectionItem): MenuItem[] {
@@ -151,6 +140,10 @@ export class PdfSectionComponent {
   _toggleItemMenu(menu: Menu, event: Event) {
     event.stopPropagation()
     menu?.toggle(event)
+  }
+
+  trackByIndex(index: number): number {
+    return index; // Use the index as the unique identifier
   }
 
 }

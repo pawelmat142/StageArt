@@ -1,12 +1,13 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import * as path from 'path';
 import * as fs from 'fs';
-import { PdfData, PdfTemplate } from './model/pdf-data';
+import { PdfTemplate } from './model/pdf-data';
 import * as puppeteer from 'puppeteer';
 import * as Handlebars from 'handlebars';
 import { defaultContractPdf } from './model/default-contract.pdf';
 import { PdfUtil } from './pdf.util';
 import { PaperGenerateParameters } from '../document/paper-util';
+import { PdfData } from './model/pdf-data.model';
 
 
 @Injectable()
@@ -29,14 +30,14 @@ export class PdfGeneratorService implements OnModuleInit {
         return this._generate(html)
     }
 
-    public async generate(template: PdfTemplate, pdfData?: PdfData): Promise<Buffer> {
+    public async generate(template: PdfTemplate, pdfData?: PdfData, data?: any): Promise<Buffer> {
         this.logger.log(`Generate PDF ${template}`)
         
         const _pdfData = this.preparePdfData(template, pdfData)
 
         const plainTemplate = this.preparePlainTemplate(_pdfData)
 
-        const html = this.filTemplateWithData(plainTemplate, _pdfData)
+        const html = this.filTemplateWithData(plainTemplate, { data: data })
 
         const params = PdfUtil.preparePaperGenerateParams(pdfData) //adds signatures
 

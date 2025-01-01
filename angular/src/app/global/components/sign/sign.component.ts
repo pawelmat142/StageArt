@@ -205,19 +205,12 @@ export class SignComponent {
 
   _remove(signature: Signature) {
     this.dialog.yesOrNoPopup(`Sure?`).pipe(
-      switchMap(confirm => {
-        if (confirm) {
-          this.courtine.startCourtine()
-          return this.signatureService.cancelSignature$(signature.id).pipe(
-            tap(() => {
-              this.reloadSignatures()
-              this.dialog.succesToast(`Signature removed`)
-            })
-          )
-        }
-        return of()
-      }
-      )).subscribe()
+      tap(() => this.courtine.startCourtine()),
+      switchMap(() => this.signatureService.cancelSignature$(signature.id)),
+      tap(() => this.reloadSignatures()),
+      tap(() => this.courtine.stopCourtine()),
+      tap(() => this.dialog.succesToast(`Signature removed`))
+      ).subscribe()
   }
 
   private reloadSignatures = (params?: { signatureIdToSelect: string }) => {

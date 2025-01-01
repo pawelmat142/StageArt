@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ArtistViewDto } from '../../model/artist-view.dto';
 import { PdfDataService } from '../../pdf-data.service';
 import { PdfDataDto, PdfSection, PdfTemplate, PdfTemplateConst } from '../../model/document-template.def';
-import { BehaviorSubject, tap } from 'rxjs';
+import { BehaviorSubject, map, mergeMap, Observable, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { IconButtonComponent } from '../../../global/components/icon-button/icon-button.component';
 import { ButtonModule } from 'primeng/button';
@@ -15,6 +15,7 @@ import { PdfSectionComponent } from '../pdf-section/pdf-section.component';
 import { AccordionModule } from 'primeng/accordion';
 import { Menu, MenuModule } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
+import { CourtineService } from '../../../global/nav/courtine.service';
 
 
 type PdfDatasPerTemplate = { 
@@ -44,8 +45,9 @@ type PdfDatasPerTemplate = {
 export class DocumentTemplatesComponent implements OnInit {
 
   constructor(
-    private readonly documentTemplatesService: PdfDataService,
+    private readonly pdfDataservice: PdfDataService,
     private readonly dialog: Dialog,
+    private readonly courtine: CourtineService,
   ) {}
 
   @Input() artist!: ArtistViewDto
@@ -55,26 +57,26 @@ export class DocumentTemplatesComponent implements OnInit {
   pdfData$ = new BehaviorSubject<PdfDataDto | undefined>(undefined)
 
   ngOnInit(): void {
-    this.loadTemplates()
+    this.loadTemplates().subscribe()
   }
 
-  loadTemplates() {
-    this.documentTemplatesService
-    .getDocumentTemplates$()
-    .subscribe(documentTemplates => {
-      const pdfDatasPerTemplate: PdfDatasPerTemplate[] = PdfTemplateConst.map((template: PdfTemplate) => {
-        const pdfDatas: PdfDataDto[] = documentTemplates.filter(t => t.template === template)
-        return {
-          template,
-          pdfDatas
-        }
-      })
-      this.pdfDatasPerTemplate$.next(pdfDatasPerTemplate)
-    })
+  loadTemplates(): Observable<void> {
+    return this.pdfDataservice
+      .list$(this.artist.signature)
+      .pipe(map(documentTemplates => {
+        const pdfDatasPerTemplate: PdfDatasPerTemplate[] = PdfTemplateConst.map((template: PdfTemplate) => {
+          const pdfDatas: PdfDataDto[] = documentTemplates.filter(t => t.template === template)
+          return {
+            template,
+            pdfDatas
+          }
+        })
+        this.pdfDatasPerTemplate$.next(pdfDatasPerTemplate)
+      }))
   }
 
   _selectDefault(template: PdfTemplate) {
-    this.documentTemplatesService.getDefaultPdfData$(template)
+    this.pdfDataservice.getDefaultPdfData$(template)
     .pipe(tap(console.log))
     .subscribe(pdfData => this.pdfData$.next(pdfData))
   }
@@ -84,30 +86,30 @@ export class DocumentTemplatesComponent implements OnInit {
   }
 
   _reset(template: PdfTemplate) {
-    this.dialog.yesOrNoPopup(`Reset to default, sure?`).pipe(
-    ).subscribe((confirmed) => {
-      if (confirmed) {
-        this._closePdfData()
-        setTimeout(() => {
-          this._selectDefault(template)
-        })
-      }
+    this.dialog.yesOrNoPopup(`Reset to default, sure?`).subscribe(() => {
+      this._closePdfData()
+      setTimeout(() => {
+        this._selectDefault(template)
+      })
     })
   }
 
   _save() {
-    console.log('TODO!')
+    const pdfData = this.pdfData$.value!
+    this.dialog.yesOrNoPopup(`Save template, sure?`).pipe(
+      tap(() => this.courtine.startCourtine()),
+      mergeMap(() => this.pdfDataservice.save$(this.artist.signature, pdfData)),
+      mergeMap(() => this.loadTemplates()),
+      tap(() => this.courtine.stopCourtine()),
+    ).subscribe()
   }
 
   _removeSection(i: number) {
-    this.dialog.yesOrNoPopup(`Remove section ${i+1}, sure?`).pipe(
-    ).subscribe((confirmed) => {
-      if (confirmed) {
-        const pdfData = this.pdfData$.value
-        if (pdfData) {
-          pdfData.sections.splice(i, 1)
-          this.pdfData$.next(pdfData)
-        }
+    this.dialog.yesOrNoPopup(`Remove section ${i+1}, sure?`).subscribe(() => {
+      const pdfData = this.pdfData$.value
+      if (pdfData) {
+        pdfData.sections.splice(i, 1)
+        this.pdfData$.next(pdfData)
       }
     })
 
@@ -133,12 +135,9 @@ export class DocumentTemplatesComponent implements OnInit {
       if (section) {
         const item = section.items[itemIndex]
         if (item) {
-          this.dialog.yesOrNoPopup(`Remove item, sure?`).pipe(
-          ).subscribe((confirmed) => {
-            if (confirmed) {
-              section.items.splice(itemIndex, 1)
-              this.pdfData$.next(pdfData)
-            }
+          this.dialog.yesOrNoPopup(`Remove item, sure?`).subscribe(() => {
+            section.items.splice(itemIndex, 1)
+            this.pdfData$.next(pdfData)
           })
         }
       }
@@ -154,12 +153,9 @@ export class DocumentTemplatesComponent implements OnInit {
         if (item) {
           const listItem = item.list?.[listItemIndex];
           if (listItem) {
-            this.dialog.yesOrNoPopup(`Remove list item, sure?`).pipe(
-            ).subscribe((confirmed) => {
-              if (confirmed) {
-                item.list?.splice(listItemIndex, 1)
-                this.pdfData$.next(pdfData)
-              }
+            this.dialog.yesOrNoPopup(`Remove list item, sure?`).subscribe(() => {
+              item.list?.splice(listItemIndex, 1)
+              this.pdfData$.next(pdfData)
             })
           }
         }
@@ -181,10 +177,6 @@ export class DocumentTemplatesComponent implements OnInit {
       }
     }
 
-  }
-
-  trackByIndex(index: number): number {
-    return index; // Use the index as the unique identifier
   }
 
   _sectionMenuItems(menu: Menu, sectionIndex: number): MenuItem[] {
@@ -252,5 +244,8 @@ export class DocumentTemplatesComponent implements OnInit {
     menu?.toggle(event)
   }
 
+  trackByIndex(index: number): number {
+    return index; // Use the index as the unique identifier
+  }
 
 }

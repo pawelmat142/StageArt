@@ -1,22 +1,13 @@
-export interface PdfDataDto {
-    id: string
-    name: string
-    template: PdfTemplate
-    created: Date
-    modified: Date
-    header: string
-    sections: PdfSection[]
-}
+import { Expose } from "class-transformer"
 
-export interface PdfData {
-    id: string
-    name: string
-    template: PdfTemplate
+export class PdfDataDto {
+    @Expose() id: string
+    @Expose() name: string
+    @Expose() template: PdfTemplate
     created: Date
-    modified: Date
-    header: string
-    sections: PdfSection[]
-    data: any
+    @Expose() modified: Date
+    @Expose() header: string
+    @Expose() sections: PdfSection[]
 }
 
 export interface PdfSection {

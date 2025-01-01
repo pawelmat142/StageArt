@@ -1,4 +1,4 @@
-import { PdfData } from "./pdf-data";
+import { PdfData } from "./pdf-data.model";
 
 export const defaultTechRiderPdf: PdfData = {
     name: 'default',
@@ -6,8 +6,7 @@ export const defaultTechRiderPdf: PdfData = {
     template: 'tech-rider',
     created: new Date(),
     modified: new Date(),
-    data: {
-    },
+    active: false,
     header: `Tech Rider + Stage pilot + Hospitality`, 
     sections: [
         {

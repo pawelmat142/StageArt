@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Observable, Subject } from "rxjs";
+import { filter, Observable, Subject } from "rxjs";
 import { Message } from "primeng/api";
 import { DialogService } from "primeng/dynamicdialog";
 import { PopupComponent } from "./dialogs/popup/popup.component";
@@ -102,7 +102,7 @@ export class Dialog extends DialogService {
         return this.popup(data)
     }
 
-    public yesOrNoPopup(msg?: string) {
+    public yesOrNoPopup(msg?: string, returnConfirmed?: boolean) {
         const dialg: DialogData = {
             header: msg || `Yes or no?`,
             buttons: [{
@@ -113,7 +113,9 @@ export class Dialog extends DialogService {
               result: true,
             }]
         }
-        return this.popup(dialg).onClose
+        return this.popup(dialg).onClose.pipe(
+          filter(confirm => returnConfirmed ? true : !!confirm),
+        )
     }
 
 }

@@ -1,4 +1,4 @@
-import { PdfData } from "./pdf-data";
+import { PdfData } from "./pdf-data.model";
 
 export const defaultContractPdf: PdfData = {
     name: 'default',
@@ -6,8 +6,7 @@ export const defaultContractPdf: PdfData = {
     template: 'contract',
     created: new Date(),
     modified: new Date(),
-    data: {
-    },
+    active: false,
     header: `ARTIST BOOKING CONTRACT ${new Date().getFullYear()}`, 
     sections: [
         {

@@ -1,5 +1,5 @@
 import { BadRequestException } from "@nestjs/common"
-import { PdfData, PdfTemplate } from "../pdf/model/pdf-data"
+import { PdfTemplate } from "../pdf/model/pdf-data"
 import { ManagerData } from "../profile/model/profile-interfaces"
 import { PaperSignature } from "./paper-model"
 import { Role } from "../profile/model/role"

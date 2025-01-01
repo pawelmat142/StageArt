@@ -8,13 +8,14 @@ import { v4 as uuidv4 } from 'uuid';
 import { BookingContext, SimpleBookingContext } from '../booking/model/interfaces';
 import { BookingService } from '../booking/services/booking.service';
 import { JwtPayload } from '../profile/auth/jwt-strategy';
-import { PdfData, PdfTemplate } from '../pdf/model/pdf-data';
+import { PdfTemplate } from '../pdf/model/pdf-data';
 import { ContractPaperDataProvider } from './generators/contract-paper-data-povider';
 import { TechRiderDataProvider } from './generators/tech-rider-data.provider';
 import { PdfGeneratorService } from '../pdf/pdf-generator.service';
 import { PdfUtil } from '../pdf/pdf.util';
 import { BookingUtil } from '../booking/util/booking.util';
 import { SignatureService } from './signature.service';
+import { PdfData } from '../pdf/model/pdf-data.model';
 
 @Injectable()
 export class DocumentService {
@@ -117,8 +118,6 @@ export class DocumentService {
         return paper
     }
 
-    // 
-
     public async generatePdf(formId: string, template: PdfTemplate, profile: JwtPayload): Promise<Paper> {
         this.logger.log(`Generate PDF ${template} for booking ${formId} by ${profile.uid}`)
         const ctx = await this.bookingService.buildContext(formId, profile)
@@ -126,9 +125,8 @@ export class DocumentService {
 
         // TODO get artist template
         const pdfData = PdfUtil.prepareDefaultPdfData(template)
-        pdfData.data = data
 
-        const buffer = await this.pdfGeneratorService.generate(template, pdfData)
+        const buffer = await this.pdfGeneratorService.generate(template, pdfData, data)
         const paper = await this.storeBookingPaper(buffer, ctx, template)
         return paper
     }
@@ -147,9 +145,8 @@ export class DocumentService {
         PaperUtil.addSignaturesData(data, paper.signatures)
 
         const pdfData = await this.getPdfData(template, ctx)
-        pdfData.data = data
 
-        const buffer = await this.pdfGeneratorService.generate(template, pdfData)
+        const buffer = await this.pdfGeneratorService.generate(template, pdfData, data)
 
         paper.contentWithSignatures = buffer
         await this.updatePaper(paper)
