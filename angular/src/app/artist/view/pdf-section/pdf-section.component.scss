@@ -1,0 +1,13 @@
+@import 'variables';
+.pdf-data-form-section-item {
+    margin-bottom: $padding-standard;
+
+    &.list {
+        margin-bottom: 2*$padding-standard;
+
+        display: flex;
+        .list-items {
+            flex-grow: 1;
+        }
+    }
+}

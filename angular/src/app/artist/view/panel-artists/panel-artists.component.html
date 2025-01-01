@@ -36,7 +36,7 @@
                                         (click)="_activate(artist)" 
                                         [raised]="true"
                                         severity="success" 
-                                        label="activate">
+                                        label="Activate">
                                     </p-button>
                                 }
                                 @if (['ACTIVE'].includes(artist.status)) {
@@ -44,14 +44,14 @@
                                         (click)="_deactivate(artist)" 
                                         [raised]="true"
                                         severity="warning" 
-                                        label="deactivate">
+                                        label="Deactivate">
                                     </p-button>
                                 }
                                 <p-button 
                                     (click)="_artistView(artist)" 
                                     [raised]="true"
                                     severity="info" 
-                                    label="Artist view">
+                                    label="Go to artist view">
                                 </p-button>
                                 <p-button 
                                     (click)="_addNotes(artist)" 
@@ -59,7 +59,24 @@
                                     severity="help" 
                                     label="Management notes">
                                 </p-button>
+                                @if(_documentTemplatesArtist !== artist) {
+                                    <p-button 
+                                        (click)="_showDocumentTemapltes(artist)" 
+                                        [raised]="true"
+                                        severity="help" 
+                                        label="Document templates">
+                                    </p-button>
+                                } @else {
+                                    <p-button 
+                                        (click)="_hideDocumentTemapltes(artist)" 
+                                        [raised]="true"
+                                        severity="warning" 
+                                        label="Hide document templates">
+                                    </p-button>
+                                }
+
                             </div>
+
                         </div>
 
                     </p-accordionTab>
@@ -68,6 +85,10 @@
             </p-accordion>
         </div>
     </div>
+
+    @if(_documentTemplatesArtist) {
+        <app-document-templates [artist]="_documentTemplatesArtist"></app-document-templates>
+    }
     
     @if (managementNotesForm) {
         <div class="panel-section management-notes">
@@ -106,6 +127,8 @@
             
         </div>
     }
+
+
 
 
 

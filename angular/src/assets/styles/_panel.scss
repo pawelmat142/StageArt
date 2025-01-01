@@ -13,8 +13,16 @@
 .panel-section-content,
 .panel-section-header {
     padding: $padding-standard;
+    padding-bottom: 0;
     display: flex;
     justify-content: space-between;
+
+    .right-section {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: $padding-standard;
+    }
 }
 
 .bookings-header {
@@ -88,6 +96,6 @@
 
 @media only screen and (min-width: $desktop) {
     .item-row-collapse-content { 
-        padding: 0 $padding-standard $padding-standard;
+        padding: $padding-standard;
     }
 }

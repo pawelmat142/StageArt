@@ -1,0 +1,56 @@
+@import 'variables';
+
+.template-subsection-header {
+    color: $primaryColor;
+    margin-top: $padding-standard;
+    margin-bottom: $padding-standard;
+
+    &.text-color {
+        color: $textColor;
+    }
+}
+
+.form-wrapper {
+    width: 100%;
+    border: unset;
+}
+
+.defaut-tempalte-tile {
+    p {
+        text-align: left;
+    }
+}
+
+
+
+.form-field-btns {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+.section-switch {
+    cursor: pointer;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 .5*$padding-standard;
+
+    .buttons {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+}
+
+.pdf-section {
+    border: 1px solid $surfaceBorder;
+    padding: $padding-standard;
+    border-radius: $borderRadius;
+}
+
+.form-grid.column {
+    gap: 0.5*$padding-standard;
+    padding: $padding-standard;
+}

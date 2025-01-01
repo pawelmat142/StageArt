@@ -12,6 +12,7 @@ import { Dialog } from '../../../global/nav/dialog.service';
 import { AccordionModule } from 'primeng/accordion';
 import { TooltipModule } from 'primeng/tooltip';
 import { ButtonModule } from 'primeng/button';
+import { DocumentTemplatesComponent } from '../document-templates/document-templates.component';
 
 @Component({
   selector: 'app-panel-artists',
@@ -22,7 +23,8 @@ import { ButtonModule } from 'primeng/button';
     StatusPipe,
     AccordionModule,
     TooltipModule,
-    ButtonModule
+    ButtonModule,
+    DocumentTemplatesComponent
 ],
   templateUrl: './panel-artists.component.html',
   styleUrl: './panel-artists.component.scss',
@@ -37,6 +39,8 @@ export class PanelArtistsComponent {
   ) {}
 
   _artists$: Observable<ArtistViewDto[]> = of([])
+
+  _documentTemplatesArtist?: ArtistViewDto
 
   ngOnInit(): void {
     this.courtineService.startCourtine()
@@ -98,6 +102,14 @@ export class PanelArtistsComponent {
   
   _deactivate(artist: ArtistViewDto) {
     this.setArtistStatus(artist, 'INACTIVE')
+  }
+
+  _showDocumentTemapltes(artist: ArtistViewDto) {
+    this._documentTemplatesArtist = artist
+  }
+
+  _hideDocumentTemapltes(artist: ArtistViewDto) {
+    this._documentTemplatesArtist = undefined
   }
 
   private setArtistStatus(artist: ArtistViewDto, status: ArtistStatus) {

@@ -1,0 +1,113 @@
+<div class="panel-section margin-top-4">
+
+    <div class="panel-section-header">
+        <h2 class="fs3 bold">Document templates</h2>
+    </div>
+
+    <ng-container *ngIf="pdfDatasPerTemplate$ | async as pdfDatasPerTemplate">
+
+        <div *ngFor="let pdfDatasAndTemplate of pdfDatasPerTemplate" class="template-subsection">
+
+            <p class="template-subsection-header">{{pdfDatasAndTemplate.template | uppercase }}</p>
+
+            <div *ngIf="!pdfDatasAndTemplate.pdfDatas.length" class="defaut-tempalte-tile">
+
+                <div class="item-row tile-style clickable" (click)="_selectDefault(pdfDatasAndTemplate.template)">
+                    <p>Default template - click to open editor</p>
+                </div>
+            </div>
+
+
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="pdfData$ | async as pdfData">
+
+        <div class="panel-section margin-top-4">
+            <div class="panel-section-header">
+                <h2 class="fs3 bold">Document template editor</h2>
+            </div>
+        </div>
+
+        <div class="panel-section card pdf-data-form margin-top">
+
+            <div class="panel-section-header">
+                <h2 class="fs3 bold"> 
+                    <span> {{pdfData.template | uppercase}}</span>
+                    <span> - {{pdfData.created | date: 'dd-MM-yyyy HH:mm'}}</span>
+                </h2>
+                <div class="right-section">
+                    
+                    <p-button 
+                        (click)="_save()" 
+                        severity="info" 
+                        label="Save">
+                    </p-button>
+
+                    <p-button 
+                        (click)="_reset(pdfData.template)" 
+                        severity="help" 
+                        label="Reset">
+                    </p-button>
+
+                    <app-icon-button
+                        class="primary"
+                        (click)="_closePdfData()"
+                        icon="pi-times"
+                    ></app-icon-button>
+                </div>
+
+            </div>
+            <form class="form-wrapper pdf-editor">
+
+                <div class="form-grid column">
+
+                    
+                    <app-form-field label="*Name">
+                        <input type="text" pInputText [(ngModel)]="pdfData.name" name="name"/>
+                    </app-form-field>
+
+                    <app-form-field label="*Header">
+                        <input type="text" pInputText [(ngModel)]="pdfData.header" name="header"/>
+                    </app-form-field>
+
+
+                    <p-accordion class="w-full" [multiple]="true">
+                    @for (section of pdfData.sections; track $index; let i = $index) {
+                        <p-accordionTab>
+
+                            <ng-template pTemplate="header">
+                                <div class="text-color section-switch" (click)="section.show = !section.show">
+                                    <p>
+                                        Section {{ i + 1 }}
+                                        <span *ngIf="section.header"> - {{section.header}}</span>
+                                        <span *ngIf="!section.editable"> - not editable</span>
+                                    </p>
+
+                                    <div class="menu-icon">
+                                        <p-menu #menu appendTo="menu" [ngStyle]="" [model]="_sectionMenuItems(menu, i)" [popup]="true" [styleClass]="'paper-tile-menu'"/>
+                                        <app-icon-button (click)="_toggleSectionMenu(menu, $event!)" icon="pi-ellipsis-v"></app-icon-button>
+                                    </div>
+                                </div>
+                            </ng-template>
+
+                            <div class="item-row-collapse-content">
+                                <app-pdf-section [section]="section"></app-pdf-section>
+                            </div>
+
+                        </p-accordionTab>
+                    }
+                    </p-accordion>
+
+                </div>
+    
+            </form>
+
+
+
+
+
+        </div>
+    </ng-container>
+
+</div>
