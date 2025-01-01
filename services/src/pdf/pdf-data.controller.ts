@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Put, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Put, UseGuards, UseInterceptors } from '@nestjs/common';
 import { LogInterceptor } from '../global/interceptors/log.interceptor';
 import { PdfDataService } from './pdf-data.service';
 import { PdfDataDto, PdfTemplate } from './model/pdf-data';
@@ -18,7 +18,7 @@ export class PdfDataController {
     ) {}
 
     @Get('/default/:template')
-    fetchSubmitted(@Param('template') template: PdfTemplate) {
+    getDefaultPdfData(@Param('template') template: PdfTemplate) {
         return this.pdfDataService.getDefaultPdfData(template)
     }
 
@@ -30,6 +30,16 @@ export class PdfDataController {
     ) {
         return this.pdfDataService.list(artistSignature, profile.uid)
     }
+
+    @Get('/name/:name/:artistSignature')
+    @Serialize(PdfDataDto)
+    getByName(
+        @Param('name') name: string, 
+        @Param('artistSignature') artistSignature: string, 
+        @GetProfile() profile: JwtPayload
+    ) {
+        return this.pdfDataService.getByName(name, artistSignature, profile.uid)
+    }
     
     @Put('save/:artistSignature')
     @Serialize(PdfDataDto)
@@ -39,6 +49,19 @@ export class PdfDataController {
         @GetProfile() profile: JwtPayload
     ) {
         return this.pdfDataService.save(artistSignature, dto, profile)
+    }
+
+    @Delete('/:id')
+    delete(@Param('id') id: string, @GetProfile() profile: JwtPayload) {
+        return this.pdfDataService.delete(id, profile)
+    }
+
+    @Get('/activate/:id')
+    activate(
+        @Param('id') id: string, 
+        @GetProfile() profile: JwtPayload
+    ) {
+        return this.pdfDataService.activate(id, profile)
     }
 
 

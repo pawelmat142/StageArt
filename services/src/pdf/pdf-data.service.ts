@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { PdfDataDto, PdfTemplate } from './model/pdf-data';
 import { InjectModel } from '@nestjs/mongoose';
 import { PdfData } from './model/pdf-data.model';
@@ -26,20 +26,60 @@ export class PdfDataService {
         return this.pdfDataModel.find({
             artistSignature,
             managerUid
+        }, {
+            sections: false
         }).exec()
+    }
+
+    public getByName(name: string, artistSignature: string, managerUid: string): Promise<PdfData> {
+        return this.get(name, artistSignature, managerUid)
     }
     
     public async save(artistSignature: string, dto: PdfDataDto, profile: JwtPayload): Promise<PdfData> {
         if (Number(dto.id)) {
-            const existing = await this.getById(dto.id)
+            const existing = await this.getById(dto.id, profile.uid)
             if (existing) {
                 await this.update(dto)
-                return this.getById(dto.id)
+                return this.getById(dto.id, profile.uid)
             }
         }
         const newPdfData = await this.create(artistSignature, dto, profile)
         this.logger.log(`Created new PdfData for artist ${newPdfData.artistSignature}, manager: ${newPdfData.managerUid}`)
         return newPdfData
+    }
+
+    public async delete(id: string, profile: JwtPayload) {
+        const deleted = await this.pdfDataModel.deleteOne({ 
+            id,
+            managerUid: profile.uid
+        }).exec()
+        if (!deleted.deletedCount) {
+            throw new IllegalStateException(`Not found PdfData ${id}`)
+        }
+        this.logger.log(`Deleted PdfData ${id}`)
+    }
+
+    public async activate(id: string, profile: JwtPayload) {
+        const pdfData = await this.getById(id, profile.uid)
+        if (!pdfData) {
+            throw new NotFoundException(`Not found PdfData ${id}`)
+        }
+        await this.pdfDataModel.updateMany({
+            managerUid: profile.uid,
+            artistSignature: pdfData.artistSignature,
+            id: { $ne: id }
+        }, { $set: { active: false } })
+
+        const update = await this.pdfDataModel.updateOne({
+            managerUid: profile.uid,
+            artistSignature: pdfData.artistSignature,
+            id
+        }, { $set: { active: true } })
+
+        if (!update.modifiedCount) {
+            throw new IllegalStateException(`Activation failed`)
+        }
+        this.logger.log(`Activated PdfData ${id}, for Artist ${pdfData.artistSignature}, by ${profile.uid}`)
     }
 
     private async update(dto: PdfDataDto): Promise<void> {
@@ -68,14 +108,14 @@ export class PdfDataService {
         return pdfData.save()
     }
 
-    public getById(id: string): Promise<PdfData> {
-        return this.pdfDataModel.findOne({ id }).exec()
+    public getById(id: string, managerUid: string): Promise<PdfData> {
+        return this.pdfDataModel.findOne({ id, managerUid }).exec()
     }
 
-    public get(name: string, artistUid: string, managerUid: string): Promise<PdfData> {
+    public get(name: string, artistSignature: string, managerUid: string): Promise<PdfData> {
         return this.pdfDataModel.findOne({
             name,
-            artistUid,
+            artistSignature,
             managerUid
         }).exec()
     }

@@ -2,6 +2,7 @@ import { Expose } from "class-transformer"
 
 export class PdfDataDto {
     @Expose() id: string
+    @Expose() active: boolean
     @Expose() name: string
     @Expose() template: PdfTemplate
     created: Date
