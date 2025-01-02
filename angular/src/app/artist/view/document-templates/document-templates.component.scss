@@ -68,3 +68,7 @@
         position: relative;
     }
 }
+
+.defaut-tempalte-tile {
+    grid-template-columns: 2fr 1fr 1fr;
+}

@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpResponse } from "@angular/common/http";
 import { Util } from "../utils/util";
-import { map, Observable, take, tap } from "rxjs";
+import { map, Observable, tap } from "rxjs";
 import { Template } from "./doc-util";
 import { CourtineService } from "../nav/courtine.service";
 import { HttpService } from "../services/http.service";
@@ -28,7 +28,7 @@ export interface Paper {
 
 interface DownloadFile {
     blob: Blob
-    filename: Template
+    filename: string
     contentType?: string
 }
 
@@ -85,8 +85,12 @@ export class DocumentService {
 
 
     public documentRequest(url: string, refreshBookingChecklist?: BookingDto) {
+        return this.documentRequestFullUrl(`/document${url}`, refreshBookingChecklist)
+    }
+
+    public documentRequestFullUrl(url: string, refreshBookingChecklist?: BookingDto, forceFilename?: string) {
         this.courtine.startCourtine()
-        this.httpClient.get<Blob>(`${this.apiUri}${url}`, {
+        this.httpClient.get<Blob>(`${Util.apiUri}${url}`, {
             observe: 'response',
             responseType: 'blob' as 'json',
         }).pipe(
@@ -97,7 +101,9 @@ export class DocumentService {
                 }
                 const contentDisposition = response.headers.get('content-disposition')
                 const contentType = response.headers.get('content-type') || undefined
-                const filename = this.getFilenameFromContentDisposition(contentDisposition) as Template
+                const filename = forceFilename
+                    ? forceFilename
+                    : this.getFilenameFromContentDisposition(contentDisposition)
                 return { filename, blob: response.body, contentType }
             }),
         ).subscribe({

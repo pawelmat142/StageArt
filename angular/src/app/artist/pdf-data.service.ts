@@ -38,5 +38,8 @@ export class PdfDataService {
     public activate$(id: string): Observable<void> {
         return this.http.get<void>(`/pdf-data/activate/${id}`)
     }
+    public deactivate$(id: string): Observable<void> {
+        return this.http.get<void>(`/pdf-data/deactivate/${id}`)
+    }
 
 }

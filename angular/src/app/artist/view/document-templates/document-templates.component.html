@@ -11,7 +11,12 @@
             <p class="template-subsection-header">{{pdfDatasAndTemplate.template | uppercase }}</p>
 
             <div class="item-row tile-style clickable defaut-tempalte-tile" (click)="_selectDefault(pdfDatasAndTemplate.template)">
-                <p>Default template - click to open editor</p>
+                <div>Default template - click to open editor</div>
+                <div>
+                    <span *ngIf="_noneActive(pdfDatasAndTemplate.pdfDatas)" class="primary"> active</span>
+                </div>
+                <div></div>
+                <div></div>
             </div>
 
             <div 
@@ -38,7 +43,7 @@
             </div>
         </div>
 
-        <div class="panel-section card pdf-data-form margin-top">
+        <form #pdfEditorForm="ngForm" class="panel-section card pdf-data-form margin-top">
 
             <div class="panel-section-header">
                 <h2 class="fs3 bold"> 
@@ -47,16 +52,24 @@
                 </h2>
                 <div class="right-section">
                     
-                    <p-button 
-                        (click)="_save()" 
-                        severity="info" 
-                        label="Save">
-                    </p-button>
 
                     <p-button 
                         (click)="_reset(pdfData.template)" 
-                        severity="help" 
+                        severity="warning" 
                         label="Reset">
+                    </p-button>
+
+                    <p-button 
+                        (click)="_preview(pdfData)" 
+                        severity="help" 
+                        label="Preview">
+                    </p-button>
+
+                    <p-button 
+                        (click)="_save()" 
+                        [disabled]="pdfEditorForm.invalid"
+                        severity="success" 
+                        label="Save">
                     </p-button>
 
                     <app-icon-button
@@ -67,21 +80,31 @@
                 </div>
 
             </div>
-            <form class="form-wrapper pdf-editor">
+            <div class="form-wrapper pdf-editor">
 
                 <div class="form-grid column">
 
-                    
                     <app-form-field label="*Name">
-                        <input type="text" pInputText [(ngModel)]="pdfData.name" name="name"/>
+                        <input type="text"
+                            name="name"
+                            id="name"
+                            #nameInput="ngModel"
+                            pInputText 
+                            [(ngModel)]="pdfData.name" 
+                            required
+                         />
                     </app-form-field>
 
                     <app-form-field label="*Header">
-                        <input type="text" pInputText [(ngModel)]="pdfData.header" name="header"/>
+                        <input type="text" 
+                        pInputText 
+                        [(ngModel)]="pdfData.header" 
+                        name="header"
+                        required
+                        />
                     </app-form-field>
 
-
-                    <p-accordion class="w-full" [multiple]="true">
+                <p-accordion class="w-full" [multiple]="true" class="margin-top">
                     @for (section of pdfData.sections; track $index; let i = $index) {
                         <p-accordionTab>
 
@@ -110,13 +133,9 @@
 
                 </div>
     
-            </form>
+            </div>
 
-
-
-
-
-        </div>
+        </form>
     </ng-container>
 
 </div>

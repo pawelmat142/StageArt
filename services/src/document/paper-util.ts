@@ -3,6 +3,7 @@ import { PdfTemplate } from "../pdf/model/pdf-data"
 import { ManagerData } from "../profile/model/profile-interfaces"
 import { PaperSignature } from "./paper-model"
 import { Role } from "../profile/model/role"
+import { Response } from 'express';
 
 export type Template = PdfTemplate | 'rental-proof'
 
@@ -44,6 +45,15 @@ export abstract class PaperUtil {
                 data.artistSignature = signature.base64
             }
         })
+    }
+
+    public static fileResponse(res: Response, buffer: Buffer, filename: string) {
+        res.set({
+            'Content-Type': PaperUtil.getContentType(filename),
+            'Content-Disposition': `attachment; filename="${filename}"`,
+            'Content-Length': buffer.length,
+        });
+        res.end(buffer);
     }
 
 }

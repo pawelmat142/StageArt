@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { ArtistViewDto } from '../../model/artist-view.dto';
 import { PdfDataService } from '../../pdf-data.service';
 import { PdfDataDto, PdfSection, PdfTemplate, PdfTemplateConst } from '../../model/document-template.def';
@@ -16,6 +16,7 @@ import { AccordionModule } from 'primeng/accordion';
 import { Menu, MenuModule } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
 import { CourtineService } from '../../../global/nav/courtine.service';
+import { DocumentService } from '../../../global/document/document.service';
 
 
 type PdfDatasPerTemplate = { 
@@ -46,6 +47,7 @@ export class DocumentTemplatesComponent implements OnChanges {
 
   constructor(
     private readonly pdfDataservice: PdfDataService,
+    private readonly documentService: DocumentService,
     private readonly dialog: Dialog,
     private readonly courtine: CourtineService,
   ) {}
@@ -82,10 +84,31 @@ export class DocumentTemplatesComponent implements OnChanges {
 
   _pdfDataMenuItems(menu: Menu, pdfData: PdfDataDto): MenuItem[] {
     const result: MenuItem[] = [{
+      label: 'Generate preview',
+      command: (e:{ originalEvent: PointerEvent }) => {
+        e.originalEvent.stopPropagation()
+        this._preview(pdfData)
+      }
+    }, {
       label: 'Open editor',
       command: (e:{ originalEvent: PointerEvent }) => {
         e.originalEvent.stopPropagation()
         this._selectPdfData(pdfData)
+      }
+    }, {
+      label: 'Copy template',
+      command: (e:{ originalEvent: PointerEvent }) => {
+        e.originalEvent.stopPropagation()
+        this.pdfDataservice.getByName$(pdfData.name, this.artist.signature).subscribe(copy => {
+          if (copy) {
+            copy.active = false
+            copy.created = new Date()
+            copy.modified = new Date()
+            copy.id = ''
+            copy.name = `${copy.name} - copy`
+            this.pdfData$.next(copy)
+          }
+        })
       }
     }, {
       label: 'Delete',
@@ -119,7 +142,20 @@ export class DocumentTemplatesComponent implements OnChanges {
           ).subscribe()
         }
       })
-    } 
+    } else {
+      result.unshift({
+        label: 'Deactivate',
+        command: (e:{ originalEvent: PointerEvent }) => {
+          e.originalEvent.stopPropagation()
+          this.dialog.yesOrNoPopup(`Template will be deactivated, sure?`).pipe(
+            tap(() => this.courtine.startCourtine()),
+            mergeMap(() => this.pdfDataservice.deactivate$(pdfData.id)),
+            mergeMap(() => this.loadTemplates$()),
+            tap(() => this.courtine.stopCourtine()),
+          ).subscribe()
+        }
+      })
+    }
     return result
   }
 
@@ -149,6 +185,11 @@ export class DocumentTemplatesComponent implements OnChanges {
     })
   }
 
+  _preview(pdfData: PdfDataDto) {
+    const filename = `${pdfData.template.toLocaleLowerCase()}-preview`
+    this.documentService.documentRequestFullUrl(`/pdf-data/preview/${pdfData.id}`, undefined, filename)
+  }
+
   _save() {
     const pdfData = this.pdfData$.value!
     this.dialog.yesOrNoPopup(`Save template, sure?`).pipe(
@@ -156,9 +197,10 @@ export class DocumentTemplatesComponent implements OnChanges {
       mergeMap(() => this.checkIfTemplateWithNameExists(pdfData)),
       filter(exists => !exists),
       mergeMap(() => this.pdfDataservice.save$(this.artist.signature, pdfData)),
+      map((pdfData) => this.pdfData$.next(pdfData)),
       mergeMap(() => this.loadTemplates$()),
       tap(() => this.courtine.stopCourtine()),
-      tap(() => this.pdfData$.next(undefined)),
+      tap(() => this.dialog.succesToast(`Saved`)),
     ).subscribe()
   }
 
@@ -277,5 +319,9 @@ export class DocumentTemplatesComponent implements OnChanges {
       return bNumber - aNumber
     })
   }
+
+  _noneActive(pdfDatas?: PdfDataDto[]) {
+    return (pdfDatas || []).every(pdfData => !pdfData.active)
+  } 
 
 }

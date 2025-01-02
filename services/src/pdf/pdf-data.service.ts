@@ -7,6 +7,7 @@ import { Model } from 'mongoose';
 import { JwtPayload } from '../profile/auth/jwt-strategy';
 import { v4 as uuidv4 } from 'uuid';
 import { IllegalStateException } from '../global/exceptions/illegal-state.exception';
+import { PdfGeneratorService } from './pdf-generator.service';
 
 @Injectable()
 export class PdfDataService {
@@ -15,6 +16,7 @@ export class PdfDataService {
 
     constructor(
         @InjectModel(PdfData.name) private pdfDataModel: Model<PdfData>,
+        private readonly pdfGeneratorService: PdfGeneratorService,
     ) {}
 
 
@@ -82,6 +84,23 @@ export class PdfDataService {
         this.logger.log(`Activated PdfData ${id}, for Artist ${pdfData.artistSignature}, by ${profile.uid}`)
     }
 
+    public async deactivate(id: string, profile: JwtPayload) {
+        const pdfData = await this.getById(id, profile.uid)
+        if (!pdfData) {
+            throw new NotFoundException(`Not found PdfData ${id}`)
+        }
+        const update = await this.pdfDataModel.updateOne({
+            managerUid: profile.uid,
+            artistSignature: pdfData.artistSignature,
+            id
+        }, { $set: { active: false } })
+
+        if (!update.modifiedCount) {
+            throw new IllegalStateException(`Activation failed`)
+        }
+        this.logger.log(`Deactivated PdfData ${id}, for Artist ${pdfData.artistSignature}, by ${profile.uid}`)
+    }
+
     private async update(dto: PdfDataDto): Promise<void> {
         const update = await this.pdfDataModel.updateOne({ id: dto.id }, { $set: {
             name: dto.name,
@@ -120,4 +139,17 @@ export class PdfDataService {
         }).exec()
     }
     
+    public async generatePreview(id: string, profile: JwtPayload): Promise<Buffer> {
+        const pdfData = await this.pdfDataModel.findOne({
+            id,
+            managerUid: profile.uid
+        }).exec()
+
+        if (!pdfData) {
+            throw new NotFoundException(`Not found PdfData wth id: ${id} by ${profile.uid}`)
+        }
+
+        const buffer = await this.pdfGeneratorService.generate(pdfData.template, pdfData.toObject())
+        return buffer
+    }
 }

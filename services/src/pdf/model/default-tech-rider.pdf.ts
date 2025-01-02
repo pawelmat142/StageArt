@@ -1,7 +1,7 @@
 import { PdfData } from "./pdf-data.model";
 
 export const defaultTechRiderPdf: PdfData = {
-    name: 'default',
+    name: '',
     id: '0',
     template: 'tech-rider',
     created: new Date(),

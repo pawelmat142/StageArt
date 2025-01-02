@@ -1,7 +1,7 @@
 import { PdfData } from "./pdf-data.model";
 
 export const defaultContractPdf: PdfData = {
-    name: 'default',
+    name: '',
     id: '0',
     template: 'contract',
     created: new Date(),

@@ -13,7 +13,6 @@ import { PutSignatureDto, Signature } from './signature.model';
 import { SignatureService } from './signature.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UploadsService } from './uploads.service';
-import { PdfGeneratorService } from '../pdf/pdf-generator.service';
 import { PdfTemplate } from '../pdf/model/pdf-data';
 import { RoleGuard } from '../profile/auth/role.guard';
 import { Role } from '../profile/model/role';
@@ -28,7 +27,6 @@ export class DocumentController {
         private readonly checklistService: ChecklistService,
         private readonly signatureService: SignatureService,
         private readonly uploadsService: UploadsService,
-        private readonly pdfGeneratorService: PdfGeneratorService,
     ) {}
 
     @Get('/refresh-checklist/:id')
@@ -47,7 +45,7 @@ export class DocumentController {
         if (!paper) {
             throw new NotFoundException()
         }
-        this.fileResponse(res, paper.content, `${paper.template}.${paper.extension}`)
+        PaperUtil.fileResponse(res, paper.content, `${paper.template}.${paper.extension}`)
     }
 
     @Get('/generate/:id/:template')
@@ -58,7 +56,7 @@ export class DocumentController {
         @GetProfile() profile: JwtPayload
     ) {
         const paper = await this.documentService.generatePdf(formId, template, profile)
-        this.fileResponse(res, paper.content, `${paper.template}.${paper.extension}`)
+        PaperUtil.fileResponse(res, paper.content, `${paper.template}.${paper.extension}`)
     }
 
     @Get('/sign/:paperid/:signatureid')
@@ -69,7 +67,7 @@ export class DocumentController {
         @GetProfile() profile: JwtPayload
     ) {
         const paper = await this.documentService.generateSignedPaper(paperId, signatureId, profile)
-        this.fileResponse(res, paper.contentWithSignatures, `${paper.template}-signed.${paper.extension}`)
+        PaperUtil.fileResponse(res, paper.contentWithSignatures, `${paper.template}-signed.${paper.extension}`)
     }
 
     @Get('/download-signed/:id')
@@ -80,7 +78,7 @@ export class DocumentController {
         @GetProfile() profile: JwtPayload
     ) {
         const paper = await this.documentService.downloadSignedPaper(id, profile)
-        this.fileResponse(res, paper.contentWithSignatures, `${paper.template}-signed.${paper.extension}`)
+        PaperUtil.fileResponse(res, paper.contentWithSignatures, `${paper.template}-signed.${paper.extension}`)
     }
 
     @Delete('/:id')
@@ -131,15 +129,6 @@ export class DocumentController {
         downloadStream.pipe(res)
     }
 
-
-    private fileResponse(res: Response, buffer: Buffer, filename: string) {
-        res.set({
-            'Content-Type': PaperUtil.getContentType(filename),
-            'Content-Disposition': `attachment; filename="${filename}"`,
-            'Content-Length': buffer.length,
-        });
-        res.end(buffer);
-    }
 
 
     // SIGNATURES

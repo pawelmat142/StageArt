@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Put, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Put, Res, UseGuards, UseInterceptors } from '@nestjs/common';
 import { LogInterceptor } from '../global/interceptors/log.interceptor';
 import { PdfDataService } from './pdf-data.service';
 import { PdfDataDto, PdfTemplate } from './model/pdf-data';
@@ -7,6 +7,8 @@ import { Role } from '../profile/model/role';
 import { JwtPayload } from '../profile/auth/jwt-strategy';
 import { GetProfile } from '../profile/auth/profile-path-param-getter';
 import { Serialize } from '../global/interceptors/serialize.interceptor';
+import { Response } from 'express';
+import { PaperUtil } from '../document/paper-util';
 
 @Controller('api/pdf-data')
 @UseInterceptors(LogInterceptor)
@@ -62,6 +64,24 @@ export class PdfDataController {
         @GetProfile() profile: JwtPayload
     ) {
         return this.pdfDataService.activate(id, profile)
+    }
+
+    @Get('/deactivate/:id')
+    deactivate(
+        @Param('id') id: string, 
+        @GetProfile() profile: JwtPayload
+    ) {
+        return this.pdfDataService.deactivate(id, profile)
+    }
+
+    @Get('/preview/:id')
+    async downloadPaper(
+        @Res() res: Response,
+        @Param('id') id: string,
+        @GetProfile() profile: JwtPayload
+    ) {
+        const buffer = await this.pdfDataService.generatePreview(id, profile)
+        PaperUtil.fileResponse(res, buffer, `preview.pdf`)
     }
 
 

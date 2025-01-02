@@ -39,7 +39,7 @@ export class PdfGeneratorService implements OnModuleInit {
 
         const html = this.filTemplateWithData(plainTemplate, { data: data })
 
-        const params = PdfUtil.preparePaperGenerateParams(pdfData) //adds signatures
+        const params = PdfUtil.preparePaperGenerateParams(data) //adds signatures
 
         return this._generate(html, params)
     }
@@ -76,7 +76,7 @@ export class PdfGeneratorService implements OnModuleInit {
 
     private filTemplateWithData(template: string, data: any): string {
         const templateToFill = Handlebars.compile(template)
-        return templateToFill(data)
+        return  templateToFill(data)
     }
 
     private registerCompiler() {
