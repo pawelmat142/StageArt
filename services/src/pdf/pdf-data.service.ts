@@ -65,7 +65,10 @@ export class PdfDataService {
         this.logger.log(`Deleted PdfData ${id}`)
     }
 
-    public async activate(id: string, profile: JwtPayload) {
+    public async activate(id: string, profile: JwtPayload, template: PdfTemplate) {
+        if (!template) {
+            throw new NotFoundException(`PdfTemplate not provided`)
+        }
         const pdfData = await this.getById(id, profile.uid)
         if (!pdfData) {
             throw new NotFoundException(`Not found PdfData ${id}`)
@@ -73,12 +76,14 @@ export class PdfDataService {
         await this.pdfDataModel.updateMany({
             managerUid: profile.uid,
             artistSignature: pdfData.artistSignature,
-            id: { $ne: id }
+            id: { $ne: id },
+            template,
         }, { $set: { active: false } })
 
         const update = await this.pdfDataModel.updateOne({
             managerUid: profile.uid,
             artistSignature: pdfData.artistSignature,
+            template,
             id
         }, { $set: { active: true } })
 
@@ -88,7 +93,10 @@ export class PdfDataService {
         this.logger.log(`Activated PdfData ${id}, for Artist ${pdfData.artistSignature}, by ${profile.uid}`)
     }
 
-    public async deactivate(id: string, profile: JwtPayload) {
+    public async deactivate(id: string, profile: JwtPayload, template: PdfTemplate) {
+        if (!template) {
+            throw new NotFoundException(`PdfTemplate not provided`)
+        }
         const pdfData = await this.getById(id, profile.uid)
         if (!pdfData) {
             throw new NotFoundException(`Not found PdfData ${id}`)
@@ -96,6 +104,7 @@ export class PdfDataService {
         const update = await this.pdfDataModel.updateOne({
             managerUid: profile.uid,
             artistSignature: pdfData.artistSignature,
+            template,
             id
         }, { $set: { active: false } })
 
@@ -154,6 +163,10 @@ export class PdfDataService {
         }
 
         const buffer = await this.pdfGeneratorService.generate(pdfData.template, pdfData.toObject())
+        return buffer
+    }
+    public async generatePreviewDefault(template: PdfTemplate): Promise<Buffer> {
+        const buffer = await this.pdfGeneratorService.generate(template)
         return buffer
     }
 }

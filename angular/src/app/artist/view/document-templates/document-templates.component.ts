@@ -142,7 +142,7 @@ export class DocumentTemplatesComponent implements OnChanges {
           e.originalEvent.stopPropagation()
           this.dialog.yesOrNoPopup(`Template will be activated, sure?`).pipe(
             tap(() => this.courtine.startCourtine()),
-            mergeMap(() => this.pdfDataservice.activate$(pdfData.id)),
+            mergeMap(() => this.pdfDataservice.activate$(pdfData.id, pdfData.template)),
             mergeMap(() => this.loadTemplates$()),
             tap(() => this.courtine.stopCourtine()),
           ).subscribe()
@@ -155,7 +155,7 @@ export class DocumentTemplatesComponent implements OnChanges {
           e.originalEvent.stopPropagation()
           this.dialog.yesOrNoPopup(`Template will be deactivated, sure?`).pipe(
             tap(() => this.courtine.startCourtine()),
-            mergeMap(() => this.pdfDataservice.deactivate$(pdfData.id)),
+            mergeMap(() => this.pdfDataservice.deactivate$(pdfData.id, pdfData.template)),
             mergeMap(() => this.loadTemplates$()),
             tap(() => this.courtine.stopCourtine()),
           ).subscribe()
@@ -192,8 +192,11 @@ export class DocumentTemplatesComponent implements OnChanges {
   }
 
   _preview(pdfData: PdfDataDto) {
+    const url = pdfData.id 
+      ? `/pdf-data/preview/${pdfData.id}/${pdfData.template}`
+      : `/pdf-data/preview-default/${pdfData.template}`
     const filename = `${pdfData.template.toLocaleLowerCase()}-preview`
-    this.documentService.documentRequestFullUrl(`/pdf-data/preview/${pdfData.id}`, undefined, filename)
+    this.documentService.documentRequestFullUrl(url, undefined, filename)
   }
 
   _save() {

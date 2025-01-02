@@ -2,7 +2,7 @@ import { PdfData } from "./pdf-data.model";
 
 export const defaultTechRiderPdf: PdfData = {
     name: '',
-    id: '0',
+    id: '',
     template: 'tech-rider',
     created: new Date(),
     modified: new Date(),
@@ -40,13 +40,16 @@ export const defaultTechRiderPdf: PdfData = {
             header: `Sound & Light:`,
             items: [{
                 subsection: {
+                    editable: true,
                     header: `Sound:`,
                     items: [{
                         paragraph: `1st class PA System w/minimum 2 full range speakers & 2 sub woofers! The system must be able to produce sufficient loudness and bass response. Sound System must be able to produce sub bass down to 20hz. Please ensure no HPF’s are on above this range, and frequency response is flat from 28- 60hz. The performance shall not occur if proper loudness and tuning is not achievable. We assume that there is a well sized PA system provided for the concert room/ dancehall with sufficient power to supply a clean and undistorted sound and a powerful and feedback proof monitor system.`
                     }]
                 }
             }, {
+                editable: true,
                 subsection: {
+                    editable: true,
                     header: `Light:`,
                     items: [{
                         paragraph: `Separate circuit from sound system! Sufficient for venue! One spot-light oriented on the artist and his equipment + moving coloured lights. No smoke machines!`
@@ -55,7 +58,9 @@ export const defaultTechRiderPdf: PdfData = {
                     }]
                 }
             }, {
+                editable: true,
                 subsection: {
+                    editable: true,
                     header: `Staff:`,
                     items: [{
                         paragraph: `A qualified sound engineer is needed, stage technician and light technician.`

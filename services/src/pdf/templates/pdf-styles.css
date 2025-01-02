@@ -37,11 +37,23 @@ body {
 }
 
 .subsection {
-    margin-bottom: 1em;
+    margin-bottom: 2em;
+    margin-top: 2em;
+    display: block;
+}
+.sub-title {
+    margin-top: 1.5em;
+    font-size: 15px;
+    font-weight: 600;
 }
 .subsection p {
     margin-block-end: 0.5em;
     margin-block-start: 0.5em;
+}
+
+.list,
+.paragraph {
+    margin-bottom: 1.5em;
 }
 
 

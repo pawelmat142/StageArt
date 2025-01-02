@@ -19,7 +19,7 @@ export interface PdfSection {
 
 export interface PdfSectionItem {
     paragraph?: string
-    subsection?: PdfSection
+    subsection?: PdfSection //subsection need set editable on item level and on section level
     list?: string[]
     break?: boolean
     editable?: boolean

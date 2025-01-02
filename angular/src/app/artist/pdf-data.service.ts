@@ -35,11 +35,11 @@ export class PdfDataService {
     public delete$(id: string): Observable<void> {
         return this.http.delete<void>(`/pdf-data/${id}`)
     }
-    public activate$(id: string): Observable<void> {
-        return this.http.get<void>(`/pdf-data/activate/${id}`)
+    public activate$(id: string, template: PdfTemplate): Observable<void> {
+        return this.http.get<void>(`/pdf-data/activate/${id}/${template}`)
     }
-    public deactivate$(id: string): Observable<void> {
-        return this.http.get<void>(`/pdf-data/deactivate/${id}`)
+    public deactivate$(id: string, template: PdfTemplate): Observable<void> {
+        return this.http.get<void>(`/pdf-data/deactivate/${id}/${template}`)
     }
 
 }

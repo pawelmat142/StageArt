@@ -58,24 +58,26 @@ export class PdfDataController {
         return this.pdfDataService.delete(id, profile)
     }
 
-    @Get('/activate/:id')
+    @Get('/activate/:id/:template')
     activate(
         @Param('id') id: string, 
+        @Param('template') template: PdfTemplate,
         @GetProfile() profile: JwtPayload
     ) {
-        return this.pdfDataService.activate(id, profile)
+        return this.pdfDataService.activate(id, profile, template)
     }
 
-    @Get('/deactivate/:id')
+    @Get('/deactivate/:id/:template')
     deactivate(
         @Param('id') id: string, 
+        @Param('template') template: PdfTemplate,
         @GetProfile() profile: JwtPayload
     ) {
-        return this.pdfDataService.deactivate(id, profile)
+        return this.pdfDataService.deactivate(id, profile, template)
     }
 
-    @Get('/preview/:id')
-    async downloadPaper(
+    @Get('/preview/:id/')
+    async generatePreview(
         @Res() res: Response,
         @Param('id') id: string,
         @GetProfile() profile: JwtPayload
@@ -84,5 +86,13 @@ export class PdfDataController {
         PaperUtil.fileResponse(res, buffer, `preview.pdf`)
     }
 
+    @Get('/preview-default/:template')
+    async generatePreviewDefault(
+        @Res() res: Response,
+        @Param('template') template: PdfTemplate,
+    ) {
+        const buffer = await this.pdfDataService.generatePreviewDefault(template)
+        PaperUtil.fileResponse(res, buffer, `preview.pdf`)
+    }
 
 }
