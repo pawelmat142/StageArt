@@ -15,7 +15,7 @@ import { ProfileModule } from '../profile/profile.module';
     ProfileModule
   ],
   providers: [PdfGeneratorService, PdfDataService],
-  exports: [PdfGeneratorService],
+  exports: [PdfGeneratorService, PdfDataService],
   controllers: [PdfDataController]
 })
 export class PdfModule {}

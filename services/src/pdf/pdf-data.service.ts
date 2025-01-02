@@ -1,9 +1,9 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { PdfDataDto, PdfTemplate } from './model/pdf-data';
 import { InjectModel } from '@nestjs/mongoose';
-import { PdfData } from './model/pdf-data.model';
+import { PdfData, PdfDataDocument } from './model/pdf-data.model';
 import { PdfUtil } from './pdf.util';
-import { Model } from 'mongoose';
+import { Model, RootFilterQuery } from 'mongoose';
 import { JwtPayload } from '../profile/auth/jwt-strategy';
 import { v4 as uuidv4 } from 'uuid';
 import { IllegalStateException } from '../global/exceptions/illegal-state.exception';
@@ -19,6 +19,10 @@ export class PdfDataService {
         private readonly pdfGeneratorService: PdfGeneratorService,
     ) {}
 
+
+    public find(filter: RootFilterQuery<PdfData>): Promise<PdfDataDocument> {
+        return this.pdfDataModel.findOne(filter).exec()
+    }
 
     public getDefaultPdfData(tempalte: PdfTemplate): PdfData {
         return PdfUtil.prepareDefaultPdfData(tempalte)

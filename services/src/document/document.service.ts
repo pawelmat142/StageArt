@@ -16,6 +16,7 @@ import { PdfUtil } from '../pdf/pdf.util';
 import { BookingUtil } from '../booking/util/booking.util';
 import { SignatureService } from './signature.service';
 import { PdfData } from '../pdf/model/pdf-data.model';
+import { PdfDataService } from '../pdf/pdf-data.service';
 
 @Injectable()
 export class DocumentService {
@@ -28,6 +29,7 @@ export class DocumentService {
         private readonly contractPaperDataProvider: ContractPaperDataProvider,
         private readonly techRiderDataProvider: TechRiderDataProvider,
         private readonly pdfGeneratorService: PdfGeneratorService,
+        private readonly pdfDataService: PdfDataService,
         private readonly signatureService: SignatureService,
     ) {}
 
@@ -123,12 +125,28 @@ export class DocumentService {
         const ctx = await this.bookingService.buildContext(formId, profile)
         const data = await this.prepareData(ctx, template)
 
-        // TODO get artist template
-        const pdfData = PdfUtil.prepareDefaultPdfData(template)
-
+        const pdfData = await this.getActivePdfDataForArtistAndManager(ctx, template)
         const buffer = await this.pdfGeneratorService.generate(template, pdfData, data)
         const paper = await this.storeBookingPaper(buffer, ctx, template)
         return paper
+    }
+
+    private async getActivePdfDataForArtistAndManager(ctx: BookingContext, template: PdfTemplate): Promise<PdfData> {
+        const artistSignature = ctx.artists[0].signature
+        if (!artistSignature) {
+            throw new IllegalStateException(`Artist signature missing`)
+        }
+        const pdfData = await this.pdfDataService.find({ 
+            artistSignature,
+            managerUid: ctx.booking.managerUid,
+            template,
+            active: true
+        })
+        if (!pdfData) {
+            this.logger.log(`Not found active PdfData ${template} for booking ${ctx.booking.formId}`)
+            return PdfUtil.prepareDefaultPdfData(template)
+        }
+        return pdfData.toObject()
     }
 
     public async generateSignedPaper(paperId: string, signatureId: string, profile: JwtPayload): Promise<Paper> {
@@ -144,20 +162,13 @@ export class DocumentService {
         await this.updatePaperSignatures(paper, signatureId, ctx)
         PaperUtil.addSignaturesData(data, paper.signatures)
 
-        const pdfData = await this.getPdfData(template, ctx)
-
+        const pdfData = await this.getActivePdfDataForArtistAndManager(ctx, template)
         const buffer = await this.pdfGeneratorService.generate(template, pdfData, data)
 
         paper.contentWithSignatures = buffer
         await this.updatePaper(paper)
 
         return paper
-    }
-
-    private async getPdfData(template: PdfTemplate, ctx: BookingContext): Promise<PdfData> {
-        // TODO find pdfData of artist
-        const pdfData = PdfUtil.prepareDefaultPdfData(template)
-        return pdfData
     }
 
     private prepareData(ctx: BookingContext, template: PdfTemplate): Promise<any> {
