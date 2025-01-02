@@ -10,5 +10,6 @@ import { Component, Input, ViewEncapsulation } from '@angular/core';
 export class IconComponent {
 
   @Input() icon!: string
+  @Input() size = 16
 
 }

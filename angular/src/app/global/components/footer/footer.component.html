@@ -1,8 +1,75 @@
 <div class="app-footer">
     <div class="footer-container section-margin">
 
-        <div>Unity management</div>
-        <div>Footer todo...</div>
+        <div>
+            <div class="margin-bottom">
+                <app-logo></app-logo>
+            </div>
+
+            <div class="info margin-top">This is a prototype of an application created for the purpose of showcasing skills.            </div>
+        
+            <div class="margin-top-2 link">
+                <a class="clickable hovergrow" href="https://github.com/pawelmat142" target="_blank">
+                    <app-icon
+                        [size]="25"
+                        icon="pi-github"
+                    ></app-icon>
+                    <span>github.com/pawelmat142</span>
+                </a>
+            </div>
+        
+            <div class="margin-top link margin-bottom">
+                <a class="clickable hovergrow" (click)="_clipboard('pawelmat142@gmail.com')">
+                    <app-icon
+                        [size]="25"
+                        icon="pi-inbox"
+                    ></app-icon>
+                    <span>pawelmat142&#64;gmail.com</span>
+                </a>
+            </div>
+        
+            <div class="margin-top link margin-bottom">
+                <a class="clickable hovergrow" (click)="_telegram()">
+                    <app-icon
+                        [size]="25"
+                        icon="pi-telegram"
+                    ></app-icon>
+                    <span>Telegram</span>
+                </a>
+            </div>
+        
+        </div>
+
+        <div></div>
+
+        <div class="footer-menu">
+
+            <div class="menu-header fs3 margin-botton margin-top-2">
+                Menu
+            </div>
+            <div class="link">
+                <a class="clickable hovergrow" (click)="_nav('')">Home</a>
+            </div>
+            <div class="link">
+                <a class="clickable hovergrow" (click)="_nav('artists')">Artists</a>
+            </div>
+            <div class="link">
+                <a class="clickable hovergrow" (click)="_bookNow()">Book now</a>
+            </div>
+
+            <div *ngIf="profile$ | async as profile; else logIn">
+                <div class="link">
+                    <a class="clickable hovergrow" (click)="_logout()">Logout</a>
+                </div>
+            </div>
+            <ng-template #logIn>
+                <div class="link">
+                    <a class="clickable hovergrow" (click)="_nav('login')">Login</a>
+                </div>
+            </ng-template>
+
+        </div>
+
 
     </div>
 </div>

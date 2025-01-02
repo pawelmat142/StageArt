@@ -5,6 +5,8 @@
         @if (_nameOrEmailForm) {
             <form [formGroup]="_nameOrEmailForm" class="form-wrapper" (ngSubmit)="_submit()">
                 
+                <div class="form-title">Login by Telegram</div>
+
                 <app-form-field label="Name or email">
                     <input type="text" pInputText formControlName="nameOrEmail"/>
                 </app-form-field>
@@ -21,6 +23,8 @@
         } 
         @else {
             <form [formGroup]="form" class="form-wrapper" (ngSubmit)="_submit()">
+
+                <div class="form-title">Login form</div>
 
                 <div class="form-grid column">
                     <app-form-field label="Email">

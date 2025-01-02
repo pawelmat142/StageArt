@@ -13,6 +13,10 @@ $control-width-max: 400px;
     height: 100%;
     display: flex;
     align-items: center;
+    min-height: 450px;
+
+    padding-top: 60px;
+    padding-bottom: 60px;
 }
 
 .form-wrapper {
@@ -199,9 +203,15 @@ app-dropdown.ng-dirty.ng-invalid .p-component,
 }
 
 
-
-
 .separation {
     margin-bottom: 2*$padding-standard;
     width: 100%;
 }
+
+@media only screen and (min-width: $desktop) {
+    .form-page {
+        min-height: 600px;
+    }
+}
+
+

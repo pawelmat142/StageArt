@@ -6,10 +6,16 @@
 
         <div class="landing-left">
             <div class="langin-left-content">
-                <app-logo class="show-desktop"></app-logo>
-                <h1 class="fs1 baron primary">Unity Management</h1>
-                <h2 class="fs3 baron uppercase text-color">The best music style making your event shine</h2>
-                <p>A professional booking agency that concentrates on high-quality music, managing international bookings & representing top-level artists exclusively worldwide.</p>
+                <div class="d-flex" *ngIf="$desktop">
+                    <app-logo></app-logo>
+                </div>
+                <h2 class="fs3 baron uppercase text-color">Sign up now to explore our prototype and help shape the future of artist booking. Creativity starts here.</h2>
+                
+                <div>
+                    <h1 class="fs3 primary bold margin-bottom-2">Join the Movement...</h1>
+                    <p>Our open platform connects you to a vibrant community of artists, promoters, and managers. Whether you're planning an event, seeking inspiration, or looking to collaborate, we've got you covered.</p>
+                </div>
+                
             </div>
         </div>
     

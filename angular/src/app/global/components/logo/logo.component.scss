@@ -1,8 +1,13 @@
 @import 'variables';
 
+.logo {
+    display: flex;
+    width: 100px;
+}
+
 .landing {
     .logo {
-        height: 150px;
+        width: 250px;
     }
 }
 
@@ -13,14 +18,17 @@
     }
 }
 
-.logo {
-    display: flex;
-
-    svg {
-        aspect-ratio: 1;
+.app-footer {
+    .logo {
+        width: 200px;
+        svg,
+        g {
+            fill: $highlightBg;
+        }
     }
 }
 
-.drop-color {
+g,
+svg {
     fill: $primaryColor;
 }
