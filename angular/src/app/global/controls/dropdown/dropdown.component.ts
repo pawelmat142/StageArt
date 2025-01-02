@@ -31,6 +31,7 @@ export class DropdownComponent implements ControlValueAccessor {
 
   @Output() select = new EventEmitter<SelectorItem | null>()
 
+  
   private _value: SelectorItem | null = null
 
   get value() {

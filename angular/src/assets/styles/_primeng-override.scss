@@ -231,6 +231,26 @@
         }
     }
 }
+.p-dropdown-item.p-focus {
+    background-color: inherit ; /* Remove highlight */
+}
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item {
+    padding: 0;
+    .item-template {
+        padding: 0.75rem 75rem;
+
+        &.with-image {
+            padding: 0.4rem .75rem;
+        }
+    }
+}
+.with-image {
+    .p-dropdown {
+        .p-inputtext {
+            padding: 0.4rem .75rem;
+        }
+    }
+}
 
 @media only screen and (min-width: $desktop) {
     .p-accordion .p-accordion-content { 

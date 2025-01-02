@@ -186,6 +186,11 @@ app-dropdown.ng-dirty.ng-invalid .p-component,
         border-radius: 3px;
     }
 }
+.with-image {
+    .item-image {
+        max-height: 30px;
+    }
+}
 .p-dropdown-filter-container {
     height: 50px;
 }

@@ -5,10 +5,12 @@
     [filter]="true"
     [showClear]="true"
     [optionLabel]="optionLabel"
-    [placeholder]="placeholder" >
+    [placeholder]="placeholder" 
+    [class.with-image]="value?.imgUrl"
+    >
     <ng-template pTemplate="selectedItem" let-selectedOption>
         <div class="flex align-items-center gap-2">
-            <div class="item-template">
+            <div class="item-template" [class.with-image]="selectedOption.imgUrl">
                 @if (selectedOption.imgUrl) {
                     <img [src]="selectedOption.imgUrl" class="item-image item-image-border" />
                 }
@@ -17,7 +19,7 @@
         </div>
     </ng-template>
     <ng-template let-item pTemplate="item">
-        <div class="item-template">
+        <div class="item-template" [class.with-image]="item.imgUrl">
             @if (item.imgUrl) {
                 <img [src]="item.imgUrl" [alt]="item.name" class="item-image item-image-border" />
             }
