@@ -1,0 +1,26 @@
+@import 'variables';
+
+$markerSize: 40px;
+
+.marker {
+    height: $markerSize;
+    width: $markerSize;
+    border-radius: 50%;
+    background-color: $primaryColor;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $bgTwo;
+    
+    background-color: $bgTwo;
+    color: $primaryColor;
+    border: 2px solid $primaryColor;
+}
+
+.opposite {
+    padding-top: (calc(.5 *$markerSize - .7em));
+}
+
+.content {
+    margin-bottom: $padding-standard;
+}

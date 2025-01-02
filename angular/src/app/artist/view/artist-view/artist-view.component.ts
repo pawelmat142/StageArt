@@ -25,6 +25,9 @@ import { ArtistViewDto } from '../../model/artist-view.dto';
 import { BookingService } from '../../../booking/services/booking.service';
 import { setFormData } from '../../../form-processor/form.state';
 import { Path } from '../../../global/nav/path';
+import { BehaviorSubject, map, Observable, of, tap } from 'rxjs';
+import { ArtistTimelineService, TimelineItem } from '../../../booking/services/artist-timeline.service';
+import { TimelineComponent } from '../../../global/components/timeline/timeline.component';
 
 @Component({
   selector: 'app-artist-view',
@@ -44,7 +47,8 @@ import { Path } from '../../../global/nav/path';
     StyleComponent,
     TextareaElementComponent,
     TooltipModule,
-    ButtonModule
+    ButtonModule,
+    TimelineComponent
   ],
   templateUrl: './artist-view.component.html',
   styleUrl: './artist-view.component.scss',
@@ -61,6 +65,7 @@ export class ArtistViewComponent {
     private bookingService: BookingService,
     private nav: NavService,
     private store: Store<AppState>,
+    private readonly artistTimelineService: ArtistTimelineService,
   ) {}
 
 
@@ -69,6 +74,9 @@ export class ArtistViewComponent {
   _editMode$ = this.store.select(editMode)
 
   _artist$ = this.store.select(artist)
+    .pipe(tap(artist => this.loadTimeline(artist)))
+
+  _timeline$ = new BehaviorSubject<TimelineItem[]>([])
 
   ngOnInit() {
     this.artistName = this.route.snapshot.paramMap.get('name') || ''
@@ -77,6 +85,16 @@ export class ArtistViewComponent {
     } else {
       this.store.dispatch(initArtist({ name: this.artistName }))
     }
+  }
+
+  private loadTimeline(artist?: ArtistViewDto): void {
+    const signature = artist?.signature
+    if (!signature) {
+      this._timeline$.next([])
+      return
+    }
+    this.artistTimelineService.artistTimeline$(signature)
+      .subscribe(timeline => this._timeline$.next(timeline))
   }
 
   _onBookNow(artist: ArtistViewDto) {

@@ -91,6 +91,16 @@
 
                 <app-bio class="bio-tile"></app-bio>
 
+                <ng-container *ngIf="_timeline$.asObservable() | async as timeline">
+                    <div class="tile big" *ngIf="timeline.length">
+                        <p class="tile-header chip-label">Timeline</p>
+    
+                        <div class="tile-content ">
+                            <app-timeline [timeline]="timeline"></app-timeline>
+                        </div>
+                    </div>
+                </ng-container>
+                
                 @if (artist.managmentNotes) {
                     <div class="management-notes-tile">
                         <div class="tile big">
@@ -107,6 +117,9 @@
                         </div>
                     </div>
                 }
+
+
+
             </div>
 
 
