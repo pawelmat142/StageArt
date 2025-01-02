@@ -9,6 +9,7 @@ import { BookingService } from './services/booking.service';
 import { BookingCancelService } from './services/booking-cancel.service';
 import { BookingDocumentsService } from './services/booking-documents.service';
 import { NoGuard } from '../profile/auth/no-guard';
+import { ArtistTimelineService } from './services/artist-timeline.service';
 
 @Controller('api/booking')
 @UseInterceptors(LogInterceptor)
@@ -18,6 +19,7 @@ export class BookingController {
         private readonly bookingService: BookingService,
         private readonly bookingCancelService: BookingCancelService,
         private readonly bookingDocumentsService: BookingDocumentsService,
+        private readonly artistTimelineService: ArtistTimelineService,
     ) {}
 
     @Get('submit/:id')
@@ -57,6 +59,11 @@ export class BookingController {
     @Serialize(BookingDto)
     requestDocuments(@Param('id') formId: string, @GetProfile() profile: JwtPayload) {
         return this.bookingDocumentsService.requestDocuments(formId, profile)
+    }
+
+    @Get('artist-timeline/:signature')
+    artistTimeline(@Param('signature') artistSignature: string) {
+        return this.artistTimelineService.getTimeline(artistSignature)
     }
 
 }

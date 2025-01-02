@@ -1,19 +1,44 @@
 import { Validators } from "@angular/forms"
 import { pForm } from "../form-processor/form-processor.service"
-import { FormType } from "../form-processor/form.state"
+import { formData, FormType } from "../form-processor/form.state"
 import { AppState } from "../app.state"
 import { Store } from "@ngrx/store"
 import { selectArtists } from "../artist/artists.state"
 import { ArtistUtil } from "../artist/artist.util"
-import { map, of } from "rxjs"
+import { BehaviorSubject, map, Observable, of, switchMap } from "rxjs"
 import { Country } from "../global/countries/country.model"
+import { TimelineUtil } from "../global/utils/timeline.util"
+import { ArtistTimelineService, TimelineItem } from "./services/artist-timeline.service"
 
 export class BookingFormStructure {
 
+    disabledDates$ = new BehaviorSubject<Date[]>([])
+
     constructor(
       private store: Store<AppState>,
-      private countries: Country[]
-    ) {}
+      private countries: Country[],
+      private artistTimelineService?: ArtistTimelineService,
+    ) {
+      if (this.artistTimelineService) {
+        this.store.select(formData).pipe(
+          switchMap(formData => {
+            const artist = formData?.artistInformation?.artist
+            if (artist?.code) {
+              return this.artistTimelineService!.artistTimeline$(artist.code)
+            }
+            return of([]) as Observable<TimelineItem[]>
+          }),
+          map(timeline => {
+            const disabledDates = TimelineUtil.getDisabledDates(timeline)
+            TimelineUtil.mockDates(disabledDates)
+            this.disabledDates$.next(disabledDates)
+          }),
+        ).subscribe()
+      }
+    }
+
+
+    readonly tommorow = TimelineUtil.tommorow()
 
     form: pForm = {
         type: FormType.BOOKING,
@@ -24,9 +49,17 @@ export class BookingFormStructure {
             controls: [{
                 name: 'Performance start date',
                 type: 'date',
+                date: {
+                  min: this.tommorow,
+                  disabledDays: this.disabledDates$.asObservable()
+                },
                 validators: [Validators.required]
               }, {
                 name: 'Performance end date',
+                date: {
+                  min: this.tommorow,
+                  disabledDays: this.disabledDates$.asObservable()
+                },
                 type: 'date',
               }, {
                 name: 'Event name',
@@ -132,7 +165,10 @@ export class BookingFormStructure {
               name: 'Exclusivity / Radius issues'
             }, {
               name: 'Offer expiry date',
-              type: 'date'
+              type: 'date',
+              date: {
+                min: this.tommorow
+              }
             }]
           }
 

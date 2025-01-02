@@ -36,6 +36,10 @@ export interface pFormControl {
   required?: boolean
   validators?: ValidatorFn[]
   selectorItems$?: Observable<SelectorItem[]>
+  date?: {
+    min?: Date,
+    disabledDays?: Observable<Date[]>,
+  }
 }
 
 @Injectable({

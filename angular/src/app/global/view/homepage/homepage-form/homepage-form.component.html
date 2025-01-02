@@ -16,6 +16,8 @@
                     formControlName="date" 
                     placeholder="Select..."
                     dateFormat="dd-mm-yy"app-dropdown
+                    [disabledDates]="_disabledDates"
+                    [minDate]="_tommorow"
                 ></p-calendar>
             </app-form-field>
         </div>

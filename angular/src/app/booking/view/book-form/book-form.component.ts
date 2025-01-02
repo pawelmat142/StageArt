@@ -15,6 +15,7 @@ import { AppState } from '../../../app.state';
 import { BookingFormStructure } from '../../booking-form-structure';
 import { CountriesService } from '../../../global/countries/countries.service';
 import { Path } from '../../../global/nav/path';
+import { ArtistTimelineService } from '../../services/artist-timeline.service';
 
 @Component({
   selector: 'app-book-form',
@@ -36,11 +37,13 @@ export class BookFormComponent {
     private readonly nav: NavService,
     private readonly bookingService: BookingService,
     private readonly countriesService: CountriesService,
+    private readonly artistTimelineService: ArtistTimelineService,
   ) {}
 
   _bookingFormStructure = new BookingFormStructure(
     this.store,
-    this.countriesService.getCountries()
+    this.countriesService.getCountries(),
+    this.artistTimelineService
   )
 
   ngOnInit(): void {

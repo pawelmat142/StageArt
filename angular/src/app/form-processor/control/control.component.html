@@ -32,6 +32,8 @@
                     dateFormat="dd-mm-yy"
                     [placeholder]="control.placeholder || 'Select date...'"
                     [required]="_required"
+                    [minDate]="control.date?.min"
+                    [disabledDates]="(control.date?.disabledDays | async) || []"
                 ></p-calendar>
             </app-form-field>
             
