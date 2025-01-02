@@ -24,6 +24,10 @@ html {
     background-color: $highlightBg;
 }
 
+.w-full {
+    width: 100%;
+}
+
 
 .hide-mobile {
     display: none;
@@ -100,7 +104,6 @@ html {
 
 
 
-
 // CONTROL
 
 textarea {
@@ -119,7 +122,6 @@ textarea {
 .textarea-wrapper {
     width: 100%;
 }
-
 
 .cover-center {
     img {

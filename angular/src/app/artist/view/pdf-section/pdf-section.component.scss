@@ -10,4 +10,19 @@
             flex-grow: 1;
         }
     }
+
+    &.subsection {
+        margin-bottom: 0;
+        .section-switch {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 .5*$padding-standard;
+            p {
+                flex-grow: 1;
+            }
+        }
+
+    }
 }

@@ -9,6 +9,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { Menu, MenuModule } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
 import { IconButtonComponent } from '../../../global/components/icon-button/icon-button.component';
+import { AccordionModule } from 'primeng/accordion';
 
 @Component({
   selector: 'app-pdf-section',
@@ -21,7 +22,8 @@ import { IconButtonComponent } from '../../../global/components/icon-button/icon
     InputTextareaModule,
     ButtonModule,
     MenuModule,
-    IconButtonComponent
+    IconButtonComponent,
+    AccordionModule,
   ],
   templateUrl: './pdf-section.component.html',
   styleUrl: './pdf-section.component.scss'
@@ -34,6 +36,7 @@ export class PdfSectionComponent {
 
   @Input() section!: PdfSection 
   @Input() index!: number 
+  @Input() subsection = false
 
   @Output() updateSection = new EventEmitter<PdfSection | null>()
 
