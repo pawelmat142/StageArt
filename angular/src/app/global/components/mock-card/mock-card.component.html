@@ -1,0 +1,15 @@
+
+<div class="item-row tile-style margin-top-2">
+    <div class="mock-card-header">
+        <div></div>
+        <div class="sorry center bold primary">Sorry...</div>
+        <div class="to-right">
+            <app-icon-button
+                class="primary"
+                (click)="close.emit()"
+                icon="pi-times"
+            ></app-icon-button>
+        </div>
+    </div>
+    <div *ngIf="message" class="margin-top">{{message}}</div>
+</div>

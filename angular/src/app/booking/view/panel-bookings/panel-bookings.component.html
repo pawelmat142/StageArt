@@ -1,24 +1,24 @@
 <div class="panel-container">
 
     @if (_bookings$ | async)  {
-            @if (_bookingsAsManager.length) {
-                <app-bookings-section
-                    header="Received booking requests"
-                    [bookings]="_bookingsAsManager"
-                ></app-bookings-section>
-            }   
-            @if (_bookingsAsPromoter.length) {
-                <app-bookings-section
-                    header="Sent booking requests"
-                    [bookings]="_bookingsAsPromoter"
-                ></app-bookings-section>
-            }
-            @if (_bookingsAsArtist.length) {
-                <app-bookings-section
-                    header="Artist booking request"
-                    [bookings]="_bookingsAsArtist"
-                ></app-bookings-section>
-            }
+        @if (_bookingsAsManager.length) {
+            <app-bookings-section
+                header="Received booking requests"
+                [bookings]="_bookingsAsManager"
+            ></app-bookings-section>
+        }   
+        @if (_bookingsAsPromoter.length) {
+            <app-bookings-section
+                header="Sent booking requests"
+                [bookings]="_bookingsAsPromoter"
+            ></app-bookings-section>
+        }
+        @if (_bookingsAsArtist.length) {
+            <app-bookings-section
+                header="Artist booking request"
+                [bookings]="_bookingsAsArtist"
+            ></app-bookings-section>
+        }
     }
 
     <div class="panel-section card margin-top-2" *ngIf="(_formData$ | async) as formData">

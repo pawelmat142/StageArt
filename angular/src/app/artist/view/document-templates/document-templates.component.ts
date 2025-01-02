@@ -17,6 +17,8 @@ import { Menu, MenuModule } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
 import { CourtineService } from '../../../global/nav/courtine.service';
 import { DocumentService } from '../../../global/document/document.service';
+import { $desktop } from '../../../global/tools/media-query';
+import { MockCardComponent } from '../../../global/components/mock-card/mock-card.component';
 
 
 type PdfDatasPerTemplate = { 
@@ -39,11 +41,15 @@ type PdfDatasPerTemplate = {
     PdfSectionComponent,
     AccordionModule,
     MenuModule,
+    MockCardComponent
   ],
   templateUrl: './document-templates.component.html',
   styleUrl: './document-templates.component.scss'
 })
 export class DocumentTemplatesComponent implements OnChanges {
+
+
+  readonly $desktop = $desktop
 
   constructor(
     private readonly pdfDataservice: PdfDataService,
