@@ -25,6 +25,7 @@ export abstract class FormUtil {
 
     public static setFormValues(formGroup: FormGroup, data: any) {
         if (!data) {
+            formGroup.reset()
             return
         }
         Object.keys(formGroup.controls).forEach(key => {
@@ -42,9 +43,13 @@ export abstract class FormUtil {
 
                     })
                 }
-            } else if (control instanceof FormGroup) {
+            } else if (control instanceof FormControl) {
                 if (controlData) {
                     control.setValue(controlData)
+                }
+            } else if (control instanceof FormGroup) {
+                if (controlData) {
+                    this.setFormValues(control, controlData)
                 }
             } 
             

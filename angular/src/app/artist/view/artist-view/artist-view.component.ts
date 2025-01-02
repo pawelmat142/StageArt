@@ -18,9 +18,13 @@ import { NameComponent } from './name/name.component';
 import { MediasComponent } from './medias/medias.component';
 import { StyleComponent } from './style/style.component';
 import { TextareaElementComponent } from '../../../global/controls/textarea-element/textarea-element.component';
-import { Path } from '../../../global/nav/path';
 import { TooltipModule } from 'primeng/tooltip';
 import { ButtonModule } from 'primeng/button';
+import { ArtistUtil } from '../../artist.util';
+import { ArtistViewDto } from '../../model/artist-view.dto';
+import { BookingService } from '../../../booking/services/booking.service';
+import { setFormData } from '../../../form-processor/form.state';
+import { Path } from '../../../global/nav/path';
 
 @Component({
   selector: 'app-artist-view',
@@ -54,6 +58,7 @@ export class ArtistViewComponent {
   constructor(
     private route: ActivatedRoute,
     private artistService: ArtistService,
+    private bookingService: BookingService,
     private nav: NavService,
     private store: Store<AppState>,
   ) {}
@@ -74,8 +79,24 @@ export class ArtistViewComponent {
     }
   }
 
-  _onBookNow() {
-    this.nav.to(Path.BOOK_FORM_VIEW)
+  _onBookNow(artist: ArtistViewDto) {
+    const artistControlValue = ArtistUtil.selectorItem(artist)
+    const formData = {
+      artistInformation: {
+        artist: artistControlValue
+      },
+      promoterInformation: undefined
+    }
+
+    this.bookingService.findPromoterInfo$().subscribe(promoterInfo => {
+      if (promoterInfo) {
+        formData.promoterInformation = promoterInfo
+      }
+      this.nav.to(Path.BOOK_FORM_VIEW)
+      setTimeout(() => {
+        this.store.dispatch(setFormData(formData))
+      })
+    })
   }
 
   _editToggle() {

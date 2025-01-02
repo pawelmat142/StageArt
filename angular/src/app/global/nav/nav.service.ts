@@ -6,6 +6,10 @@ import { Location } from '@angular/common';
 import { Profile } from '../../profile/profile.model';
 import { HomepageComponent } from '../view/homepage/homepage.component';
 import { MenuItem } from 'primeng/api';
+import { AppState } from '../../app.state';
+import { Store } from '@ngrx/store';
+import { FormType, openForm } from '../../form-processor/form.state';
+import { Path } from './path';
 
 export interface MenuButtonItem extends MenuItem {
   rolesGuard?: string[] //undefined means its available for every role
@@ -25,6 +29,7 @@ export class NavService {
   constructor(
     private readonly router: Router,
     private readonly location: Location,
+    private readonly store: Store<AppState>,
   ) {
   }
 
@@ -46,6 +51,11 @@ export class NavService {
 
   public to(path: string) {
     this.router.navigateByUrl(path)
+  }
+
+  public bookNow() {
+    this.store.dispatch(openForm({ formType: FormType.BOOKING }))
+    this.to(Path.BOOK_FORM_VIEW)
   }
 
   public toArtist(artistName: string) {

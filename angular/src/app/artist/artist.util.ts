@@ -5,14 +5,16 @@ import { ArtistViewDto } from "./model/artist-view.dto"
 
 export abstract class ArtistUtil {
 
+    public static selectorItem(artist: ArtistViewDto): SelectorItem {
+        return {
+            code: artist.signature,
+            name: artist.name,
+            imgUrl: artist.images.avatar?.mini?.url
+        }
+    }
+
     public static selectorItems(artists: ArtistViewDto[]): SelectorItem[] {
-        return artists.map(a => {
-            return {
-                code: a.signature,
-                name: a.name,
-                imgUrl: a.images.avatar?.mini?.url
-            }
-        })
+        return artists.map(a => this.selectorItem(a))
     }
 
     public static avatarUrl(images?: Images): string {

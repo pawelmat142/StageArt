@@ -3,7 +3,6 @@ import { AuthGuard } from "@nestjs/passport";
 import { Profile } from "../model/profile.model";
 import { ProfileService } from "../profile.service";
 import { AppJwtService } from "./app-jwt.service";
-import { profile } from "console";
 import { Role } from "../model/role";
 
 

@@ -39,14 +39,14 @@ export class DropdownComponent implements ControlValueAccessor {
   
   set value(valueFromNgModel: any) {
     this.writeValue(valueFromNgModel);
+    this.select.emit(this._value);
+    setTimeout(() => {
+      this.onChange(this._value);
+    })
   }
 
   writeValue(value: SelectorItem | null): void {
     this._value = value || null;
-    setTimeout(() => {
-      this.onChange(this._value);
-    })
-    this.select.emit(this._value);
   }
 
   onChange = (val: SelectorItem| null) => {

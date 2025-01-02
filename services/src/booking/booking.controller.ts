@@ -8,6 +8,7 @@ import { LogInterceptor } from '../global/interceptors/log.interceptor';
 import { BookingService } from './services/booking.service';
 import { BookingCancelService } from './services/booking-cancel.service';
 import { BookingDocumentsService } from './services/booking-documents.service';
+import { NoGuard } from '../profile/auth/no-guard';
 
 @Controller('api/booking')
 @UseInterceptors(LogInterceptor)
@@ -39,9 +40,9 @@ export class BookingController {
     }
 
     @Get('promoter-info')
-    @UseGuards(JwtGuard)
-    findPromoterInfo(@GetProfile() profile: JwtPayload) {
-        return this.bookingService.findPromoterInfo(profile.uid)
+    @UseGuards(NoGuard)
+    findPromoterInfo(@GetProfile() profile?: JwtPayload) {
+        return this.bookingService.findPromoterInfo(profile?.uid)
     }
 
     @Get('cancel/:id')

@@ -58,14 +58,11 @@ export class FormProcessorComponent {
   ngOnInit(): void {
     this.subscriptions.push(this.store.select(formData).pipe(
       tap(formData => this.formData = formData),
-      skip(1),
     ).subscribe(formData => {
       this.recreateArrayStepGroups()
       FormUtil.setFormValues(this.formGroup, this.formData)
       this.rebuildDetector++
     }))
-    //TODOremove
-    this.store.dispatch(openForm({ formType: FormType.BOOKING }))
 
     this.buildFormGroup()
     this.setStep()
@@ -118,7 +115,11 @@ export class FormProcessorComponent {
   _next(keepIndex?: boolean) {
     const currentStepForm = this.currentStepForm
     if (currentStepForm) {
-      if (currentStepForm?.valid) {
+      if (currentStepForm.invalid) {
+        FormUtil.markForm(currentStepForm)
+        return
+      }
+      if (!currentStepForm?.errors || currentStepForm?.valid) {
         this.startOrStoreFormAction()
         if (!keepIndex) {
           this.stepIndex++

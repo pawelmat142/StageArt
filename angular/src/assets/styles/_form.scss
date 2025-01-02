@@ -141,7 +141,7 @@ $control-width-max: 400px;
 app-dropdown.ng-dirty.ng-invalid .p-component,
 .p-element.ng-dirty.ng-invalid input,
 .p-inputtext.ng-dirty.ng-invalid {
-    border-color: #e24c4c;
+    border: 2px solid #e24c4c;
 }
 
 ::placeholder {

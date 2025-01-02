@@ -38,7 +38,7 @@ export class ArtistsListViewComponent {
   }
 
   _bookNow() {
-    this.nav.to(Path.BOOK_FORM_VIEW)
+    this.nav.bookNow()
   }
 
 }

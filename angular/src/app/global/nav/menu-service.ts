@@ -5,9 +5,9 @@ import { AppState } from "../../app.state";
 import { Store } from "@ngrx/store";
 import { Location } from '@angular/common';
 import { Profile } from "../../profile/profile.model";
-import { combineLatest, filter, map, Observable, shareReplay, startWith } from "rxjs";
+import { map, Observable, shareReplay } from "rxjs";
 import { HomepageComponent } from "../view/homepage/homepage.component";
-import { ResolveEnd, Router } from "@angular/router";
+import { Router } from "@angular/router";
 import { Path } from "./path";
 import { Theme } from "../theme/theme";
 import { UnityTheme } from "../theme/unity.theme";
@@ -66,7 +66,9 @@ export class MenuService {
     }
     private readonly bookNowButton: MenuButtonItem  = {
         label: 'Book now',
-        path: Path.BOOK_FORM_VIEW,
+        command: () => {
+            this.nav.bookNow()
+        }
     }
     private readonly artistsButton: MenuButtonItem  = {
         label: 'Artists',
