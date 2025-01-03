@@ -19,10 +19,11 @@
     </ng-container>
 </div>
 
-@if (_labels.length || (_editable$ | async)) {
+<ng-container *ngIf="((_labels$ | async) || []) as labels">
+
     <p class="show-mobile tile-header chip-label margin-top">Labels</p>
     <div class="chips">
-        @for (label of _labels$ | async; track label.id) {
+        @for (label of labels; track label.id) {
             <div class="chip primary-chip">
                 <span>
                     {{label.name}}
@@ -39,5 +40,5 @@
             <div class="chip grey-chip hovergrow" (click)="_addLabel()">add  label</div>
         </ng-container>
     </div>
-}
+</ng-container>
         
