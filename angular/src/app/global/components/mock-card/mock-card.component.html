@@ -2,9 +2,9 @@
 <div class="item-row tile-style margin-top-2">
     <div class="mock-card-header">
         <div></div>
-        <div class="sorry center bold primary">Sorry...</div>
+        <div class="sorry center bold primary">{{header}}</div>
         <div class="to-right">
-            <app-icon-button
+            <app-icon-button *ngIf="showCloseButton"
                 class="primary"
                 (click)="close.emit()"
                 icon="pi-times"

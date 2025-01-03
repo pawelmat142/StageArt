@@ -5,11 +5,11 @@ export abstract class ArtistUtil {
 
     public static isViewReady(artist: ArtistViewDto): boolean {
         return !!artist.name
-            && !!artist.country.code
+            && !!artist.country?.code
             && !!artist.bio
             && !!artist.medias?.length
             && this.imagesReadyForView(artist)
-            && !!artist.styles.length
+            && !!artist.styles?.length
     }
 
     private static imagesReadyForView(artist: ArtistViewDto): boolean {

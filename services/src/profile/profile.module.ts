@@ -27,6 +27,7 @@ import { AppJwtService } from './auth/app-jwt.service';
   controllers: [ProfileController],
   exports: [
     ProfileTelegramService,
+    ProfileEmailService,
     ProfileService,
     JwtGuard,
     AppJwtService,

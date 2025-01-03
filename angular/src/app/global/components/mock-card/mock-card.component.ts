@@ -14,7 +14,10 @@ import { IconButtonComponent } from '../icon-button/icon-button.component';
 })
 export class MockCardComponent {
 
+  @Input() header = 'Sorry...'
   @Input() message?: string
+
+  @Input() showCloseButton = true
 
   @Output() close = new EventEmitter<void>()
 

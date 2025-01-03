@@ -1,25 +1,27 @@
 <div class="panel-container">
 
-    @if (_bookings$ | async)  {
-        @if (_bookingsAsManager.length) {
-            <app-bookings-section
-                header="Received booking requests"
-                [bookings]="_bookingsAsManager"
-            ></app-bookings-section>
-        }   
-        @if (_bookingsAsPromoter.length) {
-            <app-bookings-section
-                header="Sent booking requests"
-                [bookings]="_bookingsAsPromoter"
-            ></app-bookings-section>
-        }
-        @if (_bookingsAsArtist.length) {
-            <app-bookings-section
-                header="Artist booking request"
-                [bookings]="_bookingsAsArtist"
-            ></app-bookings-section>
-        }
-    }
+    <ng-container *ngIf="_bookingsForRoles$ | async as bookingsForRoles">
+        <app-bookings-section *ngIf="bookingsForRoles.manager.length"
+            header="Received booking requests"
+            [bookings]="bookingsForRoles.manager"
+        ></app-bookings-section>
+
+        <app-bookings-section *ngIf="bookingsForRoles.promoter.length"
+            header="Sent booking requests"
+            [bookings]="bookingsForRoles.promoter"
+        ></app-bookings-section>
+
+        <app-bookings-section *ngIf="bookingsForRoles.artist.length"
+            header="Artist booking request"
+            [bookings]="bookingsForRoles.artist"
+        ></app-bookings-section>
+    </ng-container>
+    
+    <app-mock-card 
+        [header]="''"
+        [message]="'You have no bookings...'"
+        [showCloseButton]="false"
+    ></app-mock-card>
 
     <div class="panel-section card margin-top-2" *ngIf="(_formData$ | async) as formData">
         <div class="panel-section-header">

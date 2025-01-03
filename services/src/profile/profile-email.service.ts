@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, Logger, NotFoundException, UnauthorizedException } from "@nestjs/common";
+import { BadRequestException, Injectable, Logger, UnauthorizedException } from "@nestjs/common";
 import { AppJwtService } from "./auth/app-jwt.service";
 import { InjectModel } from "@nestjs/mongoose";
 import { Profile } from "./model/profile.model";
@@ -8,6 +8,7 @@ import { scrypt as _scrypt }  from 'crypto';
 import { promisify } from "util";
 import { ProfileService } from "./profile.service";
 import { SelectorItem } from "../artist/artist.controller";
+import { Util } from "../global/utils/util";
 const scrypt = promisify(_scrypt);
 
 export interface LoginForm {
@@ -61,7 +62,7 @@ export class ProfileEmailService {
         profile.passwordHash = hashPassword
         profile.uid = this.emailUid(profile.name)
 
-        await this.profileService.createProfile(profile, 'EMAIL')
+        return this.profileService.createProfile(profile, 'EMAIL')
     }
 
     public async loginByEmail(form: Partial<LoginForm>) {
@@ -84,7 +85,7 @@ export class ProfileEmailService {
     }
 
     private emailUid(name: string): string {
-        return `email_${name}`
+        return `email_${Util.toKebabCase(name)}`
     }
 
 }

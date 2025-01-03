@@ -6,5 +6,13 @@ export abstract class Util {
         const year = String(date.getFullYear()).slice(-4); // Get last two digits of the year
         return `${day}-${month}-${year}`;
     }
+
+    static toKebabCase(input: string): string {
+        return input
+          .replace(/([a-z])([A-Z])/g, "$1-$2") // Add a dash between lowercase and uppercase letters.
+          .replace(/\s+/g, '-') // Replace spaces with dashes.
+          .toLowerCase(); // Convert the entire string to lowercase.
+      }
+    
 }
     

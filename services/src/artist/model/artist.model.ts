@@ -1,16 +1,30 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose"
 import { HydratedDocument } from "mongoose"
 
+export const artistMediaCodes = [
+    '', 
+    'facebook', 
+    'instagram', 
+    'soundcloud', 
+    'bandcamp',
+    'spotify',
+    'you_tube',
+    'website'
+] as const
+
+export type ArtistMediaCode = typeof artistMediaCodes[number]
+
 export interface Chip {
     name: string
     id: string
 }
 
 export interface SelectorItem {
-    code: string
     name: string
+    code: string
+    imgUrl?: string
+    svg?: ArtistMediaCode
 }
-
 
 export interface ArtistStyle extends Chip {}
 

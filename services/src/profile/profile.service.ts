@@ -77,8 +77,9 @@ export class ProfileService {
             created: new Date()
         })
 
-        await profile.save()
+        const saved = await profile.save()
         this.logger.log(`Created user ${profile.name}, uid: ${profile.uid}`)
+        return saved
     }
 
     fetchManagers() {

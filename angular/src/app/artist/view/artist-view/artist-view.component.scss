@@ -50,10 +50,10 @@ $view-padding: 4*$padding-standard;
         &.one {
             row-gap: 0; 
             grid-template-columns: $avatarSize 1fr;
-            margin-bottom: $padding-standard;
+            padding-bottom: $padding-standard;
         }
         &.two {
-            margin-bottom: 4*$padding-standard;
+            padding-bottom: 4*$padding-standard;
 
             .tiles-column {
                 order: 1;
@@ -97,15 +97,14 @@ $view-padding: 4*$padding-standard;
             &.one {
                 row-gap: 0; 
                 grid-template-columns: $avatarSizeDesktop 2fr 1fr;
-                margin-bottom: $padding-standard;
-                margin-bottom: 4*$padding-standard;
+                padding-bottom: 4*$padding-standard;
             }
             grid-template-columns: 2fr 1fr;
             column-gap: 3*$padding-standard;
             row-gap: $padding-standard;
 
             &.two {
-                margin-bottom: 4*$padding-standard;
+                padding-bottom: 4*$padding-standard;
     
                 .tiles-column {
                     gap: 2*$padding-standard;

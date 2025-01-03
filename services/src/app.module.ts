@@ -16,6 +16,7 @@ import { FeedbackModule } from './feedback/feedback.module';
 import { EventModule } from './event/event.module';
 import { DocumentModule } from './document/document.module';
 import { PdfModule } from './pdf/pdf.module';
+import { DataGeneratorModule } from './data-generator/data-generator.module';
 
 @Module({
   imports: [
@@ -44,6 +45,8 @@ import { PdfModule } from './pdf/pdf.module';
     DocumentModule,
 
     PdfModule,
+
+    DataGeneratorModule,
   ],
   controllers: [AppController],
   providers: [AppService]

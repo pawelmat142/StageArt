@@ -1,9 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { map, withLatestFrom } from 'rxjs';
+import { map, tap, withLatestFrom } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { bookingFormData, loadBookings, profile, profileBookings, removeBookingFormData } from '../../../profile/profile.state';
-import { BookingDto } from '../../services/booking.service';
 import { AppState } from '../../../app.state';
 import { FormPresentationComponent } from '../../../form-processor/presentation/form-presentation/form-presentation.component';
 import { BookingFormStructure } from '../../booking-form-structure';
@@ -11,6 +10,7 @@ import { BookingsSectionComponent } from './bookings-section/bookings-section.co
 import { IconButtonComponent } from '../../../global/components/icon-button/icon-button.component';
 import { SignComponent } from '../../../global/components/sign/sign.component';
 import { $desktop } from '../../../global/tools/media-query';
+import { MockCardComponent } from '../../../global/components/mock-card/mock-card.component';
 
 @Component({
   selector: 'app-panel-bookings',
@@ -21,6 +21,7 @@ import { $desktop } from '../../../global/tools/media-query';
     BookingsSectionComponent,
     IconButtonComponent,
     SignComponent,
+    MockCardComponent
 ],
   templateUrl: './panel-bookings.component.html',
   styleUrl: './panel-bookings.component.scss',
@@ -36,22 +37,25 @@ export class PanelBookingsComponent {
   _bookingFormStructure = new BookingFormStructure(this.store, [])
 
   _formData$ = this.store.select(bookingFormData)
+
+  _emptyBookings = true
   
-  _bookings$ = this.store.select(profileBookings).pipe(
+  _bookingsForRoles$ = this.store.select(profileBookings).pipe(
     withLatestFrom(this.store.select(profile)),
     map(([bookings, profile]) => {
-      this._bookingsAsManager = bookings?.filter(b => b.managerUid === profile?.uid) || []
-      this._bookingsAsPromoter = bookings?.filter(b => b.promoterUid === profile?.uid) || []
-      this._bookingsAsArtist = bookings?.filter(b => b.artists.map(a => a.code).includes(profile?.artistSignature || '')) || []
-      return bookings
+      return {
+        manager: bookings?.filter(b => b.managerUid === profile?.uid) || [],
+        promoter: bookings?.filter(b => b.promoterUid === profile?.uid) || [],
+        artist: bookings?.filter(b => b.artists.map(a => a.code).includes(profile?.artistSignature || '')) || []
+      }
     }),
+    tap(bookingsForRoles => this._emptyBookings = ![
+      ...bookingsForRoles.artist,
+      ...bookingsForRoles.manager,
+      ...bookingsForRoles.promoter,
+    ].length)
   )
 
-  _bookingsAsManager: BookingDto[] = []
-  _bookingsAsPromoter: BookingDto[] = []
-  _bookingsAsArtist: BookingDto[] = []
-
-  
   ngOnInit(): void {
     this.store.dispatch(loadBookings())
   }
