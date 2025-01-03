@@ -28,12 +28,12 @@ export class BookingService {
         private readonly telegramService: TelegramService,
     ) {}
 
-    public async submitForm(formId: string, profile: JwtPayload) {
+    public async submitForm(formId: string, profile: JwtPayload, params?: { skipEventSearch: boolean  }) {
         const checkFormId = await this.bookingModel.findOne({ formId: formId })
         if (checkFormId) {
             throw new IllegalStateException(`Booking for form ${formId} already exists`)
         }
-        const ctx = await this.submitService.submitForm(formId, profile)
+        const ctx = await this.submitService.submitForm(formId, profile, params)
 
         await this.validateBookingDuplicate(ctx.booking)
         this.submitService.msgToManagerAboutSubmitedForm(ctx)

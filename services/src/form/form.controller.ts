@@ -4,6 +4,7 @@ import { Form } from './form.model';
 import { Model } from 'mongoose';
 import { NotModifiedException } from '../global/exceptions/not-modified.exception';
 import { LogInterceptor } from '../global/interceptors/log.interceptor';
+import { FormService } from './form.service';
 
 @Controller('api/form')
 @UseInterceptors(LogInterceptor)
@@ -13,6 +14,7 @@ export class FormController {
 
     constructor(
         @InjectModel(Form.name) private formModel: Model<Form>,
+        private readonly formService: FormService,
     ) {}
 
     @Get('/submitted/:formType')
@@ -32,19 +34,7 @@ export class FormController {
 
     @Post('/start/:formType')
     async startForm(@Param('formType') formType: string, @Body() data: any) {
-        const id = this.generateFormId(formType)
-        const form = new this.formModel({
-            id: id,
-            formType: formType,
-            formStatus: 'PROGRESS',
-            data: data,
-            created: new Date(),
-            modified: new Date()
-        })
-
-        const saved = await form.save()
-        this.logger.log(`Started form ${id}`)
-        return { id: id }
+        return this.formService.startForm(formType, data)
     }
 
     @Put('/store/:id') 
@@ -79,8 +69,5 @@ export class FormController {
     }
 
 
-    private generateFormId(formType: string): string {
-        return `${formType.replace(' ', '_')}-${Date.now().toString().slice(-4)}`
-    }
     
 }

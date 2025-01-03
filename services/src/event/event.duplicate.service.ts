@@ -17,7 +17,7 @@ export class EventCreationService {
     ) {}
 
 
-    public async findEventDuplicateOrCreateNew(ctx: BookingSubmitCtx): Promise<Event> {
+    public async findEventDuplicateOrCreateNew(ctx: BookingSubmitCtx, params?: { skipEventSearch: boolean  }): Promise<Event> {
         const newEventName = this.processEventName(ctx.booking)
         
         const promoterEvents = await this.eventModel.find({
@@ -25,13 +25,16 @@ export class EventCreationService {
             startDate: { $gt: new Date() }
         })
 
-        for (let promoterEvent of promoterEvents) {
-            const nameDuplicated = this.isEventNameDuplicated(newEventName, promoterEvent.name)
-            if (nameDuplicated) {
-                this.logger.log(`Found event with similar name: ${newEventName} related to promoter: ${ctx.booking.promoterUid}`)
-                return promoterEvent
+        if (!params?.skipEventSearch) {
+            for (let promoterEvent of promoterEvents) {
+                const nameDuplicated = this.isEventNameDuplicated(newEventName, promoterEvent.name)
+                if (nameDuplicated) {
+                    this.logger.log(`Found event with similar name: ${newEventName} related to promoter: ${ctx.booking.promoterUid}`)
+                    return promoterEvent
+                }
             }
         }
+
         
         this.logger.log(`Not found event with similar name: ${newEventName}, related to promoter: ${ctx.booking.promoterUid}`)
         return this.createNewEvent(newEventName, ctx.booking)

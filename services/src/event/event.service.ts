@@ -32,8 +32,8 @@ export class EventService {
         return event
     }
 
-    public async processBookingForm(ctx: BookingSubmitCtx) {
-        const event = await this.eventCreationService.findEventDuplicateOrCreateNew(ctx)
+    public async processBookingForm(ctx: BookingSubmitCtx, params?: { skipEventSearch: boolean  }) {
+        const event = await this.eventCreationService.findEventDuplicateOrCreateNew(ctx, params)
         ctx.event = event
         ctx.booking.eventSignature = event.signature
     }

@@ -17,7 +17,7 @@
         ></app-bookings-section>
     </ng-container>
     
-    <app-mock-card 
+    <app-mock-card *ngIf="_emptyBookings"
         [header]="''"
         [message]="'You have no bookings...'"
         [showCloseButton]="false"

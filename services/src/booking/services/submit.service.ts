@@ -31,7 +31,7 @@ export class SubmitService {
         private readonly telegramService: TelegramService,
     ) {}
 
-    async submitForm(formId: string, profile: JwtPayload): Promise<BookingSubmitCtx> {
+    async submitForm(formId: string, profile: JwtPayload, params?: { skipEventSearch: boolean }): Promise<BookingSubmitCtx> {
         this.logger.log(`[START] submitting form ${formId}`)
         const form = await this.formService.findForm(formId)
         if (!form?.data) {
@@ -65,7 +65,7 @@ export class SubmitService {
         ctx.booking.status = 'SUBMITTED'
         BookingUtil.addStatusToHistory(ctx.booking, ctx.profile)
 
-        await this.eventService.processBookingForm(ctx)
+        await this.eventService.processBookingForm(ctx, params)
         
         await this.artistService.processBookingForm(ctx)
 
