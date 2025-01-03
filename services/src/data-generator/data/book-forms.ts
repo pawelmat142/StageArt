@@ -1,31 +1,14 @@
 import { SelectorItem } from "../../artist/artist.controller";
-import { Country } from "../../artist/model/artist.model";
 import { DateUtil } from "../../global/utils/date.util";
 
 export const getBookForm = (
-    name: string, 
-    eventCountry: Country,
     artist: SelectorItem,
     promoterInformation: any,
-    start: Date, 
-    end?: Date,
+    eventInformation: any
 ) =>  {
+  const date = eventInformation?.performanceStartDate ? new Date(eventInformation.performanceStartDate) : new Date()
     return {
-        eventInformation: {
-          performanceStartDate: start,
-          performanceEndDate: end,
-          eventName: name,
-          eventCountry: eventCountry,
-          venueName: "Piazza della Musica",
-          venueAddress: "45, 20121 Milan",
-          nearestAirport: "Milan Malpensa Airport",
-          website: "www.electricpulsefestival.it",
-          venueCapacity: "12000",
-          ticketPrice: "120 euro",
-          ageRestriction: "18",
-          recentArtistsPerformedInVenue: "",
-          videoLinkToRecentShow: "https://www.youtube.com/watch?v=TfZJaQQ9UYE"
-        },
+      eventInformation,
         promoterInformation,
         artistInformation: {
           artist: artist,
@@ -43,7 +26,7 @@ export const getBookForm = (
           doors: "main",
           curfew: "-",
           exclusivityRadiusIssues: "-",
-          offerExpiryDate: DateUtil.addMonths(start, -3)
+          offerExpiryDate: DateUtil.addMonths(date, -3)
         },
       }
     }

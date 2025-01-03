@@ -1,6 +1,5 @@
 import { Injectable, Logger } from "@nestjs/common"
 import { Profile } from "../../profile/model/profile.model"
-import { JwtPayload } from "../../profile/auth/jwt-strategy"
 import { BookingService } from "../../booking/services/booking.service"
 import { Booking, BookingStatus } from "../../booking/model/booking.model"
 import { DateUtil } from "../../global/utils/date.util"
@@ -11,13 +10,12 @@ import { ArtistViewDto } from "../../artist/model/artist-view.dto"
 import { Util } from "../../global/utils/util"
 import { EventData } from "./event-data"
 import { Gen } from "../gen.util"
+import { Country } from "../../artist/model/artist.model"
 
 @Injectable()
 export class BookingsGenerator {
 
     private readonly logger = new Logger(this.constructor.name)
-
-    private readonly now = new Date()
 
     constructor(
         private readonly bookingService: BookingService,
@@ -58,20 +56,25 @@ export class BookingsGenerator {
         }
         this._eventNames = []
         const eventName = 'Sunset Reverie'
-        this.BOOKINGS.push(await this.generateBooking(promoter, this.ARTISTS[0], 'READY', -22, 1, eventName))
-        this.BOOKINGS.push(await this.generateBooking(promoter, this.ARTISTS[0], 'READY', -18, undefined, eventName))
-        this.BOOKINGS.push(await this.generateBooking(promoter, this.ARTISTS[0], 'READY', -10, 2, eventName))
-        this.BOOKINGS.push(await this.generateBooking(promoter, this.ARTISTS[0], 'READY', -2, undefined, eventName))
-        this.BOOKINGS.push(await this.generateBooking(promoter, this.ARTISTS[0], 'READY', 4, undefined, eventName))
-        this.BOOKINGS.push(await this.generateBooking(promoter, this.ARTISTS[0], 'READY', 5, 2, eventName))
-        this.BOOKINGS.push(await this.generateBooking(promoter, this.ARTISTS[0], 'READY', 7, undefined, eventName))
+        const months1 = [ -22, -18, -10, -2, 4, 5, 7]
+        for (let i = 0; i < months1.length; i++) {
+            const addMonths = months1[i];
+            const event = this.getEventInformation(`${eventName}`, COUNTRIES[6], addMonths, 1)
+            const booking = await this.generateBooking(promoter, this.ARTISTS[0], event, 'READY')
+        }
+        const eventName1 = 'Into the Horizon'
+        const months2 = [  -3, -2, -1, 0, 1, 2, 3]
+        for (let i = 0; i < months2.length; i++) {
+            const addMonths = months2[i];
+            const event = this.getEventInformation(`${eventName1}`, COUNTRIES[5], addMonths, 1)
+            const booking = await this.generateBooking(promoter, this.ARTISTS[8], event, 'READY')
+        }
+        await this.generateBooking(promoter, this.ARTISTS[1], this.getRandomEventInfo(7), 'DOCUMENTS')
+        await this.generateBooking(promoter, this.ARTISTS[2], this.getRandomEventInfo(9), 'READY')
 
-        this.BOOKINGS.push(await this.generateBooking(promoter, this.ARTISTS[1], 'DOCUMENTS', 7))
-        this.BOOKINGS.push(await this.generateBooking(promoter, this.ARTISTS[2], 'READY', 9))
-
-        this.BOOKINGS.push(await this.generateBooking(promoter, this.ARTISTS[3], 'DOCUMENTS', -8))
-        this.BOOKINGS.push(await this.generateBooking(promoter, this.ARTISTS[3], 'READY', -16))
-        this.BOOKINGS.push(await this.generateBooking(promoter, this.ARTISTS[3], 'READY', -32))
+        await this.generateBooking(promoter, this.ARTISTS[3], this.getRandomEventInfo(-8), 'DOCUMENTS')
+        await this.generateBooking(promoter, this.ARTISTS[3], this.getRandomEventInfo(-10), 'READY')
+        await this.generateBooking(promoter, this.ARTISTS[3], this.getRandomEventInfo(-22), 'READY')
         this.logger.log(`[STOP] promoter ZERO bookings generate`)
     }
 
@@ -83,48 +86,44 @@ export class BookingsGenerator {
             return
         }
         this._eventNames = []
-        const eventName = 'Victory Anthem'
-        this.BOOKINGS.push(await this.generateBooking(promoter, this.ARTISTS[0], 'READY', -6, undefined, eventName))
-        this.BOOKINGS.push(await this.generateBooking(promoter, this.ARTISTS[0], 'READY', -4, undefined, eventName))
-        this.BOOKINGS.push(await this.generateBooking(promoter, this.ARTISTS[0], 'READY', -2, undefined, eventName))
-        this.BOOKINGS.push(await this.generateBooking(promoter, this.ARTISTS[0], 'READY', 0, undefined, eventName))
-        this.BOOKINGS.push(await this.generateBooking(promoter, this.ARTISTS[0], 'READY', -2, undefined, eventName))
-        this.BOOKINGS.push(await this.generateBooking(promoter, this.ARTISTS[0], 'READY', -4, undefined, eventName))
-
-        this.BOOKINGS.push(await this.generateBooking(promoter, this.ARTISTS[4], 'READY', -1, 2))
-        this.BOOKINGS.push(await this.generateBooking(promoter, this.ARTISTS[4], 'READY', -2))
-        this.BOOKINGS.push(await this.generateBooking(promoter, this.ARTISTS[4], 'SUBMITTED', -4, 2))
-        this.BOOKINGS.push(await this.generateBooking(promoter, this.ARTISTS[4], 'CHECKLIST_COMPLETE', -7))
-        this.BOOKINGS.push(await this.generateBooking(promoter, this.ARTISTS[5], 'DOCUMENTS', 3))
-        this.BOOKINGS.push(await this.generateBooking(promoter, this.ARTISTS[5], 'SUBMITTED', 5, 1))
-        this.BOOKINGS.push(await this.generateBooking(promoter, this.ARTISTS[5], 'CANCELED', 7, 2))
-        this.BOOKINGS.push(await this.generateBooking(promoter, this.ARTISTS[5], 'CANCELED', 14))
+        const eventName = 'Victory Anthem';
+        const months = [ -6, -4, -2, 0, 2, 4]
+        for (let i = 0; i < months.length; i++) {
+            const addMonths = months[i];
+            const event = this.getEventInformation(`${eventName}`, COUNTRIES[4], addMonths, 1)
+            const booking = await this.generateBooking(promoter, this.ARTISTS[7], event, 'READY')
+        }
+        await this.generateBooking(promoter, this.ARTISTS[4], this.getRandomEventInfo(-1, -2), 'READY')
+        await this.generateBooking(promoter, this.ARTISTS[4], this.getRandomEventInfo(-2), 'READY')
+        await this.generateBooking(promoter, this.ARTISTS[4], this.getRandomEventInfo( -4, 2), 'SUBMITTED')
+        await this.generateBooking(promoter, this.ARTISTS[4], this.getRandomEventInfo(-7), 'CHECKLIST_COMPLETE')
+        await this.generateBooking(promoter, this.ARTISTS[5], this.getRandomEventInfo(3), 'DOCUMENTS')
+        await this.generateBooking(promoter, this.ARTISTS[5], this.getRandomEventInfo(5, 1), 'SUBMITTED')
+        await this.generateBooking(promoter, this.ARTISTS[5], this.getRandomEventInfo(7), 'CANCELED')
+        await this.generateBooking(promoter, this.ARTISTS[5], this.getRandomEventInfo(14), 'CANCELED')
         this.logger.log(`[STOP] promoter ONE bookings generate`)
     }
 
-    private async generateBooking(promoter: Profile, artist: ArtistViewDto, status: BookingStatus, startsAfterMonths: number, days?: number, name?: string): Promise<Booking> {
-        const start = DateUtil.afterMonths(startsAfterMonths, -startsAfterMonths)
-        const end = days? DateUtil.addDays(start, days) : undefined 
+    private getRandomEventInfo(startsAfterMonths: number, days?: number) {
+        return this.getEventInformation(this.getEventName(), Gen.randomCountry(), startsAfterMonths, days)
+    }
 
+    private async generateBooking(promoter: Profile, artist: ArtistViewDto, event: any, status: BookingStatus): Promise<Booking> {
         const i = this.boookingsIterator++
-        const eventCountry = COUNTRIES[i]
-
+        this.logger.log(`[START] ${i} Generate booking`)
         const promoterInformation = this.promoterInfoFromProfie(promoter, i)
+        const eventInformation = event ? event : this.getRandomEventInfo(3+(2*i), 1)
 
-        const eventName = this.getEventName(name)
-        console.log(eventName)
+        const start = new Date(eventInformation.performanceStartDate)
 
         const bookForm = getBookForm(
-            eventName,
-            eventCountry,
             { code: artist.signature, name: artist.name },
             promoterInformation,
-            start,
-            end
+            eventInformation
         );
 
         const { formId } = await this.formService.startForm('BOOKING', bookForm)
-        const booking = await this.bookingService.submitForm(formId, Gen.toJwtProfile(promoter), { skipEventSearch: true })
+        const booking = await this.bookingService.submitForm(formId, Gen.toJwtProfile(promoter), { skipValidateDuplicate: true })
 
         const statusBefore = booking.status
         if (start < DateUtil.NOW ) {
@@ -136,6 +135,8 @@ export class BookingsGenerator {
             await this.bookingService.update(booking)
         }
         this.logger.log(`Generated booking ${bookForm.eventInformation.eventName}`)
+        this.BOOKINGS.push(booking)
+        this.logger.log(`[STOP] ${i} Generate booking`)
         return booking
     }
 
@@ -168,6 +169,26 @@ export class BookingsGenerator {
             experienceInOrganizingEvents: "12",
             significantOrganizedPastEvents: ""
           }
+    } 
+
+    private getEventInformation(name: string, country: Country, startsAfterMonths: number, days?: number): any {
+        const start = DateUtil.afterMonths(startsAfterMonths, -startsAfterMonths)
+        const end = days? DateUtil.addDays(start, days) : undefined 
+        return {
+            performanceStartDate: start,
+            performanceEndDate: end,
+            eventName: name,
+            eventCountry: country,
+            venueName: "Piazza della Musica",
+            venueAddress: "45, 20121 Milan",
+            nearestAirport: "Milan Malpensa Airport",
+            website: "www.electricpulsefestival.it",
+            venueCapacity: "12000",
+            ticketPrice: "120 euro",
+            ageRestriction: "18",
+            recentArtistsPerformedInVenue: "",
+            videoLinkToRecentShow: "https://www.youtube.com/watch?v=TfZJaQQ9UYE"
+        }
     } 
 
 }

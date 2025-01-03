@@ -19,8 +19,6 @@ export class DataGeneratorService {
 
     private readonly logger = new Logger(this.constructor.name)
 
-    private readonly now = new Date()
-
     constructor(
         private readonly profileService: ProfileService,
         private readonly profileEmailService: ProfileEmailService,

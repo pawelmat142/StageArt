@@ -1,6 +1,8 @@
+import { Country } from "../artist/model/artist.model"
 import { Util } from "../global/utils/util"
 import { JwtPayload } from "../profile/auth/jwt-strategy"
 import { Profile } from "../profile/model/profile.model"
+import { COUNTRIES } from "./data/countries"
 
 export abstract class Gen {
 
@@ -18,6 +20,12 @@ export abstract class Gen {
             name: profile.name,
             roles: profile.roles,
         } as JwtPayload
+    }
+
+    public static randomCountry(): Country {
+        const countries = COUNTRIES
+        const randomIndex = Math.floor(Math.random() * countries.length);
+        return countries[randomIndex];
     }
 
     public static getRandomParagraphs(paragraphs?: number) {

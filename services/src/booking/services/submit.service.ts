@@ -31,7 +31,7 @@ export class SubmitService {
         private readonly telegramService: TelegramService,
     ) {}
 
-    async submitForm(formId: string, profile: JwtPayload, params?: { skipEventSearch: boolean }): Promise<BookingSubmitCtx> {
+    async submitForm(formId: string, profile: JwtPayload, params?: { skipValidateDuplicate: boolean }): Promise<BookingSubmitCtx> {
         this.logger.log(`[START] submitting form ${formId}`)
         const form = await this.formService.findForm(formId)
         if (!form?.data) {
