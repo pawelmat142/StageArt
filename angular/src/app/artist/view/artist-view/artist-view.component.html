@@ -61,6 +61,12 @@
 
             <div class="book-now-btn">
                 <p-button 
+                    (click)="_viewAll()" 
+                    [raised]="true"
+                    label="View all"
+                    class="primary-btn"
+                ></p-button>
+                <p-button 
                     class="primary-btn"
                     (click)="_onBookNow(artist)" 
                     [raised]="true" 
@@ -92,13 +98,7 @@
                 <app-bio class="bio-tile"></app-bio>
 
                 <ng-container *ngIf="_timeline$.asObservable() | async as timeline">
-                    <div class="tile big" *ngIf="timeline.length">
-                        <p class="tile-header chip-label">Timeline</p>
-    
-                        <div class="tile-content">
-                            <app-timeline [timeline]="timeline"></app-timeline>
-                        </div>
-                    </div>
+                    <app-timeline class="timeline artist-timeline" [timeline]="timeline"></app-timeline>
                 </ng-container>
 
                 @if (artist.managmentNotes) {

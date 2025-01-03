@@ -1,0 +1,32 @@
+<p-timeline [value]="timeline" [align]="'alternate'" >
+        
+    <ng-template pTemplate="marker" let-event>
+        <div class="marker">
+            <i [class]="'pi pi-bookmark-fill'"></i>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="opposite" let-event>
+        <div class="opposite" *ngIf="event.formId === 'TODAY' && event.formData?.eventInformation?.performanceStartDate">
+            <div class="text-color">Today</div>
+        </div>
+        <div class="opposite" *ngIf="event.formId !== 'TODAY' && event.formData?.eventInformation?.performanceStartDate">
+            <span *ngIf="!event.formData?.eventInformation?.performanceEndDate">{{event.formData?.eventInformation?.performanceStartDate | date }}</span>
+            <span *ngIf="event.formData?.eventInformation?.performanceEndDate">{{event.formData?.eventInformation?.performanceStartDate | date : 'MMM dd' }}</span>
+            <span *ngIf="event.formData?.eventInformation?.performanceEndDate"> - {{event.formData?.eventInformation?.performanceEndDate | date }}</span>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="content" let-event>
+        <div class="content" *ngIf="event.formId !== 'TODAY'">
+            <p-card 
+                [header]="event?.formData?.eventInformation?.eventName" 
+                [subheader]="event?.formData?.eventInformation?.venueName">
+
+                <app-country [countryCode]="event?.formData?.eventInformation?.eventCountry?.code"></app-country>
+                <div class="link" *ngIf="event?.formData?.eventInformation?.website">{{event?.formData?.eventInformation?.website}}</div>
+            </p-card>
+        </div>
+    </ng-template>
+    
+</p-timeline>

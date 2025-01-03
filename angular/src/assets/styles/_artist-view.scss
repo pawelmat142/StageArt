@@ -41,3 +41,19 @@
 .chip .pi { 
     color: black;
 }
+
+@media only screen and (min-width: $desktop) {
+    .view-content {
+        .grid-container {
+            &.two {
+                .tiles-column {
+                    gap: 0;
+                    .tile {
+                        margin-bottom: 2*$padding-standard;
+                    }
+                }
+            }
+        }
+
+    }
+}

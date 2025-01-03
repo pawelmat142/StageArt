@@ -52,7 +52,7 @@ export class ArtistsSectionComponent {
   }
 
   _viewAll() {
-    this.nav.to(Path.ARTISTS_LIST_VIEW)
+    this.nav.toArtists()
   }
 
 }

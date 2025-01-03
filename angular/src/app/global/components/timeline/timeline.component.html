@@ -1,27 +1,26 @@
-<p-timeline [value]="timeline" [align]="'alternate'">
 
-    <ng-template pTemplate="marker" let-event>
-        <div class="marker">
-            <i [class]="'pi pi-bookmark-fill'"></i>
-        </div>
-    </ng-template>
+<ng-container *ngIf="timeline.length > 1">
+    <div class="tile big" *ngIf="timeline.length">
 
-    <ng-template pTemplate="opposite" let-event>
-        <div class="opposite" *ngIf="event.formData?.eventInformation?.performanceStartDate">
-            <span *ngIf="!event.formData?.eventInformation?.performanceEndDate">{{event.formData?.eventInformation?.performanceStartDate | date }}</span>
-            <span *ngIf="event.formData?.eventInformation?.performanceEndDate">{{event.formData?.eventInformation?.performanceStartDate | date : 'MMM dd' }}</span>
-            <span *ngIf="event.formData?.eventInformation?.performanceEndDate"> - {{event.formData?.eventInformation?.performanceEndDate | date }}</span>
-        </div>
-    </ng-template>
+        <div class="subheader">
+            <div class="tile-header">Events timeline</div>
 
-    <ng-template pTemplate="content" let-event>
-        <div class="content">
-            <p-card [header]="event?.formData?.eventInformation?.eventName" [subheader]="event?.formData?.eventInformation?.eventCountry?.name">
-                <p *ngIf="event?.formData?.eventInformation?.venueName">{{event?.formData?.eventInformation?.venueName}}</p>
-                <div></div>
-                <p *ngIf="event?.formData?.eventInformation?.website">{{event?.formData?.eventInformation?.website}}</p>
-            </p-card>
+            <ng-container >
+            </ng-container>
         </div>
-    </ng-template>
-    
-</p-timeline>
+            
+    <div class="tile-content">
+
+        <p-accordion value="0" *ngIf="past.length">
+            <p-accordionTab header="Show past events">
+                <ng-template pTemplate="content">
+                    <app-timeline-items [timeline]="past"></app-timeline-items>
+                </ng-template>
+            </p-accordionTab>
+        </p-accordion>
+
+        <app-timeline-items [timeline]="timeline"></app-timeline-items>
+    </div>
+
+    </div>
+</ng-container>

@@ -19,7 +19,7 @@
 .tile-content {
     padding: $padding-standard $padding-standard 0;
     &.tile-textarea {
-        padding: 0.5*$padding-standard 0.5*$padding-standard 0; 
+        padding: 0.5*$padding-standard 0.5*$padding-standard; 
         .textarea {
             display: block;
             padding: 0.5*$padding-standard;

@@ -58,6 +58,11 @@ export class NavService {
     this.to(Path.BOOK_FORM_VIEW)
   }
 
+
+  public toArtists() {
+    this.to(Path.ARTISTS_LIST_VIEW)
+  }
+
   public toArtist(artistName: string) {
     return this.router.navigate(['artist', artistName])
   }

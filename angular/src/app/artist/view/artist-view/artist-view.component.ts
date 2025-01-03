@@ -117,6 +117,10 @@ export class ArtistViewComponent {
     })
   }
 
+  _viewAll() {
+    this.nav.toArtists()
+  }
+
   _editToggle() {
     this.store.dispatch(startEditArtist())
   }

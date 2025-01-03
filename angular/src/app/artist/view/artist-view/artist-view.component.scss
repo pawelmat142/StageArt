@@ -36,6 +36,7 @@ $view-padding: 4*$padding-standard;
     display: flex;
     justify-content: flex-end;
     align-self: flex-end;
+    gap: $padding-standard;
 }
 
 .view-content {
@@ -107,8 +108,10 @@ $view-padding: 4*$padding-standard;
                 padding-bottom: 4*$padding-standard;
     
                 .tiles-column {
-                    gap: 2*$padding-standard;
-
+                    gap: 0;
+                    .tile {
+                        margin-bottom: $padding-standard;
+                    }
                     &.right-on-desktop {
                         order: 2;
                     }
