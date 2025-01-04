@@ -59,10 +59,11 @@ export class FormProcessorService {
     return this.http.get<Form>(`/form/open/${id}`)
   }
 
-  startForm$(form: Form): Observable<{ id: string }> {
-    return this.http.post<{ id: string }>(`/form/start/${form.formType}`, form.data)
+  startForm$(form: Form): Observable<{ formId: string }> {
+    return this.http.post<{ formId: string }>(`/form/start/${form.formType}`, form.data)
     .pipe(tap(id => {
-      localStorage.setItem(form.formType, id.id)
+      console.log(id)
+      localStorage.setItem(form.formType, id.formId)
     }))
   }
 

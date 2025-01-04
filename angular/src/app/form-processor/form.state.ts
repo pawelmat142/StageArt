@@ -99,7 +99,7 @@ export const formReducer = createReducer(
         form: {
             ...state.form,
             id: '',
-            data: null,
+            data: state.form?.data,
         }
     })),
     
@@ -146,13 +146,14 @@ export const formReducer = createReducer(
         loading: false,
     })),
 
-    on(setFormId, (state, id) => ({
-        ...state,
+    on(setFormId, (state, id) => {
+        return {
+            ...state,
         form: {
             ...state.form,
             id: id.id
         }
-    })),
+    }}),
 
     on(submittedForm, (state) => ({
         ...state,
@@ -201,7 +202,10 @@ export class FormEffect {
         map(arr => arr[1]),
 
         switchMap(form => this.formProcessorService.startForm$(form)),
-        map(id => setFormId(id))
+        map(id => {
+            console.log(id)
+            return setFormId({ id: id.formId })
+        })
     ))
 
     setFormId$ = createEffect(() => this.actions$.pipe(
@@ -233,19 +237,30 @@ export class FormEffect {
 
 
     private setBookingFormInitialData() {
-        forkJoin([
-            this.selectEventInfoFromPreviousPromoterEventsPopup$(),
-            this.bookingService.findPromoterInfo$()
-        ]).pipe(
-            tap(([eventInformation, promoterInformation]) => {
-                if (eventInformation) {
-                    const data = {
-                        eventInformation,
-                        promoterInformation
-                    }
-                    this.store.dispatch(setFormData(data))
-                }
-                this.store.dispatch(setFormData(undefined))
+        this.store.select(formData).pipe(
+            take(1),
+            switchMap(currentFormData => {
+                console.log('currentFormData')
+                console.log(currentFormData)
+                const currentEventInformation = currentFormData?.eventInformation?.performanceStartDate
+                return forkJoin([
+                    currentEventInformation 
+                        ? of(undefined) 
+                        : this.selectEventInfoFromPreviousPromoterEventsPopup$(),
+                    this.bookingService.findPromoterInfo$()
+                ]).pipe(
+                    tap(([eventInformation, promoterInformation]) => {
+                        let formData = currentFormData ? JSON.parse(JSON.stringify(currentFormData)) : {}
+                        if (eventInformation) {
+                            formData.eventInformation = eventInformation
+                        }
+                        if (promoterInformation) {
+                            formData.promoterInformation = promoterInformation
+                        }
+                        console.log('set FormDAT')
+                        console.log(formData)
+                        this.store.dispatch(setFormData(formData))
+                    }))
             })
         ).subscribe()
     }

@@ -35,9 +35,9 @@ export abstract class FormUtil {
                 if (Array.isArray(controlData)) {
                     control.controls.forEach((ctrl, i) => {
                         if (ctrl instanceof FormGroup) {
-                            const ctrlData = controlData[i]
-                            if (ctrlData) {
-                                ctrl.setValue(ctrlData)
+                            let groupData = controlData[i]
+                            if (groupData) {
+                                ctrl.setValue(groupData)
                             }
                         }
 
@@ -45,7 +45,7 @@ export abstract class FormUtil {
                 }
             } else if (control instanceof FormControl) {
                 if (controlData) {
-                    control.setValue(controlData)
+                    this.setControlValue(control, controlData)
                 }
             } else if (control instanceof FormGroup) {
                 if (controlData) {
@@ -54,6 +54,15 @@ export abstract class FormUtil {
             } 
             
         })
+    }
+
+    private static setControlValue(control: FormControl, value: any) {
+        const date = new Date(value)
+        if (!isNaN(date.getTime())) {
+            control.setValue(date)
+        } else {
+            control.setValue(value)
+        }
     }
 
     public static prepareFormControl(control: pFormControl): FormControl {

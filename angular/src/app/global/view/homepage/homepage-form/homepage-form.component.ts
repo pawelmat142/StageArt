@@ -10,10 +10,10 @@ import { AppState } from '../../../../app.state';
 import { Store } from '@ngrx/store';
 import { selectArtists } from '../../../../artist/artists.state';
 import { ArtistUtil } from '../../../../artist/artist.util';
-import { map, mergeMap, Observable, of } from 'rxjs';
+import { filter, from, map, mergeMap, Observable, of, switchMap, tap, withLatestFrom } from 'rxjs';
 import { CalendarModule } from 'primeng/calendar';
 import { SelectorItem } from '../../../interface';
-import { setFormData } from '../../../../form-processor/form.state';
+import { formData, FormType, setFormData, startForm } from '../../../../form-processor/form.state';
 import { NavService } from '../../../nav/nav.service';
 import { Path } from '../../../nav/path';
 import { FormUtil } from '../../../utils/form.util';
@@ -76,7 +76,7 @@ export class HomepageFormComponent implements OnInit {
     }
     const { artist, country, date } = this.form.value
     const performanceStartDate = date ? new Date(date) : undefined
-    const formData = {
+    const dataToPrefill = {
       eventInformation: {
         performanceStartDate,
         eventCountry: country,
@@ -86,16 +86,44 @@ export class HomepageFormComponent implements OnInit {
       },
       promoterInformation: undefined
     }
-    this.bookingService.findPromoterInfo$().subscribe(promoterInfo => {
-      if (promoterInfo) {
-        formData.promoterInformation = promoterInfo
-      }
+    this.nav.logInBeforePopup().pipe(
+      switchMap(result => {
+        if (result === true) {
+          return this.prefillBookForm$(dataToPrefill).pipe(map(()=> {
+            this.nav.to(Path.LOGIN)
+          }))
+        } 
+        else if (result === false) {
+          return of()
+        } 
+        else {
+          return this.prefillBookForm$(dataToPrefill).pipe(map(() => {
+            this.nav.bookNow()
+          }))
+        }
+      }),
+    ).subscribe()
+  }
 
-      this.nav.to(Path.BOOK_FORM_VIEW)
-      setTimeout(() => {
+  private prefillBookForm$(dataToPrefill: any): Observable<void> {
+    return this.bookingService.findPromoterInfo$().pipe(
+      withLatestFrom(this.store.select(formData)),
+      map(([promoterInfo, currentFormData]) => {
+        const formData = currentFormData ? JSON.parse(JSON.stringify(currentFormData)) : {}
+        console.log(formData)
+        if (promoterInfo) {
+          formData.promoterInformation = promoterInfo
+        }
+        if (dataToPrefill?.artistInformation) {
+          formData.artistInformation = dataToPrefill?.artistInformation
+        }
+        if (dataToPrefill?.eventInformation) {
+          formData.eventInformation = dataToPrefill.eventInformation
+        }
+        localStorage.removeItem(FormType.BOOKING) // skip load already opened form state
         this.store.dispatch(setFormData(formData))
-      })
-    })
+      }),
+    )
   }
 
   private updateDisabledDates$(artist: SelectorItem | null): Observable<void> {

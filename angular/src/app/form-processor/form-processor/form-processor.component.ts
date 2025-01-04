@@ -6,7 +6,7 @@ import { ArrayComponent } from "../array/array.component";
 import { pForm, pFormArray, pFormStep } from '../form-processor.service';
 import { Store } from '@ngrx/store';
 import { skip, Subscription, take, tap } from 'rxjs';
-import { formData, FormType, newForm, openForm, selectFormId, startForm, storeForm } from '../form.state';
+import { formData, FormType, newForm, openForm, selectFormId, setFormData, startForm, storeForm } from '../form.state';
 import { FormUtil } from '../../global/utils/form.util';
 import { AppState } from '../../app.state';
 import { Dialog, DialogData } from '../../global/nav/dialog.service';
@@ -57,6 +57,7 @@ export class FormProcessorComponent {
 
   ngOnInit(): void {
     this.subscriptions.push(this.store.select(formData).pipe(
+      tap(console.log),
       tap(formData => this.formData = formData),
     ).subscribe(formData => {
       this.recreateArrayStepGroups()
@@ -162,6 +163,7 @@ export class FormProcessorComponent {
   }
   
   private resetForm() {
+    this.store.dispatch(setFormData({}))
     this.store.dispatch(newForm())
     this.stepIndex = 0
     this.setStep()
@@ -262,12 +264,12 @@ export class FormProcessorComponent {
 
 
   private startOrStoreFormAction() {
-    const formdata = this.formGroup.value
+    const formData = this.formGroup.value
     const formId = this.getFormId()
     if (formId) {
-      this.store.dispatch(storeForm(formdata))
+      this.store.dispatch(storeForm(formData))
     } else {
-      this.store.dispatch(startForm(formdata))
+      this.store.dispatch(startForm(formData))
     }
   }
 

@@ -133,6 +133,7 @@ export class BookingService {
         const booking = await this.bookingModel.findOne({ promoterUid: uid })
             .sort({ created: -1 })
             .select({ formData: true })
+            .exec()
 
         const promoterInformation = booking?.formData?.promoterInformation
         if (promoterInformation) {

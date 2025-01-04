@@ -24,7 +24,6 @@ import { CommonModule } from '@angular/common';
   styleUrl: './homepage.component.scss',
 })
 export class HomepageComponent {
-
   readonly $desktop = $desktop
 
   public static readonly path = 'home'
