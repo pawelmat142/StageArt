@@ -196,12 +196,15 @@ app-dropdown.ng-dirty.ng-invalid .p-component,
     }
 }
 .p-dropdown-filter-container {
-    height: 50px;
+    height: 38px;
+    input {
+        height: 100%;
+    }
 }
-.p-dropdown-filter-icon {
-    margin-top: -10px;
+.p-dropdown-panel .p-dropdown-header .p-dropdown-filter-icon {
+    color: $formColor;
+    margin-top: -8px;
 }
-
 
 .separation {
     margin-bottom: 2*$padding-standard;

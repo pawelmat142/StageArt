@@ -78,7 +78,7 @@
 
         <div class="grid-container two">
 
-            <div class="show-mobile style-tile">
+            <div *ngIf="!$desktop" class="style-tile">
                 <div class="tile big">
                     <p class="tile-header chip-label">Styles</p>
                     <app-style></app-style>

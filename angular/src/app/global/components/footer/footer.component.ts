@@ -32,11 +32,6 @@ export class FooterComponent {
   async _clipboard(content: string) {
     await navigator.clipboard.writeText(content)
     this.dialog.succesToast(content, `Copied to clipboard`)
-
-  }
-
-  _telegram() {
-    console.log('telegram')
   }
 
   _nav(path: string) {

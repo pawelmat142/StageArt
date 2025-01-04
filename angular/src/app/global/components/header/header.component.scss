@@ -46,3 +46,15 @@
         text-shadow: $text-shadow;
     }
 }
+
+.header-section h1 {
+    font-size: 1rem;
+}
+
+@media only screen and (min-width: $desktop) {
+
+    .header-section h1 {
+        font-size: unset;
+    }
+
+}

@@ -10,6 +10,7 @@ import { ArtistLabel, ArtistStyle } from '../../../model/artist-view.dto';
 import { Validators } from '@angular/forms';
 import { TooltipModule } from 'primeng/tooltip';
 import { IconComponent } from '../../../../global/components/icon/icon.component';
+import { $desktop } from '../../../../global/tools/media-query';
 
 
 @Component({
@@ -24,6 +25,8 @@ import { IconComponent } from '../../../../global/components/icon/icon.component
   styleUrl: './style.component.scss',
 })
 export class StyleComponent {
+
+  readonly $desktop = $desktop
 
   constructor(
     private readonly store: Store<AppState>,

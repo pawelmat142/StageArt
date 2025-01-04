@@ -16,16 +16,20 @@
             <p-card class="desktop-event-tile"
                 [header]="event?.formData?.eventInformation?.eventName" 
                 [subheader]="event?.formData?.eventInformation?.venueName">
-
                 <app-country [countryCode]="event?.formData?.eventInformation?.eventCountry?.code"></app-country>
                 <div class="link" *ngIf="event?.formData?.eventInformation?.website">{{event?.formData?.eventInformation?.website}}</div>
             </p-card>
 
-            <p-card class="mobile-event-tile"
+            <p-card class="mobile-event-tile" 
                 [header]="event?.formData?.eventInformation?.eventName" 
                 [subheader]="(event.formData?.eventInformation?.performanceStartDate | date) || ''">
             </p-card>
         </div>
+
+        <div *ngIf="event.formId === 'TODAY'" class="mobile-event-tile">
+            <div class="text-color">Today</div>
+        </div>
+
     </ng-template>
     
 </p-timeline>

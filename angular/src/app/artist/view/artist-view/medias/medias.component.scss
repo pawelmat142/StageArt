@@ -13,12 +13,14 @@
         width: 25px;
     }
 
-    position: relative;
-
     .edit-button {
         right: 27px;
-        top: 20px;
     }
+}
+
+.dropdown-wrapper {
+    display: flex;
+    position: relative;
 }
 
 app-media-item {
@@ -30,7 +32,6 @@ app-media-item {
     .medias {
         .edit-button {
             right: 20px;
-            top: 20px;
             bottom: unset;
             left: unset;
         }

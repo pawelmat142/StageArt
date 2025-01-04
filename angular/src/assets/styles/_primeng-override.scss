@@ -6,6 +6,8 @@
 .mobile-menu-container {
     .p-button {
         color: $primaryColor;
+        padding-right: .5*$padding-standard;
+        padding-right: 0;
     }
 }
 
@@ -162,6 +164,14 @@
     }
 }
 
+@media only screen and (min-width: $desktop) {
+    .p-carousel-container {
+        .p-link {
+            display: flex;
+        }
+    }
+}
+
 .p-carousel-indicators {
     margin-top: $padding-standard;
     gap: $padding-standard;
@@ -265,13 +275,23 @@
         }
     }
 }
+.medias {
+ .floating {
+    .p-overlay {
+        left: unset!important;
+        right: 0;
+        min-width: 250px;
+        top: 110%;
+    }
+ }       
+}
 .p-dropdown-item.p-focus {
     background-color: inherit ; /* Remove highlight */
 }
 .p-dropdown-panel .p-dropdown-items .p-dropdown-item {
     padding: 0;
     .item-template {
-        padding: 0.75rem 75rem;
+        padding: 0.75rem .75rem;
 
         &.with-image {
             padding: 0.4rem .75rem;

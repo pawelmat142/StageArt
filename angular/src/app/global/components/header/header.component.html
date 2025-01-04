@@ -1,8 +1,8 @@
 <div class="header" >
     <div class="header-container section-margin">
 
-        <div class="header-section hovergrow" (click)="_home()">
-            <app-logo  class="header-logo" size="60" dropColor="red" [showDrop]="true"></app-logo>
+        <div class="header-section">
+            <app-logo  class="header-logo hovergrow" size="60" dropColor="red" [showDrop]="true" (click)="_home()"></app-logo>
     
             <h1 *ngIf="label" class="fs2 baron primary">{{label}}</h1>
         </div>

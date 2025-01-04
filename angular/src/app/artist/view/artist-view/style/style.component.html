@@ -21,7 +21,7 @@
 
 <ng-container *ngIf="((_labels$ | async) || []) as labels">
 
-    <p class="show-mobile tile-header chip-label margin-top">Labels</p>
+    <p *ngIf="!$desktop" class="tile-header chip-label margin-top">Labels</p>
     <div class="chips">
         @for (label of labels; track label.id) {
             <div class="chip primary-chip">

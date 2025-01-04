@@ -11,6 +11,7 @@ import { StyleComponent } from '../style/style.component';
 import { ArtistService } from '../../../artist.service';
 import { SelectorItem } from '../../../../global/interface';
 import { DropdownComponent } from "../../../../global/controls/dropdown/dropdown.component";
+import { $desktop } from '../../../../global/tools/media-query';
 
 @Component({
   selector: 'app-name',
@@ -26,6 +27,8 @@ import { DropdownComponent } from "../../../../global/controls/dropdown/dropdown
   styleUrl: './name.component.scss'
 })
 export class NameComponent {
+  
+  readonly $desktop = $desktop
   
   constructor(
     private readonly countriesService: CountriesService,
