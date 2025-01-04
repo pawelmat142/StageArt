@@ -42,6 +42,10 @@
 }
 
 // ACCORDION
+.item-row.tile-style {
+    color: $textColor;
+}
+
 .item-row.tile-style,
 .p-accordion .p-accordion-header .p-accordion-header-link {
     font-weight: normal;
@@ -83,6 +87,12 @@
                     transform: rotate(180deg);
                 }
             }
+        }
+    }
+
+    &.padding {
+        .p-accordion .p-accordion-header .p-accordion-header-link {
+            padding: $padding-standard;
         }
     }
 }

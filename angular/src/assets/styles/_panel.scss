@@ -88,6 +88,13 @@
     @extend .item-row-buttons;
 }
 
+.section-buttons {
+    display: flex;
+    gap: $padding-standard;
+}
+.panel-breadcrump {
+    margin-bottom: $padding-standard;
+}
 
 @media only screen and (min-width: $desktop) {
     .item-row-collapse-content { 

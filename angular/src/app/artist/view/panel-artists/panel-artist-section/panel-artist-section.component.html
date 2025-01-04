@@ -1,0 +1,96 @@
+<div class="panel-section-header margin-bottom">
+    <h2 class="fs3 bold">{{artist.name}}</h2>
+</div>
+
+<div class="section-buttons btns margin-bottom">
+
+    <p-button 
+        (click)="this._artistView(artist)" 
+        [raised]="true"
+        severity="success" 
+        label="Go to artist view">
+    </p-button>
+
+    <p-button *ngIf="['ACTIVE'].includes(artist.status)"
+        (click)="_deactivate(artist)" 
+        [raised]="true"
+        severity="warning" 
+        label="Deactivate">
+    </p-button>
+
+    <p-button *ngIf="['READY', 'INACTIVE'].includes(artist.status)"
+        (click)="_activate(artist)" 
+        [raised]="true"
+        severity="success" 
+        label="Activate">
+    </p-button>
+</div>
+
+<div class="margin-bottom">
+    <p-accordion value="0" class="my-accordion padding margin-top margin-bottom"
+        [(activeIndex)]="activeIndexManagementNotes" 
+        (activeIndexChange)="_toggleManagementNotes($event)"
+    >
+        <p-accordionTab header="Edit management notes">
+            <ng-template pTemplate="content">
+    
+                <div class="content-management-notes">
+                    <app-form-field label="Management notes">
+                        <app-textarea-element
+                            [class.active]="false"
+                            class="margin-bottom-2"
+                            label="Management notes"
+                            [value]="this._managmentNotes"
+                            (onInput)="_onInput($event)"
+                        ></app-textarea-element>
+                    </app-form-field>
+                    <div class="btns center">
+                        <p-button 
+                            [disabled]="artist.managmentNotes === _managmentNotes"
+                            (click)="_submitManagementNotes()" 
+                            [raised]="true"
+                            severity="success" 
+                            label="Submit">
+                        </p-button>
+                    </div>
+                </div>
+    
+            </ng-template>
+        </p-accordionTab>
+    </p-accordion>
+</div>
+
+<div class="margin-bottom">
+    <p-accordion value="0" class="my-accordion padding" 
+        [(activeIndex)]="activeIndexDocumentTemplates" 
+        (activeIndexChange)="_toggleDocumentTemplates($event)"
+    >
+        <p-accordionTab header="Edit Document templates">
+            <ng-template pTemplate="content">
+
+                <div class="content-document-templates">
+                    <app-document-templates 
+                        *ngIf="_documentTemplates" 
+                        [artist]="artist"
+                        (pdfData)="this._togglePdfData($event)"
+                    ></app-document-templates>
+                </div>
+
+            </ng-template>
+        </p-accordionTab>
+    </p-accordion>
+</div>
+
+<div class="panel-section" *ngIf="pdfData">
+    <app-doocument-template-editor 
+        [pdfData]="pdfData"
+        [artist]="artist!"
+        (update)="this._togglePdfData($event)"
+    > </app-doocument-template-editor>
+</div>
+
+
+
+
+
+

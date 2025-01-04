@@ -1,12 +1,11 @@
-<div class="panel-container">
+<div class="panel-container" *ngIf="_artists$ | async as artists">
 
-    <div class="panel-section">
+    <div class="panel-breadcrump">
+        <p-breadcrumb class="max-w-full" [model]="_breadcrumb"/>
+    </div>
 
-        <div class="panel-section-header">
-            <h2 class="fs3 bold">Your artists</h2>
-        </div>
-
-        <div class="">
+    <div class="panel-section" *ngIf="!_selectedArtist">
+        <ng-container>
             <div class="labels">
                 <div class="item-row panel-artist-item">
                     <p>Artist name</p>
@@ -14,68 +13,25 @@
                 </div>
             </div>
 
-            @for (artist of _artists$ | async; track artist.signature; let last = $last) {
+            @for (artist of artists; track artist.signature; let last = $last) {
 
-                <div class="item-row tile-style has-menu">
+                <div class="item-row tile-style has-menu clickable" (click)="_select(artist)">
                     <p>{{artist.name}}</p>
                     <p [pTooltip]="_artistStatusTooltip(artist.status)" tooltipPosition="top">
                         {{artist.status | status }}
                     </p>
-                    <div class="menu-icon right">
-                        <p-menu #menu appendTo="menu" [model]="_artistMenuItems(menu, artist)" [popup]="true"/>
-                        <app-icon-button (click)="_toggleSectionMenu(menu, $event!)" icon="pi-ellipsis-v"></app-icon-button>
-                    </div>
                 </div>
             }
-
-        </div>
+        </ng-container>
+            
     </div>
 
-    <app-document-templates 
-        *ngIf="_documentTemplatesArtist" 
-        [artist]="_documentTemplatesArtist"
-    ></app-document-templates>
-    
-    @if (managementNotesForm) {
-        <div class="panel-section management-notes">
-        
-            <div class="panel-section-header">
-                <h2 class="fs3 bold">Management notes for <span class="bold">{{_selectedArtist?.name}}</span></h2>
-            </div>
-
-            <form class="panel-section-content"
-                [formGroup]="managementNotesForm" 
-                (ngSubmit)="_submitManagementNotes()">
-
-                <app-textarea
-                    [class.active]="false"
-                    formControlName="managmentNotes"
-                    class="margin-bottom-2"
-                    [required]="true"
-                    label="Management notes"
-                ></app-textarea>
-
-                <div class="btns center">
-                    <p-button 
-                        (click)="_cancelManagementNotesEdit()" 
-                        [raised]="true"
-                        severity="warning" 
-                        label="Cancel">
-                    </p-button>
-                    <p-button 
-                        (click)="_cancelManagementNotesEdit()" 
-                        [raised]="true"
-                        severity="success" 
-                        label="Submit">
-                    </p-button>
-                </div>
-            </form>
-            
-        </div>
-    }
-
-
-
-
+    <div class="panel-section" *ngIf="_selectedArtist">
+        <app-panel-artist-section 
+            [artist]="_selectedArtist"
+            (breadcrumb)="_artistBreadcrubs($event)"
+            (refresh)="loadArtists()"
+        ></app-panel-artist-section>
+    </div>
 
 </div>
