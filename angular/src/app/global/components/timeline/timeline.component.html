@@ -11,8 +11,8 @@
             
     <div class="tile-content">
 
-        <p-accordion value="0" *ngIf="past.length">
-            <p-accordionTab header="Show past events">
+        <p-accordion value="0" *ngIf="past.length" (activeIndexChange)="_shoPastEventsToggle($event)">
+            <p-accordionTab [header]="_showPastEvents">
                 <ng-template pTemplate="content">
                     <app-timeline-items [timeline]="past"></app-timeline-items>
                 </ng-template>

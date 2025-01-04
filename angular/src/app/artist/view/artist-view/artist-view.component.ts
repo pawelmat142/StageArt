@@ -28,6 +28,7 @@ import { Path } from '../../../global/nav/path';
 import { BehaviorSubject, map, Observable, of, tap } from 'rxjs';
 import { ArtistTimelineService, TimelineItem } from '../../../booking/services/artist-timeline.service';
 import { TimelineComponent } from '../../../global/components/timeline/timeline.component';
+import { $desktop } from '../../../global/tools/media-query';
 
 @Component({
   selector: 'app-artist-view',
@@ -56,6 +57,8 @@ import { TimelineComponent } from '../../../global/components/timeline/timeline.
 export class ArtistViewComponent {
 
   public static readonly path = `artist/:name`
+
+  readonly $desktop = $desktop
 
   artistName?: string
 

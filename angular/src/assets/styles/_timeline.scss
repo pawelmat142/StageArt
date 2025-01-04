@@ -12,11 +12,11 @@
     .p-card-title {
         font-size: 16px;
         color: $formColor;
+        margin-bottom: 0;
     }
     .p-card-subtitle {
         font-size: 14px;
         margin-bottom: 0;
-        
         color: $textColor;
     }
 
@@ -56,10 +56,14 @@
 
         .p-accordion-header-link {
             padding: .5*$padding-standard;
+            padding-left: $padding-standard;
             gap: $padding-standard;
 
             .p-accordion-header-text {
                 color: $textColor;
+            }
+            .p-accordion-toggle-icon {
+                transform: rotate(180deg);
             }
         }
     }
@@ -67,11 +71,50 @@
     .p-accordion .p-accordion-header .p-accordion-header-link,
     .p-accordion-tab-active {
         border: unset;
+        flex-direction: row-reverse;
+        gap: .5*$padding-standard;
     }
 
-    .p-timeline-event {
+    .p-timeline .p-timeline-event-marker {
+        border-color: $primaryColor;
+        background-color: unset;
+    }
+    .p-timeline .p-timeline-event-connector {
+        background-color: $grey;
+    }
+
+    .p-timeline-event-opposite {
+        display: none;
+    }
+    
+    .p-timeline-event-content {
+        padding-right: 0;
+    }
+
+    .desktop-event-tile {
+        display: none;
+    }
+
+    @media only screen and (min-width: $desktop) {
+        .p-timeline-event-opposite {
+            display: unset;
+        }
         .p-timeline-event-content {
-            margin-bottom: 2*$padding-standard;
+            padding-right: unset;
+        }
+        .mobile-event-tile {
+            display: none;
+        }
+        .desktop-event-tile {
+            display: unset;
+        }
+        .p-card-title {
+            margin-bottom: .5rem;
+        }
+        .p-timeline-event {
+            .p-timeline-event-content {
+                margin-bottom: 2*$padding-standard;
+            }
         }
     }
 }

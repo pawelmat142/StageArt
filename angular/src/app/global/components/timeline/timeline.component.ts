@@ -98,4 +98,14 @@ export class TimelineComponent implements OnChanges, OnInit {
     })
   }
 
+  _showPastEvents = 'Show past events'
+
+  _shoPastEventsToggle(event: any) {
+    if (Number.isInteger(event)) {
+      this._showPastEvents = `Hide past events`
+    } else {
+      this._showPastEvents = 'Show past events'
+    }
+  }
+
 }

@@ -1,10 +1,4 @@
-<p-timeline [value]="timeline" [align]="'alternate'" >
-        
-    <ng-template pTemplate="marker" let-event>
-        <div class="marker">
-            <i [class]="'pi pi-bookmark-fill'"></i>
-        </div>
-    </ng-template>
+<p-timeline [value]="timeline">
 
     <ng-template pTemplate="opposite" let-event>
         <div class="opposite" *ngIf="event.formId === 'TODAY' && event.formData?.eventInformation?.performanceStartDate">
@@ -19,12 +13,17 @@
 
     <ng-template pTemplate="content" let-event>
         <div class="content" *ngIf="event.formId !== 'TODAY'">
-            <p-card 
+            <p-card class="desktop-event-tile"
                 [header]="event?.formData?.eventInformation?.eventName" 
                 [subheader]="event?.formData?.eventInformation?.venueName">
 
                 <app-country [countryCode]="event?.formData?.eventInformation?.eventCountry?.code"></app-country>
                 <div class="link" *ngIf="event?.formData?.eventInformation?.website">{{event?.formData?.eventInformation?.website}}</div>
+            </p-card>
+
+            <p-card class="mobile-event-tile"
+                [header]="event?.formData?.eventInformation?.eventName" 
+                [subheader]="(event.formData?.eventInformation?.performanceStartDate | date) || ''">
             </p-card>
         </div>
     </ng-template>

@@ -37,6 +37,9 @@ $view-padding: 4*$padding-standard;
     justify-content: flex-end;
     align-self: flex-end;
     gap: $padding-standard;
+    &.joined {
+        grid-column: span 2;
+    }
 }
 
 .view-content {
@@ -89,6 +92,12 @@ $view-padding: 4*$padding-standard;
 
     .image-bg-item {
         max-height: 100vh;
+    }
+
+    .book-now-btn {
+        &.joined {
+            grid-column: unset;
+        }
     }
 
     .view-content {
