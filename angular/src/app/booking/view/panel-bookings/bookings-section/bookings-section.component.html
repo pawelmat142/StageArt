@@ -8,10 +8,10 @@
 
         <div class="labels">
             <div class="item-row booking-item">
-                <p>Status</p>
-                <p>Event date</p>
                 <p>Event name</p>
-                <p class="show-desktop">Artists</p>
+                <p>Event date</p>
+                <p>Status</p>
+                <p class="show-desktop">Artist</p>
             </div>
         </div>
 
@@ -24,14 +24,17 @@
 
                         <ng-template pTemplate="header">
                             <div class="item-row booking-item p-menuitem-text">
-                                <p>{{booking.status | status}}</p>
-                                <p>{{booking.event.startDate| date : 'dd-MM-yyyy'}}</p>
                                 <p>{{booking.event.name}}</p>
+                                <p>{{booking.event.startDate| date : 'dd-MM-yyyy'}}</p>
+                                <p>{{booking.status | status}}</p>
                                 <p class="show-desktop">{{booking.artists | names}}</p>
                             </div>
                         </ng-template>
     
                         <div class="item-row-collapse-content">
+
+                            <app-booking-form-data [booking]="booking"></app-booking-form-data>
+
                             <app-booking-stepper></app-booking-stepper>
                         </div>
 

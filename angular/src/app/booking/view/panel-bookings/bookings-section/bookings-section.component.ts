@@ -9,6 +9,7 @@ import { selectBooking, uid, unselectBooking } from '../../../../profile/profile
 import { NamesPipe } from "../../../../global/pipes/names.pipe";
 import { BookingStepperComponent } from '../../booking-stepper/booking-stepper.component';
 import { $desktop } from '../../../../global/tools/media-query';
+import { BookingFormDataComponent } from '../booking-form-data/booking-form-data.component';
 
 @Component({
   selector: 'app-bookings-section',
@@ -19,6 +20,7 @@ import { $desktop } from '../../../../global/tools/media-query';
     AccordionModule,
     NamesPipe,
     BookingStepperComponent,
+    BookingFormDataComponent
 ],
   templateUrl: './bookings-section.component.html',
   styleUrl: './bookings-section.component.scss',

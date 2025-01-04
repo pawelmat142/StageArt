@@ -51,19 +51,9 @@
     }
 
     .p-accordion-header {
-        display: flex;
-        justify-content: flex-end;
-
         .p-accordion-header-link {
-            padding: .5*$padding-standard;
-            padding-left: $padding-standard;
-            gap: $padding-standard;
-
             .p-accordion-header-text {
                 color: $textColor;
-            }
-            .p-accordion-toggle-icon {
-                transform: rotate(180deg);
             }
         }
     }

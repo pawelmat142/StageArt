@@ -4,14 +4,11 @@
 
         <div class="subheader">
             <div class="tile-header">Events timeline</div>
-
-            <ng-container >
-            </ng-container>
         </div>
             
     <div class="tile-content">
 
-        <p-accordion value="0" *ngIf="past.length" (activeIndexChange)="_shoPastEventsToggle($event)">
+        <p-accordion value="0" class="my-accordion right" *ngIf="past.length" (activeIndexChange)="_shoPastEventsToggle($event)">
             <p-accordionTab [header]="_showPastEvents">
                 <ng-template pTemplate="content">
                     <app-timeline-items [timeline]="past"></app-timeline-items>

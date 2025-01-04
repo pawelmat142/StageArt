@@ -7,7 +7,7 @@
         @switch (control.key.type) {
     
             @case ('date') {
-                <span class="value">{{control.value | date: 'dd-MM-yyy'}}</span>
+                <span class="value">{{control?.value | date: 'dd-MM-yyy'}}</span>
             }
     
             @case ('textarea') {
@@ -22,11 +22,11 @@
             }
     
             @case ('selector') {
-                <span class="value">{{control.value.name}}</span>
+                <span class="value">{{control?.value.name}}</span>
             }
             
             @default {
-                <span class="value">{{control.value}}</span>
+                <span class="value">{{control?.value}}</span>
             }
         }
     </div>

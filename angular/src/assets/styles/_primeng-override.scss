@@ -47,6 +47,7 @@
     border: $border;
     border-radius: $borderRadius;
     text-align: left;
+    border: unset;
 }
 .p-accordion .p-accordion-header .p-accordion-header-link {
     padding: 0;
@@ -54,8 +55,41 @@
         background-color: $formBg;
     }
 }
-.p-accordion-tab-active {
-    border: $border;
+
+.my-accordion {
+    .p-accordion .p-accordion-header .p-accordion-header-link {
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding: 0 8px;
+        color: $textColor;
+        padding: .5*$padding-standard;
+    }
+    .p-accordion-header {
+        display: flex;
+    }
+    &.right {
+        .p-accordion .p-accordion-header {
+            justify-content: flex-end;
+            gap: $padding-standard;
+            .p-accordion-header-link {
+                flex-direction: row-reverse;
+                width: unset;
+                .p-accordion-toggle-icon {
+                    transform: rotate(180deg);
+                }
+            }
+        }
+    }
+}
+
+.accordion-border {
+    .p-accordion .p-accordion-header .p-accordion-header-link,
+    .p-accordion-tab-active {
+        border: $border;
+    }
 }
 .p-accordion .p-accordion-tab {
     background-color: $bgTwo;

@@ -42,10 +42,6 @@
     .booking-item {
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     }
-
-    .booking-item p:last-of-type {
-        text-align: unset;
-    }
 }
 
 .item-row {
@@ -53,12 +49,6 @@
     display: grid;
     align-items: center;
     width: 100%;
-
-    p {
-        &:last-of-type {
-            text-align: right;
-        }
-    }
 
     &.clickable {
         cursor: pointer;

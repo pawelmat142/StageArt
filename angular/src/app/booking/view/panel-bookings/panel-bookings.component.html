@@ -23,22 +23,6 @@
         [showCloseButton]="false"
     ></app-mock-card>
 
-    <div class="panel-section card margin-top-2" *ngIf="(_formData$ | async) as formData">
-        <div class="panel-section-header">
-          <h2 class="fs3 bold">Booking request form data</h2>
-          <app-icon-button
-              class="primary"
-              (click)="_closeBooking()"
-              icon="pi-times"
-          ></app-icon-button>
-        </div>
-
-        <app-form-presentation 
-            [data]="formData"
-            [structure]="_bookingFormStructure.form"
-        ></app-form-presentation>
-    </div>
-
     <app-sign></app-sign>
 
 </div>

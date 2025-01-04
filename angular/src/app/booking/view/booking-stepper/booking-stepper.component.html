@@ -1,17 +1,12 @@
+<ng-container *ngIf="_booking$ | async as booking">
 
-<p-stepper orientation="vertical" [(activeStep)]="activeStep" *ngIf="_booking$ | async as booking">
+<p-stepper orientation="vertical" [(activeStep)]="activeStep" >
 
     <!-- #1 STEP - FORM -->
     <p-stepperPanel header="Submit form" >
         <ng-template pTemplate="content" let-index="index">
 
             <div class="item-row-buttons margin-bottom">
-                <p-button 
-                    label="Show form data"
-                    (click)="_showFormData(booking)" 
-                    [raised]="true"
-                    severity="info"
-                ></p-button>
 
                 @if (_uid) {
                     @if (['SUBMITTED'].includes(booking.status) && [booking.managerUid].includes(_uid)) {
@@ -72,3 +67,5 @@
         </ng-template>
     </p-stepperPanel>
 </p-stepper>
+
+</ng-container>

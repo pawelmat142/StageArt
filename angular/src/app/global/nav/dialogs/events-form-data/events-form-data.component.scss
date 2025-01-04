@@ -3,10 +3,6 @@
 .popup-container.event-form-data {
     background-color: $highlightBg;
 
-    .item-row p:last-of-type {
-        text-align: unset;
-    }
-
     .item-row {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 1fr;

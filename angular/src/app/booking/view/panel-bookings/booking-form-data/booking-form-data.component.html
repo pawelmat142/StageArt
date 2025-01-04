@@ -1,0 +1,23 @@
+<p-accordion value="0" class="my-accordion right" (activeIndexChange)="_toggleFormData($event, booking)">
+    <p-accordionTab [header]="_header">
+        <ng-template pTemplate="content">
+
+            <div class="panel-section card margin-top-2">
+                <div class="panel-section-header">
+                  <h2 class="fs3 bold">Booking request form data</h2>
+                </div>
+                <app-form-presentation *ngIf="_formData"
+                    [data]="_formData"
+                    [structure]="_bookingFormStructure.form"
+                ></app-form-presentation>
+            </div>
+
+            <div class="p-accordion-header">
+                <div class="p-accordion-header-link" (click)="close()">
+                    {{_header}}
+                </div>
+            </div>
+
+        </ng-template>
+    </p-accordionTab>
+</p-accordion>

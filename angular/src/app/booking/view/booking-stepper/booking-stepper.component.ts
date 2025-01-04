@@ -68,16 +68,6 @@ export class BookingStepperComponent {
 
   
   // STEP 1#
-  _showFormData(booking: BookingDto) {
-    this.bookingService.fetchFormData$(booking.formId).pipe(
-      tap(formData => {
-        if (formData) {
-          this.store.dispatch(setBookingFormData(formData))
-        }
-      })
-    ).subscribe()
-  }
-
   _cancelBooking(booking: BookingDto) {
     this.dialog.yesOrNoPopup(`Booking will be cancelled. Are you sure?`, true).pipe(
       switchMap(confirm => confirm 
