@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose"
 import { HydratedDocument } from "mongoose"
+import { TimelineItem } from "../../booking/services/artist-timeline.service"
 
 export const artistMediaCodes = [
     '', 
@@ -122,6 +123,9 @@ export class Artist {
     
     @Prop()
     modified: Date
+    
+    @Prop({ type: Object })
+    timeline?: TimelineItem[] 
 }
 
 export const ArtistSchema = SchemaFactory.createForClass(Artist)

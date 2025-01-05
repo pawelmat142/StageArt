@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { Artist, ArtistLabel, ArtistStatus, ArtistStyle } from './model/artist.model';
-import { Model } from 'mongoose';
+import { FilterQuery, Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { IllegalStateException } from '../global/exceptions/illegal-state.exception';
 import { ArtistViewDto } from './model/artist-view.dto';
@@ -12,6 +12,8 @@ import { TelegramService } from '../telegram/telegram.service';
 import { BotUtil } from '../telegram/util/bot.util';
 import { BookingSubmitCtx } from '../booking/services/submit.service';
 import { FormUtil } from '../form/form.util';
+import { TimelineItem } from '../booking/services/artist-timeline.service';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class ArtistService {
@@ -60,7 +62,7 @@ export class ArtistService {
     }
 
     public getArtist(signature: string) {
-        return this.artistModel.findOne({ signature })
+        return this.artistModel.findOne({ signature }).exec()
     }
     
     getArtists(signatures: string[]) {
@@ -184,6 +186,47 @@ export class ArtistService {
             throw new NotFoundException()
         }
         this.logger.log(`Modified status ${status} artist: ${signature}, by ${profile.uid}`)
+    }
+
+    public getTimeline(artistSignature: string): Promise<{ timeline: TimelineItem[] }> {
+        return this.artistModel.findOne({ signature: artistSignature }, { timeline: true })
+    }
+
+    public async submitTimelineEvent(artistSignature: string, event: TimelineItem, profile: JwtPayload): Promise<TimelineItem[]> {
+        // TODO validate overlapse dates
+        const authFilter = this.manageFilter(profile)
+        const artist = await this.artistModel.findOne({
+            $and: [authFilter, { signature: artistSignature }]
+        }).exec()
+        if (!artist) {
+            throw new NotFoundException(`Not found Artist ${artistSignature} when trying to submit timeline event, ${profile.uid}`)
+        }
+        const timeline = artist.toObject().timeline || []
+
+        const index = timeline.findIndex(item => item.id === event.id)
+        
+        if (index === -1) {
+            event.id = uuidv4(),
+            event.uid = profile.uid
+            timeline.push(event)
+        } else {
+            timeline.splice(index, 1, event)
+        }
+        const update = await this.artistModel.updateOne({
+            signature: artistSignature
+        }, { $set: { timeline: timeline } })
+
+        if (!update.modifiedCount) {
+            throw new IllegalStateException(`Not modified ${artistSignature} when trying to submit timeline event, ${profile.uid}`)
+        }
+        this.logger.log(`Modified Artist ${artistSignature} timeline when trying to submit timeline event, ${profile.uid}`)
+        return timeline
+    }
+
+    private manageFilter(profile: JwtPayload): FilterQuery<Artist> {
+        return profile.artistSignature 
+        ? { signature: profile.artistSignature }
+        : { managerUid: profile.uid }
     }
 
 }

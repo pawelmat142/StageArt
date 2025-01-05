@@ -1,6 +1,6 @@
 import { Injectable, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { FilterQuery, Model, RootFilterQuery } from 'mongoose';
+import { FilterQuery, Model } from 'mongoose';
 import { ArtistService } from '../../artist/artist.service';
 import { EventService } from '../../event/event.service';
 import { IllegalStateException } from '../../global/exceptions/illegal-state.exception';

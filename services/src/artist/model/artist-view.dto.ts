@@ -1,5 +1,6 @@
 import { Expose } from "class-transformer"
 import { ArtistLabel, ArtistMedia, ArtistStatus, ArtistStyle, Country, Images } from "./artist.model"
+import { TimelineItem } from "../../booking/services/artist-timeline.service"
 
 export class ArtistViewDto {
 
@@ -34,4 +35,7 @@ export class ArtistViewDto {
     
     @Expose()
     managmentNotes: string
+    
+    @Expose()
+    timeline?: TimelineItem[] 
 }

@@ -9,6 +9,7 @@ import { RoleGuard } from '../profile/auth/role.guard';
 import { Role } from '../profile/model/role';
 import { LogInterceptor } from '../global/interceptors/log.interceptor';
 import { ArtistStatus } from './model/artist.model';
+import { TimelineItem } from '../booking/services/artist-timeline.service';
 
 export interface FetchArtistQuery {
     name?: string
@@ -72,6 +73,8 @@ export class ArtistController {
         return this.artistService.listArtistLabels()
     }
 
+
+    // TODO artist manager service - refactor
     @Get('artists/of-manager')
     @UseGuards(RoleGuard(Role.MANAGER))
     @Serialize(ArtistViewDto)
@@ -93,6 +96,23 @@ export class ArtistController {
         @GetProfile() profile: JwtPayload
     ) {
         return this.artistService.setStatus(status, signature, profile)
+    }
+
+    @Get(`artist/timeline`)
+    getTimeline(
+        @Param('artistSignature') artistSignature: string
+    ): Promise<{ timeline: TimelineItem[] }> {
+        return this.artistService.getTimeline(artistSignature)
+    }
+
+    @Put(`artist/submit-timeline-event/:artistSignature`)
+    @UseGuards(RoleGuard(Role.MANAGER))
+    submitTimelineEvent(
+        @Param('artistSignature') artistSignature: string,
+        @Body() body: TimelineItem,
+        @GetProfile() profile: JwtPayload
+    ) {
+        return this.artistService.submitTimelineEvent(artistSignature, body, profile)
     }
 
 }

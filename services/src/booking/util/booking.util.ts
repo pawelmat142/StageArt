@@ -2,6 +2,7 @@ import { Event } from "../../event/model/event.model";
 import { JwtPayload } from "../../profile/auth/jwt-strategy";
 import { Role } from "../../profile/model/role";
 import { Booking, StatusHistory } from "../model/booking.model";
+import { TimelineItem } from "../services/artist-timeline.service";
 
 export abstract class BookingUtil {
 
@@ -45,6 +46,25 @@ export abstract class BookingUtil {
         const date = event.startDate
         date.setMonth(event.startDate.getMonth() - 1)
         return date
+    }
+
+    public static timelineItem(booking: Booking): TimelineItem {
+        const result = {
+            id: booking.formId,
+            status: booking.status,
+            eventSignature: booking.eventSignature,
+        } as TimelineItem
+
+        const eventInformation = booking.formData.eventInformation
+        if (eventInformation) {
+            result.startDate = eventInformation.performanceStartDate
+            result.endDate = eventInformation.performanceEndDate
+            result.countryCode = eventInformation.eventCountry?.code
+            result.header = eventInformation.eventName
+            result.subheader = eventInformation.venueName
+            result.txt = eventInformation?.website
+        } 
+        return result
     }
 
 }

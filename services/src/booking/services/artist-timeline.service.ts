@@ -4,7 +4,7 @@ import { Booking, BookingDocument, BookingStatus } from "../model/booking.model"
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from 'mongoose';
 import { SelectorItem } from "../../artist/artist.controller";
-import { JwtPayload } from "../../profile/auth/jwt-strategy";
+import { BookingUtil } from "../util/booking.util";
 
 export interface EventInformation {
     performanceStartDate: Date
@@ -15,9 +15,16 @@ export interface EventInformation {
 }
 
 export interface TimelineItem {
-    formId: string,
+    id: string,
+    uid?: string,
     status: BookingStatus,
     eventSignature: string,
+    startDate: Date,
+    endDate?: Date
+    countryCode?: string,
+    header: string,
+    subheader?: string,
+    txt?: string
     formData: { eventInformation: EventInformation }
 }
 
@@ -33,8 +40,15 @@ export class ArtistTimelineService {
 
     public async getTimeline(artistSignature: string): Promise<TimelineItem[]> {
         const bookings = await this.getArtistBookings(artistSignature)
-        const timelineItems = bookings.map(booking => booking.toObject())
-        return timelineItems as TimelineItem[]
+        const timelineItems = bookings.map(_booking => {
+            return BookingUtil.timelineItem(_booking.toObject())
+        })
+        const timelineResult = await this.artistService.getTimeline(artistSignature)
+        const timeline = timelineResult.timeline
+        if (timeline) {
+            timelineItems.push(...timeline)
+        }
+        return timelineItems
     }
 
     // 'SUBMITTED' | 'DOCUMENTS' | 'CHECKLIST_COMPLETE' | 'PENDING' | 'READY' | 'CANCELED'
