@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { TimelineItem } from '../../../booking/services/artist-timeline.service';
 import { ButtonModule } from 'primeng/button';
 import { TimelineModule } from 'primeng/timeline';
@@ -7,6 +7,11 @@ import { CommonModule } from '@angular/common';
 import { DateUtil } from '../../utils/date-util';
 import { TimelineItemsComponent } from './timeline-items/timeline-items.component';
 import { AccordionModule } from 'primeng/accordion';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormFieldComponent } from '../../controls/form-field/form-field.component';
+import { CalendarModule } from 'primeng/calendar';
+import { FormUtil } from '../../utils/form.util';
+import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
   selector: 'app-timeline',
@@ -17,7 +22,11 @@ import { AccordionModule } from 'primeng/accordion';
     CardModule,
     CommonModule,
     TimelineItemsComponent,
-    AccordionModule
+    AccordionModule,
+    ReactiveFormsModule,
+    FormFieldComponent,
+    CalendarModule,
+    InputTextModule
   ],
   templateUrl: './timeline.component.html',
   styleUrl: './timeline.component.scss'
@@ -28,9 +37,14 @@ export class TimelineComponent implements OnChanges, OnInit {
   
   @Input() timeline!: TimelineItem[]
 
+  @Output() submitTimelineForm = new EventEmitter<TimelineItem>()
+
   past: TimelineItem[] = []
 
   @Input() showDaysBefore = 2
+
+  @Input() editMode = false
+  @Input() disabledDates: Date[] = []
 
   minDate = new Date()
 
@@ -80,7 +94,7 @@ export class TimelineComponent implements OnChanges, OnInit {
   }
 
   private date(item: TimelineItem): Date {
-    return new Date(item.formData.eventInformation.performanceStartDate)
+    return new Date(item.startDate)
   }
 
   private addToday() {
@@ -92,20 +106,60 @@ export class TimelineComponent implements OnChanges, OnInit {
     }
     this.timeline.push({
       eventSignature: '',
-      formData: { eventInformation: { performanceStartDate: new Date } },
+      header: 'TODAY',
+      startDate: new Date(),
       status: 'PENDING',
-      formId: this.TODAY_FORM_ID_MOC,
+      id: this.TODAY_FORM_ID_MOC,
     })
   }
 
   _showPastEvents = 'Show past events'
 
   _shoPastEventsToggle(event: any) {
+    this.closeEventForm()
     if (Number.isInteger(event)) {
       this._showPastEvents = `Hide past events`
     } else {
-      this._showPastEvents = 'Show past events'
+      this.closePastEvents()
     }
   }
 
+  _toggleEventForm(event: any) {
+    this.closePastEvents()
+    if (Number.isInteger(event)) {
+
+    } else {
+      this.closeEventForm()
+    }
+  }
+  
+  _eventFormActiveIndex = -1
+  _pastEventsActiveIndex = -1
+
+  private closeEventForm() {
+    this._eventFormActiveIndex = -1
+  }
+
+  private closePastEvents() {
+    this._pastEventsActiveIndex = -1
+    this._showPastEvents = 'Show past events'
+  }
+
+  form = new FormGroup({
+    header: new FormControl('', Validators.required),
+    startDate: new FormControl<Date | null>(null, [Validators.required]),
+    endDate: new FormControl<Date | null>(null),
+    subheader: new FormControl(''),
+    content: new FormControl('', ),
+  })
+
+  _submit() {
+    if (this.form?.invalid) {
+      FormUtil.markForm(this.form)
+      return
+    }
+    this.closeEventForm()
+    const event = this.form.value as TimelineItem
+    this.submitTimelineForm.emit(event)
+  }
 }

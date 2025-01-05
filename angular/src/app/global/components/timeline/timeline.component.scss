@@ -7,3 +7,25 @@
     position: relative;
     z-index: 1;
 } 
+
+.right-button {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.timeline-form {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+:host.skip-tile-class {
+    .tile {
+        overflow: unset;
+        padding: unset;
+        color: unset;
+        background-color: unset;
+        border-radius: unset;
+        box-shadow: unset;
+    }
+}

@@ -9,13 +9,18 @@ import { ArtistService } from '../../../artist.service';
 import { ButtonModule } from 'primeng/button';
 import { TextareaElementComponent } from '../../../../global/controls/textarea-element/textarea-element.component';
 import { FormFieldComponent } from '../../../../global/controls/form-field/form-field.component';
-import { finalize, map, tap } from 'rxjs';
+import { BehaviorSubject, finalize, map, tap } from 'rxjs';
 import { DocumentTemplatesComponent } from '../../document-templates/document-templates.component';
 import { NavService } from '../../../../global/nav/nav.service';
 import { PdfDataDto } from '../../../model/document-template.def';
 import { DoocumentTemplateEditorComponent } from '../../document-templates/doocument-template-editor/doocument-template-editor.component';
 import { BookingDto, BookingService } from '../../../../booking/services/booking.service';
 import { PanelMenuService } from '../../../../profile/view/sidebar/panel-menu.service';
+import { TimelineComponent } from '../../../../global/components/timeline/timeline.component';
+import { ArtistTimelineService, TimelineItem } from '../../../../booking/services/artist-timeline.service';
+import { AppState } from '../../../../app.state';
+import { Store } from '@ngrx/store';
+import { TimelineUtil } from '../../../../global/utils/timeline.util';
 
 @Component({
   selector: 'app-panel-artist-section',
@@ -28,7 +33,8 @@ import { PanelMenuService } from '../../../../profile/view/sidebar/panel-menu.se
     TextareaElementComponent,
     FormFieldComponent,
     DocumentTemplatesComponent,
-    DoocumentTemplateEditorComponent
+    DoocumentTemplateEditorComponent,
+    TimelineComponent
   ],
   templateUrl: './panel-artist-section.component.html',
   styleUrl: './panel-artist-section.component.scss'
@@ -41,6 +47,8 @@ export class PanelArtistSectionComponent implements OnInit {
     private readonly bookingService: BookingService,
     private readonly panelMenuService: PanelMenuService,
     private readonly nav: NavService,
+    private readonly store: Store<AppState>,
+    private readonly artistTimelineService: ArtistTimelineService,
   ) {}
 
   @Input() artist!: ArtistViewDto
@@ -58,12 +66,22 @@ export class PanelArtistSectionComponent implements OnInit {
 
   activeIndexManagementNotes: number | undefined = undefined
   activeIndexBookings: number | undefined = undefined
+  activeIndexTimeline: number | undefined = undefined
   activeIndexDocumentTemplates: number | undefined = undefined
+
+  _timeline$ = new BehaviorSubject<TimelineItem[]>([])
+
+  get timeline$() {
+    return this._timeline$.asObservable()
+  }
 
   pdfData?: PdfDataDto
 
+  _disabledDays: Date[] = []
+
   _toggleManagementNotes($event: any) {
     this._closePdfData()
+    this.closeTimeline()
     if (Number.isInteger($event)) {
       this._closeDocumentTemplates()
       this.breadcrumb.emit([{
@@ -76,6 +94,36 @@ export class PanelArtistSectionComponent implements OnInit {
     } else {
       this._closeManagementNotes()
     }
+  }
+  _toggleTimeline($event: any) {
+    this._closePdfData()
+    this._closeManagementNotes()
+    this._closeDocumentTemplates()
+    this._closeBookingsAccordion()
+    this.closeTimeline()
+    this.loadTimeline()
+    if (Number.isInteger($event)) { 
+      this.breadcrumb.emit([{
+        label: this.artist.name,
+        command: () => this.closeTimeline()
+      }, {
+        label: `Timeline`
+      }])
+    } else {
+      this.closeTimeline()
+    }
+  }
+
+  private loadTimeline() {
+    this.artistTimelineService.artistTimeline$(this.artist.signature).pipe(
+    ).subscribe(timeline => {
+      this._timeline$.next(timeline)
+      this._disabledDays = TimelineUtil.getDisabledDates(timeline)
+    })
+  }
+
+  private closeTimeline() {
+    this.activeIndexTimeline = -1
   }
 
   _toggleBookings($event: any) {
@@ -102,7 +150,8 @@ export class PanelArtistSectionComponent implements OnInit {
 
   _toggleDocumentTemplates($event: any) {
     if (Number.isInteger($event)) {
-      this._closeManagementNotes()
+      this.closeTimeline()
+    this._closeManagementNotes()
       this.closeAccordionManagementNotes()
       this._closePdfData()
       this._documentTemplates = true
@@ -112,6 +161,7 @@ export class PanelArtistSectionComponent implements OnInit {
   }
 
   _togglePdfData(pdfData?: PdfDataDto) {
+    this.closeTimeline()
     if (pdfData) {
       this.pdfData = pdfData
       this._closeManagementNotes()
@@ -226,5 +276,11 @@ export class PanelArtistSectionComponent implements OnInit {
       this.refresh.emit()
     })
   }
+
+    _submitTimelineItem(event: TimelineItem) {
+      this.artistService.submitTimelineEvent$(this.artist.signature, event).subscribe(() => {
+        this.loadTimeline()
+      })
+    }
 
 }

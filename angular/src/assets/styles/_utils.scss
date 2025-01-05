@@ -94,3 +94,15 @@
         transform: scale(1.2);
     }
 }
+
+.text-align-right {
+    text-align: right;
+}
+
+.item-button {
+    color: $textColor;
+    background-color: $bgTwo;
+    border-radius: $borderRadius;
+    padding: .5rem;
+
+}

@@ -10,7 +10,7 @@ import { AppState } from '../../../app.state';
 import { Store } from '@ngrx/store';
 import { IconButtonComponent } from "../../../global/components/icon-button/icon-button.component";
 import { AvatarComponent } from './avatar/avatar.component';
-import { artist, cancelArtistChanges, editMode, initArtist, saveChanges, startEditArtist } from './artist-view.state';
+import { artist, cancelArtistChanges, editMode, initArtist, saveChanges, startEditArtist, updateTimeline } from './artist-view.state';
 import { BackgroundComponent } from './background/background.component';
 import { BackgroundEditorComponent } from './background-editor/background-editor.component';
 import { BioComponent } from './bio/bio.component';
@@ -25,10 +25,11 @@ import { ArtistViewDto } from '../../model/artist-view.dto';
 import { BookingService } from '../../../booking/services/booking.service';
 import { setFormData } from '../../../form-processor/form.state';
 import { Path } from '../../../global/nav/path';
-import { BehaviorSubject, map, Observable, of, tap } from 'rxjs';
+import { BehaviorSubject, take, tap } from 'rxjs';
 import { ArtistTimelineService, TimelineItem } from '../../../booking/services/artist-timeline.service';
 import { TimelineComponent } from '../../../global/components/timeline/timeline.component';
 import { $desktop } from '../../../global/tools/media-query';
+import { TimelineUtil } from '../../../global/utils/timeline.util';
 
 @Component({
   selector: 'app-artist-view',
@@ -81,6 +82,8 @@ export class ArtistViewComponent {
 
   _timeline$ = new BehaviorSubject<TimelineItem[]>([])
 
+  _disabledDays: Date[] = []
+
   ngOnInit() {
     this.artistName = this.route.snapshot.paramMap.get('name') || ''
     if (!this.artistName) {
@@ -97,7 +100,10 @@ export class ArtistViewComponent {
       return
     }
     this.artistTimelineService.artistTimeline$(signature)
-      .subscribe(timeline => this._timeline$.next(timeline))
+      .subscribe(timeline => {
+        this._disabledDays = TimelineUtil.getDisabledDates(timeline)
+        this._timeline$.next(timeline)
+      })
   }
 
   _onBookNow(artist: ArtistViewDto) {
@@ -134,6 +140,13 @@ export class ArtistViewComponent {
   
   _save() {
     this.store.dispatch(saveChanges())
+  }
+
+  _submitTimelineItem(event: TimelineItem, artist: ArtistViewDto) {
+    console.log('_submitTimelineItem')
+    this.artistService.submitTimelineEvent$(artist.signature, event).subscribe(timeline => {
+      this.store.dispatch(updateTimeline({ value:  timeline }))
+    })
   }
 
 }

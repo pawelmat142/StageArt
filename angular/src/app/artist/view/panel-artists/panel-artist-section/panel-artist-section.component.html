@@ -28,6 +28,8 @@
 
 <div class="accordions">
 
+    <!-- TODO zamienic na 1 accordion -->
+
     <p-accordion value="0" class="my-accordion padding"
         [(activeIndex)]="activeIndexManagementNotes" 
         (activeIndexChange)="_toggleManagementNotes($event)"
@@ -76,6 +78,26 @@
     </p-accordion>
 
     <p-accordion value="0" class="my-accordion padding" 
+        [(activeIndex)]="activeIndexTimeline" 
+        (activeIndexChange)="_toggleTimeline($event)"
+    >
+        <p-accordionTab header="Events timeline">
+            <ng-template pTemplate="content">
+
+                <ng-container *ngIf="timeline$ | async as timeline">
+                    <app-timeline class="timeline skip-tile-class artist-timeline"
+                        (submitTimelineForm)="_submitTimelineItem($event)"
+                        [timeline]="timeline"
+                        [editMode]="true"
+                        [disabledDates]="_disabledDays"
+                        ></app-timeline>
+                </ng-container>
+
+            </ng-template>
+        </p-accordionTab>
+    </p-accordion>
+
+    <p-accordion value="0" class="my-accordion padding" 
         [(activeIndex)]="activeIndexDocumentTemplates" 
         (activeIndexChange)="_toggleDocumentTemplates($event)"
     >
@@ -93,6 +115,9 @@
             </ng-template>
         </p-accordionTab>
     </p-accordion>
+    
+
+
 </div>
 
 <div class="panel-section" *ngIf="pdfData">

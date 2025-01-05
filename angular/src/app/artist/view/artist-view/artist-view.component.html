@@ -96,7 +96,13 @@
                 <app-bio class="bio-tile"></app-bio>
 
                 <ng-container *ngIf="_timeline$.asObservable() | async as timeline">
-                    <app-timeline class="timeline artist-timeline" [timeline]="timeline"></app-timeline>
+                    <app-timeline 
+                    (submitTimelineForm)="_submitTimelineItem($event, artist)"
+                    [editMode]="!!(_editMode$ | async)"
+                    class="timeline artist-timeline" 
+                    [timeline]="timeline"
+                    [disabledDates]="_disabledDays"
+                ></app-timeline>
                 </ng-container>
 
                 @if (artist.managmentNotes) {

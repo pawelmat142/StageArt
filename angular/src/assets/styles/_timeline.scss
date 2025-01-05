@@ -85,6 +85,10 @@
         display: none;
     }
 
+    .content {
+        margin-bottom: 0;
+    }
+
     @media only screen and (min-width: $desktop) {
         .p-timeline-event-opposite {
             display: unset;
@@ -103,8 +107,18 @@
         }
         .p-timeline-event {
             .p-timeline-event-content {
-                margin-bottom: 2*$padding-standard;
+                margin-bottom: $padding-standard;
+                margin-top: $padding-standard;
             }
+        }
+    }
+    
+    .edit-mode {
+        .p-timeline-event {
+            min-height: unset;
+        }
+        .p-timeline-event .p-timeline-event-content {
+            margin: 0;
         }
     }
 }

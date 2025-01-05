@@ -30,7 +30,6 @@ export class BookingFormStructure {
           }),
           map(timeline => {
             const disabledDates = TimelineUtil.getDisabledDates(timeline)
-            TimelineUtil.mockDates(disabledDates)
             this.disabledDates$.next(disabledDates)
           }),
         ).subscribe()

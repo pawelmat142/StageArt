@@ -12,6 +12,7 @@ import { Images } from "../../model/artist-form";
 import { ArtistMedia } from "../../artist-medias/artist-medias.service";
 import { NavService } from "../../../global/nav/nav.service";
 import { Country } from "../../../global/countries/country.model";
+import { TimelineItem } from "../../../booking/services/artist-timeline.service";
 
 export interface ArtistViewState {
     artist?: ArtistViewDto
@@ -100,6 +101,8 @@ export const updateMedias = createAction("[ArtistViewState] update medias", prop
 export const updateStyle = createAction("[ArtistViewState] update style", props<{ value: ArtistStyle[] }>())
 
 export const updateLabels = createAction("[ArtistViewState] update labels", props<{ value: ArtistLabel[] }>())
+
+export const updateTimeline = createAction("[ArtistViewState] update timeline", props<{ value: TimelineItem[] }>())
 
 export const uploadArtistChanges = createAction("[ArtistViewState] upload changes")
 
@@ -237,6 +240,20 @@ export const artistViewReducer = createReducer(
                 artist: {
                     ...state.artist,
                     labels: labels.value
+                }
+            }
+        } else {
+            return state
+        }
+    }),
+
+    on(updateTimeline, (state, timeline) => {
+        if (state.artist) {
+            return {
+                ...state,
+                artist: {
+                    ...state.artist,
+                    timeline: timeline.value
                 }
             }
         } else {

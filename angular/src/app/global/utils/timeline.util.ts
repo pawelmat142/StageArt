@@ -1,4 +1,4 @@
-import { FormArray, FormControl, FormGroup } from "@angular/forms";
+import { FormControl } from "@angular/forms";
 import { pFormControl } from "../../form-processor/form-processor.service";
 import { TimelineItem } from "../../booking/services/artist-timeline.service";
 
@@ -28,8 +28,8 @@ export abstract class TimelineUtil {
 
         // Iterate through each timeline item and collect dates
         for (const item of timelineItems) {
-            const performanceStartDate = new Date(item.formData.eventInformation.performanceStartDate)
-            const endDate = item.formData.eventInformation.performanceEndDate
+            const performanceStartDate = new Date(item.startDate)
+            const endDate = item.endDate
             const performanceEndDate = endDate && new Date(endDate)
             // Ensure that we are not working with undefined or invalid dates
             if (performanceStartDate && !isNaN(performanceStartDate.getTime())) {

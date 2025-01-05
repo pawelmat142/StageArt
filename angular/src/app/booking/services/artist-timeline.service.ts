@@ -13,10 +13,16 @@ export interface EventInformation {
 }
 
 export interface TimelineItem {
-    formId: string,
-    status: BookingStatus,
-    eventSignature: string,
-    formData: { eventInformation: EventInformation }
+  id: string,
+  uid?: string
+  status: BookingStatus,
+  eventSignature: string,
+  startDate: Date,
+  endDate?: Date,
+  countryCode?: string,
+  header: string,
+  subheader?: string,
+  txt?: string
 }
 
 @Injectable({

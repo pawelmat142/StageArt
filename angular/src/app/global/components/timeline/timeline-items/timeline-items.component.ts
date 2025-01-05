@@ -21,5 +21,6 @@ export class TimelineItemsComponent {
 
   @Input() timeline!: TimelineItem[]
 
+  @Input() editMode!: boolean
 
 }

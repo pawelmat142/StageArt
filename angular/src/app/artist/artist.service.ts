@@ -5,6 +5,7 @@ import { combineLatest, filter, map, Observable, shareReplay, take } from "rxjs"
 import { selectArtists } from "./artists.state";
 import { HttpService } from "../global/services/http.service";
 import { AppState } from "../app.state";
+import { TimelineItem } from "../booking/services/artist-timeline.service";
 
 @Injectable({
     providedIn: 'root'
@@ -63,6 +64,15 @@ export class ArtistService {
         return this.http.put<void>(`/artist/set-status/${status}/${signature}`).pipe(
         )
     }
+
+    public getTimeline$(artistSignature: string): Observable<{ timeline: TimelineItem[] }> {  
+        return this.http.get<{ timeline: TimelineItem[] }>(`/artist/timeline/${artistSignature}`)
+    }
+
+    public submitTimelineEvent$(artistSignature: string, body: TimelineItem): Observable<TimelineItem[]> {  
+        return this.http.put<TimelineItem[]>(`/artist/submit-timeline-event/${artistSignature}`, body)
+    }
+
 
     public getArtists = (): ArtistViewDto[] => {
         let result: ArtistViewDto[] = []
