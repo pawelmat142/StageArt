@@ -18,6 +18,13 @@
                 [subheader]="editMode ? undefined : event.subheader">
                 <app-country *ngIf="!editMode && event.countryCode" [countryCode]="event.countryCode"></app-country>
                 <div class="link" *ngIf="!editMode && event.txt">{{event.txt}}</div>
+
+                <app-icon-button *ngIf="editMode && event.uid === uid"
+                    class="card-corner"
+                    (click)="close.emit(event)"
+                    icon="pi-save"
+                    [active]="true"
+                ></app-icon-button>
             </p-card>
 
             <p-card class="mobile-event-tile" 

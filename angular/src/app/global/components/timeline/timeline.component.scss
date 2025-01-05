@@ -20,6 +20,9 @@
 }
 
 :host.skip-tile-class {
+    .hide-header {
+        display: none;
+    }
     .tile {
         overflow: unset;
         padding: unset;

@@ -73,6 +73,10 @@ export class ArtistService {
         return this.http.put<TimelineItem[]>(`/artist/submit-timeline-event/${artistSignature}`, body)
     }
 
+    public removeTimelineEvent$(artistSignature: string, id: string): Observable<void> {  
+        return this.http.delete<void>(`/artist/timeline/${artistSignature}/${id}`)
+    }
+
 
     public getArtists = (): ArtistViewDto[] => {
         let result: ArtistViewDto[] = []

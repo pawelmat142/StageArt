@@ -33,3 +33,14 @@ $markerSize: 40px;
     margin-bottom: 2*$padding-standard;
 }
 
+
+.p-card {
+    position: relative;
+}
+
+.card-corner {
+    position: absolute;
+    right: 0;
+    top: $padding-standard;
+    color: $primaryColor;
+}

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, Query, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ArtistService } from './artist.service';
 import { Serialize } from '../global/interceptors/serialize.interceptor';
 import { ArtistViewDto } from './model/artist-view.dto';
@@ -10,6 +10,7 @@ import { Role } from '../profile/model/role';
 import { LogInterceptor } from '../global/interceptors/log.interceptor';
 import { ArtistStatus } from './model/artist.model';
 import { TimelineItem } from '../booking/services/artist-timeline.service';
+import { NoGuard } from '../profile/auth/no-guard';
 
 export interface FetchArtistQuery {
     name?: string
@@ -106,13 +107,23 @@ export class ArtistController {
     }
 
     @Put(`artist/submit-timeline-event/:artistSignature`)
-    @UseGuards(RoleGuard(Role.MANAGER))
+    @UseGuards(NoGuard)
     submitTimelineEvent(
         @Param('artistSignature') artistSignature: string,
         @Body() body: TimelineItem,
         @GetProfile() profile: JwtPayload
     ) {
         return this.artistService.submitTimelineEvent(artistSignature, body, profile)
+    }
+
+    @Delete(`artist/timeline/:artistSignature/:id`)
+    @UseGuards(NoGuard)
+    removeTimelineEvent(
+        @Param('artistSignature') artistSignature: string,
+        @Param('id') id: string,
+        @GetProfile() profile: JwtPayload
+    ) {
+        this.artistService.removeTimelineEvent(artistSignature, id, profile)
     }
 
 }

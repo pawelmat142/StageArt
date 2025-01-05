@@ -2,13 +2,13 @@
 <ng-container *ngIf="timeline.length > 1">
     <div class="tile big" *ngIf="timeline.length">
 
-        <div class="subheader" *ngIf="!editMode">
+        <div class="subheader hide-header">
             <div class="tile-header">Events timeline</div>
         </div>
 
         <div class="tile-content" *ngIf="editMode">
 
-            <p-accordion value="0" *ngIf="past.length" 
+            <p-accordion value="0" 
                 [(activeIndex)]="_eventFormActiveIndex"
                 (activeIndexChange)="_toggleEventForm($event)" 
                 class="my-accordion no-border padding-05 right">
@@ -73,13 +73,13 @@
                 <p-accordionTab [header]="_showPastEvents">
                     <ng-template pTemplate="content">
                         <div class="margin-top">
-                            <app-timeline-items [editMode]="editMode" [timeline]="past"></app-timeline-items>
+                            <app-timeline-items [editMode]="editMode" [timeline]="past" (close)="_removeItem($event)"></app-timeline-items>
                         </div>
                     </ng-template>
                 </p-accordionTab>
             </p-accordion>
 
-            <app-timeline-items [editMode]="editMode" [timeline]="timeline"></app-timeline-items>
+            <app-timeline-items [editMode]="editMode" [timeline]="timeline" (close)="_removeItem($event)"></app-timeline-items>
         </div>
 
     </div>

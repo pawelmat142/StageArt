@@ -87,6 +87,7 @@
                 <ng-container *ngIf="timeline$ | async as timeline">
                     <app-timeline class="timeline skip-tile-class artist-timeline"
                         (submitTimelineForm)="_submitTimelineItem($event)"
+                        (removeTimelineForm)="_removeTimelineEvent($event)"
                         [timeline]="timeline"
                         [editMode]="true"
                         [disabledDates]="_disabledDays"

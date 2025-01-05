@@ -25,11 +25,12 @@ import { ArtistViewDto } from '../../model/artist-view.dto';
 import { BookingService } from '../../../booking/services/booking.service';
 import { setFormData } from '../../../form-processor/form.state';
 import { Path } from '../../../global/nav/path';
-import { BehaviorSubject, take, tap } from 'rxjs';
+import { BehaviorSubject, mergeMap, take, tap } from 'rxjs';
 import { ArtistTimelineService, TimelineItem } from '../../../booking/services/artist-timeline.service';
 import { TimelineComponent } from '../../../global/components/timeline/timeline.component';
 import { $desktop } from '../../../global/tools/media-query';
 import { TimelineUtil } from '../../../global/utils/timeline.util';
+import { Dialog } from '../../../global/nav/dialog.service';
 
 @Component({
   selector: 'app-artist-view',
@@ -68,6 +69,7 @@ export class ArtistViewComponent {
     private artistService: ArtistService,
     private bookingService: BookingService,
     private nav: NavService,
+    private dialog: Dialog,
     private store: Store<AppState>,
     private readonly artistTimelineService: ArtistTimelineService,
   ) {}
@@ -142,10 +144,18 @@ export class ArtistViewComponent {
     this.store.dispatch(saveChanges())
   }
 
-  _submitTimelineItem(event: TimelineItem, artist: ArtistViewDto) {
-    console.log('_submitTimelineItem')
+  _submitTimelineItem(artist: ArtistViewDto, event: TimelineItem) {
     this.artistService.submitTimelineEvent$(artist.signature, event).subscribe(timeline => {
-      this.store.dispatch(updateTimeline({ value:  timeline }))
+      this._timeline$.next(timeline)
+    })
+  }
+
+  _removeTimelineEvent(artist: ArtistViewDto, event: TimelineItem, timeline: TimelineItem[]) {
+    this.dialog.yesOrNoPopup(`Remove timeline item, sure?`).pipe(
+      mergeMap(() => this.artistService.removeTimelineEvent$(artist.signature, event.id)),
+    ).subscribe(() => {
+      const newTimeline = timeline.filter(t => t.id !== event.id)
+      this._timeline$.next(newTimeline)
     })
   }
 

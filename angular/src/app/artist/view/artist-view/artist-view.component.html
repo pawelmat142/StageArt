@@ -97,7 +97,8 @@
 
                 <ng-container *ngIf="_timeline$.asObservable() | async as timeline">
                     <app-timeline 
-                    (submitTimelineForm)="_submitTimelineItem($event, artist)"
+                    (submitTimelineForm)="_submitTimelineItem(artist, $event)"
+                    (removeTimelineForm)="_removeTimelineEvent(artist, $event, timeline)"
                     [editMode]="!!(_editMode$ | async)"
                     class="timeline artist-timeline" 
                     [timeline]="timeline"

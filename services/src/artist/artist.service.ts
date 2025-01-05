@@ -223,6 +223,30 @@ export class ArtistService {
         return timeline
     }
 
+    async removeTimelineEvent(artistSignature: string, id: string, profile: JwtPayload) {
+        const authFilter = this.manageFilter(profile)
+        const artist = await this.artistModel.findOne({
+            $and: [authFilter, { signature: artistSignature }]
+        }).exec()
+        if (!artist) {
+            throw new NotFoundException(`Not found Artist ${artistSignature} when trying to remove timeline event, ${profile.uid}`)
+        }
+        const timeline = artist.toObject().timeline || []
+
+        const index = timeline.findIndex(item => item.id === id)
+        
+        if (index !== -1) {
+            timeline.splice(index, 1)
+        } else {
+            throw new IllegalStateException(`Not modified ${artistSignature} when trying to remove timeline event, ${profile.uid}`)
+        }
+        const update = await this.artistModel.updateOne({
+            signature: artistSignature
+        }, { $set: { timeline: timeline } })
+        this.logger.log(`Removed Artist ${artistSignature} timeline event, ${id}`)
+        return timeline
+    }
+
     private manageFilter(profile: JwtPayload): FilterQuery<Artist> {
         return profile.artistSignature 
         ? { signature: profile.artistSignature }

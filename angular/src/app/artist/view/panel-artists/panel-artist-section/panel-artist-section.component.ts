@@ -9,7 +9,7 @@ import { ArtistService } from '../../../artist.service';
 import { ButtonModule } from 'primeng/button';
 import { TextareaElementComponent } from '../../../../global/controls/textarea-element/textarea-element.component';
 import { FormFieldComponent } from '../../../../global/controls/form-field/form-field.component';
-import { BehaviorSubject, finalize, map, tap } from 'rxjs';
+import { BehaviorSubject, finalize, map, mergeMap, tap } from 'rxjs';
 import { DocumentTemplatesComponent } from '../../document-templates/document-templates.component';
 import { NavService } from '../../../../global/nav/nav.service';
 import { PdfDataDto } from '../../../model/document-template.def';
@@ -21,6 +21,7 @@ import { ArtistTimelineService, TimelineItem } from '../../../../booking/service
 import { AppState } from '../../../../app.state';
 import { Store } from '@ngrx/store';
 import { TimelineUtil } from '../../../../global/utils/timeline.util';
+import { Dialog } from '../../../../global/nav/dialog.service';
 
 @Component({
   selector: 'app-panel-artist-section',
@@ -47,6 +48,7 @@ export class PanelArtistSectionComponent implements OnInit {
     private readonly bookingService: BookingService,
     private readonly panelMenuService: PanelMenuService,
     private readonly nav: NavService,
+    private readonly dialog: Dialog,
     private readonly store: Store<AppState>,
     private readonly artistTimelineService: ArtistTimelineService,
   ) {}
@@ -279,6 +281,14 @@ export class PanelArtistSectionComponent implements OnInit {
 
     _submitTimelineItem(event: TimelineItem) {
       this.artistService.submitTimelineEvent$(this.artist.signature, event).subscribe(() => {
+        this.loadTimeline()
+      })
+    }
+
+    _removeTimelineEvent(event: TimelineItem) {
+      this.dialog.yesOrNoPopup(`Remove timeline item, sure?`).pipe(
+        mergeMap(() => this.artistService.removeTimelineEvent$(this.artist.signature, event.id)),
+      ).subscribe(() => {
         this.loadTimeline()
       })
     }

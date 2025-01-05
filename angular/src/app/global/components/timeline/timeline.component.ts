@@ -38,6 +38,7 @@ export class TimelineComponent implements OnChanges, OnInit {
   @Input() timeline!: TimelineItem[]
 
   @Output() submitTimelineForm = new EventEmitter<TimelineItem>()
+  @Output() removeTimelineForm = new EventEmitter<TimelineItem>()
 
   past: TimelineItem[] = []
 
@@ -56,7 +57,7 @@ export class TimelineComponent implements OnChanges, OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['timeline'].firstChange) {
+    if (changes['timeline']?.firstChange) {
       return
     }
     this.prepareTimeline()
@@ -161,5 +162,9 @@ export class TimelineComponent implements OnChanges, OnInit {
     this.closeEventForm()
     const event = this.form.value as TimelineItem
     this.submitTimelineForm.emit(event)
+  }
+
+  _removeItem(item: TimelineItem) {
+    this.removeTimelineForm.emit(item)
   }
 }
