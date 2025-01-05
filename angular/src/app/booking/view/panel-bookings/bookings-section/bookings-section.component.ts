@@ -5,12 +5,9 @@ import { StatusPipe } from "../../../../global/pipes/status.pipe";
 import { AccordionModule } from 'primeng/accordion';
 import { AppState } from '../../../../app.state';
 import { Store } from '@ngrx/store';
-import { bookingsBreadcrumb, selectBooking, setBookingsBreadcrumb, uid, unselectBooking } from '../../../../profile/profile.state';
+import { selectBooking, setBookingsBreadcrumb, uid } from '../../../../profile/profile.state';
 import { NamesPipe } from "../../../../global/pipes/names.pipe";
-import { BookingStepperComponent } from '../../booking-stepper/booking-stepper.component';
 import { $desktop } from '../../../../global/tools/media-query';
-import { BookingFormDataComponent } from '../booking-form-data/booking-form-data.component';
-import { MenuItem } from 'primeng/api';
 import { BreadcrumbUtil } from '../../../breadcrumb.util';
 
 @Component({

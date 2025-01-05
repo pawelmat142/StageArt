@@ -12,8 +12,10 @@ import { Path } from './path';
 import { Dialog } from './dialog.service';
 import { profile } from '../../profile/profile.state';
 import { FormType, openForm } from '../../form-processor/form.state';
+import { PanelView } from '../../profile/view/sidebar/panel-menu.service';
 
 export interface MenuButtonItem extends MenuItem {
+  panelView?: PanelView
   rolesGuard?: string[] //undefined means its available for every role
   filter?: (profile?: Profile) => boolean
   path?: string 

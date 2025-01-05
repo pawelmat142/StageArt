@@ -66,4 +66,18 @@ export class BookingController {
         return this.artistTimelineService.getTimeline(artistSignature)
     }
 
+
+    @Get('panel-artist-bookings/:signature')
+    @UseGuards(JwtGuard)
+    panelArtistBookings(@Param('signature') artistSignature: string, @GetProfile() profile: JwtPayload) {
+        return this.bookingService.panelArtistBookings(artistSignature, profile)
+    }
+
+    @Get('fetch-full/:formId')
+    @UseGuards(JwtGuard)
+    @UseInterceptors(SerializeBookingDto)
+    fetchFullBooking(@Param('formId') formId: string, @GetProfile() profile: JwtPayload) {
+        return this.bookingService.fetchFullBooking(formId, profile)
+    }
+
 }

@@ -1,6 +1,6 @@
 import { Injectable, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { FilterQuery, Model, RootFilterQuery } from 'mongoose';
 import { ArtistService } from '../../artist/artist.service';
 import { EventService } from '../../event/event.service';
 import { IllegalStateException } from '../../global/exceptions/illegal-state.exception';
@@ -55,16 +55,41 @@ export class BookingService {
     }
 
     public async fetchProfileBookings(profile: JwtPayload): Promise<BookingDto[]> {
+        const filter  = this.profileBookingFilter(profile)
         const uid = profile.uid
-        const bookings = await this.bookingModel.find({ $or: [
-            { promoterUid: uid },   
-            { managerUid: uid },
-            { "artists.code": profile.artistSignature }
-        ] }).lean().exec()
+        const bookings = await this.bookingModel.find(filter).lean().exec()
         
         const profileBookings = await Promise.all(bookings.map((b: Booking) => this.bookingDtoFromBooking(b)))
         this.logger.log(`Fetch ${profileBookings.length} profile bookings for ${uid}`)
         return profileBookings
+    }
+
+    private profileBookingFilter(profile: JwtPayload): FilterQuery<Booking> {
+        const uid = profile.uid
+        return { $or: [
+            { promoterUid: uid },   
+            { managerUid: uid },
+            { "artists.code": profile.artistSignature }
+        ] }
+    }
+
+    public async panelArtistBookings(artistSignature: string, profile: JwtPayload) {
+        const bookings = await this.bookingModel.find({
+            "artists.code": artistSignature,
+            status: { $nin: ['CANCELED'] },
+            managerUid: profile.uid
+        }).exec()
+        return Promise.all(bookings.map((b: Booking) => this.bookingDtoFromBooking(b)))
+    }
+
+    public async fetchFullBooking(formId: string, profile: JwtPayload) {
+        const booking = await this.bookingModel.findOne({
+            $and: [
+                this.profileBookingFilter(profile),
+                { formId: formId }
+            ]
+        })
+        return this.bookingDtoFromBooking(booking)
     }
 
     private async bookingDtoFromBooking(booking: Booking): Promise<BookingDto> {

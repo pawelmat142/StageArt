@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ArtistService } from '../../artist.service';
 import { Observable, of, tap } from 'rxjs';
 import { ArtistStatus, ArtistViewDto } from '../../model/artist-view.dto';
@@ -38,6 +38,8 @@ export class PanelArtistsComponent {
     private readonly courtineService: CourtineService,
   ) {}
 
+  @Input() artist?: ArtistViewDto
+
   private readonly DEFAULT_BREADCUMB: MenuItem = {
     label: 'Your artists',
     command: () => this._select(undefined)
@@ -50,7 +52,10 @@ export class PanelArtistsComponent {
   _documentTemplatesArtist?: ArtistViewDto
 
   ngOnInit(): void {
-    this.courtineService.startCourtine()
+    if (this.artist) {
+      this._select(this.artist)
+      return
+    }
     this.loadArtists()
   }
 
@@ -100,6 +105,7 @@ export class PanelArtistsComponent {
   }
 
   loadArtists() {
+    this.courtineService.startCourtine()
     this._artists$ = this.artistService.fetchArtistsOfManager$().pipe(
       tap(() => {
         this._cancelManagementNotesEdit()

@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { ButtonModule } from 'primeng/button';
 import { StepperModule } from 'primeng/stepper';
 import { BookingDto, BookingService } from '../../services/booking.service';
-import { of, switchMap, tap } from 'rxjs';
+import { map, of, switchMap, tap } from 'rxjs';
 import { loadBookings } from '../../../profile/profile.state';
 import { SubstepComponent } from './substep/substep.component';
 import { CommonModule } from '@angular/common';
@@ -13,6 +13,14 @@ import { Dialog } from '../../../global/nav/dialog.service';
 import { ChecklistTile } from '../../interface/checklist.interface';
 import { ChecklistUtil } from '../../checklist.util';
 import { Token } from '../../../profile/auth/view/token';
+import { ArtistViewDto } from '../../../artist/model/artist-view.dto';
+import { SelectorItem } from '../../../global/interface';
+import { PanelMenuService } from '../../../profile/view/sidebar/panel-menu.service';
+import { ArtistService } from '../../../artist/artist.service';
+
+export interface SelectorItemWithPersmission extends SelectorItem {
+  hasPermission?: boolean
+}
 
 @Component({
   selector: 'app-booking-stepper',
@@ -34,12 +42,17 @@ export class BookingStepperComponent implements OnChanges{
     private readonly store: Store<AppState>,
     private readonly bookingService: BookingService,
     private readonly dialog: Dialog,
+    private readonly panelMenuService: PanelMenuService,
+    private readonly artistService: ArtistService,
   ) {}
 
   activeStep = 0;
 
   _uid = Token.getUid()
+  _profile = Token.payload
+
   _checklistTiles: ChecklistTile[] = []
+  _artists: SelectorItemWithPersmission[] = []
 
   @Input() booking!: BookingDto
 
@@ -48,6 +61,23 @@ export class BookingStepperComponent implements OnChanges{
     this._checklistTiles = this.booking?.checklist.length && this._uid 
       ? ChecklistUtil.prepareTiles(this.booking, this._uid)
       : []
+
+    const isManager = this.booking.managerUid === this._uid
+
+    this._artists = this.booking.artists.map(a => {
+      let artist = {...a} as SelectorItemWithPersmission
+      artist.hasPermission = isManager
+      return artist
+    })
+  }
+
+  _navToArtistPanel(artist: SelectorItemWithPersmission) {
+    if (!artist.hasPermission) {
+      return
+    }
+    this.artistService.fetchArtist$({ signature: artist.code }).pipe(
+      map((artist) => this.panelMenuService.panelNavToArtists(artist))
+    ).subscribe()
   }
 
   private setProcessStepIndex(booking?: BookingDto) {

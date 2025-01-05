@@ -6,6 +6,21 @@
     height: 100%;
 }
 
+.profile-view-content {
+    background-color: $highlightBg;
+    width: 100%;
+    min-height: 90vh;
+}
+
+.panel-container {
+    padding: 0 .5*$padding-standard 2*$padding-standard;
+}
+
+.panel-breadcrumb {
+    padding: .5*$padding-standard;
+    padding-bottom: 0;
+}
+
 .panel-section {
     padding: 0;
 }
@@ -41,6 +56,14 @@
 @media only screen and (min-width: $desktop) {
     .booking-item {
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    }
+
+    .panel-container {
+        padding: 0 $padding-standard 2*$padding-standard;
+    }
+    
+    .panel-breadcrumb {
+        padding: $padding-standard;
     }
 }
 
@@ -90,3 +113,4 @@
         padding: $padding-standard;
     }
 }
+

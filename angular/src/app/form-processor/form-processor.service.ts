@@ -62,7 +62,6 @@ export class FormProcessorService {
   startForm$(form: Form): Observable<{ formId: string }> {
     return this.http.post<{ formId: string }>(`/form/start/${form.formType}`, form.data)
     .pipe(tap(id => {
-      console.log(id)
       localStorage.setItem(form.formType, id.formId)
     }))
   }

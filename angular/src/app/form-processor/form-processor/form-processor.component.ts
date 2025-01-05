@@ -57,7 +57,6 @@ export class FormProcessorComponent {
 
   ngOnInit(): void {
     this.subscriptions.push(this.store.select(formData).pipe(
-      tap(console.log),
       tap(formData => this.formData = formData),
     ).subscribe(formData => {
       this.recreateArrayStepGroups()

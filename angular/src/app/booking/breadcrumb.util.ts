@@ -17,8 +17,9 @@ export abstract class BreadcrumbUtil {
             command: () => store.dispatch(unselectBooking())
         }]
         if (booking) {
+            const name = booking.formData?.eventInformation.eventName || booking.event.name
             result.push({
-                label: `${booking.event.name}`,
+                label: `${name}`,
             })
         }
         return result

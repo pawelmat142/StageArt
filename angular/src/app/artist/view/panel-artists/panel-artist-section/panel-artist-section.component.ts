@@ -1,19 +1,21 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ArtistStatus, ArtistViewDto } from '../../../model/artist-view.dto';
 import { AccordionModule } from 'primeng/accordion';
 import { MenuItem } from 'primeng/api';
-import { ReactiveFormsModule, Validators } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { CourtineService } from '../../../../global/nav/courtine.service';
 import { ArtistService } from '../../../artist.service';
 import { ButtonModule } from 'primeng/button';
 import { TextareaElementComponent } from '../../../../global/controls/textarea-element/textarea-element.component';
 import { FormFieldComponent } from '../../../../global/controls/form-field/form-field.component';
-import { tap } from 'rxjs';
+import { finalize, map, tap } from 'rxjs';
 import { DocumentTemplatesComponent } from '../../document-templates/document-templates.component';
 import { NavService } from '../../../../global/nav/nav.service';
 import { PdfDataDto } from '../../../model/document-template.def';
 import { DoocumentTemplateEditorComponent } from '../../document-templates/doocument-template-editor/doocument-template-editor.component';
+import { BookingDto, BookingService } from '../../../../booking/services/booking.service';
+import { PanelMenuService } from '../../../../profile/view/sidebar/panel-menu.service';
 
 @Component({
   selector: 'app-panel-artist-section',
@@ -36,23 +38,27 @@ export class PanelArtistSectionComponent implements OnInit {
   constructor(
     private readonly courtineService: CourtineService,
     private readonly artistService: ArtistService,
+    private readonly bookingService: BookingService,
+    private readonly panelMenuService: PanelMenuService,
     private readonly nav: NavService,
   ) {}
-
 
   @Input() artist!: ArtistViewDto
 
   @Output() breadcrumb = new EventEmitter<MenuItem[]>()
   @Output() refresh = new EventEmitter()
 
+  _bookings: BookingDto[] = []
+
   ngOnInit(): void {
+    this.bookingService.panelArtistBookings$(this.artist.signature).subscribe(bookings => this._bookings = bookings)
   }
 
   _managmentNotes = ''
 
   activeIndexManagementNotes: number | undefined = undefined
+  activeIndexBookings: number | undefined = undefined
   activeIndexDocumentTemplates: number | undefined = undefined
-
 
   pdfData?: PdfDataDto
 
@@ -70,6 +76,26 @@ export class PanelArtistSectionComponent implements OnInit {
     } else {
       this._closeManagementNotes()
     }
+  }
+
+  _toggleBookings($event: any) {
+    this._closePdfData()
+    this._closeManagementNotes()
+    this._closeDocumentTemplates()
+    if (Number.isInteger($event)) { 
+      this.breadcrumb.emit([{
+        label: this.artist.name,
+        command: () => this._closeBookingsAccordion()
+      }, {
+        label: `Bookings`
+      }])
+    } else {
+      this._closeBookingsAccordion()
+    }
+  }
+
+  _closeBookingsAccordion() {
+    this.activeIndexBookings = -1
   }
 
   _documentTemplates = false
@@ -99,6 +125,14 @@ export class PanelArtistSectionComponent implements OnInit {
   _closePdfData() {
     this.pdfData = undefined
     this.breadcrumb.emit(this.getDocumentTemplatesBreadcrumbs())
+  }
+
+  _navToPanelBooking(booking: BookingDto) {
+    this.courtineService.startCourtine()
+    this.bookingService.fetchFullBooking$(booking.formId).pipe(
+      map(b => this.panelMenuService.panelNavToBookings(b)),
+      tap(() => this.courtineService.stopCourtine())
+    ).subscribe()
   }
 
   private getPdfDataBreadcrumbs(): MenuItem[] {

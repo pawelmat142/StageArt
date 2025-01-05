@@ -4,6 +4,7 @@ import { Booking, BookingDocument, BookingStatus } from "../model/booking.model"
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from 'mongoose';
 import { SelectorItem } from "../../artist/artist.controller";
+import { JwtPayload } from "../../profile/auth/jwt-strategy";
 
 export interface EventInformation {
     performanceStartDate: Date
@@ -40,7 +41,7 @@ export class ArtistTimelineService {
     private async getArtistBookings(artistSignature: string): Promise<BookingDocument[]> {
         return this.bookingModel.find({
             "artists.code": artistSignature,
-            status: { $nin: ['CANCELED'] }
+            status: { $nin: ['CANCELED'] },
         }, {
             status: true,
             formId: true,

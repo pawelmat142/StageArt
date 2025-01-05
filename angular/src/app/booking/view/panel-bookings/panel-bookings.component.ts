@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { map, tap, withLatestFrom } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../app.state';
@@ -8,8 +8,7 @@ import { SignComponent } from '../../../global/components/sign/sign.component';
 import { $desktop } from '../../../global/tools/media-query';
 import { MockCardComponent } from '../../../global/components/mock-card/mock-card.component';
 import { BookingsSectionComponent } from './bookings-section/bookings-section.component';
-import { bookingsBreadcrumb, loadBookings, profile, profileBookings, unselectBooking } from '../../../profile/profile.state';
-import { MenuItem } from 'primeng/api';
+import { bookingsBreadcrumb, loadBookings, profile, profileBookings, selectBooking, unselectBooking } from '../../../profile/profile.state';
 import { BookingDto } from '../../services/booking.service';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { BookingPanelItemComponent } from './booking-panel-item/booking-panel-item.component';
@@ -36,14 +35,19 @@ export class PanelBookingsComponent implements OnInit, OnDestroy {
     private readonly store: Store<AppState>,
   ) {}
 
+  @Input() booking?: BookingDto
   
   _breadcrumb$ = this.store.select(bookingsBreadcrumb)
 
   ngOnInit(): void {
     this.store.select(state => state.profileState.selectedBooking)
-      .pipe(tap(console.log))
       .subscribe(b => this._selectedBooking = b)
-    this.store.dispatch(loadBookings())
+    if (this.booking) {
+      this.store.dispatch(selectBooking(this.booking))
+      this._emptyBookings = false
+    } else {
+      this.store.dispatch(loadBookings())
+    }
   }
   
   ngOnDestroy(): void {
@@ -71,7 +75,5 @@ export class PanelBookingsComponent implements OnInit, OnDestroy {
       ...bookingsForRoles.promoter,
     ].length)
   )
-
-
 
 }

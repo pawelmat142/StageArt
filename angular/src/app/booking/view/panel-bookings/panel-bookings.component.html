@@ -1,6 +1,9 @@
-<div class="panel-container">
 
+<div class="panel-breadcrumb">
     <p-breadcrumb class="max-w-full" [model]="(_breadcrumb$ | async) || []"></p-breadcrumb>
+</div>
+
+<div class="panel-container">
 
     <app-booking-panel-item *ngIf="_selectedBooking" [booking]="_selectedBooking"></app-booking-panel-item>
 

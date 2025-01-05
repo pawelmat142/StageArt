@@ -6,13 +6,13 @@
     <div class="profile-view-content">
 
         <ng-container *ngIf="_panelView$ | async as panelView">
-            <ng-container [ngSwitch]="panelView">
+            <ng-container [ngSwitch]="panelView.view">
 
-                <app-panel-bookings *ngSwitchCase="'BOOKINGS'"></app-panel-bookings>
+                <app-panel-bookings *ngSwitchCase="'BOOKINGS'" [booking]="panelView.booking"></app-panel-bookings>
 
                 <app-initial-info *ngSwitchCase="'ARTIST_INITIAL_INFO'"></app-initial-info>
 
-                <app-panel-artists *ngSwitchCase="'MANAGER_ARTISTS'"></app-panel-artists>
+                <app-panel-artists *ngSwitchCase="'MANAGER_ARTISTS'" [artist]="panelView.artist"></app-panel-artists>
 
                 <app-panel-events *ngSwitchCase="'PROMOTER_EVENTS'"></app-panel-events>
 

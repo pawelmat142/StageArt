@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpService } from "../../services/http.service";
-import { BehaviorSubject, map, Observable, tap } from "rxjs";
+import { BehaviorSubject, finalize, map, Observable, tap } from "rxjs";
 import { Size } from "../../utils/img.util";
 import { Status } from "../../status";
 import { CourtineService } from "../../nav/courtine.service";
@@ -45,10 +45,8 @@ export class SignatureService {
     }
 
     listSignatures$(): Observable<Signature[]> {
-        this.courtine.startCourtine()
         return this.http.get<Signature[]>(`/document/signatures`).pipe(
             map(s => this.sortSignatures(s)),
-            tap(() => this.courtine.stopCourtine())
         )
     }
 

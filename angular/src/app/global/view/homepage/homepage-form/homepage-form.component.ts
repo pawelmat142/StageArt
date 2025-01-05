@@ -110,7 +110,6 @@ export class HomepageFormComponent implements OnInit {
       withLatestFrom(this.store.select(formData)),
       map(([promoterInfo, currentFormData]) => {
         const formData = currentFormData ? JSON.parse(JSON.stringify(currentFormData)) : {}
-        console.log(formData)
         if (promoterInfo) {
           formData.promoterInformation = promoterInfo
         }

@@ -203,7 +203,6 @@ export class FormEffect {
 
         switchMap(form => this.formProcessorService.startForm$(form)),
         map(id => {
-            console.log(id)
             return setFormId({ id: id.formId })
         })
     ))
@@ -240,8 +239,6 @@ export class FormEffect {
         this.store.select(formData).pipe(
             take(1),
             switchMap(currentFormData => {
-                console.log('currentFormData')
-                console.log(currentFormData)
                 const currentEventInformation = currentFormData?.eventInformation?.performanceStartDate
                 return forkJoin([
                     currentEventInformation 
@@ -257,8 +254,6 @@ export class FormEffect {
                         if (promoterInformation) {
                             formData.promoterInformation = promoterInformation
                         }
-                        console.log('set FormDAT')
-                        console.log(formData)
                         this.store.dispatch(setFormData(formData))
                     }))
             })

@@ -27,6 +27,7 @@ export interface BookingDto {
   statusHistory: StatusHistory[]
   event: EventDto
   checklist: ChecklistItem[]
+  formData?: any
 }
 
 
@@ -62,6 +63,14 @@ export class BookingService {
   
   requestDocuments$(formId: string) {
     return this.http.get<BookingDto>(`/booking/request-documents/${formId}`)
+  }
+  
+  panelArtistBookings$(artistSignature: string): Observable<BookingDto[]> {
+    return this.http.get<BookingDto[]>(`/booking/panel-artist-bookings/${artistSignature}`)
+  }
+  
+  fetchFullBooking$(formId: string): Observable<BookingDto> {
+    return this.http.get<BookingDto>(`/booking/fetch-full/${formId}`)
   }
 
 }

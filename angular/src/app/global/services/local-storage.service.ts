@@ -2,7 +2,6 @@ import { Injectable } from "@angular/core";
 import { Country } from "../countries/country.model";
 import { AppState } from "../../app.state";
 import { Store } from "@ngrx/store";
-import { selectFormId } from "../../form-processor/form.state";
 
 @Injectable({
     providedIn: 'root'
@@ -14,7 +13,6 @@ export class LocalStorageService {
     constructor(
         private readonly store: Store<AppState>,
     ) {
-        this.store.select(selectFormId).subscribe(id => console.log(`formId: ${id}`))
     }
 
 

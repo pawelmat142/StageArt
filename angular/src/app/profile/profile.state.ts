@@ -234,15 +234,14 @@ export class ProfileEffect {
 
     selectBooking$ = createEffect(() => this.actions$.pipe(
         ofType(selectBooking),
-        withLatestFrom(this.store.select(bookingsBreadcrumb)),
-        tap(([booking, bookingsBreadcrumb]) => {
+        tap((booking) => {
             const breadcrumb = BreadcrumbUtil.booking(this.store, booking)
             this.store.dispatch(setBookingsBreadcrumb({ value: breadcrumb }))
     })), { dispatch: false })
 
     unselectBooking$ = createEffect(() => this.actions$.pipe(
         ofType(unselectBooking),
-        tap((booking) => {
+        tap(() => {
             const breadcrumb = BreadcrumbUtil.bookings()
             this.store.dispatch(setBookingsBreadcrumb({ value: breadcrumb }))
     })), { dispatch: false })

@@ -7,11 +7,10 @@ import { PanelArtistsComponent } from '../../../artist/view/panel-artists/panel-
 import { PanelEventsComponent } from '../../../event/view/panel-events/panel-events.component';
 import { ManagerFormComponent } from "../manager-form/manager-form.component";
 import { SidebarModule } from 'primeng/sidebar';
-import { PanelMenuService } from '../sidebar/panel-menu.service';
-import { Observable, tap } from 'rxjs';
+import { PanelMenuService, PanelView, PanelViewNav } from '../sidebar/panel-menu.service';
+import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
-export type PanelView  = 'NONE' | 'BOOKINGS' | 'MANAGER_ARTISTS' | 'MANAGER_DATA' | 'PROMOTER_EVENTS' | 'ARTIST_INITIAL_INFO'
 
 @Component({
   selector: 'app-profile',
@@ -37,7 +36,7 @@ export class PanelComponent {
   ) {
   }
 
-  _panelView$: Observable<PanelView> = this.panelMenuService.panelViewSubject$
+  _panelView$: Observable<PanelViewNav> = this.panelMenuService.panelViewSubject$
 
   sidebarVisible = true
   
