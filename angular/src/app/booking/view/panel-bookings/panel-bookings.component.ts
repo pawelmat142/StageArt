@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { map, tap, withLatestFrom } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../app.state';
@@ -8,7 +8,11 @@ import { SignComponent } from '../../../global/components/sign/sign.component';
 import { $desktop } from '../../../global/tools/media-query';
 import { MockCardComponent } from '../../../global/components/mock-card/mock-card.component';
 import { BookingsSectionComponent } from './bookings-section/bookings-section.component';
-import { loadBookings, profile, profileBookings } from '../../../profile/profile.state';
+import { bookingsBreadcrumb, loadBookings, profile, profileBookings, unselectBooking } from '../../../profile/profile.state';
+import { MenuItem } from 'primeng/api';
+import { BookingDto } from '../../services/booking.service';
+import { BreadcrumbModule } from 'primeng/breadcrumb';
+import { BookingPanelItemComponent } from './booking-panel-item/booking-panel-item.component';
 
 @Component({
   selector: 'app-panel-bookings',
@@ -17,19 +21,37 @@ import { loadBookings, profile, profileBookings } from '../../../profile/profile
     CommonModule,
     SignComponent,
     MockCardComponent,
-    BookingsSectionComponent
+    BookingsSectionComponent,
+    BreadcrumbModule,
+    BookingPanelItemComponent
 ],
   templateUrl: './panel-bookings.component.html',
   styleUrl: './panel-bookings.component.scss',
 })
-export class PanelBookingsComponent {
+export class PanelBookingsComponent implements OnInit, OnDestroy {
 
   readonly $desktop = $desktop;
 
   constructor(
     private readonly store: Store<AppState>,
   ) {}
+
   
+  _breadcrumb$ = this.store.select(bookingsBreadcrumb)
+
+  ngOnInit(): void {
+    this.store.select(state => state.profileState.selectedBooking)
+      .pipe(tap(console.log))
+      .subscribe(b => this._selectedBooking = b)
+    this.store.dispatch(loadBookings())
+  }
+  
+  ngOnDestroy(): void {
+    this.store.dispatch(unselectBooking())
+  }
+
+  _selectedBooking?: BookingDto
+
   _bookingFormStructure = new BookingFormStructure(this.store, [])
 
   _emptyBookings = true
@@ -50,8 +72,6 @@ export class PanelBookingsComponent {
     ].length)
   )
 
-  ngOnInit(): void {
-    this.store.dispatch(loadBookings())
-  }
+
 
 }

@@ -26,41 +26,40 @@
     </p-button>
 </div>
 
-<div class="margin-bottom">
-    <p-accordion value="0" class="my-accordion padding margin-top margin-bottom"
-        [(activeIndex)]="activeIndexManagementNotes" 
-        (activeIndexChange)="_toggleManagementNotes($event)"
-    >
-        <p-accordionTab header="Edit management notes">
-            <ng-template pTemplate="content">
-    
-                <div class="content-management-notes">
-                    <app-form-field label="Management notes">
-                        <app-textarea-element
-                            [class.active]="false"
-                            class="margin-bottom-2"
-                            label="Management notes"
-                            [value]="this._managmentNotes"
-                            (onInput)="_onInput($event)"
-                        ></app-textarea-element>
-                    </app-form-field>
-                    <div class="btns center">
-                        <p-button 
-                            [disabled]="artist.managmentNotes === _managmentNotes"
-                            (click)="_submitManagementNotes()" 
-                            [raised]="true"
-                            severity="success" 
-                            label="Submit">
-                        </p-button>
-                    </div>
-                </div>
-    
-            </ng-template>
-        </p-accordionTab>
-    </p-accordion>
-</div>
+<div class="accordions">
 
-<div class="margin-bottom">
+        <p-accordion value="0" class="my-accordion padding"
+            [(activeIndex)]="activeIndexManagementNotes" 
+            (activeIndexChange)="_toggleManagementNotes($event)"
+        >
+            <p-accordionTab header="Edit management notes">
+                <ng-template pTemplate="content">
+        
+                    <div class="content-management-notes">
+                        <app-form-field label="Management notes">
+                            <app-textarea-element
+                                [class.active]="false"
+                                class="margin-bottom-2"
+                                label="Management notes"
+                                [value]="this._managmentNotes"
+                                (onInput)="_onInput($event)"
+                            ></app-textarea-element>
+                        </app-form-field>
+                        <div class="btns center">
+                            <p-button 
+                                [disabled]="artist.managmentNotes === _managmentNotes"
+                                (click)="_submitManagementNotes()" 
+                                [raised]="true"
+                                severity="success" 
+                                label="Submit">
+                            </p-button>
+                        </div>
+                    </div>
+        
+                </ng-template>
+            </p-accordionTab>
+        </p-accordion>
+
     <p-accordion value="0" class="my-accordion padding" 
         [(activeIndex)]="activeIndexDocumentTemplates" 
         (activeIndexChange)="_toggleDocumentTemplates($event)"

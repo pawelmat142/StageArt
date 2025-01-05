@@ -9,6 +9,8 @@ import { Dialog } from "../global/nav/dialog.service"
 import { NavService } from "../global/nav/nav.service"
 import { BookingDto, BookingService } from "../booking/services/booking.service"
 import { ChecklistUtil } from "../booking/checklist.util"
+import { MenuItem } from "primeng/api"
+import { BreadcrumbUtil } from "../booking/breadcrumb.util"
 
 export interface ProfileState {
     loading: boolean
@@ -18,6 +20,7 @@ export interface ProfileState {
 
     bookings?: BookingDto[]
     selectedBooking?: BookingDto
+    breadcrumb: MenuItem[]
     formData?: any
 }
 
@@ -48,6 +51,10 @@ export const loggedInChange = createSelector(
     (state: ProfileState) => state.loggedIn
 )
 
+export const bookingsBreadcrumb = createSelector(
+    selectProfileState,
+    (state: ProfileState) => state.breadcrumb
+)
 
 
 
@@ -81,6 +88,8 @@ export const logout = createAction("[PROFILE] logout")
 export const loadBookings = createAction("[PROFILE] [BOOKINGS] init")
 export const setBookings = createAction("[PROFILE] [BOOKINGS] set", props<{ value: BookingDto[] }>())
 
+export const setBookingsBreadcrumb = createAction("[PROFILE] [BOOKINGS] [BREADCRUB]", props<{value: MenuItem[]}>())
+
 export const selectBooking = createAction("[PROFILE] [BOOKING] select", props<BookingDto>())
 export const unselectBooking = createAction("[PROFILE] [BOOKING] unselect")
 export const updateBooking = createAction("[PROFILE] [BOOKING] update", props<BookingDto>())
@@ -89,11 +98,13 @@ export const setBookingFormData = createAction("[PROFILE] [formData] set", props
 export const removeBookingFormData = createAction("[PROFILE] [formData] remove")
 
 
+
 const initialState: ProfileState = {
     loading: false,
     loggedIn: false,
     uuid: '',
-    profile: undefined
+    profile: undefined,
+    breadcrumb: []
 }
 
 export const profileReducer = createReducer(
@@ -133,6 +144,11 @@ export const profileReducer = createReducer(
         ...state,
         loading: false,
         bookings: bookings.value
+    })),
+
+    on(setBookingsBreadcrumb, (state, breadcrumb) => ({
+        ...state,
+        breadcrumb: breadcrumb.value
     })),
 
 
@@ -202,13 +218,6 @@ export class ProfileEffect {
     loadBookings$ = createEffect(() => this.actions$.pipe(
         ofType(loadBookings),
         switchMap(() => this.bookingService.fetchProfileBookings$()),
-        tap(bookings => {
-            if (bookings.length) {
-                setTimeout(() => {
-                    this.store.dispatch(selectBooking(bookings[0]))
-                }, 200)
-            }
-        }),
         map(bookings => setBookings({ value: bookings })),
     ))
 
@@ -222,5 +231,20 @@ export class ProfileEffect {
             }
         }),
     ), { dispatch: false })
+
+    selectBooking$ = createEffect(() => this.actions$.pipe(
+        ofType(selectBooking),
+        withLatestFrom(this.store.select(bookingsBreadcrumb)),
+        tap(([booking, bookingsBreadcrumb]) => {
+            const breadcrumb = BreadcrumbUtil.booking(this.store, booking)
+            this.store.dispatch(setBookingsBreadcrumb({ value: breadcrumb }))
+    })), { dispatch: false })
+
+    unselectBooking$ = createEffect(() => this.actions$.pipe(
+        ofType(unselectBooking),
+        tap((booking) => {
+            const breadcrumb = BreadcrumbUtil.bookings()
+            this.store.dispatch(setBookingsBreadcrumb({ value: breadcrumb }))
+    })), { dispatch: false })
 
 }

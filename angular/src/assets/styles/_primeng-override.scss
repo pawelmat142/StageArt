@@ -41,28 +41,68 @@
     padding: 0;
 }
 
+
+
 // ACCORDION
-.item-row.tile-style {
-    color: $textColor;
+.form-border {
+    border: $formBorder;
 }
 
 .item-row.tile-style,
 .p-accordion .p-accordion-header .p-accordion-header-link {
     font-weight: normal;
     background-color: $bgTwo;
-    border: $border;
     border-radius: $borderRadius;
     text-align: left;
     border: unset;
+    line-height: 1;
 }
-.p-accordion .p-accordion-header .p-accordion-header-link {
-    padding: 0;
-    &:hover {
-        background-color: $formBg;
+
+.item-row.tile-style {
+    color: $textColor;
+    margin-bottom: .25*$padding-standard;
+    border: $formBorder;
+    &.item-border {
+        border: 1px solid $surfaceBorder;
+    }
+    &.padding {
+        padding: 1rem;
+    }
+    &.padding-05 {
+        padding: .5rem;
     }
 }
 
+.surface-border.item-row.tile-style,
+.surface-border .p-accordion-tab {
+    border: 1px solid $surfaceBorder;
+}
+
+.item-row.tile-style.form-bg,
+.form-bg {
+    background-color: $formBg;
+}
+
+.clickable,
+.clickable.item-row.tile-style.form-bg,
+.p-accordion .p-accordion-header .p-accordion-header-link {
+    cursor: pointer;
+    transition: $transition-standard;
+    &:hover {
+        background-color: $formControlShadow;
+    }
+}
+
+
+
+
 .my-accordion {
+    border-radius: $borderRadius;
+    
+    .p-accordion-tab {
+        border: $formBorder;
+    }
+
     .p-accordion .p-accordion-header .p-accordion-header-link {
         cursor: pointer;
         display: flex;
@@ -71,7 +111,6 @@
         width: 100%;
         padding: 0 8px;
         color: $textColor;
-        padding: .5*$padding-standard;
     }
     .p-accordion-header {
         display: flex;
@@ -92,17 +131,24 @@
 
     &.padding {
         .p-accordion .p-accordion-header .p-accordion-header-link {
-            padding: $padding-standard;
+            padding: 1rem;
+        }
+    }
+    &.padding-05 {
+        .p-accordion .p-accordion-header .p-accordion-header-link {
+            padding: .5rem;
         }
     }
 }
 
-.accordion-border {
-    .p-accordion .p-accordion-header .p-accordion-header-link,
-    .p-accordion-tab-active {
-        border: $border;
+
+
+.my-accordion.no-border {
+    .p-accordion-tab {
+        border: unset;
     }
 }
+
 .p-accordion .p-accordion-tab {
     background-color: $bgTwo;
     border-radius: $borderRadius;
@@ -124,6 +170,9 @@
     padding-right: 0;
 }
 
+.p-accordion p-accordiontab .p-accordion-tab {
+    margin-bottom: 0
+}
 
 // STEPPER
 .p-stepper.p-stepper-vertical .p-stepper-panel .p-stepper-separator {
@@ -312,6 +361,30 @@
     .p-dropdown {
         .p-inputtext {
             padding: 0.4rem .75rem;
+        }
+    }
+}
+
+
+// BREADCRUMB
+
+.p-breadcrumb {
+    background-color: $bgTwo;
+    padding-top: 0;
+    padding-bottom: 0;
+    border: $formBorder;
+
+    .p-menuitem-link {
+        cursor: pointer;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        .p-menuitem-text {
+            transform: $transition-standard;
+        }
+        &:hover {
+            .p-menuitem-text {
+                color: $primaryColor;
+            }
         }
     }
 }

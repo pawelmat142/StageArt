@@ -30,6 +30,8 @@ export abstract class Token {
         const uid = this.payload?.uid
         if (uid) {
             localStorage.setItem(this.UID, uid)
+        } else {
+            localStorage.removeItem(this.UID)
         }
     }
 

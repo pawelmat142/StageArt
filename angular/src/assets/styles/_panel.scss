@@ -49,19 +49,8 @@
     display: grid;
     align-items: center;
     width: 100%;
-
-    &.clickable {
-        cursor: pointer;
-        transition: $transition-standard;
-        &:hover {
-            background-color: $formBg;
-        }
-    }
-
-    &.has-menu {
-        padding-top: .5*$padding-standard;
-        padding-bottom: .5*$padding-standard;
-    }
+    padding-top: .5*$padding-standard;
+    padding-bottom: .5*$padding-standard;
 }
 
 .labels {

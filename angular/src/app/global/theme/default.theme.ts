@@ -22,7 +22,8 @@ export abstract class DefaultTheme {
     // FORM
     public static readonly formBg = this.bgTwo;
     public static readonly formColor = this.textSecondaryColor;
-    public static readonly formBorderColor = '#d1d5db';
+    // public static readonly formBorderColor = '#d1d5db';
+    public static readonly formBorderColor = '#e5e7eb';
     public static readonly formBorder = `1px solid ${this.formBorderColor}`;
     public static readonly formBorderActive = '#3B82F6';
     public static readonly formControlShadow = '#BFDBFE';

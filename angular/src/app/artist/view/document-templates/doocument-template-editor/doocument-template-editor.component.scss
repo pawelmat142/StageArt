@@ -19,3 +19,9 @@
     gap: 0.5*$padding-standard;
     padding: $padding-standard;
 }
+
+.strong-border {
+    .p-accordion-tab {
+        border: 1px solid black;
+    }
+}

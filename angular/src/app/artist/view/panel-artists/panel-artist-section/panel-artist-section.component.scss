@@ -3,3 +3,9 @@
 .content-management-notes {
     padding: $padding-standard;
 }
+
+.accordions {
+    display: flex;
+    flex-direction: column;
+    gap: $padding-standard;
+}

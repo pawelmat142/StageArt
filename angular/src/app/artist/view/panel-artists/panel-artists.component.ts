@@ -64,7 +64,6 @@ export class PanelArtistsComponent {
         label: this._selectedArtist.name,
       })
     }
-
     this._breadcrumb = breadcrumb
   }
 

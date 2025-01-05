@@ -15,11 +15,11 @@
 
             @for (artist of artists; track artist.signature; let last = $last) {
 
-                <div class="item-row tile-style has-menu clickable" (click)="_select(artist)">
-                    <p>{{artist.name}}</p>
-                    <p [pTooltip]="_artistStatusTooltip(artist.status)" tooltipPosition="top">
+                <div class="item-row tile-style padding has-menu clickable" (click)="_select(artist)">
+                    <div>{{artist.name}}</div>
+                    <div [pTooltip]="_artistStatusTooltip(artist.status)" tooltipPosition="top">
                         {{artist.status | status }}
-                    </p>
+                    </div>
                 </div>
             }
         </ng-container>

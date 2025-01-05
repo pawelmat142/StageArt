@@ -47,6 +47,7 @@ export class BookingFormDataComponent implements OnChanges{
       this.fetchFormData(this.booking)
       this._header = 'Hide booking form data'
     } else {
+      this._header = 'Show booking form data'
       this.close()
     }
   }

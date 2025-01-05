@@ -1,8 +1,9 @@
-
+@import 'variables';
 
 .content-management-notes {
     textarea {
-        background-color: white;
-        color: black
+        background-color: $formBg;
+        border: $formBorder;
+        border-radius: $borderRadius;
     }
 }

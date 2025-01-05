@@ -1,17 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { AppState } from '../../../app.state';
 import { Store } from '@ngrx/store';
 import { ButtonModule } from 'primeng/button';
 import { StepperModule } from 'primeng/stepper';
 import { BookingDto, BookingService } from '../../services/booking.service';
-import { map, Observable, of, switchMap, tap, withLatestFrom } from 'rxjs';
-import { loadBookings, setBookingFormData } from '../../../profile/profile.state';
+import { of, switchMap, tap } from 'rxjs';
+import { loadBookings } from '../../../profile/profile.state';
 import { SubstepComponent } from './substep/substep.component';
 import { CommonModule } from '@angular/common';
 import { PaperTileComponent } from '../../../global/components/paper-tile/paper-tile.component';
 import { Dialog } from '../../../global/nav/dialog.service';
 import { ChecklistTile } from '../../interface/checklist.interface';
 import { ChecklistUtil } from '../../checklist.util';
+import { Token } from '../../../profile/auth/view/token';
 
 @Component({
   selector: 'app-booking-stepper',
@@ -27,7 +28,7 @@ import { ChecklistUtil } from '../../checklist.util';
   templateUrl: './booking-stepper.component.html',
   styleUrl: './booking-stepper.component.scss',
 })
-export class BookingStepperComponent {
+export class BookingStepperComponent implements OnChanges{
 
   constructor(
     private readonly store: Store<AppState>,
@@ -37,22 +38,17 @@ export class BookingStepperComponent {
 
   activeStep = 0;
 
-  _uid?: string
+  _uid = Token.getUid()
   _checklistTiles: ChecklistTile[] = []
 
-  _booking$: Observable<BookingDto | undefined> = this.store.select(state => state.profileState.selectedBooking).pipe(
-    tap(booking => {
-      this.setProcessStepIndex(booking)
-    }),
-    withLatestFrom(this.store.select(state => state.profileState.profile?.uid)),
-    map(([booking, uid]) => {
-      this._uid = uid
-      this._checklistTiles = booking?.checklist.length && this._uid 
-        ? ChecklistUtil.prepareTiles(booking, this._uid)
-        : []
-      return booking
-    }),
-  )
+  @Input() booking!: BookingDto
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.setProcessStepIndex(this.booking)
+    this._checklistTiles = this.booking?.checklist.length && this._uid 
+      ? ChecklistUtil.prepareTiles(this.booking, this._uid)
+      : []
+  }
 
   private setProcessStepIndex(booking?: BookingDto) {
     if (booking?.status === 'SUBMITTED') {

@@ -1,8 +1,8 @@
-<p-accordion value="0" class="my-accordion right" (activeIndexChange)="_toggleFormData($event, booking)">
+<p-accordion value="0" class="my-accordion padding" (activeIndexChange)="_toggleFormData($event, booking)">
     <p-accordionTab [header]="_header">
         <ng-template pTemplate="content">
 
-            <div class="panel-section card margin-top-2">
+            <div class="panel-section card margin-top-2" (click)="_toggleFormData($event, booking)">
                 <div class="panel-section-header">
                   <h2 class="fs3 bold">Booking request form data</h2>
                 </div>
