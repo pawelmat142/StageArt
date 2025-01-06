@@ -1,5 +1,7 @@
 # StageArt: A Platform for Artist Booking Management
 
+## Still working on documentation and bugfixing...
+
 ## **Overview**
 
 StageArt is a prototype web application designed to streamline the process of connecting event 
@@ -7,27 +9,41 @@ organizers with artists. The platform simplifies the discovery, booking, and man
 engagements, enabling seamless collaboration between users. With its intuitive interface, StageArt helps
 users focus on creating memorable events while minimizing administrative tasks.
 
+### Project prototype runs [here](http://130.162.34.50:8003/).
+
 ### Target Users
 - **Artists**: Showcase their profiles and attract potential collaborators.
 - **Artist Managers**: Manage artist profiles and handle booking requests.
 - **Event Promoters**: Find, book, and coordinate with artists for their events.
 
-### Tech Stack
+<br>
+
+## Tech Stack
 
 #### Angular - more details in [frontend/README](./frontend/README.md)
 
 #### NestJS - more details in [backend/README](./backend/README.md)
 
-### Installation
+#### MongoDB + firebase storage for uploaded images
+<br>
 
-- create project directory and go into
+## Start locally
+
+- create project directory, get inside and run:
 ```
 git clone https://github.com/pawelmat142/book-agency.git ./
-chmod +x ./local-deploy.sh
-/local-deploy.sh
+```
+- go to /backend and run:
+
+```
+nest start
+```
+- go to ../frontend and run:
+```
+ng serve
 ```
 
----
+<br>
 
 ## **Key Features**
 
@@ -39,12 +55,7 @@ chmod +x ./local-deploy.sh
 - **Booking Requests**: Handle incoming booking inquiries, including event details and schedules.
 
 ### **For Event Promoters**
-- **Event Scheduling**: Organize and plan events featuring selected artists.
-- **Booking Management**: Submit and manage artist booking requests seamlessly.
-
-### **Client Interface**
 - **Search and Filter**: Discover artists based on style, availability, and other criteria.
-
-
-e web application for artist bookings management
+- **Booking Management**: Submit and manage artist booking requests seamlessly.
+- **Event Scheduling**: Showcase and plan events featuring selected artists.
 
