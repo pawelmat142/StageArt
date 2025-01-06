@@ -18,7 +18,14 @@ users focus on creating memorable events while minimizing administrative tasks.
 
 #### NestJS - more details in [backend/README](./backend/README.md)
 
+### Installation
 
+- create project directory and go into
+```
+git clone https://github.com/pawelmat142/book-agency.git ./
+chmod +x ./local-deploy.sh
+/local-deploy.sh
+```
 
 ---
 

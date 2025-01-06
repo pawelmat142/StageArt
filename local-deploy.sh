@@ -1,5 +1,5 @@
 # open bash shell here
-# ./local-deploy.sh
+#!/bin/bash
 
 rm -rf dist
 echo 'dist cleaned up'

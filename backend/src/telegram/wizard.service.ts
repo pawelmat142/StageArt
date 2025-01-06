@@ -25,7 +25,8 @@ export class WizardService {
     ) {}
 
     private initBot(): TelegramBot {
-        if (process.env.SKIP_TELEGRAM === 'true') {
+        const token = process.env.TELEGRAM_BOT_TOKEN
+        if (!token || process.env.SKIP_TELEGRAM === 'true') {
             this.logger.warn('[SKIP] Initializing telegram bot')
             return undefined
         } else {
