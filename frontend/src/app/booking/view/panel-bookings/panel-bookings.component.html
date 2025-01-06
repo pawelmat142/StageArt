@@ -1,0 +1,37 @@
+
+<div class="panel-breadcrumb">
+    <p-breadcrumb class="max-w-full" [model]="(_breadcrumb$ | async) || []"></p-breadcrumb>
+</div>
+
+<div class="panel-container">
+
+    <app-booking-panel-item *ngIf="_selectedBooking" [booking]="_selectedBooking"></app-booking-panel-item>
+
+    <ng-container *ngIf="!_selectedBooking">
+        <ng-container #noBooking *ngIf="_bookingsForRoles$ | async as bookingsForRoles">
+            <app-bookings-section *ngIf="bookingsForRoles.manager.length"
+                header="Received booking requests"
+                [bookings]="bookingsForRoles.manager"
+            ></app-bookings-section>
+    
+            <app-bookings-section *ngIf="bookingsForRoles.promoter.length"
+                header="Sent booking requests"
+                [bookings]="bookingsForRoles.promoter"
+            ></app-bookings-section>
+    
+            <app-bookings-section *ngIf="bookingsForRoles.artist.length"
+                header="Artist booking request"
+                [bookings]="bookingsForRoles.artist"
+            ></app-bookings-section>
+        </ng-container>
+    </ng-container>
+    
+    <app-mock-card *ngIf="_emptyBookings"
+        [header]="''"
+        [message]="'You have no bookings...'"
+        [showCloseButton]="false"
+    ></app-mock-card>
+
+    <app-sign></app-sign>
+
+</div>

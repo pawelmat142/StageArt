@@ -1,0 +1,182 @@
+@import 'color-theme';
+@import 'color-class';
+@import 'variables';
+@import 'scrollbar';
+@import 'font';
+@import 'artist-view';
+@import 'chip';
+@import 'primeng-override';
+@import 'form';
+@import 'stepper';
+@import 'tile';
+@import 'timeline';
+@import 'panel';
+@import 'popup';
+@import 'pdf-editor';
+@import 'utils';
+
+* {
+    box-sizing: border-box;
+}
+
+body,
+html {
+    min-height: 100%;
+    background-color: $highlightBg;
+}
+
+.w-full {
+    width: 100%;
+}
+
+
+.hide-mobile {
+    display: none;
+}
+
+.show-desktop,
+.d-flex-desktop {
+    display: none;
+}
+
+.view-margin {
+    padding-top: $view-padding-top-mobile;
+    padding-bottom: 2*$padding-standard;
+}
+.section-margin {
+    margin-left: $padding-standard;
+    margin-right: $padding-standard;
+}
+.section {
+    background-color: $bgTwo;
+    padding-top: $padding-standard;
+    padding-bottom: $padding-standard;
+}
+.section-container {
+    padding: 2*$padding-standard $padding-standard;
+}
+.section-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 2*$padding-standard;
+}
+
+.section-container.card {
+    border-radius: $borderRadius3;
+}
+.show-mobile {
+    display: none;
+}
+@media only screen and (min-width: $desktop) {
+    .show-desktop {
+        display: unset;
+    }
+    .d-flex-desktop {
+        display: flex;
+    }
+    .show-mobile {
+        display: none;
+    }
+
+    .view-margin {
+        padding-top: $view-padding-top;
+        padding-bottom: $view-padding-top;
+    }
+    .section-margin {
+        margin-left: calc(2*$padding-standard + $desktop-margin);
+        margin-right: calc(2*$padding-standard + $desktop-margin);
+    }
+    .section {
+        padding-top: 3*$padding-standard;
+        padding-bottom: 3*$padding-standard;
+    }
+    .section-container {
+        padding: 4*$padding-standard;
+    }
+    .section-top {
+        margin-bottom: 4*$padding-standard;
+    }
+}
+
+@media only screen and (min-width: $hugeScreen) {
+}
+
+
+
+
+// CONTROL
+
+textarea {
+    border: none;
+    background-color: initial;
+    outline: none;
+    margin: 0;
+    padding: 0;
+    resize: none;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.5*$padding-standard;
+    color: $textColor;
+    line-height: 1.5;
+}
+
+.textarea-wrapper {
+    width: 100%;
+}
+
+.cover-center {
+    img {
+        min-width: 100%;
+        min-height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+}
+.square {
+    img {
+        aspect-ratio: 1;
+    }
+}
+.circle {
+    img {
+        aspect-ratio: 1;
+    }
+}
+
+.courtine {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: $bgOneCourtine;
+
+    z-index: 9999;
+
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.to-right {
+    width: 100%;
+    margin-left: auto;
+}
+
+.edit-toggle-style {
+    min-width: 40px;
+    height: 40px;
+    color: $highlightBg;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+app-img-cached {
+    display: flex;
+}
+
+app-icon {
+    display: contents;
+}

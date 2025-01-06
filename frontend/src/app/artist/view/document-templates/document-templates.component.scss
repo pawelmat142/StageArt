@@ -1,0 +1,35 @@
+@import 'variables';
+
+.template-subsection {
+    padding: $padding-standard;
+    padding-top: 0;
+}
+.template-subsection-header {
+    color: $primaryColor;
+    margin-top: $padding-standard;
+
+    &.text-color {
+        color: $textColor;
+    }
+}
+
+.defaut-tempalte-tile {
+    p {
+        text-align: left;
+    }
+    
+}
+
+.item-row.pdf-data {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    
+    .menu-icon {
+        display: flex;
+        justify-content: flex-end;
+        position: relative;
+    }
+}
+
+.defaut-tempalte-tile {
+    grid-template-columns: 2fr 1fr 1fr;
+}

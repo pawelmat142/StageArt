@@ -1,0 +1,32 @@
+<div class="tile-wrapper">
+
+    <div class="tile-wrapper-row tile-wrapper-top">
+        <div>
+            <div class="tile-wrapper-header">
+                {{tile.name}}
+            </div>
+            <div class="tile-wrapper-name">
+                {{tile.subName || tile.template}}
+            </div>
+        </div>
+
+        <div *ngIf="tileOptions.length" class="menu-icon">
+            <div class="relative">
+                <p-menu #menuRef [model]="items" [popup]="true" [styleClass]="'paper-tile-menu'"/>
+                <app-icon-button (click)="_toggle($event!)" icon="pi-ellipsis-v"></app-icon-button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="tile-wrapper-row tile-wrapper-bottom">
+        <div class="tile-wrapper-stepper">
+            @for (step of tile.tileSteps; track step.name; let i = $index) {
+                <app-substep
+                    [header]="step.name"
+                    [mode]="step.mode"
+                ></app-substep>
+            }
+        </div>
+    </div>
+
+</div>

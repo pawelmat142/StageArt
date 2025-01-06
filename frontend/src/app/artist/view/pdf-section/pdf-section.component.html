@@ -1,0 +1,84 @@
+<div class="section-header" *ngIf="section.header !== undefined">
+    <input type="text" *ngIf="section.header || section.editable"
+        autofocus="true"
+        class="margin-bottom"
+        [ngClass]="{'editable': section.editable }"
+        pInputText 
+        [(ngModel)]="section.header" 
+        [name]="'section-header-' + index" 
+        [disabled]="!section.editable"/>
+</div>
+
+
+
+<div *ngFor="let item of section.items; let itemIndex = index; trackBy: trackByIndex">
+
+    <div *ngIf="item.paragraph !== undefined" class="pdf-data-form-section-item paragraph">
+        <textarea pInputTextarea *ngIf="item.paragraph || item.editable"
+            [ngClass]="{'editable': section.editable || item.editable }"
+            [autoResize]="true" rows="2"
+            [disabled]="!(section.editable || item.editable)"
+            [(ngModel)]="item.paragraph" 
+            [name]="'section-' + index + '-paragraph-' + itemIndex"
+        ></textarea>
+        <div class="menu-icon" *ngIf="section.editable || item.editable">
+            <p-menu #menu appendTo="menu" [model]="_sectionItemMenu(menu, itemIndex, item)" [popup]="true" [styleClass]="'paper-tile-menu'"/>
+            <app-icon-button (click)="_toggleItemMenu(menu, $event!)" icon="pi-ellipsis-v"></app-icon-button>
+        </div>
+    </div>
+
+    <div *ngIf="item.list" class="pdf-data-form-section-item list">
+        <div class="list-items">
+            <div class="list-item" *ngFor="let listItem of item.list; let listItemIndex = index">
+                <input type="text"
+                    [ngClass]="{'editable': section.editable || item.editable }"
+                    [disabled]="!(section.editable || item.editable)"
+                    pInputText 
+                    [(ngModel)]="item.list![listItemIndex]" 
+                    [name]="'section-' + index + '-list-' + itemIndex + '-' + listItemIndex" />
+
+                    <div class="menu-icon" *ngIf="section.editable || item.editable">
+                        <app-icon-button (click)="_removeListItem(itemIndex, listItemIndex)" icon="pi-trash"></app-icon-button>
+                    </div>
+            </div>
+        </div>
+
+        <div class="menu-icon" *ngIf="section.editable || item.editable">
+            <p-menu #menu appendTo="menu" [model]="_sectionItemMenu(menu, itemIndex, item)" [popup]="true" [styleClass]="'paper-tile-menu'"/>
+            <app-icon-button (click)="_toggleItemMenu(menu, $event!)" icon="pi-ellipsis-v"></app-icon-button>
+        </div>
+    </div>
+
+    <div *ngIf="item.break" class="pdf-data-form-section-item break">
+        <div>>break</div>
+        <div class="menu-icon" *ngIf="section.editable || item.editable">
+            <p-menu #menu appendTo="menu" [model]="_sectionItemMenu(menu, itemIndex, item)" [popup]="true" [styleClass]="'paper-tile-menu'"/>
+            <app-icon-button (click)="_toggleItemMenu(menu, $event!)" icon="pi-ellipsis-v"></app-icon-button>
+        </div>
+    </div>
+
+    
+    <div *ngIf="item.subsection" class="pdf-data-form-section-item subsection">
+
+        <p-accordion class="w-full" [multiple]="true">
+            <p-accordionTab>
+                <ng-template pTemplate="header">
+                    <div class="text-color section-switch" (click)="section.show = !section.show">
+                        <p>
+                            [Subsection] 
+                            <span *ngIf="item.subsection.header"> - {{item.subsection.header}}</span>
+                        </p>
+
+                        <div class="menu-icon">
+                            <p-menu #subsectionMenu appendTo="subsectionMenu" [ngStyle]="" [model]="_sectionItemMenu(subsectionMenu, itemIndex, item)" [popup]="true" [styleClass]="'paper-tile-menu'"/>
+                            <app-icon-button (click)="_toggleItemMenu(subsectionMenu, $event!)" icon="pi-ellipsis-v"></app-icon-button>
+                        </div>
+                    </div>
+                </ng-template>
+
+                <app-pdf-section [section]="item.subsection" [subsection]="true"></app-pdf-section>
+            </p-accordionTab>
+        </p-accordion>
+    </div>
+
+</div>

@@ -1,0 +1,44 @@
+<div class="chips styles">
+    @for (style of _styles$ | async; track style.id) {
+        <div class="chip">
+            <span>
+                {{style.name}}
+            </span>
+            @if (_canRemoveStyle && _editMode) {
+                <span pTooltip="Remove style" class="hovergrow">
+                    <app-icon 
+                        (click)="_removeStyle(style)"
+                        icon="pi-times-circle bold"
+                    ></app-icon>
+                </span>
+            }
+        </div>
+    }
+    <ng-container *ngIf="_editMode$ | async">
+        <div class="chip grey-chip hovergrow" (click)="_addStyle()">add music style</div>
+    </ng-container>
+</div>
+
+<ng-container *ngIf="((_labels$ | async) || []) as labels">
+
+    <p *ngIf="!$desktop" class="tile-header chip-label margin-top">Labels</p>
+    <div class="chips">
+        @for (label of labels; track label.id) {
+            <div class="chip primary-chip">
+                <span>
+                    {{label.name}}
+                </span>
+                <span pTooltip="Remove label" class="hovergrow" *ngIf="_editMode">
+                    <app-icon 
+                        (click)="_removeLabel(label)"
+                        icon="pi-times-circle bold"
+                    ></app-icon>
+                </span>
+            </div>
+        }
+        <ng-container *ngIf="_editMode">
+            <div class="chip grey-chip hovergrow" (click)="_addLabel()">add  label</div>
+        </ng-container>
+    </div>
+</ng-container>
+        

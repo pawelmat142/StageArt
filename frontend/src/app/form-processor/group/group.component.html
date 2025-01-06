@@ -1,0 +1,11 @@
+@if (_formGroup && !step.array) {
+    <form [formGroup]="_formGroup" class="form-grid">
+
+        @for(control of step.controls; track control.name) {
+
+            <app-control [control]="control"></app-control>
+
+        }
+
+    </form>
+}

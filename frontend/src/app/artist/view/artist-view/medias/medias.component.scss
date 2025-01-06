@@ -1,0 +1,43 @@
+@import 'variables';
+
+.medias {
+    &.tile {
+        overflow: unset;
+        .tile-content {
+            padding-left: 0;
+            padding-right: 0;
+        }
+    }
+
+    .icon-button .svg-wrapper svg {
+        width: 25px;
+    }
+
+    .edit-button {
+        right: 27px;
+    }
+}
+
+.dropdown-wrapper {
+    display: flex;
+    position: relative;
+}
+
+app-media-item {
+    display: block;
+    margin-bottom: $padding-standard;
+}
+
+@media only screen and (min-width: $desktop) {
+    .medias {
+        .edit-button {
+            right: 20px;
+            bottom: unset;
+            left: unset;
+        }
+
+        .icon-button .svg-wrapper svg {
+            width: 35px;
+        }
+    }
+}

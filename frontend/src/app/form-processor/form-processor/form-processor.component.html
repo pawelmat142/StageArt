@@ -1,0 +1,90 @@
+
+@if (formGroup) {
+    <div [formGroup]="formGroup" class="form-wrapper">
+
+        @if (step) {
+            <div class="step">
+
+                <div class="form-header margin-bottom-2">
+                    <div class="form-title">{{step.name}}</div>
+                    <p-button 
+                        label="Reset form"
+                        (click)="_resetForm()" 
+                        [raised]="true"
+                        severity="warning"
+                        size="small"
+                    ></p-button>
+                </div>
+
+                @if (step.array) {
+
+                    <app-array [step]="step" 
+                    [rebuildDetector]="rebuildDetector"
+                    ></app-array>
+
+                    <div class="btns center margin-top-2">
+                        <p-button 
+                            label="Remove"
+                            (click)="_removeFromArray(step.name)" 
+                            [raised]="true"
+                            severity="warning"
+                            [disabled]="!this._removeActive"
+                        ></p-button>
+                        <div></div>
+                        <p-button 
+                            label="info"
+                            (click)="_addToArray(step.name)" 
+                            [raised]="true"
+                            severity="help"
+                        ></p-button>
+                    </div>
+                } 
+                @else {
+
+                    <app-group [step]="step" [rebuildDetector]="rebuildDetector"></app-group>
+
+                }
+
+            </div>
+        }
+
+        <!-- TODO change to ngprime stepper -->
+        <div class="steps margin-top-2">
+            @for (step of form.steps; track step.name; let index = $index) {
+                <div class="step" [class.active]="index === stepIndex"></div>
+            }
+        </div>
+        
+        <div class="form-buttons">
+            <p-button 
+                label="Back"
+                (click)="_back()" 
+                [raised]="true"
+                [disabled]="stepIndex <= 0"
+                severity="warning"
+                size="small"
+            ></p-button>
+            <div></div>
+            @if (stepIndex === form.steps.length-1) {
+                <p-button 
+                    label="Submit"
+                    (click)="_submit()" 
+                    [raised]="true"
+                    severity="success"
+                    size="small"
+                ></p-button>
+            } @else {
+                <p-button 
+                    label="Next"
+                    (click)="_next()" 
+                    [raised]="true"
+                    severity="info"
+                    size="small"
+                ></p-button>
+            }
+        </div>
+        
+
+    </div>
+}
+

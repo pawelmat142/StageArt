@@ -1,0 +1,22 @@
+@import 'variables';
+
+.section-switch {
+    cursor: pointer;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+
+    .buttons {
+        display: flex;
+        justify-content: flex-end;
+    }
+}
+
+
+.form-grid.column {
+    gap: 0.5*$padding-standard;
+    padding: $padding-standard;
+}
+

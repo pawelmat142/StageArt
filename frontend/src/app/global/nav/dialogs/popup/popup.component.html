@@ -1,0 +1,58 @@
+@for (c of (data.content || []); track c) {
+    <div class="pupup-content">
+        <p class="dark">{{c}}</p>
+    </div>
+}
+
+@if (data.chips?.length) {
+    <div class="chips margin-bottom">
+        @for (chip of data.chips; track chip.id) {
+            <div 
+            (click)="_onChip(chip)"
+            [ngClass]="chip.class"
+            class="chip big hovergrow" 
+        >{{chip.name}}</div>
+        }
+    </div>
+}
+
+@if (form) {
+    <form [formGroup]="form" (ngSubmit)="_submit()">
+        <div class="control-margin" [ngClass]="data.inputClass">
+            @if (data.input) {
+                <app-form-field [label]="'*' + (data.input || 'input')">
+                    <input type="text" pInputText formControlName="control" required/>
+                </app-form-field>
+            } 
+            @if (data.select) {
+                <app-form-field [label]="data.select || 'select'">
+                    <app-dropdown 
+                        [items]="(data.items | async) || []" 
+                        formControlName="control">
+                    </app-dropdown>
+                </app-form-field>
+            }
+        </div>
+
+        <div class="p-dialog-footer p-dialog-footer-inner">
+            @if (_defaultButton) {
+                <p-button (click)="_close(true)">OK</p-button>
+            }
+    
+            @for(btn of data.buttons; track btn.label) {
+                <p-button [severity]="btn.severity" (click)="_onBtnClick(btn)">{{btn.label}}</p-button>
+            }
+        </div>
+    </form>
+} 
+@else {
+    <div class="p-dialog-footer p-dialog-footer-inner">
+        @if (_defaultButton) {
+            <p-button (click)="_close(true)" severity="info">OK</p-button>
+        }
+    
+        @for(btn of data.buttons; track btn.label) {
+            <p-button [severity]="btn.severity" (click)="_onBtnClick(btn)">{{btn.label}}</p-button>
+        }
+    </div>
+}

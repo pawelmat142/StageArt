@@ -1,0 +1,403 @@
+.p-button {
+    font-weight: bold;
+    color: $primaryColorText;
+}
+
+.mobile-menu-container {
+    .p-button {
+        color: $primaryColor;
+        padding-right: .5*$padding-standard;
+        padding-right: 0;
+    }
+}
+
+.p-button:focus {
+    box-shadow: none;
+}
+
+.primary-btn {
+    .p-button {
+        background: $primaryColor;
+        border-color: $primaryColor;
+    
+        &:not(:disabled):hover {
+            border-color: $primaryHover;
+            background: $primaryHover;
+        }
+    }
+}
+
+.p-dialog {
+    max-width: 85%;
+    .p-dialog-footer,
+    .p-dialog-content,
+    .p-dialog-header {
+        background-color: $bg;
+        color: $textColor;
+    }
+}
+
+.p-dialog-footer-inner {
+    padding: 0;
+}
+
+
+
+// ACCORDION
+.form-border {
+    border: $formBorder;
+}
+
+.item-row.tile-style,
+.p-accordion .p-accordion-header .p-accordion-header-link {
+    font-weight: normal;
+    background-color: $bgTwo;
+    border-radius: $borderRadius;
+    text-align: left;
+    border: unset;
+    line-height: 1;
+}
+
+.item-row.tile-style {
+    color: $textColor;
+    margin-bottom: .25*$padding-standard;
+    border: $formBorder;
+    &.item-border {
+        border: 1px solid $surfaceBorder;
+    }
+    &.padding {
+        padding: 1rem;
+    }
+    &.padding-05 {
+        padding: .5rem;
+    }
+}
+
+.surface-border.item-row.tile-style,
+.surface-border .p-accordion-tab {
+    border: 1px solid $surfaceBorder;
+}
+
+.item-row.tile-style.form-bg,
+.form-bg {
+    background-color: $formBg;
+}
+
+.item-button,
+.clickable.item-row,
+.clickable.item-row.tile-style.form-bg,
+.p-accordion .p-accordion-header .p-accordion-header-link {
+    cursor: pointer;
+    transition: $transition-standard;
+    &:hover {
+        background-color: $formControlShadow;
+    }
+}
+
+
+
+
+.my-accordion {
+    border-radius: $borderRadius;
+    
+    .p-accordion-tab {
+        border: $formBorder;
+    }
+
+    .p-accordion .p-accordion-header .p-accordion-header-link {
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding: 0 8px;
+        color: $textColor;
+    }
+    .p-accordion-header {
+        display: flex;
+    }
+    &.right {
+        .p-accordion .p-accordion-header {
+            justify-content: flex-end;
+            gap: $padding-standard;
+            .p-accordion-header-link {
+                flex-direction: row-reverse;
+                width: unset;
+                .p-accordion-toggle-icon {
+                    transform: rotate(180deg);
+                }
+            }
+        }
+    }
+
+    &.padding {
+        .p-accordion .p-accordion-header .p-accordion-header-link {
+            padding: 1rem;
+        }
+    }
+    &.padding-05 {
+        .p-accordion .p-accordion-header .p-accordion-header-link {
+            padding: .5rem;
+        }
+    }
+}
+
+
+
+.my-accordion.no-border {
+    .p-accordion-tab {
+        border: unset;
+    }
+}
+
+.p-accordion .p-accordion-tab {
+    background-color: $bgTwo;
+    border-radius: $borderRadius;
+}
+.p-accordion .p-accordion-header .p-accordion-header-link .p-accordion-toggle-icon {
+    order: 2;
+    color: $textColor;
+    font-weight: 600;
+}
+.p-accordion .p-accordion-header.p-highlight .p-accordion-header-link {
+    border: none;
+}
+.p-accordion .p-accordion-content { 
+    background-color: $bgTwo;
+    border: none;
+    padding-top: 0;
+    padding-left: 0;
+    padding-bottom: 0;
+    padding-right: 0;
+}
+
+.p-accordion p-accordiontab .p-accordion-tab {
+    margin-bottom: 0
+}
+
+// STEPPER
+.p-stepper.p-stepper-vertical .p-stepper-panel .p-stepper-separator {
+    margin-inline-start: 3/2*$padding-standard;
+
+}
+.p-stepper.p-stepper-vertical .p-stepper-toggleable-content {
+    background-color: $bgTwo;
+}
+
+.p-stepper .p-stepper-header .p-stepper-action {
+    background: none;
+}
+
+.pi:before {
+    font-weight: bold;
+}
+
+.p-stepper .p-stepper-header .p-stepper-action .p-stepper-number {
+    background-color: $bgTwo;
+    color: $textColor;
+    border-color: $primary2;
+}
+.p-stepper .p-stepper-header.p-highlight .p-stepper-number {
+    background-color: $highlightBg;
+    color: $primaryColor;
+}
+.p-stepper .p-stepper-separator,
+.p-stepper.p-stepper-vertical .p-stepper-panel:has(~ .p-stepper-panel-active) .p-stepper-separator {
+    background-color: $primaryColor;
+}
+.p-stepper-title {
+    margin-left: $padding-standard;
+    color: $textColor;
+    font-weight: 500;
+}
+.p-stepper.p-stepper-vertical .p-stepper-panel .p-stepper-content {
+    margin-left: $padding-standard;
+    padding-left: 0;
+}
+
+
+
+// CAROUSEL
+.p-carousel-container {
+    .p-link {
+        display: none;
+    }
+}
+
+@media only screen and (min-width: $desktop) {
+    .p-carousel-container {
+        .p-link {
+            display: flex;
+        }
+    }
+}
+
+.p-carousel-indicators {
+    margin-top: $padding-standard;
+    gap: $padding-standard;
+    list-style-type: none;
+    padding: 0;
+
+    li {
+        padding: $padding-standard;
+        button {
+            background-color: $primaryColor;
+            border: 0;
+            height: 8px;
+            width: 8px;
+            border-radius: 4px;
+            padding: 0;
+        }
+        &.p-highlight {
+            button {
+                background-color: $primary600;
+                box-shadow: $card-shadow;
+            }
+        }
+    }
+}
+
+
+// SIDEBAR
+.p-sidebar {
+    background-color: $bgTwo;
+}
+.p-sidebar-header {
+    padding-bottom: 0;
+}
+.p-sidebar .p-sidebar-header + .p-sidebar-content {
+    padding: 0;
+}
+.p-menuitem-text {
+    color: $textColor;
+}
+
+
+// POPUP MENU
+.p-menu .p-menuitem > .p-menuitem-content {
+    .p-menuitem-text {
+        color: $textSecondaryColor;
+        line-height: 1.3;
+    }
+}
+
+// .p-menu-overlay {
+//     top: 100%;
+// }
+
+.p-menu-overlay {
+    top: 100%;
+    left: unset;
+    right: 0;
+}
+
+
+// DROPDOWN
+.floating {
+    svg,
+    .p-dropdown-label,
+    timesicon {
+        display: none;
+    }
+    
+    .p-dropdown-trigger {
+        background-color: $editButtonColor; 
+        color: white; 
+        border-radius: 0; 
+        padding: 0; 
+        border: none; 
+        font-size: 0;
+        font-weight: bold;
+        width: fit-content;
+        &::after {
+            font-size: medium;
+            font-weight: normal;
+            color: $textSecondaryColor;
+        }
+
+    }
+
+    &.edit-country .p-dropdown-trigger::after {
+        content: 'select country';
+    }
+    &.edit-media .p-dropdown-trigger::after {
+        content: 'add link';
+    }
+
+    .dropdown-img {
+        .icon-button {
+            padding: 0;
+            padding-right: 0.5*$padding-standard;
+
+            svg {
+                fill: $primaryColor;
+            }
+        }
+    }
+}
+.medias {
+ .floating {
+    .p-overlay {
+        left: unset!important;
+        right: 0;
+        min-width: 250px;
+        top: 110%;
+    }
+ }       
+}
+.p-dropdown-item.p-focus {
+    background-color: inherit ; /* Remove highlight */
+}
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item {
+    padding: 0;
+    .item-template {
+        padding: 0.75rem .75rem;
+
+        &.with-image {
+            padding: 0.4rem .75rem;
+        }
+    }
+}
+.with-image {
+    .p-dropdown {
+        .p-inputtext {
+            padding: 0.4rem .75rem;
+        }
+    }
+}
+
+
+// BREADCRUMB
+
+.p-breadcrumb {
+    background-color: $bgTwo;
+    padding-top: 0;
+    padding-bottom: 0;
+    border: $formBorder;
+
+    .p-menuitem-link {
+        cursor: pointer;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        .p-menuitem-text {
+            transform: $transition-standard;
+        }
+        &:hover {
+            .p-menuitem-text {
+                color: $primaryColor;
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: $desktop) {
+    .p-accordion .p-accordion-content { 
+        padding-bottom: unset;
+        padding-right: unset;
+    }
+
+    .p-stepper.p-stepper-vertical .p-stepper-panel .p-stepper-content {
+        padding-left: 1rem;
+    }
+    
+}

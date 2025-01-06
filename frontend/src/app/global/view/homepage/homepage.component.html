@@ -1,0 +1,32 @@
+<app-header *ngIf="$desktop" [floating]="true"></app-header>
+<app-header *ngIf="!$desktop" [floating]="false"></app-header>
+
+<div class="section-margin">
+    <div class="landing">
+
+        <div class="landing-left">
+            <div class="langin-left-content">
+                <div class="d-flex" *ngIf="$desktop">
+                    <app-logo></app-logo>
+                </div>
+                <h2 class="fs3 baron uppercase text-color">Sign up now to explore our prototype and help shape the future of artist booking. Creativity starts here.</h2>
+                
+                <div>
+                    <h1 class="fs3 primary bold margin-bottom-2">Join the Movement...</h1>
+                    <p>Our open platform connects you to a vibrant community of artists, promoters, and managers. Whether you're planning an event, seeking inspiration, or looking to collaborate, we've got you covered.</p>
+                </div>
+                
+            </div>
+        </div>
+    
+        <div class="landing-right">
+            <app-menu-button class="show-desktop"></app-menu-button>
+            <app-homepage-form></app-homepage-form>
+        </div>
+    </div>
+</div>
+
+
+<app-artists-section></app-artists-section>
+
+<app-feedback></app-feedback>

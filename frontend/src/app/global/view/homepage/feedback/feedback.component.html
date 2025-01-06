@@ -1,0 +1,31 @@
+<div class="section feedback-section">
+
+    <div class="section-container section-margin card card-highlight shadow">
+        
+        <div class="feedback-textarea-wrapper">
+            <div class="section-top">
+                <div>
+                    <h2 class="fs1 baron primary uppercase margin-bottom">How can we make better?</h2>
+                    <h2 class="fs3 bold text-color">We'd love your feedback or suggestions</h2>
+                </div>
+            </div>
+
+            <div class="feedback-textarea">
+                <app-textarea-element
+                    [value]="value"
+                    (onInput)="_onInput($event)"
+                    [disabled]="false"
+                    [rowsInitial]="$desktop ? 5 : 4"
+                ></app-textarea-element>
+            </div>
+
+            <p-button 
+                (click)="_send()" 
+                [raised]="true" 
+                class="center right margin-top-2 primary-btn"
+            >Send</p-button>
+        </div>
+
+
+    </div>
+</div>

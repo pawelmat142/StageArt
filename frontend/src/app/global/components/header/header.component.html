@@ -1,0 +1,25 @@
+<div class="header" >
+    <div class="header-container section-margin">
+
+        <div class="header-section">
+            <app-logo  class="header-logo hovergrow" size="60" dropColor="red" [showDrop]="true" (click)="_home()"></app-logo>
+    
+            <h1 *ngIf="label" class="fs2 baron primary">{{label}}</h1>
+        </div>
+    
+        <div class="show-desktop">
+            <div class="header-section">
+                <div *ngFor="let item of (menu.menuBtns$ | async)" 
+                    (click)="menu.command(item)"
+                    class="header-button">
+                    <h2 class="fs3 baron primary hovergrow menu-item">
+                        {{item.label}}
+                    </h2>
+                </div>
+            </div>
+        </div>
+        
+        <app-mobile-btn *ngIf="!$desktop"></app-mobile-btn>
+
+    </div>
+</div>

@@ -1,0 +1,18 @@
+@if (loading) {
+    <div class="spinner-wrapper">
+        <p-progressSpinner 
+            styleClass="w-4rem h-4rem" 
+            strokeWidth="8" 
+            animationDuration=".5s" />
+    </div>
+} 
+@else {
+    <div class="img-wrapper">
+        <img 
+        [style.width]="_width+'px'"
+        [style.height]="_width+'px'"
+        *ngIf="file" [src]="_imageSrc" 
+        [alt]="file.name || 'empty'" 
+        >
+    </div>
+}

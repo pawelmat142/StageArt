@@ -1,0 +1,18 @@
+<div class="form-field-wrapper">
+    <div class="form-field">
+        <div class="field-label" *ngIf="label">
+            <p>{{label}}</p>
+        </div>
+        <div class="field-control">
+            <ng-content></ng-content>
+        </div>
+        <div class="field-messages" *ngIf="messages?.length">
+            <p *ngFor="let msg of messages">{{msg}}</p>
+        </div>
+    </div>
+
+    <ng-content select=".form-field-btns">
+
+    </ng-content>
+</div>
+

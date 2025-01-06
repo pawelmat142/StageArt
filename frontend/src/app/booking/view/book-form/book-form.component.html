@@ -1,0 +1,9 @@
+<app-header label="Book form"></app-header>
+
+<div class="form-page-container">
+    <app-form-processor 
+        class="form-page"
+        [form]="_bookingFormStructure.form" 
+        (submit)="_submit($event)"
+    ></app-form-processor>
+</div>

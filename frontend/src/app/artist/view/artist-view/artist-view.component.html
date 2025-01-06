@@ -1,0 +1,136 @@
+
+<app-header [floating]="false" [label]="artistName"></app-header>
+
+@if (_editable$ | async) {
+    <div class="edit-toggle-container">
+
+        <ng-container *ngIf="_editMode$ | async as editMode; else notEdit">
+            <div class="edit-toggle hovergrow fs3" pTooltip="Save profile changes">
+                <app-icon-button
+                    (click)="_save()"
+                    icon="pi-save"
+                    [active]="true"
+                ></app-icon-button>
+            </div>
+            <div class="edit-toggle hovergrow fs3" pTooltip="Cancel profile changes">
+                <app-icon-button
+                    (click)="_discard()"
+                    icon="pi-undo"
+                    [active]="true"
+                ></app-icon-button>
+            </div>
+        </ng-container>
+
+        <ng-template #notEdit>
+            <div class="edit-toggle" pTooltip="Start edit profile">
+                <app-icon-button
+                    (click)="_editToggle()"
+                    icon="pi-pencil"
+                    [active]="true"
+                ></app-icon-button>
+            </div>
+        </ng-template>
+    </div>
+}
+
+<div class="artist" *ngIf="_artist$ | async as artist">
+
+    <div class="background-editor" *ngIf="_editMode$ | async as editMode">
+        <app-background-editor></app-background-editor>
+    </div>
+    
+    <div class="image-bg">
+        <app-background></app-background>
+    </div>
+    
+    <div class="view-content">
+
+        <div class="show-desktop menu-button">
+            <app-menu-button></app-menu-button>
+        </div>
+
+        <div class="spacer"></div>
+
+        <div class="grid-container one">
+
+            <app-avatar></app-avatar>
+
+            <app-name></app-name>
+
+            <div class="book-now-btn joined">
+                <p-button 
+                    (click)="_viewAll()" 
+                    [raised]="true"
+                    label="View all"
+                    class="primary-btn"
+                ></p-button>
+                <p-button 
+                    class="primary-btn"
+                    (click)="_onBookNow(artist)" 
+                    [raised]="true" 
+                    icon="pi pi-calendar-plus"
+                    label="Book now"
+                    iconPos="left">
+                </p-button>
+            </div>
+
+        </div>
+
+        <div class="grid-container two">
+
+            <div *ngIf="!$desktop" class="style-tile">
+                <div class="tile big">
+                    <p class="tile-header chip-label">Styles</p>
+                    <app-style></app-style>
+                </div>
+            </div>
+
+            <div class="tiles-column right-on-desktop">
+
+                <app-medias></app-medias>
+
+            </div>
+
+            <div class="tiles-column">
+
+                <app-bio class="bio-tile"></app-bio>
+
+                <ng-container *ngIf="_timeline$.asObservable() | async as timeline">
+                    <app-timeline 
+                    (submitTimelineForm)="_submitTimelineItem(artist, $event)"
+                    (removeTimelineForm)="_removeTimelineEvent(artist, $event, timeline)"
+                    [editMode]="!!(_editMode$ | async)"
+                    class="timeline artist-timeline" 
+                    [timeline]="timeline"
+                    [disabledDates]="_disabledDays"
+                ></app-timeline>
+                </ng-container>
+
+                @if (artist.managmentNotes) {
+                    <div class="management-notes-tile">
+                        <div class="tile big">
+                            <p class="tile-header chip-label">Management notes</p>
+    
+                            <div class="tile-content tile-textarea">
+                                <app-textarea-element
+                                    class="text-color"
+                                    [value]="artist.managmentNotes"
+                                    [disabled]="true"
+                                ></app-textarea-element>
+                            </div>
+    
+                        </div>
+                    </div>
+                }
+
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+
+

@@ -1,0 +1,124 @@
+@import 'variables';
+
+.timeline {
+    .p-card-body {
+        padding: .5*$padding-standard $padding-standard;
+    }
+
+    .p-card {
+        background-color: $formBg;
+    }
+
+    .p-card-title {
+        font-size: 16px;
+        color: $formColor;
+        margin-bottom: 0;
+    }
+    .p-card-subtitle {
+        font-size: 14px;
+        margin-bottom: 0;
+        color: $textColor;
+    }
+
+    .p-card-content {
+        padding: 0;
+    }
+ 
+    .country-container {
+        display: flex;
+    }
+
+    .country-txt  {
+        color: $textColor;
+    }
+    
+    .link {
+        font-size: 10px;
+        margin-top: .5*$padding-standard;
+        color: $textSecondaryColor;
+    }
+ 
+    .p-timeline-vertical.p-timeline-alternate .p-timeline-event:nth-child(2n) {
+        .country-container {
+            justify-content: flex-end;
+        }
+    }
+
+    .p-accordion .p-accordion-tab {
+        display: flex;
+        flex-direction: column-reverse;
+
+    }
+
+    .p-accordion-header {
+        .p-accordion-header-link {
+            .p-accordion-header-text {
+                color: $textColor;
+            }
+        }
+    }
+
+    .p-accordion .p-accordion-header .p-accordion-header-link,
+    .p-accordion-tab-active {
+        border: unset;
+        flex-direction: row-reverse;
+        gap: .5*$padding-standard;
+    }
+
+    .p-timeline .p-timeline-event-marker {
+        border-color: $primaryColor;
+        background-color: unset;
+    }
+    .p-timeline .p-timeline-event-connector {
+        background-color: $grey;
+    }
+
+    .p-timeline-event-opposite {
+        display: none;
+    }
+    
+    .p-timeline-event-content {
+        padding-right: 0;
+    }
+
+    .desktop-event-tile {
+        display: none;
+    }
+
+    .content {
+        margin-bottom: 0;
+    }
+
+    @media only screen and (min-width: $desktop) {
+        .p-timeline-event-opposite {
+            display: unset;
+        }
+        .p-timeline-event-content {
+            padding-right: unset;
+        }
+        .mobile-event-tile {
+            display: none;
+        }
+        .desktop-event-tile {
+            display: unset;
+        }
+        .p-card-title {
+            margin-bottom: .5rem;
+        }
+        .p-timeline-event {
+            .p-timeline-event-content {
+                margin-bottom: $padding-standard;
+                margin-top: $padding-standard;
+            }
+        }
+    }
+    
+    .edit-mode {
+        .p-timeline-event {
+            min-height: unset;
+        }
+        .p-timeline-event .p-timeline-event-content {
+            margin: 0;
+        }
+    }
+}

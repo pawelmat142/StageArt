@@ -1,0 +1,55 @@
+
+@if (_formControlName) {
+    
+    <div class="control-margin">
+    
+        @if (!control.type || control.type === 'text') {
+            <app-form-field [label]="_label">
+                <input type="text" pInputText 
+                    [formControlName]="_formControlName"
+                    [placeholder]="control.placeholder || ''"
+                    [required]="_required"
+                    />
+            </app-form-field>
+        } 
+    
+        @else if (control.type === 'textarea') {
+            
+            <app-form-field [label]="_label">
+                <textarea rows="5" cols="30" pInputTextarea 
+                    [formControlName]="_formControlName"
+                    [required]="_required"
+                ></textarea>
+            </app-form-field>
+        } 
+    
+        @else if (control.type === 'date') {
+
+            <app-form-field [label]="_label">
+                <p-calendar 
+                    [formControlName]="_formControlName" 
+                    placeholder="Select..."
+                    dateFormat="dd-mm-yy"
+                    [placeholder]="control.placeholder || 'Select date...'"
+                    [required]="_required"
+                    [minDate]="control.date?.min"
+                    [disabledDates]="(control.date?.disabledDays | async) || []"
+                ></p-calendar>
+            </app-form-field>
+            
+        } @else if (control.type === 'selector') {
+            <app-form-field [label]="_label">
+                <app-dropdown 
+                    [items]="(control.selectorItems$ | async) || []" 
+                    [formControlName]="_formControlName"
+                    [placeholder]="control.placeholder || 'Select...'"
+                    [required]="_required"
+                ></app-dropdown>
+            </app-form-field>
+        
+        } @else {
+            <div>{{control.name}}</div>
+            <div> unknown control type</div>
+        }
+    </div>
+}

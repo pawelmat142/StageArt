@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <!-- Circle Background -->
+  <circle cx="100" cy="100" r="95" fill="#FFD700" stroke="#FF8C00" stroke-width="5"/>
+
+  <!-- Paint Brush Icon -->
+  <path d="M100 120 Q110 110 120 130 Q125 140 120 150 L90 150 Q85 140 90 130 Q95 120 100 120 Z" fill="#8B4513"/>
+  <path d="M100 110 Q105 100 95 90 Q85 80 95 70 Q105 60 115 70 Q125 80 115 90 Q105 100 100 110 Z" fill="#FF6347"/>
+
+  <!-- Sparkle Effect -->
+  <circle cx="70" cy="70" r="5" fill="white" opacity="0.8"/>
+  <circle cx="130" cy="50" r="4" fill="white" opacity="0.8"/>
+  <circle cx="150" cy="120" r="6" fill="white" opacity="0.8"/>
+
+  <!-- Text -->
+  <text x="50%" y="180" font-family="'Arial', sans-serif" font-size="20" fill="#FF8C00" text-anchor="middle">Artistry</text>
+</svg>

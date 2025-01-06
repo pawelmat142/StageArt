@@ -1,0 +1,14 @@
+@import 'variables';
+
+.feedback-textarea {
+    border: $border;
+    border-radius: $radius;
+    background-color: $bgTwo;
+    box-shadow: $shadow-standard;
+}
+
+.feedback-textarea-wrapper {
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}

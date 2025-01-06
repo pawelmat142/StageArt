@@ -1,0 +1,25 @@
+<div class="panel-section">
+
+    <div class="booking-itmes-container margin-top-2">
+
+        <div class="labels">
+            <div class="item-row booking-item">
+                <p>Event name</p>
+                <p>Event date</p>
+                <p>Status</p>
+                <p class="show-desktop">Artist</p>
+            </div>
+        </div>
+
+
+        @for (booking of bookings; track booking.formId; let last = $last; let index = $index) {
+            <div class="item-row tile-style padding booking-item clickable p-menuitem-text" (click)="_selectBooking(index)">
+                <div>{{booking.event.name}}</div>
+                <div>{{booking.event.startDate| date : 'dd-MM-yyyy'}}</div>
+                <div>{{booking.status | status}}</div>
+                <div class="show-desktop">{{booking.artists | names}}</div>
+            </div>
+        }
+
+    </div>
+</div>

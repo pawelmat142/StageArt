@@ -1,0 +1,36 @@
+<div class="form-container small homepage-form">
+
+    <form [formGroup]="form" class="form-wrapper" (ngSubmit)="_submit()">
+
+        <div class="form-grid column">
+            <app-form-field label="Artist">
+                <app-dropdown [items]="(_artistItems$ | async) || []" formControlName="artist"></app-dropdown>
+            </app-form-field>
+    
+            <app-form-field label="Country">
+                <app-dropdown [items]="_countryItems" formControlName="country"></app-dropdown>
+            </app-form-field>
+    
+            <app-form-field label="Date">
+                <p-calendar 
+                    formControlName="date" 
+                    placeholder="Select..."
+                    dateFormat="dd-mm-yy"app-dropdown
+                    [disabledDates]="_disabledDates"
+                    [minDate]="_tommorow"
+                ></p-calendar>
+            </app-form-field>
+        </div>
+
+        <div class="form-buttons">
+            <p-button
+                class="form-button primary-btn"
+                label="Book now"
+                type="submit"
+                [raised]="true">
+            </p-button>
+        </div>
+
+    </form>
+
+</div>

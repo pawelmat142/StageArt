@@ -1,0 +1,21 @@
+@import 'variables';
+
+* {
+    /* Style for WebKit browsers (Chrome, Safari) */
+  ::-webkit-scrollbar {
+    width: $scroll-width; /* Width of the scrollbar */
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: transparent; /* Track color */
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: $bg; /* Scrollbar color */
+    border-radius: $radius;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: $secondaryColor; /* Scrollbar color on hover */
+  }
+}

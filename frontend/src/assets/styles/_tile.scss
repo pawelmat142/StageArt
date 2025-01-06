@@ -1,0 +1,44 @@
+@import 'variables';
+@import 'font';
+
+.tile {
+    overflow: hidden;
+    padding: $padding-standard;
+    color: $white;
+    background-color: $bgTwo;
+    border-radius: $borderRadius;
+    box-shadow: $shadow-standard;
+}
+
+.tile-header {
+    @extend .baron;
+    @extend .fs3;
+    color: $primaryColor;
+}
+
+.tile-content {
+    padding: $padding-standard $padding-standard 0;
+    &.tile-textarea {
+        padding: 0.5*$padding-standard 0.5*$padding-standard; 
+        .textarea {
+            display: block;
+            padding: 0.5*$padding-standard;
+            margin-bottom: -0.5*$padding-standard;
+            border-radius: $radius;
+        }
+    }
+}
+
+.card {
+    background-color: $bgTwo;
+    color: $textColor;
+    border-radius: $borderRadius;
+    
+    &.shadow {
+        box-shadow: $shadow-standard;
+    }
+    &.card-highlight {
+        background-color: $highlightBg;
+    }
+}
+

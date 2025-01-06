@@ -1,0 +1,35 @@
+<div class="artist-card card shadow" (click)="goToArtist()">
+
+    <div class="img-wrapper cover-center square">
+        <img [src]="_avatarUrl" [alt]="artist.name">
+    </div>
+
+    <div class="description">
+
+        <div class="description-row one">
+            <p class="fs3 dark baron">{{artist.name}}</p>
+        </div>
+
+        <div class="description-row">
+            <app-country
+                [countryCode]="artist.country.code" 
+            ></app-country>
+        </div>
+
+        <div class="description-row">
+            <div></div>
+            <div class="media-items">
+                @for (media of artist.medias; track $index) {
+                    <app-media-item 
+                        class="no-padding"
+                        [media]="media" 
+                        [hideName]="true" color="light-dark"
+                    ></app-media-item>
+                }
+            </div>
+        </div>
+        
+
+    </div>
+
+</div>

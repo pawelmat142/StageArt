@@ -1,0 +1,27 @@
+@import 'variables';
+
+.content-management-notes {
+    padding: $padding-standard;
+}
+
+.accordions {
+    display: flex;
+    flex-direction: column;
+    gap: $padding-standard;
+}
+
+.artist-bookings {
+    padding: $padding-standard;
+
+    .item-row {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+@media only screen and (min-width: $desktop) {
+    .artist-bookings {
+        .item-row {
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+        }
+    }
+}

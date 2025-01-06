@@ -1,0 +1,13 @@
+.form-field-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.form-field {
+    flex-grow: 1;
+}
+
+.form-field-btns {
+    display: flex;
+    flex-direction: column;
+}

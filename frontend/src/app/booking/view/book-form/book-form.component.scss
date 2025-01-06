@@ -1,0 +1,12 @@
+@import 'variables';
+
+:host {
+    flex: 1;
+}
+
+.form-page-container {
+    padding: $padding-standard;
+}
+.form-page {
+    padding-top: $header-height;
+}

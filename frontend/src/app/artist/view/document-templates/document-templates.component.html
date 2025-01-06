@@ -1,0 +1,36 @@
+<div class="panel-section margin-top">
+
+    <div class="panel-section-header">
+        <h2 class="fs3 bold">Document templates - {{artist.name}}</h2>
+    </div>
+
+    <ng-container *ngIf="pdfDatasPerTemplate$ | async as pdfDatasPerTemplate">
+
+        <div *ngFor="let pdfDatasAndTemplate of pdfDatasPerTemplate" class="template-subsection">
+
+            <p class="template-subsection-header">{{pdfDatasAndTemplate.template | uppercase }}</p>
+
+            <div class="item-row tile-style clickable form-bg defaut-tempalte-tile" (click)="_selectDefault(pdfDatasAndTemplate.template)">
+                <div>Default template - click to open editor</div>
+                <div>
+                    <span *ngIf="_noneActive(pdfDatasAndTemplate.pdfDatas)" class="primary"> active</span>
+                </div>
+                <div></div>
+                <div></div>
+            </div>
+
+            <div 
+                *ngFor="let pdfData of pdfDatasAndTemplate.pdfDatas; let i = index"
+                class="item-row tile-style form-bg pdf-data has-menu">
+                <div>{{pdfData.modified | date: 'dd-MM-yyyy HH:mm'}}</div>
+                <div>{{pdfData.name}}</div>
+                <div> <span *ngIf="pdfData.active" class="primary">active</span></div>
+                <div class="menu-icon">
+                    <p-menu #mmm appendTo="mmm" [model]="_pdfDataMenuItems(mmm, pdfData)" [popup]="true" [styleClass]="'paper-tile-menu'"/>
+                    <app-icon-button (click)="_toggleSectionMenu(mmm, $event!)" icon="pi-ellipsis-v"></app-icon-button>
+                </div>
+            </div>
+
+        </div>
+    </ng-container>
+</div>

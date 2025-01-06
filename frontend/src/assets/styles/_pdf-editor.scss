@@ -1,0 +1,75 @@
+@import 'variables';
+
+.pdf-editor {
+
+    font-family: ui-sans-serif,-apple-system,system-ui,Segoe UI,Helvetica,Apple Color Emoji,Arial,sans-serif,Segoe UI Emoji,Segoe UI Symbol;
+    font-size: 13px;
+    line-height: 1.75;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    border: unset;
+
+    .menu-icon {
+        position: relative;
+        height: fit-content;
+    }
+
+    
+    .section-header {
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        input {
+            flex-grow: 1;
+            font-weight: 600;
+            margin-top: 16px;
+            margin-bottom: 8px;
+            font-size: 18px;
+            letter-spacing: 0.03em;
+            background-color: unset;
+        }
+    }
+
+
+    .pdf-data-form-section-item {
+        display: flex;
+        justify-content: space-between;
+
+        input,
+        textarea {
+            background-color: unset;
+        }
+
+        &.list {
+            .list-item {
+                display: flex;
+                input {
+                    flex-grow: 1;
+                }
+            }
+            .list-item::before {
+                content: '* ';
+                color: $formColor;
+            }
+        }
+    }
+
+    .editable {
+        cursor: pointer;
+        &:hover {
+            background-color: $formBg;
+        }
+        &:focus {
+            background-color: $formBg;
+        }
+    }
+
+
+
+    .pi {
+        color: $formColor;
+    }
+}

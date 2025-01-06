@@ -1,0 +1,9 @@
+.mock-card-header {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+
+    .to-right {
+        display: flex;
+        justify-content: flex-end;
+    }
+}

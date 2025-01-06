@@ -1,0 +1,22 @@
+<div class="menu-button-container">
+
+    <div #menuButtonRef class="main-menu-button">
+        <p-button
+            label="Menu"
+            (click)="toggleButton()"
+            icon="pi pi-bars"
+            class="primary-btn"
+        ></p-button>
+    </div>
+
+    <div class="menu-button-children">
+
+        <p-button *ngFor="let item of menu.menuBtns$ | async"
+            class="menu-button-child primary-btn"
+            [ngClass]="menuButtonOpen ? 'open' : ''"
+            (click)="menu.command(item)"
+            [label]="item.label"
+        ></p-button>
+
+    </div>
+</div>

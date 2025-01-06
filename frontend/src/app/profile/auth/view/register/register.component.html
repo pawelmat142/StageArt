@@ -1,0 +1,63 @@
+<app-header label="Register"></app-header>
+
+<div class="form-page">
+
+        <form [formGroup]="form" class="form-wrapper" (ngSubmit)="_submit()">
+
+            <div class="form-title">Register form</div>
+
+            <!-- <div class="form-subtitle">It's recommended to register via Telegram app</div> -->
+
+            <div class="form-grid column">
+                <app-form-field label="Name">
+                    <input pInputText formControlName="name"/>
+                </app-form-field>
+
+                <app-form-field label="Role">
+                    <app-dropdown
+                        formControlName="role"
+                        [items]="_roleSelectorItems"
+                        placeholder="Select a role..."
+                    ></app-dropdown>
+                </app-form-field>
+
+                <app-form-field label="Email">
+                    <input pInputText formControlName="email"/>
+                </app-form-field>
+
+                <app-form-field label="Password">
+                    <input pInputText formControlName="password" type="password"/>
+                </app-form-field>
+
+                <app-form-field label="Confirm password">
+                    <input pInputText formControlName="repassword" type="password"/>
+                </app-form-field>
+            </div>
+
+            <div class="form-buttons">
+                <p-button
+                    label="Back"
+                    (click)="_back()"
+                    severity="warning"
+                    size="small"
+                    [raised]="true">
+                </p-button>
+                <p-button
+                    label="Via Telegram"
+                    (click)="_byTelegram()"
+                    severity="info"
+                    size="small"
+                    [raised]="true">
+                </p-button>
+                <p-button
+                    label="Submit"
+                    (click)="_submit()"
+                    severity="success"
+                    size="small"
+                    type="submit"
+                    [raised]="true">
+                </p-button>
+            </div>
+        </form>
+
+</div>

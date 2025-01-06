@@ -1,0 +1,108 @@
+
+
+.w50 {
+    width: 50%;
+}
+.h100 {
+    height: 100%;
+}
+
+
+
+.padding-top {
+    padding-top: $padding-standard;
+}
+.padding-top-2 {
+    padding-top: 2*$padding-standard;
+}
+.padding-top-4 {
+    padding-top: 4*$padding-standard;
+}
+.margin-top-05 {
+    margin-top: 0.5*$padding-standard;
+}
+.margin-top {
+    margin-top: $padding-standard;
+}
+.margin-top-2 {
+    margin-top: 2*$padding-standard;
+}
+.margin-top-4 {
+    margin-top: 4*$padding-standard;
+}
+.margin-bottom {
+    margin-bottom: $padding-standard;
+}
+.margin-bottom-2 {
+    margin-bottom: 2*$padding-standard;
+}
+.margin-bottom-4 {
+    margin-bottom: 4*$padding-standard;
+}
+.no-margin {
+    margin: 0;
+}
+.no-padding {
+    padding: 0;
+}
+
+
+
+.block {
+    display: block;
+}
+.relative {
+    position: relative;
+}
+.d-flex {
+    display: flex;
+    align-items: center;
+}
+.center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &.right {
+        justify-content: flex-end;
+    }
+    &.left {
+        justify-content: flex-start;
+    }
+}
+
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $padding-standard;
+}
+
+.border {
+    border: $border;
+}
+
+
+.hovergrow {
+    cursor: pointer;
+    transition: $transition-standard;
+    position: relative;
+
+    &:hover {
+        transform: scale(1.05);
+    }
+    &.max:hover {
+        transform: scale(1.2);
+    }
+}
+
+.text-align-right {
+    text-align: right;
+}
+
+.item-button {
+    color: $textColor;
+    background-color: $bgTwo;
+    border-radius: $borderRadius;
+    padding: .5rem;
+
+}

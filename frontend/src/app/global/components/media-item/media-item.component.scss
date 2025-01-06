@@ -1,0 +1,21 @@
+@import 'variables';
+
+.media-item {
+    position: relative;
+
+    .edit-button {
+        top: 8px;
+        right: 0;
+
+        &.edit {
+            right: 80px;
+        }
+    }
+}
+
+.media-item-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5*$padding-standard;
+    width: fit-content;
+}

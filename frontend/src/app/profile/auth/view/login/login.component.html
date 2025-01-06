@@ -1,0 +1,73 @@
+<app-header label="Login"></app-header>
+
+<div class="form-page">
+
+        @if (_nameOrEmailForm) {
+            <form [formGroup]="_nameOrEmailForm" class="form-wrapper" (ngSubmit)="_submit()">
+                
+                <div class="form-title">Login by Telegram</div>
+
+                <app-form-field label="Name or email">
+                    <input type="text" pInputText formControlName="nameOrEmail"/>
+                </app-form-field>
+                
+                <div class="form-buttons">
+                    <p-button
+                        type="submit"
+                        label="Submit"
+                        severity="info"
+                        [raised]="true">
+                    </p-button>
+                </div>
+            </form>
+        } 
+        @else {
+            <form [formGroup]="form" class="form-wrapper" (ngSubmit)="_submit()">
+
+                <div class="form-title">Login form</div>
+
+                <div class="form-grid column">
+                    <app-form-field label="Email">
+                        <input type="text" pInputText formControlName="email"/>
+                    </app-form-field>
+
+                    <app-form-field label="Password">
+                        <input type="password" pInputText formControlName="password"/>
+                    </app-form-field>
+
+                </div>
+
+                <div class="form-buttons" [ngClass]="{ center: _nameOrEmailForm }">
+                    @if (!_nameOrEmailForm) {
+
+                        <p-button
+                            label="Via Telegram"
+                            (click)="_byTelegram()"
+                            severity="info"
+                            size="small"
+                            [raised]="true">
+                        </p-button>
+                        
+                        <p-button
+                            label="Register"
+                            (click)="_register()"
+                            size="small"
+                            severity="help"
+                            [raised]="true">
+                        </p-button>
+                    }
+
+                    <p-button
+                        label="Submit"
+                        size="small"
+                        severity="success"
+                        type="submit"
+                        [raised]="true">
+                    </p-button>
+                </div>
+    
+            </form>
+        }
+
+    
+</div>
