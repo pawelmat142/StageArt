@@ -102,8 +102,9 @@ export class DocumentService {
         return paper
     }
 
-    public deletePaper(id: string) {
-        return this.paperModel.deleteOne({ id })
+    public deletePaperItem(id: string): Promise<any> {
+        // return this.paperModel.deleteOne({ id })
+        return this.paperModel.deleteOne({ id }).exec()
     }
 
     public async downloadSignedPaper(id: string, profile: JwtPayload): Promise<Paper> {

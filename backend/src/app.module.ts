@@ -26,7 +26,7 @@ import { DataGeneratorModule } from './data-generator/data-generator.module';
       rootPath: join(__dirname, 'angular', 'browser'),
     }),
 
-    MongooseModule.forRoot(process.env.MONGO_URL),
+    MongooseModule.forRoot(process.env.MONGO_URI),
 
     ArtistModule,
 

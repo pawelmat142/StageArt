@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, Logger, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { InjectConnection } from "@nestjs/mongoose";
 import { Connection } from "mongoose";
-import { GridFSBucket, ObjectId } from 'mongodb';
+import { Db, GridFSBucket, ObjectId } from 'mongodb';
 import { Template } from "./paper-util";
 import { JwtPayload } from "../profile/auth/jwt-strategy";
 import { BookingService } from "../booking/services/booking.service";
@@ -26,70 +26,75 @@ export class UploadsService {
     private readonly EPLOAD_EXTENSIONS: string[] = ['jpg', 'jpeg', 'pdf']
     public readonly MAX_FILE_BYTES = 1100000
 
+    // TODO upload files to fix
     constructor(
         @InjectConnection() private readonly connection: Connection,
         private readonly bookingService: BookingService,
         private readonly documentService: DocumentService,
     ) {
-        this.grid = new Grid(this.connection.db, mongoose.mongo)
-        this.bucket = new GridFSBucket(this.connection.db)
+        // this.grid = new Grid(this.connection.db, mongoose.mongo)
+        // const db = this.connection.db 
+        // console.log(db)
+        // if (db) {
+        //     this.bucket = new GridFSBucket({...db} as Db)
+        // }
     }
 
     private readonly templatesForUpload: Template[] = ['rental-proof']
 
 
-    public async uploadPaperFile(formId: string, template: Template, profile: JwtPayload, file: Express.Multer.File): Promise<Paper> {
-        if (!this.templatesForUpload.includes(template)) {
-            throw new BadRequestException(`Wrong template ${template} for upload`)
-        }
-        const ctx = await this.bookingService.buildSimpleContext(formId, profile)
+    // public async uploadPaperFile(formId: string, template: Template, profile: JwtPayload, file: any): Promise<Paper> {
+    //     if (!this.templatesForUpload.includes(template)) {
+    //         throw new BadRequestException(`Wrong template ${template} for upload`)
+    //     }
+    //     const ctx = await this.bookingService.buildSimpleContext(formId, profile)
 
-        if (ctx.booking.promoterUid !== profile.uid) {
-            this.logger.error(`Profile ${profile.uid} has no permission to Booking ${ctx.booking.formId}`)
-            throw new UnauthorizedException()
-        }
+    //     if (ctx.booking.promoterUid !== profile.uid) {
+    //         this.logger.error(`Profile ${profile.uid} has no permission to Booking ${ctx.booking.formId}`)
+    //         throw new UnauthorizedException()
+    //     }
         
-        const fileObjectId = await this.uploadPromise(file)
-        if (!fileObjectId) {
-            throw new BadRequestException(`Upload file error`)
+    //     const fileObjectId = await this.uploadPromise(file)
+    //     if (!fileObjectId) {
+    //         throw new BadRequestException(`Upload file error`)
+    //     }
+    //     const extension = file.mimetype.split('/').pop()
+    //     if (!extension) {
+    //         throw new BadRequestException(`Could not specify extension by mimetype: ${file.mimetype}`)
+    //     }
+    //     if (!this.EPLOAD_EXTENSIONS.includes(extension)) {
+    //         throw new BadRequestException(`Wrong extension ${extension}`)
+    //     }
+    //     const paper = await this.documentService.storeUploadPaper(fileObjectId, ctx, template, extension)
+    //     return paper
+    // }
+
+    public async verifyPaperFile(paperId: string, profile: JwtPayload): Promise<void> {
+        const paper = await this.documentService.getPaper(paperId)
+        if (!paper) {
+            throw new NotFoundException(`Not found Paper with id ${paperId}`)
         }
-        const extension = file.mimetype.split('/').pop()
-        if (!extension) {
-            throw new BadRequestException(`Could not specify extension by mimetype: ${file.mimetype}`)
-        }
-        if (!this.EPLOAD_EXTENSIONS.includes(extension)) {
-            throw new BadRequestException(`Wrong extension ${extension}`)
-        }
-        const paper = await this.documentService.storeUploadPaper(fileObjectId, ctx, template, extension)
-        return paper
+        await this.bookingService.hasPermissionToBooking(paper.formId, profile.uid)
+        paper.status = 'VERIFIED'
+        await this.documentService.updatePaper(paper)
+        this.logger.log(`Verified Paper ${paper.id}, by ${profile.uid}`)
     }
 
-        public async verifyPaperFile(paperId: string, profile: JwtPayload): Promise<void> {
-            const paper = await this.documentService.getPaper(paperId)
-            if (!paper) {
-                throw new NotFoundException(`Not found Paper with id ${paperId}`)
-            }
-            await this.bookingService.hasPermissionToBooking(paper.formId, profile.uid)
-            paper.status = 'VERIFIED'
-            await this.documentService.updatePaper(paper)
-            this.logger.log(`Verified Paper ${paper.id}, by ${profile.uid}`)
-        }
+    // private async uploadPromise(file: any): Promise<string> {   
+    //     let buffer = fs.readFileSync(file.path);
+    //     if (!buffer) {
+    //         throw new BadRequestException(`Missing buffer`)
+    //     }
 
-    private async uploadPromise(file: Express.Multer.File): Promise<string> {   
-        let buffer = fs.readFileSync(file.path);
-        if (!buffer) {
-            throw new BadRequestException(`Missing buffer`)
-        }
+    //     const uploadStream = this.bucket.openUploadStream(file.filename, { contentType: file.mimetype })
+    //     uploadStream.write(buffer)
+    //     uploadStream.end()
 
-        const uploadStream = this.bucket.openUploadStream(file.filename, { contentType: file.mimetype })
-        uploadStream.write(buffer)
-        uploadStream.end()
-
-        return new Promise((resolve, reject) => {
-            uploadStream.on('finish', () => resolve(uploadStream.id.toHexString()))
-            uploadStream.on('error', (error) => reject('upload stream sww'))
-        })
-    }
+    //     return new Promise((resolve, reject) => {
+    //         uploadStream.on('finish', () => resolve(uploadStream.id.toHexString()))
+    //         uploadStream.on('error', (error) => reject('upload stream sww'))
+    //     })
+    // }
 
     public async downloadFile(paperId: string, profile: JwtPayload) {
         const paper = await this.documentService.fetchPaper(paperId)
@@ -122,7 +127,7 @@ export class UploadsService {
             }
         }
 
-        const update = await this.documentService.deletePaper(id)
+        const update = await this.documentService.deletePaperItem(id)
         if (update.deletedCount) {
             this.logger.log(`Deleter Paper ${paper.id}`)
         } else {

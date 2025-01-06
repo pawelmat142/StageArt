@@ -92,20 +92,20 @@ export class DocumentController {
 
 
     // UPLOADS
-    @Post('/upload/:id/:template')
-    @UseGuards(JwtGuard)
-    @UseInterceptors(FileInterceptor('file'))
-    async uploadFile(
-        @Param('id') formId: string,
-        @Param('template') template: Template,
-        @GetProfile() profile: JwtPayload,
-        @UploadedFile() file: Express.Multer.File,
-    ) {
-        if (file.size > this.uploadsService.MAX_FILE_BYTES) {
-            throw new BadRequestException(`Max file size 1 MB`)
-        }
-        return this.uploadsService.uploadPaperFile(formId, template, profile, file)
-    }
+    // @Post('/upload/:id/:template')
+    // @UseGuards(JwtGuard)
+    // @UseInterceptors(FileInterceptor('file'))
+    // async uploadFile(
+    //     @Param('id') formId: string,
+    //     @Param('template') template: Template,
+    //     @GetProfile() profile: JwtPayload,
+    //     @UploadedFile() file: any,
+    // ) {
+    //     if (file.size > this.uploadsService.MAX_FILE_BYTES) {
+    //         throw new BadRequestException(`Max file size 1 MB`)
+    //     }
+    //     return this.uploadsService.uploadPaperFile(formId, template, profile, file)
+    // }
 
     @UseGuards(RoleGuard(Role.MANAGER))
     @Post('/verify/:paperId')

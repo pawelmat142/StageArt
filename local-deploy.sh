@@ -1,33 +1,25 @@
 # open bash shell here
 # ./local-deploy.sh
 
-rm -rf services/dist
+rm -rf dist
 echo 'dist cleaned up'
 
 # go to nestjs directory
-cd services
+cd backend
 # build nestjs app 
 npm run build
 echo "backend built"
 
+cp -r .env dist
+cp -r package.json dist
+cp -r package-lock.json dist
+
+cd dist
+npm install --production
+
+
 # go to angular directory
-cd ../book-agency
+cd ../../frontend
 # build angular app 
 ng build
 echo "front built"
-cd ..
-
-
-cp -r services/.env services/dist
-cp -r services/package.json services/dist
-echo "package.json, .env moved"
-
-cd services/dist
-echo 'installing dependencies...'
-npm i
-echo 'dependencies installed'
-
-node book-agency.js
-
-# go localhost/8100
-# localhost/8100/api 

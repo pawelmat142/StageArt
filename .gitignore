@@ -2,53 +2,55 @@ production
 logs
 
 ### NEST
-services/.env
-services/node_modules
-services/logs
-services/dist
+# backend/.env
+# backend/dist
+backend/node_modules
+backend/logs
+.vscode
+dist
 
 ### ANGULAR
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
-angular/src/environments
+frontend/src/environments
 
 # Compiled output
-angular/dist
-angular/tmp
-angular/out-tsc
-angular/bazel-out
+frontend/dist
+frontend/tmp
+frontend/out-tsc
+frontend/bazel-out
 
 # Node
-angular/node_modules
-angular/npm-debug.log
-angular/yarn-error.log
+frontend/node_modules
+frontend/npm-debug.log
+frontend/yarn-error.log
 
 # IDEs and editors
-angular/.idea/
-angular/.project
-angular/.classpath
-angular/.c9/
-angular/*.launch
-angular/.settings/
-angular/*.sublime-workspace
+frontend/.idea/
+frontend/.project
+frontend/.classpath
+frontend/.c9/
+frontend/*.launch
+frontend/.settings/
+frontend/*.sublime-workspace
 
 # Visual Studio Code
-angular/.vscode/*
-angular/!.vscode/settings.json
-angular/!.vscode/tasks.json
-angular/!.vscode/launch.json
-angular/!.vscode/extensions.json
-angular/.history/*
+frontend/.vscode/*
+frontend/!.vscode/settings.json
+frontend/!.vscode/tasks.json
+frontend/!.vscode/launch.json
+frontend/!.vscode/extensions.json
+frontend/.history/*
 
 # Miscellaneous
-angular/.angular/cache
-angular/.sass-cache/
-angular/connect.lock
-angular/coverage
-angular/libpeerconnection.log
-angular/testem.log
-angular/typings
+frontend/.frontend/cache
+frontend/.sass-cache/
+frontend/connect.lock
+frontend/coverage
+frontend/libpeerconnection.log
+frontend/testem.log
+frontend/typings
 
 # System files
-angular/.DS_Store
-angular/Thumbs.db
+frontend/.DS_Store
+frontend/Thumbs.db

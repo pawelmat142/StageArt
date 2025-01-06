@@ -4,6 +4,7 @@ import { WizBtn } from "./wiz-btn"
 export abstract class BotUtil {
 
     public static prepareLoginUrl(): string {
+        // TODO get current url
         return `${process.env.FRONT_APP_URL}/login`
     }
 
