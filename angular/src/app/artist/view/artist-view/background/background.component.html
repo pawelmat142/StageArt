@@ -1,8 +1,0 @@
-<div class="image-bg-container cover-center">
-
-    <ng-container *ngIf="_displayImg$ | async as url; else notEdit" >
-        <img [src]="url" alt="background">
-    </ng-container>
-    <ng-template #notEdit><div class="bg-mock"><div>Your image here</div></div></ng-template>
-
-</div>

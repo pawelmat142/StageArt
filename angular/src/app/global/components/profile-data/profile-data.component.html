@@ -1,9 +1,0 @@
-<div class="panel-section-header" *ngIf="_profile$ | async as profile">
-    <div>
-        <h2 class="primary">Name</h2>
-        <p class="sidebar-header-item margin-bottom">{{profile?.name}}</p>
-
-        <h2 class="primary">Role</h2>
-        <p class="sidebar-header-item">{{profile?.roles?.join(', ')}}</p>
-    </div>
-</div>
