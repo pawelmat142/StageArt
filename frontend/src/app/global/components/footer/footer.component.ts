@@ -7,6 +7,7 @@ import { NavService } from '../../nav/nav.service';
 import { AppState } from '../../../app.state';
 import { Store } from '@ngrx/store';
 import { logout, profile } from '../../../profile/profile.state';
+import { $desktop } from '../../tools/media-query';
 
 @Component({
   selector: 'app-footer',
@@ -20,6 +21,8 @@ import { logout, profile } from '../../../profile/profile.state';
   styleUrl: './footer.component.scss'
 })
 export class FooterComponent {
+
+  $desktop = $desktop
 
   constructor(
     private readonly dialog: Dialog,

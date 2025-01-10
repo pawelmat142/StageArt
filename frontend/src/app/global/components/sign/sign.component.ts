@@ -18,6 +18,7 @@ import { uid } from '../../../profile/profile.state';
 import { Role } from '../../../profile/profile.model';
 import { ButtonModule } from 'primeng/button';
 import { $desktop } from '../../tools/media-query';
+import { MenuDropdownComponent } from '../menu-dropdown/menu-dropdown.component';
 
 
 @Component({
@@ -26,8 +27,8 @@ import { $desktop } from '../../tools/media-query';
   imports: [
     CommonModule,
     IconButtonComponent,
-    MenuModule,
-    ButtonModule
+    ButtonModule,
+    MenuDropdownComponent
   ],
   templateUrl: './sign.component.html',
   styleUrl: './sign.component.scss',
@@ -240,10 +241,6 @@ export class SignComponent {
 
   
   // MENU
-
-  _menuToggle(event: Event) {
-    this.menuRef?.toggle(event)
-  }
 
   private readonly closeMenuItem: MenuItem = {
     label: 'Close',

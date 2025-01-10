@@ -9,7 +9,7 @@ import { IconButtonComponent } from '../../../../global/components/icon-button/i
 import { FormFieldComponent } from '../../../../global/controls/form-field/form-field.component';
 import { AccordionModule } from 'primeng/accordion';
 import { PdfSectionComponent } from '../../pdf-section/pdf-section.component';
-import { Menu, MenuModule } from 'primeng/menu';
+import { Menu } from 'primeng/menu';
 import { PdfDataService } from '../../../pdf-data.service';
 import { DocumentService } from '../../../../global/document/document.service';
 import { Dialog } from '../../../../global/nav/dialog.service';
@@ -18,6 +18,7 @@ import { filter, map, mergeMap, Observable, tap } from 'rxjs';
 import { ArtistViewDto } from '../../../model/artist-view.dto';
 import { MenuItem } from 'primeng/api';
 import { InputTextModule } from 'primeng/inputtext';
+import { MenuDropdownComponent } from '../../../../global/components/menu-dropdown/menu-dropdown.component';
 
 @Component({
   selector: 'app-doocument-template-editor',
@@ -31,8 +32,8 @@ import { InputTextModule } from 'primeng/inputtext';
     FormFieldComponent,
     AccordionModule,
     PdfSectionComponent,
-    MenuModule,
-    InputTextModule
+    InputTextModule,
+    MenuDropdownComponent
   ],
   templateUrl: './doocument-template-editor.component.html',
   styleUrl: './doocument-template-editor.component.scss'
@@ -108,24 +109,16 @@ export class DoocumentTemplateEditorComponent {
     )
   }
 
-  _sectionMenuItems(menu: Menu, sectionIndex: number): MenuItem[] {
+  _sectionMenuItems(sectionIndex: number): MenuItem[] {
     const defaultMenu: MenuItem[] = [{
       label: 'Remove section',
       command: (e:{ originalEvent: PointerEvent }) => {
-        e.originalEvent.stopPropagation()
         this._removeSection(sectionIndex)
       }
     }, {
       label: 'Add section above',
       command: (e:{ originalEvent: PointerEvent }) => {
-        e.originalEvent.stopPropagation()
         this._addSection(sectionIndex)
-      }
-    }, {
-      label: 'Close',
-      command: (e:{ originalEvent: PointerEvent }) => {
-        e.originalEvent.stopPropagation()
-        menu.toggle(e.originalEvent)
       }
     }]
     const pdfData = this.pdfData
@@ -136,7 +129,6 @@ export class DoocumentTemplateEditorComponent {
           defaultMenu.unshift({
             label: `Remove section header`,
             command: (e:{ originalEvent: PointerEvent }) => {
-              e.originalEvent.stopPropagation()
               this._removeSectionHeader(section, pdfData)
             }
           })
@@ -144,7 +136,6 @@ export class DoocumentTemplateEditorComponent {
           defaultMenu.unshift({
             label: `Add section header`,
             command: (e:{ originalEvent: PointerEvent }) => {
-              e.originalEvent.stopPropagation()
               this._addSectionHeader(section, pdfData)
             }
           })
@@ -152,11 +143,6 @@ export class DoocumentTemplateEditorComponent {
       }
     }
     return defaultMenu;
-  }
-
-  _toggleSectionMenu(menu: Menu, event: Event) {
-    event.stopPropagation()
-    menu?.toggle(event)
   }
 
   _removeSection(i: number) {

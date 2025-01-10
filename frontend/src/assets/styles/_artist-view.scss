@@ -19,6 +19,13 @@
         position: unset;
         margin: 0 $padding-standard;
     }
+
+    transition: $transition-standard;
+    &:not(.floating) {
+        &:hover {
+           transform: scale(1.05)
+       }
+    }
 }
 
 

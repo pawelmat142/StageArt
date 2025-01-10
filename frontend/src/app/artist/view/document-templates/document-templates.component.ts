@@ -4,7 +4,6 @@ import { PdfDataService } from '../../pdf-data.service';
 import { PdfDataDto, PdfTemplate, PdfTemplateConst } from '../../model/document-template.def';
 import { BehaviorSubject, map, mergeMap, Observable, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { IconButtonComponent } from '../../../global/components/icon-button/icon-button.component';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -16,6 +15,7 @@ import { MenuItem } from 'primeng/api';
 import { CourtineService } from '../../../global/nav/courtine.service';
 import { DocumentService } from '../../../global/document/document.service';
 import { $desktop } from '../../../global/tools/media-query';
+import { MenuDropdownComponent } from '../../../global/components/menu-dropdown/menu-dropdown.component';
 
 type PdfDatasPerTemplate = { 
   template: PdfTemplate, 
@@ -28,13 +28,12 @@ type PdfDatasPerTemplate = {
   imports: [
     CommonModule,
     ButtonModule,
-    IconButtonComponent,
     InputTextModule,
     FormsModule,
     ReactiveFormsModule,
     InputTextareaModule,
     AccordionModule,
-    MenuModule,
+    MenuDropdownComponent
   ],
   templateUrl: './document-templates.component.html',
   styleUrl: './document-templates.component.scss'
@@ -82,23 +81,20 @@ export class DocumentTemplatesComponent implements OnChanges {
       )
   }
 
-  _pdfDataMenuItems(menu: Menu, pdfData: PdfDataDto): MenuItem[] {
+  _pdfDataMenuItems(pdfData: PdfDataDto): MenuItem[] {
     const result: MenuItem[] = [{
       label: 'Generate preview',
       command: (e:{ originalEvent: PointerEvent }) => {
-        e.originalEvent.stopPropagation()
         this._preview(pdfData)
       }
     }, {
       label: 'Open editor',
       command: (e:{ originalEvent: PointerEvent }) => {
-        e.originalEvent.stopPropagation()
         this._selectPdfData(pdfData)
       }
     }, {
       label: 'Copy template',
       command: (e:{ originalEvent: PointerEvent }) => {
-        e.originalEvent.stopPropagation()
         this.pdfDataservice.getByName$(pdfData.name, this.artist.signature).subscribe(copy => {
           if (copy) {
             copy.active = false
@@ -113,7 +109,6 @@ export class DocumentTemplatesComponent implements OnChanges {
     }, {
       label: 'Delete',
       command: (e:{ originalEvent: PointerEvent }) => {
-        e.originalEvent.stopPropagation()
         this.dialog.yesOrNoPopup(`Delete template, sure?`).pipe(
           tap(() => this.courtine.startCourtine()),
           mergeMap(() => this.pdfDataservice.delete$(pdfData.id)),
@@ -122,18 +117,11 @@ export class DocumentTemplatesComponent implements OnChanges {
           tap(() => this.pdfData$.next(undefined)),
         ).subscribe()
       }
-    }, {
-      label: 'Close',
-      command: (e:{ originalEvent: PointerEvent }) => {
-        e.originalEvent.stopPropagation()
-        menu.toggle(e.originalEvent)
-      }
     }]
     if (!pdfData.active) {
       result.unshift({
         label: 'Activate',
         command: (e:{ originalEvent: PointerEvent }) => {
-          e.originalEvent.stopPropagation()
           this.dialog.yesOrNoPopup(`Template will be activated, sure?`).pipe(
             tap(() => this.courtine.startCourtine()),
             mergeMap(() => this.pdfDataservice.activate$(pdfData.id, pdfData.template)),
@@ -146,7 +134,6 @@ export class DocumentTemplatesComponent implements OnChanges {
       result.unshift({
         label: 'Deactivate',
         command: (e:{ originalEvent: PointerEvent }) => {
-          e.originalEvent.stopPropagation()
           this.dialog.yesOrNoPopup(`Template will be deactivated, sure?`).pipe(
             tap(() => this.courtine.startCourtine()),
             mergeMap(() => this.pdfDataservice.deactivate$(pdfData.id, pdfData.template)),
@@ -182,11 +169,6 @@ export class DocumentTemplatesComponent implements OnChanges {
       : `/pdf-data/preview-default/${pdfData.template}`
     const filename = `${pdfData.template.toLocaleLowerCase()}-preview`
     this.documentService.documentRequestFullUrl(url, undefined, filename)
-  }
-
-  _toggleSectionMenu(menu: Menu, event: Event) {
-    event.stopPropagation()
-    menu?.toggle(event)
   }
 
   private sortFirstActiveAfterByModified(pdfDatas: PdfDataDto[]) {

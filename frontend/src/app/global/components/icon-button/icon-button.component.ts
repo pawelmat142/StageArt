@@ -28,7 +28,7 @@ export class IconButtonComponent {
 
   @Input() skipEvent = true
 
-  @Output() click = new EventEmitter<Event | void>()
+  @Output() click = new EventEmitter<Event>()
 
   _click(event: MouseEvent) {
     this.click.emit(event)

@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { SubstepComponent } from '../../../booking/view/booking-stepper/substep/substep.component';
 import { ChecklistTile } from '../../../booking/interface/checklist.interface';
 import { Menu, MenuModule } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
-import { IconButtonComponent } from '../icon-button/icon-button.component';
 import { BookingDto } from '../../../booking/services/booking.service';
 import { DocumentService } from '../../document/document.service';
 import { ChecklistUtil } from '../../../booking/checklist.util';
@@ -15,6 +14,7 @@ import { Template } from '../../document/doc-util';
 import { Dialog } from '../../nav/dialog.service';
 import { CourtineService } from '../../nav/courtine.service';
 import { BookingUtil } from '../../../booking/booking.util';
+import { MenuDropdownComponent } from '../menu-dropdown/menu-dropdown.component';
 
 @Component({
   selector: 'app-paper-tile',
@@ -23,7 +23,7 @@ import { BookingUtil } from '../../../booking/booking.util';
     CommonModule,
     SubstepComponent,
     MenuModule,
-    IconButtonComponent,
+    MenuDropdownComponent
   ],
   templateUrl: './paper-tile.component.html',
   styleUrl: './paper-tile.component.scss',
@@ -41,8 +41,6 @@ export class PaperTileComponent {
   @Input() tile!: ChecklistTile
   @Input() booking!: BookingDto
   @Input() uid?: string
-
-  @ViewChild('menuRef') menuRef!: Menu
 
   tileOptions: MenuItem[] = []
 
@@ -123,12 +121,6 @@ export class PaperTileComponent {
 
   items: MenuItem[] = []
 
-  _toggle(event: Event) {
-    this.menuRef?.toggle(event)
-    this.workaroundToAlignMenuPopup()
-  }
-
-
   private verifyFile() {
     this.courtine.startCourtine()
     this.uploadsService.verifyPaperFile(this.tile.paperId!).pipe(
@@ -189,17 +181,6 @@ export class PaperTileComponent {
       return false
     }
     return BookingUtil.bookingRoles(this.booking, this.uid).includes(role)
-  }
-
-  private workaroundToAlignMenuPopup() {
-    const popupRef = this.menuRef?.el?.nativeElement?.querySelector('.p-menu')
-    if (popupRef instanceof HTMLElement) {
-      setTimeout(() => {
-        popupRef.style.right = '0'
-        popupRef.style.left = 'auto'
-        popupRef.style.top = '100%'
-      })
-    }
   }
 
 }

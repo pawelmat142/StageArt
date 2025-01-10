@@ -18,7 +18,7 @@
                 </div>
     
 
-                <p-accordion class="w-full" (activeIndexChange)="_selectEvent($event)">
+                <p-accordion class="w-full my-accordion" (activeIndexChange)="_selectEvent($event)">
                     
                     @for (event of events; track event.signature; let last = $last) {
                         <p-accordionTab>

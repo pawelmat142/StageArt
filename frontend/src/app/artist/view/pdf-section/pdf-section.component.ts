@@ -6,10 +6,11 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { Dialog } from '../../../global/nav/dialog.service';
 import { InputTextareaModule } from 'primeng/inputtextarea';
-import { Menu, MenuModule } from 'primeng/menu';
+import { Menu } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
 import { IconButtonComponent } from '../../../global/components/icon-button/icon-button.component';
 import { AccordionModule } from 'primeng/accordion';
+import { MenuDropdownComponent } from '../../../global/components/menu-dropdown/menu-dropdown.component';
 
 @Component({
   selector: 'app-pdf-section',
@@ -21,9 +22,9 @@ import { AccordionModule } from 'primeng/accordion';
     ReactiveFormsModule,
     InputTextareaModule,
     ButtonModule,
-    MenuModule,
     IconButtonComponent,
     AccordionModule,
+    MenuDropdownComponent
   ],
   templateUrl: './pdf-section.component.html',
   styleUrl: './pdf-section.component.scss'
@@ -78,7 +79,7 @@ export class PdfSectionComponent {
     }
   }
 
-  _sectionItemMenu(menu: Menu, itemIndex: number, item?: PdfSectionItem): MenuItem[] {
+  _sectionItemMenu(itemIndex: number, item?: PdfSectionItem): MenuItem[] {
     const itemName = item?.paragraph ? 'paragraph' 
      : item?.list ? 'list' 
      : item?.break ? 'break' 
@@ -86,13 +87,11 @@ export class PdfSectionComponent {
     const defaultItmems = [{
       label: `Remove ${itemName}`,
       command: (e:{ originalEvent: PointerEvent }) => {
-        e.originalEvent.stopPropagation()
         this._removeItem(itemIndex)
       },
     }, {
       label: `Add paragrapgh`,
       command: (e:{ originalEvent: PointerEvent }) => {
-        e.originalEvent.stopPropagation()
         const item: PdfSectionItem = { paragraph: '', editable: true }
         this.section.items.splice(itemIndex+1, 0, item)
         this.updateSection.emit(this.section)
@@ -100,7 +99,6 @@ export class PdfSectionComponent {
     }, {
       label: `Add list`,
       command: (e:{ originalEvent: PointerEvent }) => {
-        e.originalEvent.stopPropagation()
         const item: PdfSectionItem = { list: [''], editable: true  }
         this.section.items.splice(itemIndex+1, 0, item)
         this.updateSection.emit(this.section)
@@ -116,18 +114,11 @@ export class PdfSectionComponent {
     }, {
       label: `Add subsection`
       // TODO
-    }, {
-      label: `Close`,
-      command: (e:{ originalEvent: PointerEvent }) => {
-        e.originalEvent.stopPropagation()
-        menu.toggle(e.originalEvent)
-      }
     }]
     if (item?.list) {
       defaultItmems.unshift({
         label: `Add list item`,
         command: (e:{ originalEvent: PointerEvent }) => {
-          e.originalEvent.stopPropagation()
           const item = this.section.items[itemIndex]
           if (item.list) {
             item.list.push('')
@@ -138,11 +129,6 @@ export class PdfSectionComponent {
     }
 
     return defaultItmems
-  }
-
-  _toggleItemMenu(menu: Menu, event: Event) {
-    event.stopPropagation()
-    menu?.toggle(event)
   }
 
   trackByIndex(index: number): number {

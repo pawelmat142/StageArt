@@ -4,8 +4,7 @@
     <div class="panel-section-header">
       <h2 class="fs3 bold">Document signature pad</h2>
       <div class="menu">
-        <p-menu #menu [model]="_menuItems" [popup]="true" />
-        <app-icon-button (click)="_menuToggle($event!)" icon="pi-ellipsis-v"></app-icon-button>
+        <app-menu-dropdown [items]="_menuItems"></app-menu-dropdown>
       </div>
     </div>
   

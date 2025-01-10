@@ -3,13 +3,15 @@ import { CommonModule } from '@angular/common';
 import { NavService } from '../../nav/nav.service';
 import { MenuService } from '../../nav/menu-service';
 import { ButtonModule } from 'primeng/button';
+import { OutClickDirective } from '../../directives/out-click.directive';
 
 @Component({
   selector: 'app-menu-button',
   standalone: true,
   imports: [
     CommonModule,
-    ButtonModule
+    ButtonModule,
+    OutClickDirective
 ],
   templateUrl: './menu-button.component.html',
   styleUrl: './menu-button.component.scss',
@@ -39,5 +41,9 @@ export class MenuButtonComponent {
 
   toggleButton() {
     this.menuButtonOpen = !this.menuButtonOpen
+  }
+
+  close() {
+    this.menuButtonOpen = false
   }
 }

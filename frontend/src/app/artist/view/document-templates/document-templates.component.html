@@ -26,8 +26,7 @@
                 <div>{{pdfData.name}}</div>
                 <div> <span *ngIf="pdfData.active" class="primary">active</span></div>
                 <div class="menu-icon">
-                    <p-menu #mmm appendTo="mmm" [model]="_pdfDataMenuItems(mmm, pdfData)" [popup]="true" [styleClass]="'paper-tile-menu'"/>
-                    <app-icon-button (click)="_toggleSectionMenu(mmm, $event!)" icon="pi-ellipsis-v"></app-icon-button>
+                    <app-menu-dropdown [items]="_pdfDataMenuItems(pdfData)"></app-menu-dropdown>
                 </div>
             </div>
 

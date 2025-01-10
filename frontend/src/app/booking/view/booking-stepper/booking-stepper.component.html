@@ -78,10 +78,13 @@
 <div class="margin-top-2 margin-bottom">
     <p class="template-subsection-header primary margin-bottom">Artist: </p>
 
-    <div *ngFor="let artist of _artists" class="item-row tile-style padding" [ngClass]="{'clickable': artist.hasPermission}" (click)="_navToArtistPanel(artist)">
+    <div *ngFor="let artist of _artists" 
+        class="item-row tile-style padding clickable" 
+        (click)="_navToArtist(artist)">
         <div>
             <span>{{artist.name}}</span>
             <span *ngIf="artist.hasPermission"> - click to open in panel</span>
+            <span *ngIf="!artist.hasPermission"> - click to open artist view</span>
         </div>
 
     </div>

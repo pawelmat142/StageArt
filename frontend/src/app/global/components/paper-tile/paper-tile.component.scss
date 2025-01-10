@@ -64,24 +64,6 @@ $paper-step-size: 18px;
     }
 }
 
-.p-menu-overlay {
-    border-radius: $radius;
-    background: $highlightBg;
-    min-width: 150px;
-    box-shadow: $shadow-standard;
-    
-    .p-submenu-header {
-        color: $primaryColor;
-        padding: $padding-standard;
-        font-weight: 600;
-    }
-    
-    a {
-        color: $secondaryColor;
-        padding: $padding-standard;
-    }
-}
-
 .paper-tile-menu {
     left: unset!important; //overrides styles added by js
     right: 0!important; //overrides styles added by js

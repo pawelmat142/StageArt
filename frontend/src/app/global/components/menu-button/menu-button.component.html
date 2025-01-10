@@ -1,4 +1,4 @@
-<div class="menu-button-container">
+<div class="menu-button-container" appOutClick [on]="menuButtonOpen" (outClick)="close()">
 
     <div #menuButtonRef class="main-menu-button">
         <p-button

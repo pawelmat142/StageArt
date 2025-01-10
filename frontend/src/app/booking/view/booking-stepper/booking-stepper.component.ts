@@ -13,10 +13,10 @@ import { Dialog } from '../../../global/nav/dialog.service';
 import { ChecklistTile } from '../../interface/checklist.interface';
 import { ChecklistUtil } from '../../checklist.util';
 import { Token } from '../../../profile/auth/view/token';
-import { ArtistViewDto } from '../../../artist/model/artist-view.dto';
 import { SelectorItem } from '../../../global/interface';
 import { PanelMenuService } from '../../../profile/view/sidebar/panel-menu.service';
 import { ArtistService } from '../../../artist/artist.service';
+import { NavService } from '../../../global/nav/nav.service';
 
 export interface SelectorItemWithPersmission extends SelectorItem {
   hasPermission?: boolean
@@ -42,6 +42,7 @@ export class BookingStepperComponent implements OnChanges{
     private readonly store: Store<AppState>,
     private readonly bookingService: BookingService,
     private readonly dialog: Dialog,
+    private readonly nav: NavService,
     private readonly panelMenuService: PanelMenuService,
     private readonly artistService: ArtistService,
   ) {}
@@ -71,13 +72,14 @@ export class BookingStepperComponent implements OnChanges{
     })
   }
 
-  _navToArtistPanel(artist: SelectorItemWithPersmission) {
-    if (!artist.hasPermission) {
-      return
+  _navToArtist(artist: SelectorItemWithPersmission) {
+    if (artist.hasPermission) {
+      this.artistService.fetchArtist$({ signature: artist.code }).pipe(
+        map((a) => this.panelMenuService.panelNavToArtists(a))
+      ).subscribe()
+    } else {
+      this.nav.toArtist(artist.name)
     }
-    this.artistService.fetchArtist$({ signature: artist.code }).pipe(
-      map((artist) => this.panelMenuService.panelNavToArtists(artist))
-    ).subscribe()
   }
 
   private setProcessStepIndex(booking?: BookingDto) {
