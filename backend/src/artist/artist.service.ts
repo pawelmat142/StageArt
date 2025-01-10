@@ -14,6 +14,7 @@ import { BookingSubmitCtx } from '../booking/services/submit.service';
 import { FormUtil } from '../form/form.util';
 import { TimelineItem } from '../booking/services/artist-timeline.service';
 import { v4 as uuidv4 } from 'uuid';
+import { MessageException } from '../global/exceptions/message-exception';
 
 @Injectable()
 export class ArtistService {
@@ -32,7 +33,7 @@ export class ArtistService {
     public async createArtist(form: ArtistForm, profile: JwtPayload): Promise<ArtistViewDto> {
         const checkName = await this.artistModel.findOne({ name: form.artistName })
         if (checkName) {
-            throw new IllegalStateException(`Artist name taken`)
+            throw new MessageException(`Artist name taken`)
         }
 
         const newArtist = new this.artistModel({
@@ -83,7 +84,7 @@ export class ArtistService {
             { signature: { $ne: artist.signature } }
         ]}).select({ signature: true })
         if (checkName) {
-            throw new IllegalStateException('Artist name already in use')
+            throw new MessageException('Artist name already in use')
         }
         const artistBefore = await this.artistModel.findOne({ signature: artist.signature })
         if (!artistBefore) {

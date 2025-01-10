@@ -19,11 +19,10 @@ export interface HttpRequestOptions {
 export class HttpService {
 
   private readonly apiUri = Util.apiUri
-
+  
   constructor(
     private readonly httpClient: HttpClient,
-  ) { }
-
+  ) {}
 
   public get<T>(uri: string, params?: HttpParams) {
     const options = params ? { params } : {}

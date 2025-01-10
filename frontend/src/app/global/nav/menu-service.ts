@@ -7,11 +7,8 @@ import { Location } from '@angular/common';
 import { Profile } from "../../profile/profile.model";
 import { map, Observable, shareReplay } from "rxjs";
 import { HomepageComponent } from "../view/homepage/homepage.component";
-import { Router } from "@angular/router";
 import { Path } from "./path";
 import { Theme } from "../theme/theme";
-import { UnityTheme } from "../theme/unity.theme";
-import { DefaultTheme } from "../theme/default.theme";
 import { MenuItemCommandEvent } from "primeng/api";
 
 
@@ -22,10 +19,9 @@ export class MenuService {
 
     constructor(
         private readonly store: Store<AppState>,
-        private readonly router: Router,
         private readonly nav: NavService,
-        private readonly location: Location,
     ) {
+        Theme.initTheme()
     }
 
     public menuBtns$: Observable<MenuButtonItem[]> = this.store.select(profile).pipe(
@@ -80,18 +76,15 @@ export class MenuService {
         filter: (profile?: Profile) => !profile, 
     }
 
-    private defaultTheme = true
-
     private readonly test: MenuButtonItem = {
         label: 'theme',
         command: () => {
-            this.defaultTheme = !this.defaultTheme
-            Theme.setTheme(this.defaultTheme ? DefaultTheme : UnityTheme)
+            Theme.switchTheme()
         }
     }
 
     private allButtons: MenuButtonItem[] = [
-        this.test,
+        this.test,//TODO move somewhere else
 
         this.homeButton,
         this.artistsButton,

@@ -20,6 +20,7 @@ import { FormUtil } from '../../../utils/form.util';
 import { BookingService } from '../../../../booking/services/booking.service';
 import { ArtistTimelineService } from '../../../../booking/services/artist-timeline.service';
 import { TimelineUtil } from '../../../utils/timeline.util';
+import { Dialog } from '../../../nav/dialog.service';
 
 @Component({
   selector: 'app-homepage-form',
@@ -43,6 +44,7 @@ export class HomepageFormComponent implements OnInit {
     private readonly countryService: CountriesService,
     private readonly store: Store<AppState>,
     private readonly nav: NavService,
+    private readonly dialog: Dialog,
     private readonly bookingService: BookingService,
     private readonly artistTimelineService: ArtistTimelineService,
   ) {}

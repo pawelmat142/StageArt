@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, UseGuards, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Param, Post, Put, UseGuards, UseInterceptors } from '@nestjs/common';
 import { LoginToken, ProfileTelegramService } from './profile-telegram.service';
 import { LoginForm, ProfileEmailService } from './profile-email.service';
 import { ProfileService } from './profile.service';
@@ -12,6 +12,7 @@ import { LogInterceptor } from '../global/interceptors/log.interceptor';
 import { ManagerData } from './model/profile-interfaces';
 import { RoleGuard } from './auth/role.guard';
 import { Role } from './model/role';
+import { MessageException } from '../global/exceptions/message-exception';
 
 @Controller('api/profile')
 @UseInterceptors(LogInterceptor)

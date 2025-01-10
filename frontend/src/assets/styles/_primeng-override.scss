@@ -401,3 +401,9 @@
     }
     
 }
+
+@media only screen and (max-width: $desktop) {
+    .p-toast.p-toast-bottom-right {
+        max-width: calc(100vw - 40px);
+    }
+}

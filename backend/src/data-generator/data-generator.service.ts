@@ -28,7 +28,7 @@ export class DataGeneratorService {
     ) {}
 
     // INPUTS
-    readonly MANAGER_EMAIL = 'manager@test.com'
+    readonly MANAGER_EMAIL = 'manager@test'
     readonly MANAGER_2 = 'SynthSphere Booking'
     readonly MANAGER_2_EMAIL = 'manager@synth-sphere-booking.com'
 
@@ -59,7 +59,7 @@ export class DataGeneratorService {
 
     private async generatePromoters(): Promise<Profile[]> {
         const result: Profile[] = [] 
-        result.push(await this.generatePromoter(`James Taylor`, `promoter@test.com`))
+        result.push(await this.generatePromoter(`James Taylor`, `promoter@test`))
         result.push(await this.generatePromoter(`Oliver Johnson`))
         result.push(await this.generatePromoter(`Thiago Almeida`))
         return result
@@ -88,7 +88,7 @@ export class DataGeneratorService {
             name: name,
             role: { code: Role.MANAGER, name: Role.MANAGER },
             email: email,
-            password: Gen.PUBLIC_PASSWORD,
+            password: email,
         })
         if (managerData) {
             await this.profileService.setManagerData(managerData, { uid: user.uid } as JwtPayload)
@@ -98,11 +98,12 @@ export class DataGeneratorService {
     }
 
     private async generatePromoter(name: string, email?: string): Promise<Profile> {
+        const mail = email ? email : Gen.dotCom(name)
         const user = await this.profileEmailService.createProfile({
             name: name,
             role: { code: Role.PROMOTER, name: Role.PROMOTER },
-            email: email ? email : Gen.dotCom(name),
-            password: Gen.PUBLIC_PASSWORD,
+            email: mail,
+            password: mail,
         })
         this.logger.log(`PROMOTER ${name} generated`)
         return user

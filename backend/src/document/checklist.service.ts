@@ -72,7 +72,7 @@ export class ChecklistService {
     private lastStep(item: ChecklistItem): CheklistStep {
         const lastStep = item.steps[item.steps.length-1]
         if (!lastStep) {
-            throw new IllegalStateException(`checklist item step error`)
+            throw new IllegalStateException(`Checklist item step error`)
         }
         return lastStep
     }

@@ -7,6 +7,7 @@ import { AppJwtService } from './auth/app-jwt.service';
 import { ProfileService } from './profile.service';
 import { Subject } from 'rxjs';
 import { BotUtil } from '../telegram/util/bot.util';
+import { MessageException } from '../global/exceptions/message-exception';
 
 export interface LoginToken {
     telegramChannelId: string
@@ -88,15 +89,15 @@ export class ProfileTelegramService {
     async loginByPin(input: Partial<LoginToken>) {
         const token = this.loginTokens.find(t => t.token === input.token)
         if (!token || new Date() > token.expiration) {
-            throw new UnauthorizedException(`PIN is expired, try again`)
+            throw new MessageException(`PIN is expired, try again`)
         }
         if (token.pin !== input.pin) {
-            throw new UnauthorizedException(`Wrong PIN, try again`)
+            throw new MessageException(`Wrong PIN, try again`)
         }
 
         const profile = await this.findByTelegram(token.telegramChannelId)
         if (!profile) {
-            throw new UnauthorizedException(`Profile not found`)
+            throw new MessageException(`Profile not found`)
         }
 
         this.cleanMessagesSubject$.next(token.telegramChannelId)
@@ -106,7 +107,7 @@ export class ProfileTelegramService {
 
     async generateLoginToken(telegramChannelId: string): Promise<LoginToken> {
         const check = await this.profileModel.findOne({ telegramChannelId })
-        if (!check) throw new BadRequestException('Not a member')
+        if (!check) throw new MessageException('Not a telegram member')
 
         const expiration = new Date()
         expiration.setMinutes(expiration.getMinutes() + 1)
@@ -133,7 +134,7 @@ export class ProfileTelegramService {
             telegramChannelId: profile.telegramChannelId
         })
         if (checkTelegram) {
-            throw new BadRequestException('Name in use')
+            throw new MessageException('Name in use')
         }
 
         profile.uid = TelegramUtil.idByTelegram(profile.telegramChannelId)
@@ -147,7 +148,7 @@ export class ProfileTelegramService {
             uid: profile.uid
         })
         if (!deleted.deletedCount) {
-            throw new Error(`Not found user with uid: ${profile.uid}`)
+            throw new NotFoundException(`Not found user with uid: ${profile.uid}`)
         }
 
         this.cleanMessagesSubject$.next(profile.telegramChannelId)

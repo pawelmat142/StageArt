@@ -26,7 +26,7 @@ export class ArtistsGenerator {
     private ARTISTS: ArtistViewDto[] = []
     private MANAGER: Profile
 
-        readonly ARTIST_EMAIL = 'artist@test.com'
+        readonly ARTIST_EMAIL = 'artist@test'
     ARTIST_SIGNATURE = 'ARTIST_SIGNATURE'
 
     public async generateArtistss(manager: Profile): Promise<ArtistViewDto[]> {
@@ -72,7 +72,7 @@ export class ArtistsGenerator {
             name: name,
             role: { code: Role.ARTIST, name: Role.ARTIST },
             email: mail,
-            password: Gen.PUBLIC_PASSWORD,
+            password: mail,
         })
         this.logger.log(`Profile ${name} with role ARTIST created`)
         const nameSplit = name.split(' ')

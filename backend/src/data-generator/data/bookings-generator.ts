@@ -163,7 +163,7 @@ export class BookingsGenerator {
             companyCountry: country,
             companyAddress: "Via delle Stelle, 22 City",
             companyVatNumber: "987654",
-            email: `${Util.toKebabCase(promoter.name)}@test.com`,
+            email: `${Util.toKebabCase(promoter.name)}@test`,
             phoneNumber: "+39 334 567 8910",
             website: "",
             experienceInOrganizingEvents: "12",

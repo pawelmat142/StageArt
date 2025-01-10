@@ -6,12 +6,11 @@ import { COUNTRIES } from "./data/countries"
 
 export abstract class Gen {
 
-    public static readonly PUBLIC_PASSWORD = 'test123'
     public static readonly PHONE_NUMBER = `+48 600 123 456`
 
 
     public static dotCom(name: string): string {
-        return `${Util.toKebabCase(name)}@test.com`
+        return `${Util.toKebabCase(name)}@test`
     }
 
     public static toJwtProfile(profile: Profile) {

@@ -80,6 +80,9 @@ export class Dialog extends DialogService {
         return this._errorPopup(error.message, content)
       }
       if (error instanceof HttpErrorResponse) {
+        if (error.status === 333) {//Message exception
+          return this._errorPopup(error.error)
+        }
         return this._errorPopup(error.statusText, content)
       }
       return this._errorPopup(error, content)

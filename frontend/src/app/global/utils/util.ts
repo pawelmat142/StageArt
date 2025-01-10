@@ -2,7 +2,7 @@ import { environment } from "../../../environments/environment";
 
 export abstract class Util {
 
-    public static readonly apiUri = ['localhost', '127.0.0.1'].includes(location.hostname) 
+    public static readonly apiUri = ['localhost', '127.0.0.1'].some(u => location.hostname.includes(u))
         ? environment.testApiUri 
         : environment.apiUri
 

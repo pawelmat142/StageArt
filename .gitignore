@@ -1,5 +1,6 @@
 production
 logs
+.vscode
 
 ### NEST
 # backend/.env
