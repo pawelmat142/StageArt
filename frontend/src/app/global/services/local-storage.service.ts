@@ -1,7 +1,5 @@
 import { Injectable } from "@angular/core";
 import { Country } from "../countries/country.model";
-import { AppState } from "../../app.state";
-import { Store } from "@ngrx/store";
 
 @Injectable({
     providedIn: 'root'
@@ -9,12 +7,6 @@ import { Store } from "@ngrx/store";
 export class LocalStorageService {
 
     private readonly COUNTIRES = "COUNTIRES"
-
-    constructor(
-        private readonly store: Store<AppState>,
-    ) {
-    }
-
 
     public setCountries(countries: Country[]) {
         this.setItem(this.COUNTIRES, countries)

@@ -46,6 +46,7 @@ interface Car {
 interface Flags {
     png: string;
     svg: string;
+    alt: string;
 }
 
 interface CapitalInfo {

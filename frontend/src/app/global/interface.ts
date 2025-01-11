@@ -4,5 +4,6 @@ export interface SelectorItem {
     name: string
     code: string
     imgUrl?: string
+    imgAlt?: string
     svg?: ArtistMediaCode
 }

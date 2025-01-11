@@ -63,16 +63,17 @@ export class CountriesService {
     }
 
     private convert(data: CountryResponseItem[]): Country[] {
-        return this.filterMostCommonByPopulation(data).map(dataItem => {
+        return this.filterMostPopular(data).map(dataItem => {
             return {
                 code: dataItem.cca2,
                 name: dataItem.name.common,
-                imgUrl: dataItem.flags.svg
+                imgUrl: dataItem.flags.png,
+                imgAlt: dataItem.flags.alt
             }
         })
     }
 
-    private filterMostCommonByPopulation(data: CountryResponseItem[]): CountryResponseItem[] {
+    private filterMostPopular(data: CountryResponseItem[]): CountryResponseItem[] {
         data.sort((a, b) => b.population - a.population)
         return data.slice(0, 100)
     }
