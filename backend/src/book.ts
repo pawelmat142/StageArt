@@ -12,7 +12,10 @@ async function bootstrap() {
   
   const app = await NestFactory.create(AppModule, {
     logger: createMyLogger(),
-    cors: true
+    cors: {
+      origin: true,
+      exposedHeaders: ['Content-Disposition']
+    }
   })
 
   app.useGlobalFilters(new AppExceptionFilter())
