@@ -135,14 +135,18 @@ export class PaperTileComponent {
 
   private uploadFile(template: Template) {
     this.courtine.startCourtine()
+
+
+
     this.uploadsService.uploadFile(this.booking, template).pipe(
       filter(paper => !!paper),
-      switchMap(paper => this.documentService.refreshChecklist$(this.booking)),
+      switchMap(() => this.documentService.refreshChecklist$(this.booking)),
+      tap(() => this.courtine.stopCourtine()),
       catchError(error => {
+        this.courtine.stopCourtine()
         this.dialog.errorPopup(error)
         return of(null)
       }),
-      tap(() => this.courtine.stopCourtine()),
     ).subscribe()
   }
 
