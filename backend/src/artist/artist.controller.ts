@@ -76,8 +76,6 @@ export class ArtistController {
         return this.artistService.listArtistLabels()
     }
 
-
-    // TODO artist manager service - refactor
     @Get('artists/of-manager')
     @UseGuards(RoleGuard(Role.MANAGER))
     @Serialize(ArtistViewDto)

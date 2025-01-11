@@ -18,11 +18,14 @@ export class NewProfileWizard extends Wizard {
     public static USDT_MIN_LIMIT = 10
 
     public getSteps(): WizardStep[] {
-
+        const loginUrl = BotUtil.prepareLoginUrl()
+        if (!loginUrl) {
+            return [BotUtil.swwStep()]
+        }
         return [{
             order: 0,
             message: [
-                `Unity Management agency`,
+                `StageArt - Artist Booking platform`,
                 `Would you like to register?`
             ],
             buttons: [[{
@@ -86,7 +89,7 @@ export class NewProfileWizard extends Wizard {
             message: ['Registered!'],
             buttons: [[{
                 text: 'Login page',
-                url: BotUtil.prepareLoginUrl()
+                url: loginUrl
             }]],
             close: true
         }

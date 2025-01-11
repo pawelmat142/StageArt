@@ -19,17 +19,21 @@ export class ProfileWizard extends Wizard {
         return this.profile
     }
 
-
     public getSteps(): WizardStep[] {
+        const loginUrl = BotUtil.prepareLoginUrl()
+        if (!loginUrl) {
+            return [BotUtil.swwStep()]
+        }
         return [{
             order: 0,
             message: [
-                `Welcome to Unity Management`,
+                `Hi, ${this.profile?.name}`,
+                `Welcome to Stage Art`,
                 `your name: ${this.profile?.name}`,
             ],
             buttons: [[{
                 text: 'Login page',
-                url: BotUtil.prepareLoginUrl()
+                url: loginUrl
             }],[{
                 text: 'Delete account',
                 process: async () => 4
