@@ -1,12 +1,13 @@
 import { Injectable } from "@angular/core";
-import { map, tap } from "rxjs";
+import { BehaviorSubject, catchError, map, Observable, of, retry, tap } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { Country, CountryResponseItem } from "./country.model";
 import { LocalStorageService } from "../services/local-storage.service";
+import { Dialog } from "../nav/dialog.service";
 
 
-export function initCountries(myService: CountriesService): () => void {
-    return () => myService.initCountries()
+export function initCountries(countriesService: CountriesService): () => void {
+    return () => countriesService.initCountries()
 }
 
 @Injectable({
@@ -16,6 +17,7 @@ export class CountriesService {
 
     constructor (
         private readonly httpClient: HttpClient,
+        private readonly dialog: Dialog,
         private readonly localStorageService: LocalStorageService,
     ) {
     }
@@ -25,25 +27,40 @@ export class CountriesService {
         let countries = this.localStorageService.getCountries()
         if (!countries?.length) {
             this.fetchCountries$().subscribe()
+        } else {
+            this.countriesSubject$.next(countries)
         }
     }
 
-    public getCountries(): Country[] {
-        return this.localStorageService.getCountries() || []
+    private countriesSubject$ = new BehaviorSubject<Country[]>([])
+    public get countries$(): Observable<Country[]> {
+        return this.countriesSubject$.asObservable()
+    }
+    public get countries(): Country[] {
+        return this.countriesSubject$.value
     }
 
     public findByCode(countryCode: string): Country | undefined {
-        return this.getCountries().find(c => c.code === countryCode)
+        return this.countries.find(c => c.code === countryCode)
     }
 
 
     private fetchCountries$() {
-        return this.httpClient.get<CountryResponseItem[]>('https://restcountries.com/v3.1/all')
-            .pipe(map(data => this.convert(data)))
-            .pipe(map(countries => this.sortByAlphabet(countries)))
-            .pipe(tap(countries => this.localStorageService.setCountries(countries)))
+        return this.httpClient.get<CountryResponseItem[]>('https://restcountries.com/v3.1/all').pipe(
+            retry(8),
+            map(data => this.convert(data)),
+            map(countries => this.sortByAlphabet(countries)),
+            tap(countries => this.countriesSubject$.next(countries)),
+            tap(countries => this.localStorageService.setCountries(countries)),
+            catchError((error) => this.handleError(error)),
+        )
     }
 
+    private handleError(error: any) {
+        console.log(error)
+        this.dialog.warnToast(`Initialization failed`)
+        return of()
+    }
 
     private convert(data: CountryResponseItem[]): Country[] {
         return this.filterMostCommonByPopulation(data).map(dataItem => {

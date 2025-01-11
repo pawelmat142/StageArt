@@ -36,7 +36,7 @@ export abstract class UnityTheme {
     public static readonly inlineSpacing = '';
 
     public static readonly borderRadius = '';
-    public static readonly surfaceBorder = this.dark;
+    public static readonly surfaceBorder = this.bgTwo;
     public static readonly stepBorder = `unset`; //book form stepper 
 
     public static readonly grey = "#577483";

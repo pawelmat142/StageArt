@@ -38,7 +38,7 @@
             @if (_editMode) {
                 <app-dropdown 
                     class="floating edit-button edit-country" 
-                    [items]="_countryItems"
+                    [items]="(_countryItems$ | async)!"
                     (select)="_selectCountry($event!)"
                 ></app-dropdown>
             }

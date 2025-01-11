@@ -8,7 +8,7 @@
             </app-form-field>
     
             <app-form-field label="Country">
-                <app-dropdown [items]="_countryItems" formControlName="country"></app-dropdown>
+                <app-dropdown [items]="(_countryItems$ | async)!" formControlName="country"></app-dropdown>
             </app-form-field>
     
             <app-form-field label="Date">

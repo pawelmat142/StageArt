@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { map, tap, withLatestFrom } from 'rxjs';
+import { map, of, tap, withLatestFrom } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../app.state';
 import { BookingFormStructure } from '../../booking-form-structure';
@@ -56,7 +56,7 @@ export class PanelBookingsComponent implements OnInit, OnDestroy {
 
   _selectedBooking?: BookingDto
 
-  _bookingFormStructure = new BookingFormStructure(this.store, [])
+  _bookingFormStructure = new BookingFormStructure(this.store, of([]))
 
   _emptyBookings = true
   

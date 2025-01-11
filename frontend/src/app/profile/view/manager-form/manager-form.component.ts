@@ -8,12 +8,11 @@ import { Country } from '../../../global/countries/country.model';
 import { CourtineService } from '../../../global/nav/courtine.service';
 import { Dialog } from '../../../global/nav/dialog.service';
 import { NavService } from '../../../global/nav/nav.service';
-import { take, tap } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { Path } from '../../../global/nav/path';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormFieldComponent } from '../../../global/controls/form-field/form-field.component';
-import { DropdownModule } from 'primeng/dropdown';
 import { DropdownComponent } from '../../../global/controls/dropdown/dropdown.component';
 
 export interface ManagerData {
@@ -54,7 +53,7 @@ export class ManagerFormComponent {
     private readonly nav: NavService,
   ) {}
 
-  _countryItems = this.countryService.getCountries()
+  _countryItems$: Observable<Country[]> = this.countryService.countries$
 
   form = new FormGroup({
     agencyName: new FormControl('', Validators.required),

@@ -6,7 +6,7 @@ import { FormPresentationComponent } from '../../../../form-processor/presentati
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../../app.state';
 import { BookingFormStructure } from '../../../booking-form-structure';
-import { tap } from 'rxjs';
+import { of, tap } from 'rxjs';
 import { removeBookingFormData, setBookingFormData } from '../../../../profile/profile.state';
 
 @Component({
@@ -29,9 +29,11 @@ export class BookingFormDataComponent implements OnChanges{
 
   @Input() booking!: BookingDto
 
-  _bookingFormStructure = new BookingFormStructure(this.store, [])
+  _bookingFormStructure = new BookingFormStructure(this.store, of([]))
 
   _formData: any = null
+
+  _activeIndex!: number
   
   ngOnChanges(changes: SimpleChanges): void {
     if (!this.booking) {
@@ -66,8 +68,11 @@ export class BookingFormDataComponent implements OnChanges{
   }
 
   close() {
-    this.store.dispatch(removeBookingFormData())
-    this._formData = null
+    this._activeIndex = -1
+    setTimeout(() => {
+      this.store.dispatch(removeBookingFormData())
+      this._formData = null
+    }, 200)
   }
 
 }

@@ -10,10 +10,10 @@ import { AppState } from '../../../../app.state';
 import { Store } from '@ngrx/store';
 import { selectArtists } from '../../../../artist/artists.state';
 import { ArtistUtil } from '../../../../artist/artist.util';
-import { filter, from, map, mergeMap, Observable, of, switchMap, tap, withLatestFrom } from 'rxjs';
+import { map, mergeMap, Observable, of, switchMap, withLatestFrom } from 'rxjs';
 import { CalendarModule } from 'primeng/calendar';
 import { SelectorItem } from '../../../interface';
-import { formData, FormType, setFormData, startForm } from '../../../../form-processor/form.state';
+import { formData, FormType, setFormData } from '../../../../form-processor/form.state';
 import { NavService } from '../../../nav/nav.service';
 import { Path } from '../../../nav/path';
 import { FormUtil } from '../../../utils/form.util';
@@ -57,7 +57,7 @@ export class HomepageFormComponent implements OnInit {
 
   get f() { return this.form.controls }
 
-  _countryItems = this.countryService.getCountries()
+  _countryItems$ = this.countryService.countries$
 
   _artistItems$ = this.store.select(selectArtists).pipe(map(a => ArtistUtil.selectorItems(a)))
 

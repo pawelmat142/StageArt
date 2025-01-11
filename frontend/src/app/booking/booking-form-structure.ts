@@ -16,7 +16,7 @@ export class BookingFormStructure {
 
     constructor(
       private store: Store<AppState>,
-      private countries: Country[],
+      private countries$: Observable<Country[]>,
       private artistTimelineService?: ArtistTimelineService,
     ) {
       if (this.artistTimelineService) {
@@ -68,7 +68,7 @@ export class BookingFormStructure {
                 name: `Event country`,
                 type: 'selector',
                 validators: [Validators.required],
-                selectorItems$: of(this.countries)
+                selectorItems$: this.countries$
               }, {
                 name: 'Venue Name',
               }, {
@@ -106,7 +106,7 @@ export class BookingFormStructure {
             }, {
               name: `Company country`,
               type: 'selector',
-              selectorItems$: of(this.countries)
+              selectorItems$: this.countries$
             }, {
               name: 'Company address',
               validators: [Validators.required]

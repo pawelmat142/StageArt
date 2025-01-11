@@ -14,7 +14,7 @@
             <div class="flex align-items-center gap-2">
                 <div class="item-template" [class.with-image]="selectedOption.imgUrl">
                     @if (selectedOption.imgUrl) {
-                        <img [src]="selectedOption.imgUrl" class="item-image item-image-border" />
+                        <img [src]="selectedOption.imgUrl" class="item-image item-image-border" height="30"/>
                     }
                     <div>{{ selectedOption.name }}</div>
                 </div>

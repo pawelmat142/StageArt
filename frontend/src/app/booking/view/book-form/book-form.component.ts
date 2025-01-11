@@ -42,7 +42,7 @@ export class BookFormComponent {
 
   _bookingFormStructure = new BookingFormStructure(
     this.store,
-    this.countriesService.getCountries(),
+    this.countriesService.countries$,
     this.artistTimelineService
   )
 

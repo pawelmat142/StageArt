@@ -6,7 +6,7 @@ import { CountryComponent } from '../../../../global/components/country/country.
 import { artistCountry, artistName, editMode, updateCountry, updateName } from '../artist-view.state';
 import { FormsModule } from '@angular/forms';
 import { CountriesService } from '../../../../global/countries/countries.service';
-import { tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { StyleComponent } from '../style/style.component';
 import { ArtistService } from '../../../artist.service';
 import { SelectorItem } from '../../../../global/interface';
@@ -38,10 +38,10 @@ export class NameComponent {
 
   @ViewChild('nameInput') nameInput?: ElementRef
 
-  _countryItems: SelectorItem[] = []
+  _countryItems$!: Observable<SelectorItem[]>
 
   ngOnInit(): void {
-    this._countryItems = this.countriesService.getCountries()
+    this._countryItems$ = this.countriesService.countries$
   }
 
   _editable$ = this.artistService.artistViewEditable$

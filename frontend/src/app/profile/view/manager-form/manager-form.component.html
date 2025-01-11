@@ -22,7 +22,7 @@
             </app-form-field>
             
             <app-form-field label="Country">
-                <app-dropdown [items]="_countryItems" formControlName="agencyCountry"></app-dropdown>
+                <app-dropdown [items]="(_countryItems$ | async)!" formControlName="agencyCountry"></app-dropdown>
             </app-form-field>
 
             <app-form-field label="Account holder address">
