@@ -9,7 +9,7 @@ import { ArtistService } from '../../../artist.service';
 import { ButtonModule } from 'primeng/button';
 import { TextareaElementComponent } from '../../../../global/controls/textarea-element/textarea-element.component';
 import { FormFieldComponent } from '../../../../global/controls/form-field/form-field.component';
-import { BehaviorSubject, finalize, map, mergeMap, tap } from 'rxjs';
+import { BehaviorSubject, map, mergeMap, tap } from 'rxjs';
 import { DocumentTemplatesComponent } from '../../document-templates/document-templates.component';
 import { NavService } from '../../../../global/nav/nav.service';
 import { PdfDataDto } from '../../../model/document-template.def';
