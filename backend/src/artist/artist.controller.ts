@@ -11,6 +11,7 @@ import { LogInterceptor } from '../global/interceptors/log.interceptor';
 import { ArtistStatus } from './model/artist.model';
 import { TimelineItem } from '../booking/services/artist-timeline.service';
 import { NoGuard } from '../profile/auth/no-guard';
+import { ArtistManagerService } from './artist-manager.service';
 
 export interface FetchArtistQuery {
     name?: string
@@ -37,6 +38,7 @@ export class ArtistController {
     
     constructor(
         private readonly artistService: ArtistService,
+        private readonly artistManagerService: ArtistManagerService,
     ) {}
 
     @Post('artist/create')
@@ -80,13 +82,13 @@ export class ArtistController {
     @UseGuards(RoleGuard(Role.MANAGER))
     @Serialize(ArtistViewDto)
     fetchArtistsOfManager(@GetProfile() profile: JwtPayload) {
-        return this.artistService.fetchArtistsOfManager(profile)
+        return this.artistManagerService.fetchArtistsOfManager(profile)
     }
 
     @Put('artist/management-notes')
     @UseGuards(RoleGuard(Role.MANAGER))
     putManagementNotes(@Body() body: { managmentNotes: string, artistSignture: string }, @GetProfile() profile: JwtPayload) {
-        return this.artistService.putManagementNotes(body, profile)
+        return this.artistManagerService.putManagementNotes(body, profile)
     }
 
     @Put('artist/set-status/:status/:signature')
@@ -96,7 +98,7 @@ export class ArtistController {
         @Param('signature') signature: string, 
         @GetProfile() profile: JwtPayload
     ) {
-        return this.artistService.setStatus(status, signature, profile)
+        return this.artistManagerService.setStatus(status, signature, profile)
     }
 
     @Get(`artist/timeline`)
@@ -113,7 +115,7 @@ export class ArtistController {
         @Body() body: TimelineItem,
         @GetProfile() profile: JwtPayload
     ) {
-        return this.artistService.submitTimelineEvent(artistSignature, body, profile)
+        return this.artistManagerService.submitTimelineEvent(artistSignature, body, profile)
     }
 
     @Delete(`artist/timeline/:artistSignature/:id`)
@@ -123,7 +125,7 @@ export class ArtistController {
         @Param('id') id: string,
         @GetProfile() profile: JwtPayload
     ) {
-        this.artistService.removeTimelineEvent(artistSignature, id, profile)
+        this.artistManagerService.removeTimelineEvent(artistSignature, id, profile)
     }
 
 }

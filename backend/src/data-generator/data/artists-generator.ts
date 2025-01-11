@@ -12,6 +12,7 @@ import { ARTIST_IMAGES } from "./artist-images"
 import { COUNTRIES } from "./countries"
 import { JwtPayload } from "../../profile/auth/jwt-strategy"
 import { ArtistLabel, ArtistMedia, ArtistStyle } from "../../artist/model/artist.model"
+import { ArtistManagerService } from "../../artist/artist-manager.service"
 
 @Injectable()
 export class ArtistsGenerator {
@@ -21,6 +22,7 @@ export class ArtistsGenerator {
     constructor(
         private readonly profileEmailService: ProfileEmailService,
         private readonly artistService: ArtistService,
+        private readonly artistManagerService: ArtistManagerService,
     ) {}
 
     private ARTISTS: ArtistViewDto[] = []
@@ -105,12 +107,12 @@ export class ArtistsGenerator {
         const managerProfile = { uid: this.MANAGER.uid } as JwtPayload
         await this.artistService.updateArtistView(artist, artistProfile )
 
-        await this.artistService.putManagementNotes({
+        await this.artistManagerService.putManagementNotes({
             managmentNotes: this.getArtistManagementNotes(index%2 + 1),
             artistSignture: artist.signature
         }, managerProfile)
 
-        await this.artistService.setStatus('ACTIVE', artist.signature, managerProfile)
+        await this.artistManagerService.setStatus('ACTIVE', artist.signature, managerProfile)
         return artist
     }
 
