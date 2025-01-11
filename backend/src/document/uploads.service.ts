@@ -94,7 +94,6 @@ export class UploadsService {
             this.logger.warn(`Counld not delete Paper ${paper.id}`)
         }
         return { deleted: !!update.deletedCount }
-
     }
 
 }
