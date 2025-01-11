@@ -1,20 +1,10 @@
 import { Wizard, WizardButton, WizardStep } from "../wizards/wizard"
 import { WizBtn } from "./wiz-btn"
-import * as os from 'os';
 
 export abstract class BotUtil {
 
     public static prepareLoginUrl(): string {
-        const testEnv = process.env.TELEGRAM_BOT_NAME === 'StageArtTestBot'
-        if (testEnv) {
-            return `http://127.0.0.1:4200/login`
-        } else {
-            const ip = this.getServerIp()
-            if (!ip) {
-                return ''
-            }
-            return `${this.getServerIp()}:${process.env.PORT}/login`
-        }
+        return process.env.TELEGRAM_LOGIN_URL
     }
 
     public static swwStep(): WizardStep {
@@ -25,18 +15,6 @@ export abstract class BotUtil {
                 `Please contact service`
             ]
         }
-    }
-
-    private static getServerIp(): string {
-        const interfaces = os.networkInterfaces();
-        for (const interfaceName in interfaces) {
-          for (const network of interfaces[interfaceName]) {
-            if (network.family === 'IPv4' && !network.internal) {
-              return network.address;  
-            }
-          }
-        }
-        return ''
     }
 
     public static msgFrom = (lines: string[]) => {
