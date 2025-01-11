@@ -1,3 +1,5 @@
+import { $desktop } from "../tools/media-query";
+import { ImgSize } from "../utils/img.util";
 import { DefaultTheme } from "./default.theme";
 import { UnityTheme } from "./unity.theme";
 
@@ -20,7 +22,15 @@ export abstract class Theme {
     public static initTheme() {
         const theme = this.selectThemeByName(Theme.currentTheme)
         Theme.setTheme(theme)
+        this.initScssVariables()
     }
+
+    private static initScssVariables() {
+        Theme.cssVar('avatar-size',`${ImgSize.avatarMobile.height}px`)
+        Theme.cssVar('avatar-size-desktop',`${ImgSize.avatar.height}px`)
+        Theme.cssVar('is-desktop', $desktop.toString())
+        Theme.setTheme(UnityTheme)
+      }
 
     public static setTheme(theme: Object) {
         Object.entries(theme).forEach(([key, value]) => {
@@ -37,8 +47,8 @@ export abstract class Theme {
 
     private static selectThemeByName(name: string): Object {
         switch (name) {
-            case UnityTheme.name: return UnityTheme
-            default: return DefaultTheme
+            case DefaultTheme.name: return DefaultTheme
+            default: return UnityTheme
         }
     }
 

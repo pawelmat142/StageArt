@@ -8,7 +8,7 @@
         [optionLabel]="optionLabel"
         [placeholder]="placeholder" 
         [class.with-image]="value?.imgUrl"
-        appendTo="appDropdown"
+        [appendTo]="appDropdown"
         >
         <ng-template pTemplate="selectedItem" let-selectedOption>
             <div class="flex align-items-center gap-2">

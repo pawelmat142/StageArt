@@ -99,7 +99,11 @@ html {
     }
 }
 
-@media only screen and (min-width: $hugeScreen) {
+@media only screen and (min-width: $xxl) {
+    .section-margin {
+        margin-left: calc(2*$padding-standard + $desktop-margin-huge);
+        margin-right: calc(2*$padding-standard + $desktop-margin-huge);
+    }
 }
 
 

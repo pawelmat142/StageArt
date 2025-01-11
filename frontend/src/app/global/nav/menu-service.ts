@@ -20,9 +20,7 @@ export class MenuService {
     constructor(
         private readonly store: Store<AppState>,
         private readonly nav: NavService,
-    ) {
-        Theme.initTheme()
-    }
+    ) {}
 
     public menuBtns$: Observable<MenuButtonItem[]> = this.store.select(profile).pipe(
         map(profile => {

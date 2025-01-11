@@ -224,22 +224,14 @@
     }
 }
 
-@media only screen and (min-width: $desktop) {
-    .p-carousel-container {
-        .p-link {
-            display: flex;
-        }
-    }
-}
 
 .p-carousel-indicators {
-    margin-top: $padding-standard;
+    margin-top: 2*$padding-standard;
     gap: $padding-standard;
     list-style-type: none;
     padding: 0;
 
     li {
-        padding: $padding-standard;
         button {
             background-color: $primaryColor;
             border: 0;
@@ -253,6 +245,18 @@
                 background-color: $primary600;
                 box-shadow: $card-shadow;
             }
+        }
+    }
+}
+
+@media only screen and (min-width: $desktop) {
+    .p-carousel-container {
+        margin-top: $padding-standard;
+        .p-link {
+            display: flex;
+        }
+        li {
+            padding: $padding-standard;
         }
     }
 }

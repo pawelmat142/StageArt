@@ -35,6 +35,11 @@
 }
 
 @media only screen and (min-width: $desktop) {
+    .landing {
+        padding-top: 0;
+        align-items: center;
+    }
+    
     .landing-left, .landing-right {
         width: 50%;
     }
@@ -42,4 +47,6 @@
     .langin-left-content {
         max-width: 600px;
     }
+    
+
 }

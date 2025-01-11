@@ -2,6 +2,11 @@
 
 .artists-section {
     padding-top: 2*$padding-standard;
+
+    .section-top {
+        flex-direction: column;
+        row-gap: $padding-standard;
+    }
 }
 
 .section-container {
@@ -17,6 +22,10 @@
 @media only screen and (min-width: $desktop) {
     .artists-section {
         padding-top: 6*$padding-standard;
+        .section-top {
+            flex-direction: unset;
+            row-gap: unset;
+        }
     }
     .grid {
         margin-top: 2*$padding-standard;

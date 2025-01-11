@@ -1,4 +1,4 @@
-import { Component, Renderer2 } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
@@ -31,7 +31,7 @@ export const OFFLINE_MODE = false
   styleUrl: './app.component.scss',
   providers: [MessageService],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   
   title = 'book-agency';
 
@@ -49,7 +49,7 @@ export class AppComponent {
 
   ngOnInit() {
     this.autoLogin()
-    this.initScssVariables()
+    Theme.initTheme()
 
     this.dialog.toast$.subscribe(message => {
       this.messageService.add(message)
@@ -78,14 +78,7 @@ export class AppComponent {
     return [Path.LOGIN, RegisterComponent.path].some(path => this.nav.path.includes(path))
   }
 
-  private initScssVariables() {
-    Theme.cssVar('avatar-size',`${ImgSize.avatarMobile.height}px`)
-    Theme.cssVar('avatar-size-desktop',`${ImgSize.avatar.height}px`)
-    Theme.cssVar('is-desktop', $desktop.toString())
-    Theme.setTheme(UnityTheme)
-    // TODO
-    // Theme.setTheme(DefaultTheme)
-  }
+
 
 }
 

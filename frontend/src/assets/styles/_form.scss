@@ -186,7 +186,7 @@ app-dropdown.ng-dirty.ng-invalid .p-component,
 .item-image {
     max-height: 25px;
     &.item-image-border {
-        border: 1px solid $surfaceBorder;
+        border: .5px solid $surfaceBorder;
         border-radius: 3px;
     }
 }
