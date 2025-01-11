@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Delete, Get, NotFoundException, Param, Post, Put, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { JwtGuard } from '../profile/auth/jwt.guard';
 import { Serialize } from '../global/interceptors/serialize.interceptor';
 import { LogInterceptor } from '../global/interceptors/log.interceptor';
@@ -16,6 +16,7 @@ import { UploadsService } from './uploads.service';
 import { PdfTemplate } from '../pdf/model/pdf-data';
 import { RoleGuard } from '../profile/auth/role.guard';
 import { Role } from '../profile/model/role';
+import { memoryStorage } from 'multer';
 
 @Controller('api/document')
 @UseInterceptors(LogInterceptor)
@@ -90,22 +91,20 @@ export class DocumentController {
         return this.uploadsService.deletePaper(id, profile)
     }
 
+    @Post('upload/:id/:template')
+    @UseGuards(JwtGuard)
+    @UseInterceptors(FileInterceptor('file', {
+        storage: memoryStorage(), 
+    }))
+    async uploadFile(
+        @Param('id') formId: string,
+        @Param('template') template: Template,
+        @GetProfile() profile: JwtPayload,
+        @UploadedFile() file: Express.Multer.File,
+    ) {
+        return this.uploadsService.uploadPaperFile(formId, template, profile, file)
+    }
 
-    // UPLOADS
-    // @Post('/upload/:id/:template')
-    // @UseGuards(JwtGuard)
-    // @UseInterceptors(FileInterceptor('file'))
-    // async uploadFile(
-    //     @Param('id') formId: string,
-    //     @Param('template') template: Template,
-    //     @GetProfile() profile: JwtPayload,
-    //     @UploadedFile() file: any,
-    // ) {
-    //     if (file.size > this.uploadsService.MAX_FILE_BYTES) {
-    //         throw new BadRequestException(`Max file size 1 MB`)
-    //     }
-    //     return this.uploadsService.uploadPaperFile(formId, template, profile, file)
-    // }
 
     @UseGuards(RoleGuard(Role.MANAGER))
     @Post('/verify/:paperId')
@@ -120,15 +119,9 @@ export class DocumentController {
         @Res() res: Response, 
         @GetProfile() profile: JwtPayload
     ) {
-        const { paper, downloadStream } = await this.uploadsService.downloadFile(paperId, profile)
-        const filename = `${paper.template}.${paper.extension}`
-        res.set({
-            'Content-Type': PaperUtil.getContentType(filename),
-            'Content-Disposition': `attachment; filename="${filename}"`,
-        })
-        downloadStream.pipe(res)
+        const paper = await this.uploadsService.downloadFile(paperId, profile)
+        PaperUtil.fileResponse(res, paper.content, `${paper.template}.${paper.extension}`)
     }
-
 
 
     // SIGNATURES

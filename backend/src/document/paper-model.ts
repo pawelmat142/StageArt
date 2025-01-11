@@ -22,20 +22,16 @@ export class Paper {
 
     @Expose()
     @Prop()
-    fileObjectId?: string
-
-    @Expose()
-    @Prop()
     formId: string
 
     @Expose()
     @Prop({ required: true })
     template: Template
     
-    @Prop()
+    @Prop({ type: Buffer })
     content?: Buffer
     
-    @Prop()
+    @Prop({ type: Buffer })
     contentWithSignatures?: Buffer
     
     @Prop({ required: true })

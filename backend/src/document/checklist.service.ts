@@ -7,7 +7,6 @@ import { BookingUtil } from "../booking/util/booking.util";
 import { ChecklistItem, CheklistStep } from "../booking/model/checklist.interface";
 import { Paper } from "./paper-model";
 import { SimpleBookingContext } from "../booking/model/interfaces";
-import { Role } from "../profile/model/role";
 
 @Injectable()
 export class ChecklistService {
@@ -78,13 +77,11 @@ export class ChecklistService {
     }
 
     private markStep(item: ChecklistItem, step: CheklistStep, paper?: Paper): boolean {
-        const promoterSigned = !!paper?.signatures?.find(s => s.role === Role.PROMOTER)
-        const managerSigned = !!paper?.signatures?.find(s => s.role === Role.MANAGER)
         switch (step.type) {
             case 'generate': return this.updateStep(item.name, step, !!paper)
-            case 'sign': return this.updateStep(item.name, step, promoterSigned)
-            case 'verifyAndSign': return this.updateStep(item.name, step, promoterSigned && managerSigned)
-            case 'upload': return this.updateStep(item.name, step, !!paper?.fileObjectId)
+            case 'sign': return this.updateStep(item.name, step, paper?.status === 'SIGNED')
+            case 'verifyAndSign': return this.updateStep(item.name, step, paper?.status === 'VERIFIED')
+            case 'upload': return this.updateStep(item.name, step, paper?.status === 'UPLOADED')
             case 'verify': return this.updateStep(item.name, step, paper?.status === 'VERIFIED')
             default: return false
         }

@@ -65,12 +65,12 @@ export class DocumentService {
         return paper
     }
 
-    public async storeUploadPaper(fileObjectId: string, ctx: SimpleBookingContext, template: Template, extension: string) {
+    public async storeUploadPaper(buffer: Buffer, ctx: SimpleBookingContext, template: Template, extension: string) {
         const paper = new this.paperModel({
             id: uuidv4(),
             formId: ctx.booking.formId,
             template: template,
-            fileObjectId: fileObjectId,
+            content: buffer,
             extension: extension,
             uid: ctx.profile.uid,
             generationTime: new Date(),
@@ -103,7 +103,6 @@ export class DocumentService {
     }
 
     public deletePaperItem(id: string): Promise<any> {
-        // return this.paperModel.deleteOne({ id })
         return this.paperModel.deleteOne({ id }).exec()
     }
 
@@ -167,6 +166,7 @@ export class DocumentService {
         const buffer = await this.pdfGeneratorService.generate(template, pdfData, data)
 
         paper.contentWithSignatures = buffer
+        paper.status = PaperUtil.resolvePaperStatus(paper)
         await this.updatePaper(paper)
 
         return paper

@@ -1,7 +1,7 @@
 import { BadRequestException } from "@nestjs/common"
 import { PdfTemplate } from "../pdf/model/pdf-data"
 import { ManagerData } from "../profile/model/profile-interfaces"
-import { PaperSignature } from "./paper-model"
+import { Paper, PaperSignature, PaperStatus } from "./paper-model"
 import { Role } from "../profile/model/role"
 import { Response } from 'express';
 
@@ -54,6 +54,18 @@ export abstract class PaperUtil {
             'Content-Length': buffer.length,
         });
         res.end(buffer);
+    }
+
+    public static resolvePaperStatus(paper: Paper): PaperStatus {
+        const promoterSignature = !!paper.signatures?.find(s => Role.PROMOTER === s.role)?.base64
+        if (promoterSignature) {
+            const managerSignature = !!paper.signatures?.find(s => Role.MANAGER === s.role)?.base64
+            if (managerSignature) {
+                return 'VERIFIED'
+            }
+            return 'SIGNED'
+        }
+        return 'GENERATED'
     }
 
 }
