@@ -74,16 +74,7 @@ export class MenuService {
         filter: (profile?: Profile) => !profile, 
     }
 
-    private readonly test: MenuButtonItem = {
-        label: 'theme',
-        command: () => {
-            Theme.switchTheme()
-        }
-    }
-
     private allButtons: MenuButtonItem[] = [
-        this.test,//TODO move somewhere else
-
         this.homeButton,
         this.artistsButton,
         this.bookNowButton,

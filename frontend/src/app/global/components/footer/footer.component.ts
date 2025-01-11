@@ -8,6 +8,7 @@ import { AppState } from '../../../app.state';
 import { Store } from '@ngrx/store';
 import { logout, profile } from '../../../profile/profile.state';
 import { $desktop } from '../../tools/media-query';
+import { Theme } from '../../theme/theme';
 
 @Component({
   selector: 'app-footer',
@@ -47,6 +48,10 @@ export class FooterComponent {
 
   _logout() {
     this.store.dispatch(logout())
+  }
+
+  _switchTheme() {
+    Theme.switchTheme()
   }
 
 }

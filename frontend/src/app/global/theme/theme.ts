@@ -5,7 +5,7 @@ import { UnityTheme } from "./unity.theme";
 
 export abstract class Theme {
 
-    private static readonly THEME_STORAGE_KEY = 'stage-art-theme'
+    private static readonly THEME_STORAGE_KEY = 'THEME'
 
     public static get currentTheme(): string {
         return localStorage.getItem(Theme.THEME_STORAGE_KEY) || DefaultTheme.name
@@ -29,7 +29,6 @@ export abstract class Theme {
         Theme.cssVar('avatar-size',`${ImgSize.avatarMobile.height}px`)
         Theme.cssVar('avatar-size-desktop',`${ImgSize.avatar.height}px`)
         Theme.cssVar('is-desktop', $desktop.toString())
-        Theme.setTheme(UnityTheme)
       }
 
     public static setTheme(theme: Object) {
