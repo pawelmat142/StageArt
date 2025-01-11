@@ -3,12 +3,10 @@ import { MenuButtonItem, NavService } from "./nav.service";
 import { profile } from "../../profile/profile.state";
 import { AppState } from "../../app.state";
 import { Store } from "@ngrx/store";
-import { Location } from '@angular/common';
 import { Profile } from "../../profile/profile.model";
 import { map, Observable, shareReplay } from "rxjs";
 import { HomepageComponent } from "../view/homepage/homepage.component";
 import { Path } from "./path";
-import { Theme } from "../theme/theme";
 import { MenuItemCommandEvent } from "primeng/api";
 
 
