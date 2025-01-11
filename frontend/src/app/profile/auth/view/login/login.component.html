@@ -12,6 +12,12 @@
                 </app-form-field>
                 
                 <div class="form-buttons">
+                    <p-button (click)="_back()"
+                        type="button"
+                        label="Back"
+                        severity="warning"
+                        [raised]="true">
+                    </p-button>
                     <p-button
                         type="submit"
                         label="Submit"
@@ -40,6 +46,12 @@
                 <div class="form-buttons" [ngClass]="{ center: _nameOrEmailForm }">
                     @if (!_nameOrEmailForm) {
 
+                        <p-button (click)="_back()"
+                            type="button"
+                            label="Back"
+                            severity="warning"
+                            [raised]="true">
+                        </p-button>
                         <p-button
                             label="Via Telegram"
                             (click)="_byTelegram()"

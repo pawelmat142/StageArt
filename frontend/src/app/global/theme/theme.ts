@@ -7,8 +7,10 @@ export abstract class Theme {
 
     private static readonly THEME_STORAGE_KEY = 'THEME'
 
+    private static readonly DEFAULT_THEME = UnityTheme
+
     public static get currentTheme(): string {
-        return localStorage.getItem(Theme.THEME_STORAGE_KEY) || DefaultTheme.name
+        return localStorage.getItem(Theme.THEME_STORAGE_KEY) || this.DEFAULT_THEME.name
     }
 
     public static cssVar(name: string, value: string) {
@@ -47,7 +49,8 @@ export abstract class Theme {
     private static selectThemeByName(name: string): Object {
         switch (name) {
             case DefaultTheme.name: return DefaultTheme
-            default: return UnityTheme
+            case UnityTheme.name: return UnityTheme
+            default: return this.DEFAULT_THEME
         }
     }
 

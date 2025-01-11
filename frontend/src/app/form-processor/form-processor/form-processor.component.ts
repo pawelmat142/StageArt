@@ -11,6 +11,7 @@ import { FormUtil } from '../../global/utils/form.util';
 import { AppState } from '../../app.state';
 import { Dialog, DialogData } from '../../global/nav/dialog.service';
 import { ButtonModule } from 'primeng/button';
+import { NavService } from '../../global/nav/nav.service';
 
 @Component({
   selector: 'app-form-processor',
@@ -37,6 +38,7 @@ export class FormProcessorComponent {
     private readonly fb: FormBuilder,
     private readonly store: Store<AppState>,
     private readonly dialog: Dialog,
+    private readonly nav: NavService,
   ) {}
 
   @Input() form!: pForm
@@ -137,6 +139,10 @@ export class FormProcessorComponent {
   }
 
   _back() {
+    if (this.stepIndex <= 0) {
+      this.nav.back()
+      return
+    }
     const currentStepForm = this.currentStepForm
     if (currentStepForm) {
       if (currentStepForm?.valid) {

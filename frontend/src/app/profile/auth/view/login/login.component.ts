@@ -135,4 +135,8 @@ export class LoginComponent {
     }
   }
 
+  _back() {
+    this.nav.back()
+  }
+
 }
