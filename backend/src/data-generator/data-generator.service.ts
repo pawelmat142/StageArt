@@ -68,7 +68,7 @@ export class DataGeneratorService {
     private async generateManagers() {
         const managerData: ManagerData = {
             agencyName: this.MANAGER.name,
-            agencyCompanyName: `${this.MANAGER} Sp. z o.o`,
+            agencyCompanyName: `${this.MANAGER.name} Sp. z o.o`,
             nameOfBank: `Turbo Bank`,
             accountHolder: `Adam Małysz`,
             agencyCountry: COUNTRIES[0],

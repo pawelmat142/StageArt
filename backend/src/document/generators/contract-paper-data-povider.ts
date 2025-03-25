@@ -38,6 +38,11 @@ export class ContractPaperDataProvider {
         
         const artist = ctx.artists[0]
         const artistCountry = artist.country.name
+
+        let performanceDuration = this.get(formData, 'performanceDetails.duration')
+        if (performanceDuration) {
+            performanceDuration += ` minutes`
+        }
         return {
             year: now.getFullYear().toString(),
             promoterName: `${this.get(formData, 'promoterInformation.promoterFirstName')} ${this.get(formData, 'promoterInformation.promoterLastName')}`,
@@ -50,12 +55,13 @@ export class ContractPaperDataProvider {
             artistRealName: `${artistProfile.firstName} ${artistProfile.lastName}`,
             artistCountry: artistCountry,
             artistFee: ctx.booking.artistFee,
+            performanceDuration,
 
             eventName: ctx.event.name,
             eventDate: EventUtil.dateString(ctx.event),
-            eventVenue: `${eventAddress}, ${eventCountry}`,
+            // eventVenue: `${eventAddress}, ${eventCountry}`,
 
-            agencyName: managerData.agencyName,
+            // agencyName: managerData.agencyName,
             agencyCompanyName: managerData.agencyCompanyName,
             accountHolder: managerData.accountHolder,
             nameOfBank: managerData.nameOfBank,

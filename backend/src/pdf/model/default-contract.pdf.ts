@@ -7,7 +7,7 @@ export const defaultContractPdf: PdfData = {
     created: new Date(),
     modified: new Date(),
     active: false,
-    header: `ARTIST BOOKING CONTRACT ${new Date().getFullYear()}`, 
+    header: `ARTIST BOOKING CONTRACT {{data.year}}`, 
     sections: [
         {
             editable: false,
@@ -18,6 +18,7 @@ export const defaultContractPdf: PdfData = {
             }, {
                 list: [
                     `Name: {{data.promoterName}}`,
+                    `Company: {{data.promoterCompanyName}}`,
                     `Address: {{data.promoterAdress}}`,
                     `Phone: {{data.promoterPhone}}`,
                     `E-mail: {{data.promoterEmail}}`
@@ -30,6 +31,7 @@ export const defaultContractPdf: PdfData = {
                     `Name: {{data.artistRealName}}`,
                     `Country of residence: {{data.artistCountry}}`,
                     `Performance: {{data.eventName}}`,
+                    `Date: {{data.eventDate}}`,
                     `Artist Fee: {{data.artistFee}}`,
                 ]
             }]
@@ -38,7 +40,7 @@ export const defaultContractPdf: PdfData = {
             editable: true,
             header: `Performance & billing:`,
             items: [{
-                paragraph: `The Artist agrees to play recorded material for a time limit of at least 120 Minutes, unless otherwise pre-arranged.`
+                paragraph: `The Artist agrees to play recorded material for a time limit of at least {{data.performanceDuration}}, unless otherwise pre-arranged.`
             }, {
                 paragraph: `The Artist & agency logo is to appear on all promoted & printed material related to the event if not other been agreed. Promotion material must be approved by {{data.agencyCompanyName}}.`
             }, {
@@ -49,7 +51,7 @@ export const defaultContractPdf: PdfData = {
             editable: false,
             header: `Payment terms:`,
             items: [{
-                paragraph: `Promoter shall pay the Artist the amount outlined as “Artist Fee” in exchange for a 90 minutes show. A deposit in the amount outlined, as “Deposit” must be paid to the Agency not later than the 25-07-2024`,
+                paragraph: `Promoter shall pay the Artist the amount outlined as “Artist Fee” in exchange for a {{data.performanceDuration}} show. A deposit in the amount outlined, as “Deposit” must be paid to the Agency not later than the {{data.depositDeadline}}`,
                 editable: true
             }, {
                 paragraph: `Deposit must be made payable in Euro.`,
@@ -68,7 +70,7 @@ export const defaultContractPdf: PdfData = {
                     `SWIFT-Code: {{data.accountSwift}}`
                 ]
             }, {
-                paragraph: `The rest of the artist payment, must be paid to the Agency not later than the 25-06-2024. The terms and conditions contained in this contract shall not be affected by turnout of the event.`,
+                paragraph: `The rest of the artist payment, must be paid to the Agency not later than the {{data.feeDeadline}}. The terms and conditions contained in this contract shall not be affected by turnout of the event.`,
                 editable: true
             }]
         }, 

@@ -155,6 +155,10 @@ export class BookingFormStructure {
             }, {
               name: 'Proposed Set Time'
             }, {
+              name: 'Duration',
+              validators: [Validators.required],
+              placeholder: 'Minutes'
+            }, {
               name: 'Running Order'
             }, {
               name: 'Doors'

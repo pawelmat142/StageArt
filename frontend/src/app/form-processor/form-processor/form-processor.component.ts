@@ -134,6 +134,12 @@ export class FormProcessorComponent {
   }
 
   _submit() {
+    if (this.formGroup.invalid) {
+      if (this.currentStepForm) {
+        FormUtil.markForm(this.currentStepForm)
+      }
+      return
+    }
     this._next(true)
     this.submit.emit(this.formGroup.value)
   }

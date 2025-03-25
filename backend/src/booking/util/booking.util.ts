@@ -37,13 +37,13 @@ export abstract class BookingUtil {
     }
 
     public static depositDeadline(event: Event): Date {
-        const date = event.startDate
+        const date = new Date(event.startDate)
         date.setMonth(event.startDate.getMonth() - 2)
         return date
     }
 
     public static feeDeadline(event: Event): Date {
-        const date = event.startDate
+        const date = new Date(event.startDate)
         date.setMonth(event.startDate.getMonth() - 1)
         return date
     }
