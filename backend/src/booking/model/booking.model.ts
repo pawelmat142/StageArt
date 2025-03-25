@@ -54,6 +54,10 @@ export class Booking {
     @Prop({ type: Object, required: true })
     @Expose()
     checklist: ChecklistItem[]
+    
+    @Prop()
+    @Expose()
+    artistFee: string
 
     @Prop({ type: Object })
     statusHistory: StatusHistory[]

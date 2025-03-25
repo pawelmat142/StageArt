@@ -5,6 +5,7 @@ import { BookingAccessUtil } from "../util/booking-access.util";
 import { BotUtil } from "../../telegram/util/bot.util";
 import { BookingUtil } from "../util/booking.util";
 import { ArtistUtil } from "../../artist/artist.util";
+import { DocumentsStepRequest } from "../model/interfaces";
 
 @Injectable()
 export class BookingDocumentsService {
@@ -16,11 +17,12 @@ export class BookingDocumentsService {
     ) {}
 
 
-    public async requestDocuments(formId: string, profile: JwtPayload) {
-        const ctx = await this.bookingService.buildContext(formId, profile)
+    public async requestDocuments(documentsStepRequest: DocumentsStepRequest, profile: JwtPayload) {
+        const ctx = await this.bookingService.buildContext(documentsStepRequest.formId, profile)
         BookingAccessUtil.canRequestBookingDocuments(ctx.booking, profile)
 
         ctx.booking.status = 'DOCUMENTS'
+        ctx.booking.artistFee = documentsStepRequest.artistFee
         BookingUtil.addStatusToHistory(ctx.booking, profile)
         await this.bookingService.update(ctx.booking)
         

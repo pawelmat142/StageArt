@@ -15,15 +15,12 @@ export class BookingDto {
     @Expose()
     managerUid: string
     
-    
     @Expose()
     status: BookingStatus
-    
     
     @Expose()
     artists: SelectorItem[]
    
-
     @Expose()
     eventSignature: string
     

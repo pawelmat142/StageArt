@@ -62,7 +62,7 @@ export class BookingController {
         @GetProfile() profile: JwtPayload,
         @Body() documentsStepRequest: DocumentsStepRequest
     ) {
-        return this.bookingDocumentsService.requestDocuments(documentsStepRequest.formId, profile)
+        return this.bookingDocumentsService.requestDocuments(documentsStepRequest, profile)
     }
 
     @Get('artist-timeline/:signature')

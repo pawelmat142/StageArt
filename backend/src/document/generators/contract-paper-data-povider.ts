@@ -49,7 +49,7 @@ export class ContractPaperDataProvider {
             artistName: artist.name,
             artistRealName: `${artistProfile.firstName} ${artistProfile.lastName}`,
             artistCountry: artistCountry,
-            artistFee: '??', // TODO skad to?
+            artistFee: ctx.booking.artistFee,
 
             eventName: ctx.event.name,
             eventDate: EventUtil.dateString(ctx.event),
