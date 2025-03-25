@@ -26,7 +26,7 @@
             
     </div>
 
-    <div class="panel-section" *ngIf="_selectedArtist">
+    <div class="panel-section fade-in" *ngIf="_selectedArtist">
         <app-panel-artist-section 
             [artist]="_selectedArtist"
             (breadcrumb)="_artistBreadcrubs($event)"

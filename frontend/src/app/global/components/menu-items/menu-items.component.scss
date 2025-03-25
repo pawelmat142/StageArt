@@ -31,8 +31,10 @@ ul, li {
 a {
     cursor: pointer;
     transition: $transition-standard;
-    &.active,
-    &:hover {
+    &.active {
         background-color: $highlightBg;
+    }
+    &:hover {
+        background-color: $formControlShadow;
     }
 }
