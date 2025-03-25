@@ -17,6 +17,7 @@ import { SelectorItem } from '../../../global/interface';
 import { PanelMenuService } from '../../../profile/view/sidebar/panel-menu.service';
 import { ArtistService } from '../../../artist/artist.service';
 import { NavService } from '../../../global/nav/nav.service';
+import { BookingFormStepComponent } from "../booking-form-step/booking-form-step.component";
 
 export interface SelectorItemWithPersmission extends SelectorItem {
   hasPermission?: boolean
@@ -27,21 +28,19 @@ export interface SelectorItemWithPersmission extends SelectorItem {
   standalone: true,
   imports: [
     CommonModule,
-    ButtonModule, 
+    ButtonModule,
     StepperModule,
     SubstepComponent,
     PaperTileComponent,
-    ButtonModule
-  ],
+    ButtonModule,
+    BookingFormStepComponent
+],
   templateUrl: './booking-stepper.component.html',
   styleUrl: './booking-stepper.component.scss',
 })
 export class BookingStepperComponent implements OnChanges{
 
   constructor(
-    private readonly store: Store<AppState>,
-    private readonly bookingService: BookingService,
-    private readonly dialog: Dialog,
     private readonly nav: NavService,
     private readonly panelMenuService: PanelMenuService,
     private readonly artistService: ArtistService,
@@ -92,32 +91,6 @@ export class BookingStepperComponent implements OnChanges{
     if (booking?.status === 'CHECKLIST_COMPLETE') {
       this.activeStep = 2
     }
-  }
-
-  
-  // STEP 1#
-  _cancelBooking(booking: BookingDto) {
-    this.dialog.yesOrNoPopup(`Booking will be cancelled. Are you sure?`, true).pipe(
-      switchMap(confirm => confirm 
-        ? this.bookingService.cancelBooking$(booking.formId).pipe(
-          tap(booking => {
-            this.store.dispatch(loadBookings())
-          }))
-        : of()
-      ),
-    ).subscribe()
-  }
-
-  _acceptBooking(booking: BookingDto) {
-    this.dialog.yesOrNoPopup(`Booking request will be accepted, documents step will be started. Sure?`, true).pipe(
-      switchMap(confirm => confirm 
-        ? this.bookingService.requestDocuments$(booking.formId).pipe(
-          tap(booking => {
-            this.store.dispatch(loadBookings())
-          }))
-        : of()
-      ),
-    ).subscribe()
   }
   
 }

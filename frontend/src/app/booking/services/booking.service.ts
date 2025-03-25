@@ -61,8 +61,8 @@ export class BookingService {
     return this.http.get<BookingDto>(`/booking/cancel/${formId}`)
   }
   
-  requestDocuments$(formId: string) {
-    return this.http.get<BookingDto>(`/booking/request-documents/${formId}`)
+  requestDocuments$(documentsStepRequest: { formId: string, artistFee: string }) {
+    return this.http.post<BookingDto>(`/booking/request-documents`, documentsStepRequest)
   }
   
   panelArtistBookings$(artistSignature: string): Observable<BookingDto[]> {

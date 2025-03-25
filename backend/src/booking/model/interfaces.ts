@@ -12,3 +12,8 @@ export interface BookingContext extends SimpleBookingContext {
     event: Event
     artists: Artist[]
 }
+
+export interface DocumentsStepRequest {
+    formId: string,
+    artistFee: string 
+}

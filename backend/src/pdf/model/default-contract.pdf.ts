@@ -28,8 +28,8 @@ export const defaultContractPdf: PdfData = {
                 list: [
                     `{{data.artistName}}`,
                     `Name: {{data.artistRealName}}`,
-                    `Performance: {{data.artistPerformance}}`,
                     `Country of residence: {{data.artistCountry}}`,
+                    `Performance: {{data.eventName}}`,
                     `Artist Fee: {{data.artistFee}}`,
                 ]
             }]
@@ -113,7 +113,7 @@ export const defaultContractPdf: PdfData = {
         }, 
         {
             editable: true,
-            header: `ospitality & security:`,
+            header: `Hospitality & security:`,
             items: [{
                 paragraph: `Promoter agrees to provide a secure and restricted area (Green Room) for the Artist and his personal possessions, before, during, and after his performance. Promoter is responsible for the safe keeping of the artist’s equipment and shall be held accountable for any damages or theft.`
             }]

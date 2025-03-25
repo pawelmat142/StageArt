@@ -48,7 +48,6 @@ export class ContractPaperDataProvider {
 
             artistName: artist.name,
             artistRealName: `${artistProfile.firstName} ${artistProfile.lastName}`,
-            artistPerformance: `???`,//TODO
             artistCountry: artistCountry,
             artistFee: '??', // TODO skad to?
 

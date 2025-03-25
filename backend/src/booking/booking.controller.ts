@@ -1,4 +1,4 @@
-import { Controller, Get, Param, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards, UseInterceptors } from '@nestjs/common';
 import { JwtGuard } from '../profile/auth/jwt.guard';
 import { GetProfile } from '../profile/auth/profile-path-param-getter';
 import { JwtPayload } from '../profile/auth/jwt-strategy';
@@ -10,6 +10,7 @@ import { BookingCancelService } from './services/booking-cancel.service';
 import { BookingDocumentsService } from './services/booking-documents.service';
 import { NoGuard } from '../profile/auth/no-guard';
 import { ArtistTimelineService } from './services/artist-timeline.service';
+import { DocumentsStepRequest } from './model/interfaces';
 
 @Controller('api/booking')
 @UseInterceptors(LogInterceptor)
@@ -54,11 +55,14 @@ export class BookingController {
         return this.bookingCancelService.cancelBooking(formId, profile)
     }
 
-    @Get('request-documents/:id')
+    @Post('request-documents')
     @UseGuards(JwtGuard)
     @Serialize(BookingDto)
-    requestDocuments(@Param('id') formId: string, @GetProfile() profile: JwtPayload) {
-        return this.bookingDocumentsService.requestDocuments(formId, profile)
+    requestDocuments(
+        @GetProfile() profile: JwtPayload,
+        @Body() documentsStepRequest: DocumentsStepRequest
+    ) {
+        return this.bookingDocumentsService.requestDocuments(documentsStepRequest.formId, profile)
     }
 
     @Get('artist-timeline/:signature')
