@@ -239,11 +239,17 @@
             width: 8px;
             border-radius: 4px;
             padding: 0;
+            transition: $transition-standard;
+            margin: 0;
+            &:hover {
+                transform: scale(1.4);
+            }
         }
         &.p-highlight {
             button {
                 background-color: $primary600;
                 box-shadow: $card-shadow;
+                transform: scale(1.2);
             }
         }
     }
