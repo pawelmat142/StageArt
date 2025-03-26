@@ -12,6 +12,7 @@ import { ProfileService } from '../../profile/profile.service';
 import { TelegramService } from '../../telegram/telegram.service';
 import { BotUtil } from '../../telegram/util/bot.util';
 import { BookingContext, SimpleBookingContext } from '../model/interfaces';
+import { MessageException } from '../../global/exceptions/message-exception';
 
 
 @Injectable()
@@ -50,7 +51,7 @@ export class BookingService {
             eventSignature: booking.eventSignature
         })
         if (duplicate) {
-            throw new IllegalStateException(`Booking for this event and artist already exists!`)
+            throw new MessageException(`Booking for this event and artist already exists!`)
         }
     }
 

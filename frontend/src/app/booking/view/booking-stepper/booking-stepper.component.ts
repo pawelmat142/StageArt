@@ -1,15 +1,10 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { AppState } from '../../../app.state';
-import { Store } from '@ngrx/store';
 import { ButtonModule } from 'primeng/button';
 import { StepperModule } from 'primeng/stepper';
-import { BookingDto, BookingService } from '../../services/booking.service';
-import { map, of, switchMap, tap } from 'rxjs';
-import { loadBookings } from '../../../profile/profile.state';
-import { SubstepComponent } from './substep/substep.component';
+import { BookingDto,  } from '../../services/booking.service';
+import { map } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { PaperTileComponent } from '../../../global/components/paper-tile/paper-tile.component';
-import { Dialog } from '../../../global/nav/dialog.service';
 import { ChecklistTile } from '../../interface/checklist.interface';
 import { ChecklistUtil } from '../../checklist.util';
 import { Token } from '../../../profile/auth/view/token';
@@ -30,7 +25,6 @@ export interface SelectorItemWithPersmission extends SelectorItem {
     CommonModule,
     ButtonModule,
     StepperModule,
-    SubstepComponent,
     PaperTileComponent,
     ButtonModule,
     BookingFormStepComponent

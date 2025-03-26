@@ -10,19 +10,9 @@
         <!-- #1 STEP - FORM -->
         <p-stepperPanel header="Submit form" >
             <ng-template pTemplate="content" let-index="index">
-    
                 <app-booking-form-step
                     [booking]="booking"
                 ></app-booking-form-step>
-    
-                <app-substep [mode]="'ready'" header="Form submitted by promoter"></app-substep>
-    
-                @if (booking.status === 'SUBMITTED') {
-                    <app-substep [mode]="booking.managerUid === _uid ? 'available' : 'blank'" header="Form is waiting for verification by manager"></app-substep>
-                } @else {
-                    <app-substep mode="ready" header="Form verified by manager"></app-substep>
-                }
-    
             </ng-template>
         </p-stepperPanel>
     

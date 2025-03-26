@@ -32,4 +32,7 @@ export class BookingDto {
     
     @Expose()
     checklist: ChecklistItem[]
+    
+    @Expose()
+    artistFee?: string
 }

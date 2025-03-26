@@ -57,7 +57,6 @@ export class CountriesService {
     }
 
     private handleError(error: any) {
-        console.log(error)
         this.dialog.warnToast(`Initialization failed`)
         return of()
     }

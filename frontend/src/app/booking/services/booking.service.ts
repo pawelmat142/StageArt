@@ -28,6 +28,7 @@ export interface BookingDto {
   event: EventDto
   checklist: ChecklistItem[]
   formData?: any
+  artistFee?: string
 }
 
 
@@ -57,11 +58,11 @@ export class BookingService {
     return this.http.get<any>(`/booking/promoter-info`)
   }
   
-  cancelBooking$(formId: string) {
+  cancelBooking$(formId: string): Observable<BookingDto> {
     return this.http.get<BookingDto>(`/booking/cancel/${formId}`)
   }
   
-  requestDocuments$(documentsStepRequest: { formId: string, artistFee: string }) {
+  requestDocuments$(documentsStepRequest: { formId: string, artistFee: string }): Observable<BookingDto> {
     return this.http.post<BookingDto>(`/booking/request-documents`, documentsStepRequest)
   }
   

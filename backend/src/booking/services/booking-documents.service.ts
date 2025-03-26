@@ -6,6 +6,7 @@ import { BotUtil } from "../../telegram/util/bot.util";
 import { BookingUtil } from "../util/booking.util";
 import { ArtistUtil } from "../../artist/artist.util";
 import { DocumentsStepRequest } from "../model/interfaces";
+import { BookingDto } from "../model/booking.dto";
 
 @Injectable()
 export class BookingDocumentsService {
@@ -17,7 +18,7 @@ export class BookingDocumentsService {
     ) {}
 
 
-    public async requestDocuments(documentsStepRequest: DocumentsStepRequest, profile: JwtPayload) {
+    public async requestDocuments(documentsStepRequest: DocumentsStepRequest, profile: JwtPayload): Promise<BookingDto> {
         const ctx = await this.bookingService.buildContext(documentsStepRequest.formId, profile)
         BookingAccessUtil.canRequestBookingDocuments(ctx.booking, profile)
 
