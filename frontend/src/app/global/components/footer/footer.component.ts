@@ -34,9 +34,18 @@ export class FooterComponent {
   profile$ = this.store.select(profile)
 
   async _clipboard(content: string) {
-    await navigator.clipboard.writeText(content)
-    this.dialog.succesToast(content, `Copied to clipboard`)
+    if (!navigator.clipboard) {
+      this.dialog.errorToast("Clipboard API not supported in this environment");
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(content);
+      this.dialog.succesToast(content, "Copied to clipboard");
+    } catch (err) {
+      this.dialog.errorToast("Failed to copy to clipboard");
+    }
   }
+  
 
   _nav(path: string) {
     this.nav.to(path)

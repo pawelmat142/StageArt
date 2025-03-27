@@ -4,12 +4,9 @@ import { ButtonModule } from 'primeng/button';
 import { BookingDto, BookingService } from '../../services/booking.service';
 import { Dialog } from '../../../global/nav/dialog.service';
 import { catchError, filter, of, switchMap, tap } from 'rxjs';
-import { AppState } from '../../../app.state';
-import { Store } from '@ngrx/store';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormFieldComponent } from '../../../global/controls/form-field/form-field.component';
 import { InputTextModule } from 'primeng/inputtext';
-import { DocumentService } from '../../../global/document/document.service';
 import { CourtineService } from '../../../global/nav/courtine.service';
 import { SubstepComponent } from '../booking-stepper/substep/substep.component';
 
