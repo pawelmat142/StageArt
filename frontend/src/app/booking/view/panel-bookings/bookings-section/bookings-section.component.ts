@@ -9,15 +9,15 @@ import { selectBooking, setBookingsBreadcrumb, uid } from '../../../../profile/p
 import { NamesPipe } from "../../../../global/pipes/names.pipe";
 import { $desktop } from '../../../../global/tools/media-query';
 import { BreadcrumbUtil } from '../../../breadcrumb.util';
+import { SortLabel, SortListComponent } from '../../../../global/components/sort-list/sort-list.component';
 
 @Component({
   selector: 'app-bookings-section',
   standalone: true,
   imports: [
     CommonModule,
-    StatusPipe,
     AccordionModule,
-    NamesPipe,
+    SortListComponent
 ],
   templateUrl: './bookings-section.component.html',
   styleUrl: './bookings-section.component.scss',
@@ -35,6 +35,34 @@ export class BookingsSectionComponent implements OnInit {
   @Input() header: string = 'header'
 
   @Input() bookings!: BookingDto[]
+
+
+  labels: SortLabel[] = [{
+    name: 'Event name',
+    itemPath: 'event.name',
+    type: 'string',
+    changeOnClick: true
+  }, {
+    name: 'Event date',
+    itemPath: 'event.startDate',
+    type: 'date',
+    sort: true,
+    itemPipeArgs: [],
+    changeOnClick: true,
+  }, {
+    name: 'Status',
+    type: 'string',
+    order: ['SUBMITTED', 'DOCUMENTS', 'CHECKLIST_COMPLETE', 'PENDING', 'READY', 'CANCELED'],
+    changeOnClick: true,
+    itemPath: 'status',
+    itemPipe: new StatusPipe(),
+  }, {
+    name: 'Artist',
+    type: 'string',
+    itemPath: 'artists',
+    itemPipe: new NamesPipe(),
+    showDesktop: true,
+  }]
 
   ngOnInit(): void {
     this.setBookingsBreadcrumb()

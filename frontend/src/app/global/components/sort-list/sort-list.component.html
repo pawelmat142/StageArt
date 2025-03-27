@@ -1,0 +1,33 @@
+
+
+<div class="labels">
+    <div class="item-row" [style.gridTemplateColumns]="gridTemplateColumns">
+        <span *ngFor="let label of labels"
+            (click)="_selectSortOption(label)"
+            [ngClass]="{ 
+                'show-desktop': label.showDesktop, 
+                'label-row': true,
+                'grey': label !== _selectedSortOption,
+                'hovergrow': label.changeOnClick
+            }">
+            <app-icon *ngIf="label.changeOnClick"
+                [icon]="label.reverse ? 'pi-sort-amount-up' : 'pi-sort-amount-down'"
+            ></app-icon>
+
+            <p>{{label.name}}</p>
+
+        </span>
+    </div>
+</div>
+
+@for (item of _items    ; track $index; let last = $last; let index = $index) {
+
+    <div class="item-row tile-style padding clickable"
+        [ngClass]="{'clickable': itemsClickable}"
+        [style.gridTemplateColumns]="gridTemplateColumns"
+        (click)="itemClick.emit(index)">
+        @for (label of labels; track $index) {
+            <div [ngClass]="{ 'show-desktop': label.showDesktop }">{{ item | sortItem : label }}</div>
+        }
+    </div>
+}

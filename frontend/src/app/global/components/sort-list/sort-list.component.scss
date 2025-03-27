@@ -1,0 +1,8 @@
+@import 'variables';
+
+.label-row {
+    display: flex;
+    align-items: center;
+    gap: $padding-standard/2;
+    width: fit-content;
+}

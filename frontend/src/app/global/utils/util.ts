@@ -26,5 +26,21 @@ export abstract class Util {
         return words.join(' ');
     }
 
+    public static isDate(input: any): boolean {
+        return input instanceof Date || !isNaN(Date.parse(input))
+    }
+
+    public static get<T>(item: any, path: string): T | string {
+        const properties = path.split('.');
+        let current: any = item;
+    
+        for (const prop of properties) {
+            if (current == null || !current.hasOwnProperty(prop)) {
+              return '-'
+            }
+            current = current[prop];
+        }
+        return current;
+    }
 
 }
