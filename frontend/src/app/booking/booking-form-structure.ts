@@ -79,6 +79,7 @@ export class BookingFormStructure {
                 validators: [Validators.required]
               }, {
                 name: 'Website',
+                placeholder: 'www',
               }, {
                 name: 'Venue Capacity',
               }, {
@@ -121,6 +122,7 @@ export class BookingFormStructure {
               validators: [Validators.required]
             }, {
               name: 'Website',
+              placeholder: 'www'
             }, {
               name: 'Experience in organizing events (in years)',
               validators: [Validators.required]

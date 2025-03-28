@@ -148,8 +148,10 @@ app-dropdown.ng-dirty.ng-invalid .p-component,
     border: 2px solid #e24c4c;
 }
 
+.p-placeholder,
+.placeholder,
 ::placeholder {
-    color: $formColor;
+    color: $placeholderColor;
 }
 
 .p-dropdown-panel {

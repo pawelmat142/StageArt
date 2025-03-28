@@ -27,7 +27,17 @@ export abstract class Util {
     }
 
     public static isDate(input: any): boolean {
-        return input instanceof Date || !isNaN(Date.parse(input))
+        if (input instanceof Date) {
+            return !isNaN(input.getTime())
+        }
+        if (typeof input !== "string") {
+            return false;
+        }
+        if (!isNaN(Number(input))) {
+            return false;
+        }
+        const parsedDate = new Date(input)
+        return !isNaN(parsedDate.getTime())
     }
 
     public static get<T>(item: any, path: string): T | string {

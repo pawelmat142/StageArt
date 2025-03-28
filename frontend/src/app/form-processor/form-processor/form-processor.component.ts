@@ -5,8 +5,8 @@ import { GroupComponent } from '../group/group.component';
 import { ArrayComponent } from "../array/array.component";
 import { pForm, pFormArray, pFormStep } from '../form-processor.service';
 import { Store } from '@ngrx/store';
-import { skip, Subscription, take, tap } from 'rxjs';
-import { formData, FormType, newForm, openForm, selectFormId, setFormData, startForm, storeForm } from '../form.state';
+import { Subscription, take, tap } from 'rxjs';
+import { formData, newForm, selectFormId, setFormData, startForm, storeForm } from '../form.state';
 import { FormUtil } from '../../global/utils/form.util';
 import { AppState } from '../../app.state';
 import { Dialog, DialogData } from '../../global/nav/dialog.service';
@@ -134,14 +134,10 @@ export class FormProcessorComponent {
   }
 
   _submit() {
-    if (this.formGroup.invalid) {
-      if (this.currentStepForm) {
-        FormUtil.markForm(this.currentStepForm)
-      }
-      return
-    }
     this._next(true)
-    this.submit.emit(this.formGroup.value)
+    if (this.formGroup.valid) {
+      this.submit.emit(this.formGroup.value)
+    }
   }
 
   _back() {

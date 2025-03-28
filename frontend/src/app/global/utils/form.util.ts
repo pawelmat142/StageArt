@@ -1,5 +1,6 @@
 import { FormArray, FormControl, FormGroup } from "@angular/forms";
 import { pFormControl } from "../../form-processor/form-processor.service";
+import { Util } from "./util";
 
 export abstract class FormUtil {
 
@@ -57,9 +58,8 @@ export abstract class FormUtil {
     }
 
     private static setControlValue(control: FormControl, value: any) {
-        const date = new Date(value)
-        if (!isNaN(date.getTime())) {
-            control.setValue(date)
+        if (Util.isDate(value)) {
+            control.setValue(new Date(value))
         } else {
             control.setValue(value)
         }
