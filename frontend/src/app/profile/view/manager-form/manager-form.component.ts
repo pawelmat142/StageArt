@@ -14,6 +14,9 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormFieldComponent } from '../../../global/controls/form-field/form-field.component';
 import { DropdownComponent } from '../../../global/controls/dropdown/dropdown.component';
+import { AppState } from '../../../app.state';
+import { Store } from '@ngrx/store';
+import { setBookingsBreadcrumb } from '../../profile.state';
 
 export interface ManagerData {
   agencyName: string
@@ -51,6 +54,7 @@ export class ManagerFormComponent {
     private readonly courtine: CourtineService,
     private readonly dialog: Dialog,
     private readonly nav: NavService,
+    private readonly store: Store<AppState>,
   ) {}
 
   _countryItems$: Observable<Country[]> = this.countryService.countries$
@@ -69,6 +73,7 @@ export class ManagerFormComponent {
   })
 
   ngOnInit(): void {
+    this.store.dispatch(setBookingsBreadcrumb({ value: [] }))
     this.loadManagerDataForm()
   }
 

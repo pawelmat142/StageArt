@@ -1,9 +1,13 @@
 <app-header label="Panel"></app-header>
 
-<div class="panel">
+<div class="panel" *ngIf="(_breadcrumb$ | async) as breadcrumb">
     <app-sidebar class="sidebar show-desktop"></app-sidebar>
 
     <div class="profile-view-content">
+
+        <div class="panel-breadcrumb" *ngIf="breadcrumb.length">
+            <p-breadcrumb class="max-w-full" [model]="breadcrumb"></p-breadcrumb>
+        </div>
 
         <ng-container *ngIf="_panelView$ | async as panelView">
             <ng-container [ngSwitch]="panelView.view">

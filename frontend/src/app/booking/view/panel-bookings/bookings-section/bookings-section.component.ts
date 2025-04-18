@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { BookingDto } from '../../../services/booking.service';
 import { StatusPipe } from "../../../../global/pipes/status.pipe";
 import { AccordionModule } from 'primeng/accordion';
@@ -22,7 +22,7 @@ import { SortLabel, SortListComponent } from '../../../../global/components/sort
   templateUrl: './bookings-section.component.html',
   styleUrl: './bookings-section.component.scss',
 })
-export class BookingsSectionComponent implements OnInit {
+export class BookingsSectionComponent {
 
   readonly $desktop = $desktop;
 
@@ -64,11 +64,11 @@ export class BookingsSectionComponent implements OnInit {
     showDesktop: true,
   }]
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.setBookingsBreadcrumb()
   }
   
-  private setBookingsBreadcrumb() {
+  private setBookingsBreadcrumb = () => {
     this.store.dispatch(setBookingsBreadcrumb({ value: BreadcrumbUtil.bookings() }))
   }
 

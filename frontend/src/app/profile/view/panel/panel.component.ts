@@ -7,9 +7,14 @@ import { PanelArtistsComponent } from '../../../artist/view/panel-artists/panel-
 import { PanelEventsComponent } from '../../../event/view/panel-events/panel-events.component';
 import { ManagerFormComponent } from "../manager-form/manager-form.component";
 import { SidebarModule } from 'primeng/sidebar';
-import { PanelMenuService, PanelView, PanelViewNav } from '../sidebar/panel-menu.service';
-import { Observable } from 'rxjs';
+import { PanelMenuService, PanelViewNav } from '../sidebar/panel-menu.service';
+import { delay, Observable, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { BreadcrumbModule } from 'primeng/breadcrumb';
+import { AppState } from '../../../app.state';
+import { Store } from '@ngrx/store';
+import { bookingsBreadcrumb } from '../../profile.state';
+import { MenuItem } from 'primeng/api';
 
 
 @Component({
@@ -24,7 +29,8 @@ import { CommonModule } from '@angular/common';
     PanelArtistsComponent,
     PanelEventsComponent,
     ManagerFormComponent,
-    SidebarModule
+    SidebarModule,
+    BreadcrumbModule,
 ],
   templateUrl: './panel.component.html',
   styleUrl: './panel.component.scss',
@@ -32,12 +38,16 @@ import { CommonModule } from '@angular/common';
 export class PanelComponent {  
 
   constructor (
-    private readonly panelMenuService: PanelMenuService
-  ) {
-  }
+    private readonly panelMenuService: PanelMenuService,
+    private readonly store: Store<AppState>,
+  ) {}
 
   _panelView$: Observable<PanelViewNav> = this.panelMenuService.panelViewSubject$
 
   sidebarVisible = true
   
+  _breadcrumb$: Observable<MenuItem[]> = this.store.select(bookingsBreadcrumb).pipe(
+    delay(0), //prevents ExpressionChangedAfterItHasBeenCheckedError
+  )
+
 }

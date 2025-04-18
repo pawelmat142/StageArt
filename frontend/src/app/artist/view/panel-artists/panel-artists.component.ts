@@ -11,8 +11,11 @@ import { TooltipModule } from 'primeng/tooltip';
 import { ButtonModule } from 'primeng/button';
 import {  MenuModule } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
-import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { PanelArtistSectionComponent } from "./panel-artist-section/panel-artist-section.component";
+import { AppState } from '../../../app.state';
+import { Store } from '@ngrx/store';
+import { setBookingsBreadcrumb } from '../../../profile/profile.state';
+import { BreadcrumbUtil } from '../../../booking/breadcrumb.util';
 
 @Component({
   selector: 'app-panel-artists',
@@ -25,7 +28,6 @@ import { PanelArtistSectionComponent } from "./panel-artist-section/panel-artist
     TooltipModule,
     ButtonModule,
     MenuModule,
-    BreadcrumbModule,
     PanelArtistSectionComponent
 ],
   templateUrl: './panel-artists.component.html',
@@ -36,22 +38,18 @@ export class PanelArtistsComponent {
   constructor(
     private readonly artistService: ArtistService,
     private readonly courtineService: CourtineService,
+    private readonly store: Store<AppState>,
   ) {}
 
   @Input() artist?: ArtistViewDto
-
-  private readonly DEFAULT_BREADCUMB: MenuItem = {
-    label: 'Your artists',
-    command: () => this._select(undefined)
-  }
-
-  _breadcrumb: MenuItem[] = [this.DEFAULT_BREADCUMB]
 
   _artists$: Observable<ArtistViewDto[]> = of([])
 
   _documentTemplatesArtist?: ArtistViewDto
 
   ngOnInit(): void {
+    this.setBreadcrumb(BreadcrumbUtil.artists())
+    
     if (this.artist) {
       this._select(this.artist)
       return
@@ -60,7 +58,7 @@ export class PanelArtistsComponent {
   }
 
   _artistBreadcrubs(items?: MenuItem[]) {
-    const breadcrumb = [this.DEFAULT_BREADCUMB]
+    const breadcrumb = BreadcrumbUtil.artists()
     if (items) {
       breadcrumb.push(...items)
     }
@@ -69,7 +67,7 @@ export class PanelArtistsComponent {
         label: this._selectedArtist.name,
       })
     }
-    this._breadcrumb = breadcrumb
+    this.setBreadcrumb(breadcrumb)
   }
 
   _selectedArtist?: ArtistViewDto
@@ -112,6 +110,10 @@ export class PanelArtistsComponent {
         this.courtineService.stopCourtine()
       })
     )
+  }
+
+  private setBreadcrumb(breadcrumb: MenuItem[]) {
+    this.store.dispatch(setBookingsBreadcrumb({ value: breadcrumb }))
   }
 
 }

@@ -11,6 +11,19 @@ export abstract class BreadcrumbUtil {
         }]
     }
 
+    public static artists(): MenuItem[] {
+        return [{
+            label: 'Your artists',
+        }]
+    }
+
+    public static events(): MenuItem[] {
+        return [{
+            label: 'Events',
+        }]
+    }
+
+
     public static booking(store: Store, booking?: BookingDto): MenuItem[] {
         const result: MenuItem[] = [{
             label: `Bookings`,

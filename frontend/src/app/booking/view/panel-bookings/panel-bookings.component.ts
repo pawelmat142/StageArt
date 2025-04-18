@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { map, of, tap, withLatestFrom } from 'rxjs';
+import { delay, map, of, tap, withLatestFrom } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../app.state';
 import { BookingFormStructure } from '../../booking-form-structure';
@@ -8,9 +8,8 @@ import { SignComponent } from '../../../global/components/sign/sign.component';
 import { $desktop } from '../../../global/tools/media-query';
 import { MockCardComponent } from '../../../global/components/mock-card/mock-card.component';
 import { BookingsSectionComponent } from './bookings-section/bookings-section.component';
-import { bookingsBreadcrumb, loadBookings, profile, profileBookings, selectBooking, unselectBooking } from '../../../profile/profile.state';
+import { loadBookings, profile, profileBookings, selectBooking, unselectBooking } from '../../../profile/profile.state';
 import { BookingDto } from '../../services/booking.service';
-import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { BookingPanelItemComponent } from './booking-panel-item/booking-panel-item.component';
 
 @Component({
@@ -21,7 +20,6 @@ import { BookingPanelItemComponent } from './booking-panel-item/booking-panel-it
     SignComponent,
     MockCardComponent,
     BookingsSectionComponent,
-    BreadcrumbModule,
     BookingPanelItemComponent
 ],
   templateUrl: './panel-bookings.component.html',
@@ -37,8 +35,6 @@ export class PanelBookingsComponent implements OnInit, OnDestroy {
 
   @Input() booking?: BookingDto
   
-  _breadcrumb$ = this.store.select(bookingsBreadcrumb)
-
   ngOnInit(): void {
     this.store.select(state => state.profileState.selectedBooking)
       .subscribe(b => this._selectedBooking = b)
@@ -58,7 +54,7 @@ export class PanelBookingsComponent implements OnInit, OnDestroy {
 
   _bookingFormStructure = new BookingFormStructure(this.store, of([]))
 
-  _emptyBookings = true
+  _emptyBookings?: boolean
   
   _bookingsForRoles$ = this.store.select(profileBookings).pipe(
     withLatestFrom(this.store.select(profile)),
@@ -69,11 +65,14 @@ export class PanelBookingsComponent implements OnInit, OnDestroy {
         artist: bookings?.filter(b => b.artists.map(a => a.code).includes(profile?.artistSignature || '')) || []
       }
     }),
-    tap(bookingsForRoles => this._emptyBookings = ![
-      ...bookingsForRoles.artist,
-      ...bookingsForRoles.manager,
-      ...bookingsForRoles.promoter,
-    ].length)
+    delay(0),
+    tap(bookingsForRoles => {
+      this._emptyBookings = ![
+        ...bookingsForRoles.artist,
+        ...bookingsForRoles.manager,
+        ...bookingsForRoles.promoter,
+      ].length
+    })
   )
 
 }

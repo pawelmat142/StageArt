@@ -6,7 +6,7 @@ import { AppState } from '../../../app.state';
 import { ProfileService } from '../../../profile/profile.service';
 import { map, Observable, shareReplay, take, tap } from 'rxjs';
 import { FormVal } from '../../../global/utils/form-val';
-import { login, } from '../../../profile/profile.state';
+import { login, setBookingsBreadcrumb, } from '../../../profile/profile.state';
 import { ArtistService } from '../../artist.service';
 import { FormUtil } from '../../../global/utils/form.util';
 import { CourtineService } from '../../../global/nav/courtine.service';
@@ -71,6 +71,7 @@ export class InitialInfoComponent {
   )
 
   ngOnInit(): void {
+    this.store.dispatch(setBookingsBreadcrumb({ value: [] }))
     this.profileService.fetchFullProfile$().pipe(
       take(1),
       tap(profile => {
