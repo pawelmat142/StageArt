@@ -1,5 +1,5 @@
 
 <div class="menu-dropdown" #menuDropdown>
-    <p-menu #menuRef [model]="items" [appendTo]="menuDropdownRef?.nativeElement" [popup]="true"/>
+    <p-menu #menuRef [model]="items" [appendTo]="apendTo" [popup]="true"/>
     <app-icon-button (click)="_toggle($event)" icon="pi-ellipsis-v"></app-icon-button>
 </div>
