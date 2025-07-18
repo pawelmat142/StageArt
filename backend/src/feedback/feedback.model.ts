@@ -1,20 +1,18 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose"
-import { HydratedDocument } from "mongoose"
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { HydratedDocument } from 'mongoose';
 
-export type FeedbackDocument = HydratedDocument<Feedback>
+export type FeedbackDocument = HydratedDocument<Feedback>;
 
 @Schema()
 export class Feedback {
+  @Prop({ required: true })
+  lines: string[];
 
-    @Prop({ required: true })
-    lines: string[]
+  @Prop()
+  uid?: string;
 
-    @Prop()
-    uid?: string
-
-    @Prop()
-    created: Date
-    
+  @Prop()
+  created: Date;
 }
 
-export const FeedbackSchema = SchemaFactory.createForClass(Feedback)
+export const FeedbackSchema = SchemaFactory.createForClass(Feedback);

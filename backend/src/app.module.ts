@@ -47,7 +47,6 @@ import { DataGeneratorModule } from './data-generator/data-generator.module';
     DataGeneratorModule,
   ],
   controllers: [AppController],
-  providers: [AppService]
+  providers: [AppService],
 })
 export class AppModule {}
-

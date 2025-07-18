@@ -16,30 +16,31 @@ import { PdfModule } from '../pdf/pdf.module';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{
-      name: Paper.name,
-      schema: PaperSchema
-    }, {
-      name: Signature.name,
-      schema: SignatureSchema
-    }]),
+    MongooseModule.forFeature([
+      {
+        name: Paper.name,
+        schema: PaperSchema,
+      },
+      {
+        name: Signature.name,
+        schema: SignatureSchema,
+      },
+    ]),
     MulterModule.register({
       dest: './uploads',
     }),
     ProfileModule,
     BookingModule,
-    PdfModule
+    PdfModule,
   ],
-  controllers: [
-    DocumentController
-  ],
+  controllers: [DocumentController],
   providers: [
     DocumentService,
     ChecklistService,
     SignatureService,
     ContractPaperDataProvider,
     TechRiderDataProvider,
-    UploadsService
+    UploadsService,
   ],
 })
 export class DocumentModule {}

@@ -11,10 +11,12 @@ import { AppJwtService } from './auth/app-jwt.service';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{
-      name: Profile.name,
-      schema: ProfileSchema
-    }]),
+    MongooseModule.forFeature([
+      {
+        name: Profile.name,
+        schema: ProfileSchema,
+      },
+    ]),
     ConfigModule,
   ],
   providers: [
@@ -31,6 +33,6 @@ import { AppJwtService } from './auth/app-jwt.service';
     ProfileService,
     JwtGuard,
     AppJwtService,
-  ]
+  ],
 })
 export class ProfileModule {}

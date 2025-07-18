@@ -8,20 +8,17 @@ import { EventCreationService } from './event.duplicate.service';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{
-      name: Event.name,
-      schema: EventSchema
-    }]),
+    MongooseModule.forFeature([
+      {
+        name: Event.name,
+        schema: EventSchema,
+      },
+    ]),
 
     ProfileModule,
   ],
-  providers: [
-    EventService,
-    EventCreationService,
-  ],
-  exports: [
-    EventService
-  ],
-  controllers: [EventController]
+  providers: [EventService, EventCreationService],
+  exports: [EventService],
+  controllers: [EventController],
 })
 export class EventModule {}

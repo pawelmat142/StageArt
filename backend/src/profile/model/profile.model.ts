@@ -1,80 +1,72 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose"
-import { Expose } from "class-transformer"
-import { HydratedDocument } from "mongoose"
-import { ManagerData } from "./profile-interfaces"
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Expose } from 'class-transformer';
+import { HydratedDocument } from 'mongoose';
+import { ManagerData } from './profile-interfaces';
 
-export type ProfileDocument = HydratedDocument<Profile>
+export type ProfileDocument = HydratedDocument<Profile>;
 
-export type RegisterMode = 'TELEGRAM' | 'EMAIL'
+export type RegisterMode = 'TELEGRAM' | 'EMAIL';
 
 @Schema()
 export class Profile {
-    
-    @Expose()
-    @Prop({ required: true })
-    uid: string
-    
-    @Expose()
-    @Prop({ required: true })
-    name: string
-    
-    @Expose()
-    @Prop({ required: true })
-    roles: string[]
-    
-    @Expose()
-    @Prop()
-    artistSignature?: string
-    
-    
-    @Prop()
-    registerMode: RegisterMode
-    
-    @Prop()
-    @Expose()
-    telegramChannelId?: string
-    
-    @Prop()
-    @Expose()
-    phoneNumber?: string
-    
-    @Prop()
-    @Expose()
-    contactEmail?: string
-    
-    
-    @Prop()
-    @Expose()
-    email?: string
-    
-    @Prop()
-    passwordHash?: string
-    
-    
-    @Prop()
-    @Expose()
-    firstName?: string
-    
-    @Prop()
-    @Expose()
-    lastName?: string
-    
-    
-    @Prop()
-    created: Date
-    
-    @Prop()
-    modified: Date
-    
-    
-    @Prop({ type: Object })
-    managerData?: ManagerData
-    
-    @Prop({ type: Object })
-    @Expose()
-    promoterInfo?: any
+  @Expose()
+  @Prop({ required: true })
+  uid: string;
+
+  @Expose()
+  @Prop({ required: true })
+  name: string;
+
+  @Expose()
+  @Prop({ required: true })
+  roles: string[];
+
+  @Expose()
+  @Prop()
+  artistSignature?: string;
+
+  @Prop()
+  registerMode: RegisterMode;
+
+  @Prop()
+  @Expose()
+  telegramChannelId?: string;
+
+  @Prop()
+  @Expose()
+  phoneNumber?: string;
+
+  @Prop()
+  @Expose()
+  contactEmail?: string;
+
+  @Prop()
+  @Expose()
+  email?: string;
+
+  @Prop()
+  passwordHash?: string;
+
+  @Prop()
+  @Expose()
+  firstName?: string;
+
+  @Prop()
+  @Expose()
+  lastName?: string;
+
+  @Prop()
+  created: Date;
+
+  @Prop()
+  modified: Date;
+
+  @Prop({ type: Object })
+  managerData?: ManagerData;
+
+  @Prop({ type: Object })
+  @Expose()
+  promoterInfo?: any;
 }
 
-export const ProfileSchema = SchemaFactory.createForClass(Profile)
-
-
+export const ProfileSchema = SchemaFactory.createForClass(Profile);

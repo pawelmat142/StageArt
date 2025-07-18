@@ -9,91 +9,98 @@ import { PdfUtil } from './pdf.util';
 import { PaperGenerateParameters } from '../document/paper-util';
 import { PdfData } from './model/pdf-data.model';
 
-
 @Injectable()
 export class PdfGeneratorService implements OnModuleInit {
+  private readonly logger = new Logger(this.constructor.name);
 
-    private readonly logger = new Logger(this.constructor.name)
+  onModuleInit() {
+    this.registerCompiler();
+  }
 
-    onModuleInit() {
-        this.registerCompiler()
-    }
+  public async test(): Promise<Buffer> {
+    const pdfData = defaultContractPdf;
 
-    public async test(): Promise<Buffer> {
+    const plainTemplate = this.preparePlainTemplate(pdfData);
 
-        const pdfData = defaultContractPdf
+    const html = this.filTemplateWithData(plainTemplate, pdfData);
 
-        const plainTemplate = this.preparePlainTemplate(pdfData)
+    return this._generate(html);
+  }
 
-        const html = this.filTemplateWithData(plainTemplate, pdfData)
+  public async generate(
+    template: PdfTemplate,
+    pdfData?: PdfData,
+    data?: any,
+  ): Promise<Buffer> {
+    this.logger.log(`Generate PDF ${template}`);
 
-        return this._generate(html)
-    }
+    const _pdfData = this.preparePdfData(template, pdfData);
 
-    public async generate(template: PdfTemplate, pdfData?: PdfData, data?: any): Promise<Buffer> {
-        this.logger.log(`Generate PDF ${template}`)
-        
-        const _pdfData = this.preparePdfData(template, pdfData)
+    const plainTemplate = this.preparePlainTemplate(_pdfData);
 
-        const plainTemplate = this.preparePlainTemplate(_pdfData)
+    const html = this.filTemplateWithData(plainTemplate, { data: data });
 
-        const html = this.filTemplateWithData(plainTemplate, { data: data })
+    const params = PdfUtil.preparePaperGenerateParams(data); //adds signatures
 
-        const params = PdfUtil.preparePaperGenerateParams(data) //adds signatures
+    return this._generate(html, params);
+  }
 
-        return this._generate(html, params)
-    }
+  private preparePdfData(template: PdfTemplate, pdfData?: PdfData): PdfData {
+    return pdfData ?? PdfUtil.prepareDefaultPdfData(template);
+  }
 
-    private preparePdfData(template: PdfTemplate, pdfData?: PdfData): PdfData {
-        return pdfData ?? PdfUtil.prepareDefaultPdfData(template)
-    }
+  public static selectDefaultPdfDate;
 
-    public static selectDefaultPdfDate 
+  private async _generate(
+    html: string,
+    params?: PaperGenerateParameters,
+  ): Promise<Buffer> {
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    await page.setContent(html, { waitUntil: 'networkidle0' });
+    await this.addCssStyles(page);
 
-    private async _generate(html: string, params?: PaperGenerateParameters): Promise<Buffer> {
-        const browser = await puppeteer.launch()
-        const page = await browser.newPage()
-        await page.setContent(html, { waitUntil: 'networkidle0' });
-        await this.addCssStyles(page)
+    const pdfBuffer = await page.pdf({
+      format: 'A4',
+      displayHeaderFooter: !!params?.displayHeaderFooter,
+      headerTemplate: params?.displayHeaderFooter
+        ? params.headerTemplate
+        : undefined,
+      footerTemplate: params?.displayHeaderFooter
+        ? params.footerTemplate
+        : undefined,
+      printBackground: false,
+    });
 
-        const pdfBuffer = await page.pdf({
-            format: 'A4',
-            displayHeaderFooter: !!params?.displayHeaderFooter,
-            headerTemplate: params?.displayHeaderFooter ? params.headerTemplate : undefined,
-            footerTemplate: params?.displayHeaderFooter ? params.footerTemplate : undefined,
-            printBackground: false,
-        })
-      
-        await browser.close();
-        return Buffer.from(pdfBuffer)
-    }
+    await browser.close();
+    return Buffer.from(pdfBuffer);
+  }
 
-    private preparePlainTemplate(data: PdfData): string {
-        const filePath = this.templateDirPath(`template.hbs`)
-        const plainTemplate = fs.readFileSync(filePath, 'utf-8')
-        return this.filTemplateWithData(plainTemplate, data)
-    }
+  private preparePlainTemplate(data: PdfData): string {
+    const filePath = this.templateDirPath(`template.hbs`);
+    const plainTemplate = fs.readFileSync(filePath, 'utf-8');
+    return this.filTemplateWithData(plainTemplate, data);
+  }
 
-    private filTemplateWithData(template: string, data: any): string {
-        const templateToFill = Handlebars.compile(template)
-        return  templateToFill(data)
-    }
+  private filTemplateWithData(template: string, data: any): string {
+    const templateToFill = Handlebars.compile(template);
+    return templateToFill(data);
+  }
 
-    private registerCompiler() {
-        Handlebars.registerHelper('compile', function (template, options) {
-            const compiledTemplate = Handlebars.compile(template);
-            return compiledTemplate(options.data.root);
-        });
-        this.logger.log(`Handlebar compiler registered`)
-    }
+  private registerCompiler() {
+    Handlebars.registerHelper('compile', function (template, options) {
+      const compiledTemplate = Handlebars.compile(template);
+      return compiledTemplate(options.data.root);
+    });
+    this.logger.log(`Handlebar compiler registered`);
+  }
 
-    private async addCssStyles(puppeteerPage: puppeteer.Page) {
-        const cssPath = this.templateDirPath('pdf-styles.css')
-        await puppeteerPage.addStyleTag({ path: cssPath });
-    }
+  private async addCssStyles(puppeteerPage: puppeteer.Page) {
+    const cssPath = this.templateDirPath('pdf-styles.css');
+    await puppeteerPage.addStyleTag({ path: cssPath });
+  }
 
-    private templateDirPath(filename: string) {
-        return path.join(__dirname, 'templates', filename)
-    }
-
+  private templateDirPath(filename: string) {
+    return path.join(__dirname, 'templates', filename);
+  }
 }

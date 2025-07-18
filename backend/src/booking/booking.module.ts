@@ -16,13 +16,15 @@ import { ArtistTimelineService } from './services/artist-timeline.service';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{
-      name: Booking.name,
-      schema: BookingSchema
-    }]),
+    MongooseModule.forFeature([
+      {
+        name: Booking.name,
+        schema: BookingSchema,
+      },
+    ]),
 
     ConfigModule,
-    
+
     FormModule,
     ProfileModule,
     ArtistModule,
@@ -34,9 +36,9 @@ import { ArtistTimelineService } from './services/artist-timeline.service';
     SubmitService,
     BookingCancelService,
     BookingDocumentsService,
-    ArtistTimelineService
+    ArtistTimelineService,
   ],
   controllers: [BookingController],
-  exports: [BookingService]
+  exports: [BookingService],
 })
 export class BookingModule {}

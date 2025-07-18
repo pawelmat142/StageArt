@@ -9,17 +9,8 @@ import { FormModule } from '../form/form.module';
 import { BookingsGenerator } from './data/bookings-generator';
 
 @Module({
-  imports: [
-    ProfileModule,
-    ArtistModule,
-    BookingModule,
-    FormModule,
-  ],
+  imports: [ProfileModule, ArtistModule, BookingModule, FormModule],
   controllers: [DataGeneratorController],
-  providers: [
-    DataGeneratorService,
-    ArtistsGenerator,
-    BookingsGenerator,
-  ]
+  providers: [DataGeneratorService, ArtistsGenerator, BookingsGenerator],
 })
 export class DataGeneratorModule {}

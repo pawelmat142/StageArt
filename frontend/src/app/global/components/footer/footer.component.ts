@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { LogoComponent } from '../logo/logo.component';
 import { Dialog } from '../../nav/dialog.service';
-import { IconComponent } from '../icon/icon.component';
 import { NavService } from '../../nav/nav.service';
 import { AppState } from '../../../app.state';
 import { Store } from '@ngrx/store';
@@ -16,7 +15,6 @@ import { Theme } from '../../theme/theme';
   imports: [
     CommonModule,
     LogoComponent,
-    IconComponent,
   ],
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.scss'

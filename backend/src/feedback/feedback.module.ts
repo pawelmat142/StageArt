@@ -6,13 +6,15 @@ import { ProfileModule } from '../profile/profile.module';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{
-      name: Feedback.name,
-      schema: FeedbackSchema
-    }]),
+    MongooseModule.forFeature([
+      {
+        name: Feedback.name,
+        schema: FeedbackSchema,
+      },
+    ]),
 
     ProfileModule,
   ],
-  controllers: [FeedbackController]
+  controllers: [FeedbackController],
 })
 export class FeedbackModule {}

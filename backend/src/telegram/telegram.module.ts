@@ -5,16 +5,8 @@ import { ServiceProvider } from './wizards/services.provider';
 import { ProfileModule } from '../profile/profile.module';
 
 @Module({
-  imports: [
-    ProfileModule,
-  ],
-  providers: [
-    TelegramService, 
-    WizardService,
-    ServiceProvider
-  ],
-  exports: [
-    TelegramService,
-  ]
+  imports: [ProfileModule],
+  providers: [TelegramService, WizardService, ServiceProvider],
+  exports: [TelegramService],
 })
 export class TelegramModule {}

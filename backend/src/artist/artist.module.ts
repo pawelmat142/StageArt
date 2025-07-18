@@ -9,24 +9,18 @@ import { ArtistManagerService } from './artist-manager.service';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{
-      name: Artist.name,
-      schema: ArtistSchema
-    }]),
+    MongooseModule.forFeature([
+      {
+        name: Artist.name,
+        schema: ArtistSchema,
+      },
+    ]),
 
     ProfileModule,
-    TelegramModule
+    TelegramModule,
   ],
-  providers: [
-    ArtistService, 
-    ArtistManagerService
-  ],
-  controllers: [
-    ArtistController
-  ],
-  exports: [
-    ArtistService, 
-    ArtistManagerService
-  ]
+  providers: [ArtistService, ArtistManagerService],
+  controllers: [ArtistController],
+  exports: [ArtistService, ArtistManagerService],
 })
 export class ArtistModule {}

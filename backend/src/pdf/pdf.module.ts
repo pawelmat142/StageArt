@@ -8,14 +8,16 @@ import { ProfileModule } from '../profile/profile.module';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{
-      name: PdfData.name,
-      schema: PdfDataSchema
-    }]),
-    ProfileModule
+    MongooseModule.forFeature([
+      {
+        name: PdfData.name,
+        schema: PdfDataSchema,
+      },
+    ]),
+    ProfileModule,
   ],
   providers: [PdfGeneratorService, PdfDataService],
   exports: [PdfGeneratorService, PdfDataService],
-  controllers: [PdfDataController]
+  controllers: [PdfDataController],
 })
 export class PdfModule {}

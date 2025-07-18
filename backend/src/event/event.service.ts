@@ -8,33 +8,40 @@ import { BookingSubmitCtx } from '../booking/services/submit.service';
 
 @Injectable()
 export class EventService {
-    
-    private readonly logger = new Logger(this.constructor.name)
+  private readonly logger = new Logger(this.constructor.name);
 
-    constructor(
-        @InjectModel(Event.name) private eventModel: Model<Event>,
-        private readonly eventCreationService: EventCreationService,
-    ) {}
+  constructor(
+    @InjectModel(Event.name) private eventModel: Model<Event>,
+    private readonly eventCreationService: EventCreationService,
+  ) {}
 
-    public fetchPromoterEvents(profile: JwtPayload) {
-        return this.eventModel.find({ promoterUid: profile.uid })
+  public fetchPromoterEvents(profile: JwtPayload) {
+    return this.eventModel.find({ promoterUid: profile.uid });
+  }
+
+  public fetchEvent(signature: string) {
+    return this.eventModel.findOne({ signature }).lean().exec();
+  }
+
+  public async eventDataForBookingsList(signature: string) {
+    const event = await this.eventModel
+      .findOne({ signature })
+      .select(['name', 'startDate', 'endDate']);
+    if (!event) {
+      throw new NotFoundException(`Not found event by signature: ${signature}`);
     }
+    return event;
+  }
 
-    public fetchEvent(signature: string) {
-        return this.eventModel.findOne({ signature }).lean().exec()
-    }
-
-    public async eventDataForBookingsList(signature: string) {
-        const event = await this.eventModel.findOne({ signature }).select(['name', 'startDate', 'endDate'])
-        if (!event) {
-            throw new NotFoundException(`Not found event by signature: ${signature}`)
-        }
-        return event
-    }
-
-    public async processBookingForm(ctx: BookingSubmitCtx, params?: { skipValidateDuplicate: boolean  }) {
-        const event = await this.eventCreationService.findEventDuplicateOrCreateNew(ctx, params)
-        ctx.event = event
-        ctx.booking.eventSignature = event.signature
-    }
+  public async processBookingForm(
+    ctx: BookingSubmitCtx,
+    params?: { skipValidateDuplicate: boolean },
+  ) {
+    const event = await this.eventCreationService.findEventDuplicateOrCreateNew(
+      ctx,
+      params,
+    );
+    ctx.event = event;
+    ctx.booking.eventSignature = event.signature;
+  }
 }

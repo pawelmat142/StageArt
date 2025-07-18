@@ -1,4 +1,10 @@
-import { BadRequestException, Injectable, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  Logger,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Profile } from './model/profile.model';
 import { Model } from 'mongoose';
@@ -10,147 +16,157 @@ import { BotUtil } from '../telegram/util/bot.util';
 import { MessageException } from '../global/exceptions/message-exception';
 
 export interface LoginToken {
-    telegramChannelId: string
-    token: string
-    expiration: Date
-    pin: string
+  telegramChannelId: string;
+  token: string;
+  expiration: Date;
+  pin: string;
 }
 
 export interface TelegramMessage {
-    message: string
-    telegramChannelId: string
+  message: string;
+  telegramChannelId: string;
 }
 
 @Injectable()
 export class ProfileTelegramService {
+  private readonly logger = new Logger(this.constructor.name);
 
-    private readonly logger = new Logger(this.constructor.name)
+  constructor(
+    @InjectModel(Profile.name) private profileModel: Model<Profile>,
+    private readonly jwtService: AppJwtService,
+    private readonly profileService: ProfileService,
+  ) // private readonly telegramService: TelegramService,
+  {}
 
-    constructor(
-        @InjectModel(Profile.name) private profileModel: Model<Profile>,
-        private readonly jwtService: AppJwtService,
-        private readonly profileService: ProfileService,
-        // private readonly telegramService: TelegramService,
-    ) {}
+  private sendMessageSubject$ = new Subject<TelegramMessage>();
+  public get sendMessageObs$() {
+    return this.sendMessageSubject$.asObservable();
+  }
 
-    private sendMessageSubject$ = new Subject<TelegramMessage>()
-    public get sendMessageObs$() {
-        return this.sendMessageSubject$.asObservable()
-    } 
+  private cleanMessagesSubject$ = new Subject<string>();
+  public get cleanMessages$() {
+    return this.cleanMessagesSubject$.asObservable();
+  }
 
-    private cleanMessagesSubject$ = new Subject<string>()
-    public get cleanMessages$() {
-        return this.cleanMessagesSubject$.asObservable()
-    } 
+  public sendMessage(msg: TelegramMessage) {
+    this.sendMessageSubject$.next(msg);
+  }
 
-    public sendMessage(msg: TelegramMessage) {
-        this.sendMessageSubject$.next(msg)
-    }
+  private loginTokens: LoginToken[] = [];
 
-    private loginTokens: LoginToken[] = []
+  public findByTelegram(telegramChannelId: string) {
+    return this.profileModel.findOne({ telegramChannelId });
+  }
 
-    public findByTelegram(telegramChannelId: string) {
-        return this.profileModel.findOne({ telegramChannelId })
-    }
+  public findByName(name: string) {
+    return this.profileModel.findOne({ name });
+  }
 
-    public findByName(name: string) {
-        return this.profileModel.findOne({ name })
-    }
-
-    async telegramPinRequest(uidOrNameOrEmail: string): Promise<{ token: string }> {
-        this.logger.log(`Telegram PIN request with argument uidOrNameOrEmail: ${uidOrNameOrEmail}`)
-        let profile = await this.profileModel.findOne({ uid: uidOrNameOrEmail }, { telegramChannelId: true })
+  async telegramPinRequest(
+    uidOrNameOrEmail: string,
+  ): Promise<{ token: string }> {
+    this.logger.log(
+      `Telegram PIN request with argument uidOrNameOrEmail: ${uidOrNameOrEmail}`,
+    );
+    let profile = await this.profileModel.findOne(
+      { uid: uidOrNameOrEmail },
+      { telegramChannelId: true },
+    );
+    if (!profile) {
+      profile = await this.profileModel.findOne(
+        { name: uidOrNameOrEmail },
+        { telegramChannelId: true },
+      );
+      if (!profile) {
+        // TODO
+        profile = await this.profileModel.findOne(
+          { email: uidOrNameOrEmail },
+          { telegramChannelId: true },
+        );
         if (!profile) {
-            profile = await this.profileModel.findOne({ name: uidOrNameOrEmail }, { telegramChannelId: true } )
-            if (!profile) {
-
-                // TODO
-                profile = await this.profileModel.findOne({ email: uidOrNameOrEmail }, { telegramChannelId: true } )
-                if (!profile) {
-                    throw new NotFoundException(`Not found matched profile`)
-                }
-            }
+          throw new NotFoundException(`Not found matched profile`);
         }
-        if (!profile.telegramChannelId) {
-            return null
-        }
-        const token = await this.generateLoginToken(profile.telegramChannelId)
+      }
+    }
+    if (!profile.telegramChannelId) {
+      return null;
+    }
+    const token = await this.generateLoginToken(profile.telegramChannelId);
 
-        this.sendMessage({
-            telegramChannelId: profile.telegramChannelId,
-            message: BotUtil.msgFrom([
-                `You login PIN: ${token.pin}`,
-                `It's valid for 60 seconds`
-            ])
-        })
-        return { token: token.token }
+    this.sendMessage({
+      telegramChannelId: profile.telegramChannelId,
+      message: BotUtil.msgFrom([
+        `You login PIN: ${token.pin}`,
+        `It's valid for 60 seconds`,
+      ]),
+    });
+    return { token: token.token };
+  }
+
+  async loginByPin(input: Partial<LoginToken>) {
+    const token = this.loginTokens.find((t) => t.token === input.token);
+    if (!token || new Date() > token.expiration) {
+      throw new MessageException(`PIN is expired, try again`);
+    }
+    if (token.pin !== input.pin) {
+      throw new MessageException(`Wrong PIN, try again`);
     }
 
-    async loginByPin(input: Partial<LoginToken>) {
-        const token = this.loginTokens.find(t => t.token === input.token)
-        if (!token || new Date() > token.expiration) {
-            throw new MessageException(`PIN is expired, try again`)
-        }
-        if (token.pin !== input.pin) {
-            throw new MessageException(`Wrong PIN, try again`)
-        }
-
-        const profile = await this.findByTelegram(token.telegramChannelId)
-        if (!profile) {
-            throw new MessageException(`Profile not found`)
-        }
-
-        this.cleanMessagesSubject$.next(token.telegramChannelId)
-        return { token: this.jwtService.signIn(profile) }
+    const profile = await this.findByTelegram(token.telegramChannelId);
+    if (!profile) {
+      throw new MessageException(`Profile not found`);
     }
 
+    this.cleanMessagesSubject$.next(token.telegramChannelId);
+    return { token: this.jwtService.signIn(profile) };
+  }
 
-    async generateLoginToken(telegramChannelId: string): Promise<LoginToken> {
-        const check = await this.profileModel.findOne({ telegramChannelId })
-        if (!check) throw new MessageException('Not a telegram member')
+  async generateLoginToken(telegramChannelId: string): Promise<LoginToken> {
+    const check = await this.profileModel.findOne({ telegramChannelId });
+    if (!check) throw new MessageException('Not a telegram member');
 
-        const expiration = new Date()
-        expiration.setMinutes(expiration.getMinutes() + 1)
-        const loginToken: LoginToken = {
-            telegramChannelId: telegramChannelId,
-            token: TelegramUtil.loginToken(),
-            pin: TelegramUtil.pin(),
-            expiration
-        }
+    const expiration = new Date();
+    expiration.setMinutes(expiration.getMinutes() + 1);
+    const loginToken: LoginToken = {
+      telegramChannelId: telegramChannelId,
+      token: TelegramUtil.loginToken(),
+      pin: TelegramUtil.pin(),
+      expiration,
+    };
 
-        this.loginTokens = this.loginTokens.filter(t => t.telegramChannelId !== telegramChannelId)
-        this.loginTokens.push(loginToken)
+    this.loginTokens = this.loginTokens.filter(
+      (t) => t.telegramChannelId !== telegramChannelId,
+    );
+    this.loginTokens.push(loginToken);
 
-        return loginToken
+    return loginToken;
+  }
+
+  async createProfile(profile: Partial<Profile>) {
+    if (!profile.telegramChannelId) {
+      throw new BadRequestException('Missing telegram channel id');
     }
 
-
-    async createProfile(profile: Partial<Profile>) {
-        if (!profile.telegramChannelId) {
-            throw new BadRequestException('Missing telegram channel id')
-        }
-        
-        const checkTelegram = await this.profileModel.findOne({ 
-            telegramChannelId: profile.telegramChannelId
-        })
-        if (checkTelegram) {
-            throw new MessageException('Name in use')
-        }
-
-        profile.uid = TelegramUtil.idByTelegram(profile.telegramChannelId)
-
-        await this.profileService.createProfile(profile, 'TELEGRAM')
+    const checkTelegram = await this.profileModel.findOne({
+      telegramChannelId: profile.telegramChannelId,
+    });
+    if (checkTelegram) {
+      throw new MessageException('Name in use');
     }
 
+    profile.uid = TelegramUtil.idByTelegram(profile.telegramChannelId);
 
-    public async deleteByTelegram(profile: Profile) {
-        const deleted = await this.profileModel.deleteOne({
-            uid: profile.uid
-        })
-        if (!deleted.deletedCount) {
-            throw new NotFoundException(`Not found user with uid: ${profile.uid}`)
-        }
+    await this.profileService.createProfile(profile, 'TELEGRAM');
+  }
 
-        this.cleanMessagesSubject$.next(profile.telegramChannelId)
+  public async deleteByTelegram(profile: Profile) {
+    const deleted = await this.profileModel.deleteOne({
+      uid: profile.uid,
+    });
+    if (!deleted.deletedCount) {
+      throw new NotFoundException(`Not found user with uid: ${profile.uid}`);
     }
+
+    this.cleanMessagesSubject$.next(profile.telegramChannelId);
+  }
 }
