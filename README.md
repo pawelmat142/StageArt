@@ -54,6 +54,10 @@ git clone https://github.com/pawelmat142/book-agency.git ./
 ```
 nest start
 ```
+or with hot reload:
+```
+npm run start:dev 
+```
 - go to ../frontend and run:
 ```
 ng serve
