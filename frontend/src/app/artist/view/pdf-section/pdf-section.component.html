@@ -14,13 +14,13 @@
 <div *ngFor="let item of section.items; let itemIndex = index; trackBy: trackByIndex">
 
     <div *ngIf="item.paragraph !== undefined" class="pdf-data-form-section-item paragraph">
-        <textarea pInputTextarea *ngIf="item.paragraph || item.editable"
-            [ngClass]="{'editable': section.editable || item.editable }"
-            [autoResize]="true" rows="2"
-            [disabled]="!(section.editable || item.editable)"
-            [(ngModel)]="item.paragraph" 
-            [name]="'section-' + index + '-paragraph-' + itemIndex"
-        ></textarea>
+            <textarea pInputTextarea *ngIf="item.paragraph || item.editable"
+                [ngClass]="{'editable': section.editable || item.editable }"
+                [autoResize]="true" rows="2"
+                [disabled]="!(section.editable || item.editable)"
+                [(ngModel)]="item.paragraph" 
+                [name]="'section-' + index + '-paragraph-' + itemIndex"
+            ></textarea>
         <div class="menu-icon" *ngIf="section.editable || item.editable">
             <app-menu-dropdown [items]="_sectionItemMenu(itemIndex, item)"></app-menu-dropdown>
         </div>

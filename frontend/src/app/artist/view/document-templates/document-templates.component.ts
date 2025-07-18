@@ -10,7 +10,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { Dialog } from '../../../global/nav/dialog.service';
 import { AccordionModule } from 'primeng/accordion';
-import { Menu, MenuModule } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
 import { CourtineService } from '../../../global/nav/courtine.service';
 import { DocumentService } from '../../../global/document/document.service';

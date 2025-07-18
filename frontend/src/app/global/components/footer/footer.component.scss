@@ -24,6 +24,11 @@
     line-height: 1.4;
 }
 
+.logo-col {
+    display: flex;
+    flex-direction: column;
+}
+
 .link {
     a {
         font-size: 12px;
@@ -38,6 +43,14 @@
             font-size: 25px;
         }
     }
+
+    &.author {
+        margin-top: 50px;
+        opacity: .6;
+        display: flex;
+        align-items: flex-end;
+        margin-left: auto;
+    }
 }
 
 .menu-header {
@@ -49,6 +62,9 @@
     margin-top: auto;
 
     .link {
+
+
+
         a {
             padding: .5*$padding-standard;
             color: $primaryColorText;
@@ -69,11 +85,23 @@
         text-align: right;
         padding-bottom: $padding-standard;
     }
+
     .footer-menu {
         .link {
             a {
                 margin-left: auto;
             }
+
+            &.author {
+                margin-left: unset;
+            }
         }
     }
+
+    .link {
+        &.author {
+            margin-left: unset;
+        }
+    }
+
 }
