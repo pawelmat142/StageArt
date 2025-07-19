@@ -1,14 +1,24 @@
 
+
+
 ![NestJS](https://img.shields.io/badge/NestJS-E0234E?style=for-the-badge&logo=nestjs&logoColor=white)
-![Angular](https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)
+![Ubuntu](https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)
+![Puppeteer](https://img.shields.io/badge/Puppeteer-40B5A4?style=for-the-badge&logo=puppeteer&logoColor=white)
+
+
 ![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
-![PM2](https://img.shields.io/badge/PM2-2B037A?style=for-the-badge&logo=pm2&logoColor=white)
+![Angular](https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white)
+![NgRx](https://img.shields.io/badge/NgRx-8D3FFC?style=for-the-badge&logo=ngrx&logoColor=white)
+![PrimeNG](https://img.shields.io/badge/PrimeNG-1976D2?style=for-the-badge&logo=primeng&logoColor=white)
+
 
 
 # StageArt (Book Agency)
 
-> A modern platform for artist booking and event management, with integrated Firebase Storage for file uploads. Demo instance filled with sample data for demonstration purposes only.
+> A modern platform for managing artist bookings, events, and digital documents. Includes advanced features for collaboration, document generation, and seamless communication. Demo instance filled with sample data for demonstration purposes only.
+
+*Demo:* [StageArt](http://130.162.34.50:8003/)
 
 ---
 
