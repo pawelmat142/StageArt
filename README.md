@@ -18,8 +18,6 @@
 
 > A modern platform for managing artist bookings, events, and digital documents. Includes advanced features for collaboration, document generation, and seamless communication. Demo instance filled with sample data for demonstration purposes only.
 
-*Demo:* [StageArt](http://130.162.34.50:8003/)
-
 ---
 
 ## Table of Contents
@@ -218,12 +216,7 @@ SECRET_KEY=<your-secret-key>
 - Required for storing artist avatars, photos, and potentially event images.
 - Set up a Firebase project at [Firebase Console](https://console.firebase.google.com/).
 - Enable Firebase Storage and generate a service account key.
-- Add the relevant Firebase credentials (project ID, client email, private key) to your `.env` file in the backend directory. Example:
-    ```env
-    FIREBASE_PROJECT_ID=your-project-id
-    FIREBASE_CLIENT_EMAIL=your-service-account@your-project-id.iam.gserviceaccount.com
-    FIREBASE_PRIVATE_KEY=your-private-key
-    ```
+- Add the relevant Firebase credentials (project ID, client email, private key) to your `.env` file.
 - Make sure your storage rules are set appropriately for your use case.
 
 #### 7. **(Optional) Configure Telegram Bot**
