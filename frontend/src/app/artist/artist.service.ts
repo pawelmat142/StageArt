@@ -84,11 +84,15 @@ export class ArtistService {
         return result
     }
 
+
     public artistViewEditable$ = combineLatest([
            this.store.select(state => state.artistViewState.artist?.signature).pipe(filter(s => !!s)),
-           this.store.select(state => state.profileState.profile?.artistSignature).pipe(filter(s => !!s)),
+           this.store.select(state => state.profileState.profile?.artistSignature),
+           this.store.select(state => state.profileState.profile?.roles),
          ]).pipe(
-           map(([signatureOfArtistView, artistProfileSignature]) => signatureOfArtistView === artistProfileSignature),
+           map(([signatureOfArtistView, artistProfileSignature, roles]) =>
+             (roles ?? []).includes('ADMIN') || signatureOfArtistView === artistProfileSignature
+           ),
            shareReplay(),
          )
 

@@ -118,7 +118,7 @@ export class ArtistService {
     if (!artistBefore) {
       throw new NotFoundException();
     }
-    if (artistBefore.signature !== profile.artistSignature) {
+    if (artistBefore.signature !== profile.artistSignature && !profile.roles.includes('ADMIN')) {
       throw new UnauthorizedException();
     }
     const newArtist = Object.assign(artistBefore, artist);

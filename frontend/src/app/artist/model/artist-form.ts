@@ -5,14 +5,19 @@ export interface FireImg {
     url: string
 }
 
+export interface AvatarRef {
+    url: string;
+    publicId: string;
+}
+
 export interface FireImgSet {
     name: string
-    bg?: FireImg
-    bgMobile?: FireImg
+    bg?: AvatarRef
+    bgMobile?: AvatarRef
 
-    avatar?: FireImg
-    avatarMobile?: FireImg
-    mini?: FireImg
+    avatar?: AvatarRef
+    avatarMobile?: AvatarRef
+    mini?: AvatarRef
 }
 
 export interface Images {

@@ -1,5 +1,3 @@
-import { environment } from "../../../environments/environment";
-
 export abstract class DateUtil {
 
     public static sameDay(date1: Date, date2: Date): boolean {
