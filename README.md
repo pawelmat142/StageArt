@@ -14,7 +14,7 @@
 
 
 
-# StageArt (Book Agency)
+# StageArt
 
 > A modern platform for managing artist bookings, events, and digital documents. Includes advanced features for collaboration, document generation, and seamless communication. Demo instance filled with sample data for demonstration purposes only.
 
@@ -33,7 +33,7 @@
 
 ## Overview
 
-StageArt (Book Agency) is a prototype web application designed to streamline the process of connecting event organizers with artists. The platform simplifies the discovery, booking, and management of artist engagements, enabling seamless collaboration between users. With its intuitive interface, StageArt helps users focus on creating memorable events while minimizing administrative tasks.
+StageArt is a prototype web application designed to streamline the process of connecting event organizers with artists. The platform simplifies the discovery, booking, and management of artist engagements, enabling seamless collaboration between users. With its intuitive interface, StageArt helps users focus on creating memorable events while minimizing administrative tasks.
 
 **Demo:** [http://130.162.34.50:8003/](http://130.162.34.50:8003/)
 
