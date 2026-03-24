@@ -46,7 +46,7 @@ export class CountriesService {
 
 
     private fetchCountries$() {
-        return this.httpClient.get<CountryResponseItem[]>('https://restcountries.com/v3.1/all').pipe(
+        return this.httpClient.get<CountryResponseItem[]>('https://restcountries.com/v3.1/all?fields=cca2,name,flags,population').pipe(
             retry(8),
             map(data => this.convert(data)),
             map(countries => this.sortByAlphabet(countries)),

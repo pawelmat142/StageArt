@@ -7,6 +7,8 @@ logs
 # backend/dist
 backend/node_modules
 backend/production
+backend/.env
+.env
 backend/logs
 .vscode
 dist
