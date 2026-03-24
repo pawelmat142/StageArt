@@ -1,0 +1,40 @@
+# Rebuild from scratch:
+# docker compose -f docker-compose.dev.yml down
+# docker compose -f docker-compose.dev.yml build --no-cache
+# docker compose -f docker-compose.dev.yml up -d
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile.dev
+    container_name: bookagency_backend_dev
+    env_file:
+      - .env
+    ports:
+      - "8003:8003"
+      - "9229:9229"  # debugger
+    volumes:
+      - ./backend:/app/backend          # mount source code
+      - /app/backend/node_modules       # preserve container node_modules
+    networks:
+      - bookagency_network
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile.dev
+    container_name: bookagency_frontend_dev
+    ports:
+      - "4200:4200"
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app/frontend        # mount source code
+      - /app/frontend/node_modules      # preserve container node_modules
+    networks:
+      - bookagency_network
+
+networks:
+  bookagency_network:
+    driver: bridge

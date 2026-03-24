@@ -1,0 +1,12 @@
+FROM node:20-alpine
+
+WORKDIR /app/frontend
+
+COPY frontend/package*.json ./
+RUN npm install
+
+# Source code is mounted via volume in docker-compose
+EXPOSE 4200
+
+# --poll enables file watching on Windows/WSL2 mounted volumes
+CMD ["npx", "ng", "serve", "--host", "0.0.0.0", "--poll", "2000", "--proxy-config", "proxy.conf.json"]

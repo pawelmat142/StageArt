@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Profile, RegisterMode } from './model/profile.model';
 import { Model } from 'mongoose';
@@ -107,6 +107,18 @@ export class ProfileService {
       { uid: profile.uid },
       { $set: { managerData } },
     );
+  }
+
+
+  async setRoles(name: string, role: string) {
+    const profile = await this.profileModel.findOne({ name });
+    if (!profile) {
+      throw new NotFoundException(`Profile not found, name: ${name}`);
+    }
+    profile.roles.push(role);
+    await profile.save();
+    this.logger.log(`Updated roles for user ${profile.name}, uid: ${profile.uid}`);
+    return profile;
   }
 
   fetchFullProfile(payload: JwtPayload) {

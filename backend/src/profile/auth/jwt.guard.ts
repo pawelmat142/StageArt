@@ -49,8 +49,7 @@ export class JwtGuard extends AuthGuard('jwt') {
       }
       this.profile = await this.profileService.fetchForJwt(payload.uid);
       if (this.profile.roles.includes(Role.ADMIN)) {
-        this.logger.log(`ADMIN role access`);
-        return true;
+        return this.returnNewToken(payload, request, response);
       }
       this.verifyRole();
 
@@ -58,15 +57,19 @@ export class JwtGuard extends AuthGuard('jwt') {
       if (tokenExpider) {
         throw new UnauthorizedException(`Token expired`);
       }
-      const newToken = this.jwtService.newToken(payload);
-      response.header('Authorization', 'Bearer ' + newToken);
-      request.profile = this.profile;
-      return true;
+      return this.returnNewToken(payload, request, response);
     } catch (err) {
       this.logger.error(err.message);
       throw new ForbiddenException();
     }
   }
 
-  protected verifyRole() {}
+  protected returnNewToken(payload: any, request: any, response: any) {
+    const newToken = this.jwtService.newToken(payload);
+    response.header('Authorization', 'Bearer ' + newToken);
+    request.profile = this.profile;
+    return true;
+  }
+
+  protected verifyRole() { }
 }

@@ -1,0 +1,11 @@
+FROM node:20-alpine
+
+WORKDIR /app/backend
+
+# Install dependencies first (cached layer)
+COPY backend/package*.json ./
+RUN npm install
+
+# Source code is mounted via volume in docker-compose
+# nodemon --legacy-watch = polling-based hot reload (works on Windows Docker volumes)
+CMD ["npm", "run", "start:nodemon-debug"]

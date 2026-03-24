@@ -1,0 +1,35 @@
+# Rebuild from scratch:
+# docker compose down
+# docker compose build --no-cache
+# docker compose up -d
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile.prod
+    container_name: bookagency_backend
+    env_file:
+      - .env
+    expose:
+      - "8003"
+    networks:
+      - bookagency_network
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    container_name: bookagency_frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - bookagency_network
+    restart: unless-stopped
+
+networks:
+  bookagency_network:
+    driver: bridge

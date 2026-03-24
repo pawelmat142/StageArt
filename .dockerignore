@@ -1,0 +1,28 @@
+# Dependencies
+**/node_modules
+
+# Build outputs
+backend/dist
+frontend/dist
+frontend/.angular
+
+# Env files (never bake secrets into images)
+.env
+
+# Logs
+logs/
+**/*.log
+
+# Git
+.git
+.gitignore
+
+# Editor
+.vscode
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Production folder
+production/
