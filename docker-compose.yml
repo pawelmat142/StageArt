@@ -13,6 +13,8 @@ services:
       - .env
     expose:
       - "8003"
+    posrts: 
+      - "8003:8003"
     networks:
       - bookagency_network
     restart: unless-stopped
@@ -37,6 +39,7 @@ services:
     container_name: bookagency_frontend
     ports:
       - "80:80"
+      - "443:443"
     depends_on:
       - backend
     networks:
