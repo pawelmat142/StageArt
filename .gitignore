@@ -16,7 +16,7 @@ dist
 ### ANGULAR
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
-frontend/src/environments
+frontend/src/environments/environment.development.ts
 
 # Compiled output
 frontend/dist
