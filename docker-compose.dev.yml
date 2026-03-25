@@ -4,6 +4,19 @@
 # docker compose -f docker-compose.dev.yml up -d
 
 services:
+
+  mongo:
+    image: mongo:6.0
+    container_name: bookagency_mongo_dev
+    ports:
+      - "27017:27017" # Mapowanie portu MongoDB
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    networks:
+      - bookagency_network
+    volumes:
+      - mongo_data_dev:/data/db # Przechowywanie danych MongoDB
   backend:
     build:
       context: .
@@ -14,6 +27,8 @@ services:
     ports:
       - "8003:8003"
       - "9229:9229"  # debugger
+    depends_on:
+      - mongo
     volumes:
       - ./backend:/app/backend          # mount source code
       - /app/backend/node_modules       # preserve container node_modules
@@ -40,18 +55,7 @@ services:
     networks:
       - bookagency_network
 
-  mongo:
-    image: mongo:6.0
-    container_name: bookagency_mongo_dev
-    ports:
-      - "27017:27017" # Mapowanie portu MongoDB
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
-    networks:
-      - bookagency_network
-    volumes:
-      - mongo_data_dev:/data/db # Przechowywanie danych MongoDB
+
 
 networks:
   bookagency_network:
