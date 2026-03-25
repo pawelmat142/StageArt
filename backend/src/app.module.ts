@@ -20,6 +20,15 @@ import { MigrationModule } from './migration/migration.module';
 
 const mongoUri = `mongodb://${process.env.MONGO_INITDB_ROOT_USERNAME}:${process.env.MONGO_INITDB_ROOT_PASSWORD}@bookagency_mongo_dev:27017/destination?authSource=admin`;
 
+
+const getMongoUri = (): string => {
+    const a = process.env.MONGO_URI
+    console.log('MONGO_URI:', a);
+    console.log('MONGO_INITDB_ROOT_USERNAME:', process.env.MONGO_INITDB_ROOT_USERNAME);
+    console.log('MONGO_INITDB_ROOT_PASSWORD:', process.env.MONGO_INITDB_ROOT_PASSWORD);
+    return a
+}
+
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -31,7 +40,7 @@ const mongoUri = `mongodb://${process.env.MONGO_INITDB_ROOT_USERNAME}:${process.
     MongooseModule.forRootAsync({
       useFactory: () => {
         // return { uri: mongoUri };
-        return { uri: process.env.MONGO_URI };
+        return { uri: getMongoUri() };
       },
     }),
 
