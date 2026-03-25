@@ -11,10 +11,14 @@ export const globalLogger = new Logger('GLOBAL');
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: createMyLogger(),
-    cors: {
-      origin: true,
-      exposedHeaders: ['Content-Disposition'],
-    },
+  });
+
+  // Enable CORS with specific configuration
+  app.enableCors({
+    origin: '*', // Allow all origins; adjust as needed
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    allowedHeaders: 'Content-Type, Authorization',
+    exposedHeaders: ['Content-Disposition'],
   });
 
   app.useGlobalFilters(new AppExceptionFilter());
