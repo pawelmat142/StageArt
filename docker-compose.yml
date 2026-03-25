@@ -13,7 +13,7 @@ services:
       - .env
     expose:
       - "8003"
-    posrts: 
+    ports: 
       - "8003:8003"
     networks:
       - bookagency_network
