@@ -19,6 +19,9 @@ services:
       - /app/backend/node_modules       # preserve container node_modules
     networks:
       - bookagency_network
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
 
   frontend:
     build:
@@ -37,6 +40,22 @@ services:
     networks:
       - bookagency_network
 
+  mongo:
+    image: mongo:6.0
+    container_name: bookagency_mongo_dev
+    ports:
+      - "27017:27017" # Mapowanie portu MongoDB
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    networks:
+      - bookagency_network
+    volumes:
+      - mongo_data_dev:/data/db # Przechowywanie danych MongoDB
+
 networks:
   bookagency_network:
     driver: bridge
+
+volumes:
+  mongo_data_dev:

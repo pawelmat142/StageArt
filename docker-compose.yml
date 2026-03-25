@@ -18,6 +18,10 @@ services:
     networks:
       - bookagency_network
     restart: unless-stopped
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+      - NODE_ENV=production
 
   frontend:
     build:
@@ -46,6 +50,18 @@ services:
       - bookagency_network
     restart: unless-stopped
 
-networks:
-  bookagency_network:
-    driver: bridge
+  mongo:
+    image: mongo:6.0
+    container_name: bookagency_mongo
+    ports:
+      - "27017:27017" # Mapowanie portu MongoDB
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    networks:
+      - bookagency_network
+    volumes:
+      - mongo_data:/data/db # Przechowywanie danych MongoDB
+
+volumes:
+  mongo_data:

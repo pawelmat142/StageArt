@@ -15,6 +15,10 @@ import { EventModule } from './event/event.module';
 import { DocumentModule } from './document/document.module';
 import { PdfModule } from './pdf/pdf.module';
 import { DataGeneratorModule } from './data-generator/data-generator.module';
+import { MigrationModule } from './migration/migration.module';
+
+
+const mongoUri = `mongodb://${process.env.MONGO_INITDB_ROOT_USERNAME}:${process.env.MONGO_INITDB_ROOT_PASSWORD}@bookagency_mongo_dev:27017/destination?authSource=admin`;
 
 @Module({
   imports: [
@@ -26,6 +30,7 @@ import { DataGeneratorModule } from './data-generator/data-generator.module';
 
     MongooseModule.forRootAsync({
       useFactory: () => {
+        // return { uri: mongoUri };
         return { uri: process.env.MONGO_URI };
       },
     }),
@@ -49,6 +54,8 @@ import { DataGeneratorModule } from './data-generator/data-generator.module';
     PdfModule,
 
     DataGeneratorModule,
+
+    MigrationModule,
   ],
   controllers: [AppController],
   providers: [AppService],
