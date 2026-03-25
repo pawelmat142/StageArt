@@ -36,6 +36,13 @@ export function RoleGuard(role: string) {
           `Passed profile ${this.profile.uid} with role: ${role}`,
         );
       }
+
+      public returnNewToken(payload: any, request: any, response: any): boolean {
+        const newToken = this.jwtService.newToken(payload);
+        response.header('Authorization', 'Bearer ' + newToken);
+        request.profile = this.profile;
+        return true;
+      }
     },
   );
 }
