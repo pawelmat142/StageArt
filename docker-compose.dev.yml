@@ -25,6 +25,8 @@ services:
       context: .
       dockerfile: frontend/Dockerfile.dev
     container_name: bookagency_frontend_dev
+    env_file:
+      - .env
     ports:
       - "4200:4200"
     depends_on:
