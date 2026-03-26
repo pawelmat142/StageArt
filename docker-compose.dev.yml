@@ -7,7 +7,7 @@ services:
 
   mongo:
     image: mongo:6.0
-    container_name: bookagency_mongo_dev
+    container_name: bookagency_mongo
     ports:
       - "27017:27017" # Mapowanie portu MongoDB
     environment:

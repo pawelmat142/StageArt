@@ -18,7 +18,7 @@ import { DataGeneratorModule } from './data-generator/data-generator.module';
 import { MigrationModule } from './migration/migration.module';
 
 
-const mongoUri = `mongodb://${process.env.MONGO_INITDB_ROOT_USERNAME}:${process.env.MONGO_INITDB_ROOT_PASSWORD}@bookagency_mongo_dev:27017/destination?authSource=admin`;
+const mongoUri = `mongodb://${process.env.MONGO_INITDB_ROOT_USERNAME}:${process.env.MONGO_INITDB_ROOT_PASSWORD}@bookagency_mongo:27017/destination?authSource=admin`;
 
 
 const getMongoUri = (): string => {
