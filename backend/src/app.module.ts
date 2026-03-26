@@ -15,17 +15,8 @@ import { EventModule } from './event/event.module';
 import { DocumentModule } from './document/document.module';
 import { PdfModule } from './pdf/pdf.module';
 import { DataGeneratorModule } from './data-generator/data-generator.module';
-import { MigrationModule } from './migration/migration.module';
 
 const mongoUri = `mongodb://${process.env.MONGO_INITDB_ROOT_USERNAME}:${process.env.MONGO_INITDB_ROOT_PASSWORD}@bookagency_mongo:27017/destination?authSource=admin`;
-
-const getMongoUri = (): string => {
-    const a = process.env.MONGO_URI
-    console.log('MONGO_URI:', a);
-    console.log('MONGO_INITDB_ROOT_USERNAME:', process.env.MONGO_INITDB_ROOT_USERNAME);
-    console.log('MONGO_INITDB_ROOT_PASSWORD:', process.env.MONGO_INITDB_ROOT_PASSWORD);
-    return a
-}
 
 @Module({
   imports: [
@@ -38,7 +29,6 @@ const getMongoUri = (): string => {
     MongooseModule.forRootAsync({
       useFactory: () => {
         return { uri: mongoUri };
-        // return { uri: getMongoUri() };
       },
     }),
 
@@ -61,8 +51,6 @@ const getMongoUri = (): string => {
     PdfModule,
 
     DataGeneratorModule,
-
-    MigrationModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -7,7 +7,7 @@
 ![Puppeteer](https://img.shields.io/badge/Puppeteer-40B5A4?style=for-the-badge&logo=puppeteer&logoColor=white)
 
 
-![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
+![Cloudinary](https://img.shields.io/badge/Cloudinary-3448C5?style=for-the-badge&logo=cloudinary&logoColor=white)
 ![Angular](https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white)
 ![NgRx](https://img.shields.io/badge/NgRx-8D3FFC?style=for-the-badge&logo=ngrx&logoColor=white)
 ![PrimeNG](https://img.shields.io/badge/PrimeNG-1976D2?style=for-the-badge&logo=primeng&logoColor=white)
@@ -35,7 +35,7 @@
 
 StageArt is a prototype web application designed to streamline the process of connecting event organizers with artists. The platform simplifies the discovery, booking, and management of artist engagements, enabling seamless collaboration between users. With its intuitive interface, StageArt helps users focus on creating memorable events while minimizing administrative tasks.
 
-**Demo:** [http://130.162.34.50:8003/](http://130.162.34.50:8003/)
+**Demo:** [http://136.113.70.83/](http://136.113.70.83/)
 
 ### Target Users
 - **Artists**: Showcase their profiles and attract potential collaborators.
@@ -73,9 +73,9 @@ StageArt is a prototype web application designed to streamline the process of co
 
 ## Tech Stack
 
-- **Backend:** [NestJS](https://nestjs.com/), Mongoose, MongoDB, JWT, Puppeteer, Firebase Storage
+- **Backend:** [NestJS](https://nestjs.com/), Mongoose, MongoDB, JWT, Puppeteer, Cloudinary
 - **Frontend:** [Angular](https://angular.io/), NgRx, SCSS
-- **Other:** GitHub Copilot, Ubuntu
+- **Other:** Docker, GitHub Copilot, Ubuntu
 
 ---
 
@@ -112,91 +112,33 @@ book-agency/
 
 ## Deployment
 
-### Backend (NestJS)
-1. Go to the backend directory:
-```bash
-cd backend
-```
-2. Install dependencies:
-```bash
-npm install
-```
-3. Start the development server with hot-reload:
-```bash
-npm run start:dev
-```
+All services (MongoDB, backend, frontend) are orchestrated with Docker Compose. Make sure Docker and Docker Compose are installed before proceeding.
 
-### Frontend (Angular)
-1. Go to the frontend directory:
-```bash
-cd frontend
-```
-2. Install dependencies:
-```bash
-npm install
-```
-3. Start the application:
-```bash
-ng serve
-```
+### Prerequisites — `.env` file
 
-The frontend app will be available at `http://localhost:4200` by default.
+Create a `.env` file in the project root. Both dev and production compose files read from it.
 
----
-
-
-## Deployment
-
-### Example manual deployment on Ubuntu server
-
-
-
-#### 1. **Build the backend**
-- Go to the backend directory and build the project:
-    ```bash
-    cd backend
-    npm install
-    npm run build
-    cd ..
-    ```
-
-#### 2. **Build the frontend**
-- Go to the frontend directory and build the Angular app:
-    ```bash
-    cd frontend
-    npm install
-    ng build
-    cd ..
-    ```
-
-#### 3. **Prepare the dist directory**
-- First, make sure the `dist` directory does not exist or is empty to avoid conflicts.
-- Then create a new `dist` directory and copy the backend build, package files, and environment config:
-```bash
-rm -rf dist
-mkdir dist
-cp -r backend/dist dist
-cp backend/package.json dist
-```
-
-#### 4. **Create the .env file in the dist directory**
-- Create a `.env` file inside `dist` (or copy a template and edit it).
-- Example `.env` content:
 ```env
+# Mongo
+MONGO_INITDB_ROOT_USERNAME=<your-mongo-username>
+MONGO_INITDB_ROOT_PASSWORD=<your-mongo-password>
+MONGO_URI=<your-mongodb-uri>
+
 PORT=8003
 
 # JWT
 JWT_SECRET=<your-jwt-secret>
 
-#MONGO
-MONGO_URI=<your-mongodb-uri>
+# Angular (production build only)
+ANGULAR_API_URI=<your-api-uri>
+ANGULAR_TEST_API_URI=<your-test-api-uri>
 
-# FIREBASE
-FIREBASE_PROJECT_ID=<your-firebase-project-id>
-FIREBASE_CLIENT_EMAIL=<your-firebase-client-email>
-FIREBASE_PRIVATE_KEY=yo<ur-firebase-private-key>
+# Cloudinary
+ANGULAR_CLOUDINARY_CLOUD_NAME=<your-cloudinary-cloud-name>
+ANGULAR_CLOUDINARY_UPLOAD_PRESET=<your-cloudinary-upload-preset>
+ANGULAR_CLOUDINARY_BASE_URL=<your-cloudinary-base-url>
 
-# (Optional) TELEGRAM
+# (Optional) Telegram
 SKIP_TELEGRAM=false
 ADMIN_TELEGRAM_CHAT_ID=<your-admin-chat-id>
 TELEGRAM_BOT_NAME=<your-bot-name>
@@ -204,52 +146,64 @@ TELEGRAM_BOT_TOKEN=<your-bot-token>
 TELEGRAM_LOGIN_URL=http://127.0.0.1:4200/login
 SECRET_KEY=<your-secret-key>
 ```
-- In the next steps, you will fill in these variables with your actual credentials and configuration values.
 
+---
 
-#### 5. **Configure MongoDB Atlas**
-- Create a free cluster at [MongoDB Atlas](https://www.mongodb.com/cloud/atlas).
-- Create a database user and get your connection string (URI).
-- Update the `MONGO_URI` variable in your `.env` file with this URI.
+### Development (`docker-compose.dev.yml`)
 
-#### 6. **Configure Firebase Storage**
-- Required for storing artist avatars, photos, and potentially event images.
-- Set up a Firebase project at [Firebase Console](https://console.firebase.google.com/).
-- Enable Firebase Storage and generate a service account key.
-- Add the relevant Firebase credentials (project ID, client email, private key) to your `.env` file.
-- Make sure your storage rules are set appropriately for your use case.
+Starts all services with hot-reload. Backend source and frontend source are mounted as volumes so changes are reflected immediately without rebuilding.
 
-#### 7. **(Optional) Configure Telegram Bot**
-- Create a bot using [BotFather](https://t.me/botfather) on Telegram and obtain the bot token.
-- Set the `TELEGRAM_BOT_TOKEN`, `TELEGRAM_BOT_NAME`, and `ADMIN_TELEGRAM_CHAT_ID` in your `.env` file.
-- Set `SKIP_TELEGRAM=false` to enable Telegram integration, or `true` to disable.
+| Service  | Port(s)        | Notes                          |
+|----------|----------------|--------------------------------|
+| mongo    | 27017          | MongoDB 6.0                    |
+| backend  | 8003, 9229     | NestJS; 9229 = Node.js debugger |
+| frontend | 4200           | Angular dev server             |
 
-
-#### 8. **Push the dist directory to your server**
-- You can use `scp`, `rsync`, or git to transfer the `dist` directory to your server.
-
-#### 9. **Install system dependencies for Puppeteer**
-- On your Ubuntu server, install required libraries:
 ```bash
-sudo apt-get update
-sudo apt-get install -y \
-ca-certificates fonts-liberation libappindicator3-1 libasound2 \
-libatk-bridge2.0-0 libatk1.0-0 libcups2 libdbus-1-3 libdrm2 \
-libgbm1 libgtk-3-0 libnspr4 libnss3 libu2f-udev libx11-xcb1 \
-libxcomposite1 libxdamage1 libxrandr2 xdg-utils wget
+# First run / full rebuild
+docker compose -f docker-compose.dev.yml down
+docker compose -f docker-compose.dev.yml build --no-cache
+docker compose -f docker-compose.dev.yml up -d
+
+# Subsequent starts
+docker compose -f docker-compose.dev.yml up -d
 ```
 
-#### 10. **Install Node.js dependencies (production only)**
-- In the `dist` directory on your server, run:
+The app is available at `http://localhost:4200`. The backend API is at `http://localhost:8003`.
+
+---
+
+### Production (`docker-compose.yml`)
+
+Builds optimised images. Angular environment variables are injected at build time via `--build-arg`. Frontend is served by Nginx on ports 80/443. All services restart automatically unless stopped manually.
+
+| Service  | Port(s) | Notes                                      |
+|----------|---------|--------------------------------------------|
+| mongo    | 27017   | MongoDB 6.0, data persisted in `mongo_data` volume |
+| backend  | 8003    | NestJS production build                    |
+| frontend | 80, 443 | Angular app served by Nginx               |
+
 ```bash
-npm ci --omit=dev
+# First run / full rebuild
+docker compose down
+docker compose build --no-cache
+docker compose up -d
+
+# Subsequent starts
+docker compose up -d
 ```
 
-#### 11. **Start the app with PM2**
-- Still in the `dist` directory, run:
-```bash
-pm2 start book.js
-```
+---
+
+### External services
+
+#### Cloudinary
+- Required for storing artist avatars and photos.
+- Create a free account at [Cloudinary](https://cloudinary.com/), create an upload preset, and fill in the `ANGULAR_CLOUDINARY_*` variables in `.env`.
+
+#### Telegram Bot (optional)
+- Create a bot via [BotFather](https://t.me/botfather) and set `TELEGRAM_BOT_TOKEN`, `TELEGRAM_BOT_NAME`, and `ADMIN_TELEGRAM_CHAT_ID` in `.env`.
+- Set `SKIP_TELEGRAM=true` to disable the integration entirely.
 
 
 
