@@ -39,8 +39,8 @@ const getMongoUri = (): string => {
 
     MongooseModule.forRootAsync({
       useFactory: () => {
-        // return { uri: mongoUri };
-        return { uri: getMongoUri() };
+        return { uri: mongoUri };
+        // return { uri: getMongoUri() };
       },
     }),
 
