@@ -18,6 +18,12 @@ export class MigrationService {
     for (const collection of collections) {
       const collectionName = collection.name;
       const sourceData = await sourceDb.collection(collectionName).find().toArray();
+      console.log('');
+      console.log('');
+      console.log('');
+      console.log('');
+      console.log('collectionName:', collectionName);
+      console.log(sourceData)
 
       if (sourceData.length > 0) {
         const destinationCollection = destinationDb.collection(collectionName);
