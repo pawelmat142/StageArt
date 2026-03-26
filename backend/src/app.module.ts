@@ -17,9 +17,7 @@ import { PdfModule } from './pdf/pdf.module';
 import { DataGeneratorModule } from './data-generator/data-generator.module';
 import { MigrationModule } from './migration/migration.module';
 
-
 const mongoUri = `mongodb://${process.env.MONGO_INITDB_ROOT_USERNAME}:${process.env.MONGO_INITDB_ROOT_PASSWORD}@bookagency_mongo:27017/destination?authSource=admin`;
-
 
 const getMongoUri = (): string => {
     const a = process.env.MONGO_URI

@@ -10,7 +10,7 @@ const getMongoUri = (): string => {
 }
 
 const getMongoUri2 = (): string => {
-    const a = `mongodb://${process.env.MONGO_INITDB_ROOT_USERNAME}:${process.env.MONGO_INITDB_ROOT_PASSWORD}@bookagency_mongo:27017/source?authSource=admin`
+    const a = `mongodb://${process.env.MONGO_INITDB_ROOT_USERNAME}:${process.env.MONGO_INITDB_ROOT_PASSWORD}@bookagency_mongo:27017/destination?authSource=admin`
     console.log('migration MONGO_URI 2:', a);
     return a
 }
